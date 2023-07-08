@@ -12,7 +12,13 @@ public class TableManager {
     private List<Table> tableList;
     public TableManager() {this.tableList = new ArrayList<>();}
 
-    public void addTable(Table table) {tableList.add(table);}
+    public void addTable(Table table) throws RestaurantException {
+        // OŠETŔENÍ - Počet stolů musí být dvoumístný - nelze přidat více stolů nad počet 99
+        if (tableList.size() > 98) {
+            throw new RestaurantException("Chyba - Nelze přidat stůl. Byl dosažen maximální počet stolů.");
+        }
+        tableList.add(table);
+    }
     public void removeTable(Table table) {tableList.remove(table);}
 
 

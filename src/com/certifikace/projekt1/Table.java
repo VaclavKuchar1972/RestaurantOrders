@@ -38,7 +38,15 @@ public class Table {
     public String getTableLocation() {return tableLocation;}
     public void setTableLocation(String tableLocation) {this.tableLocation = tableLocation;}
     public String getTableSector() {return tableSector;}
-    public void setTableSector(String tableSector) {this.tableSector = tableSector;}
+    public void setTableSector(String tableSector) throws RestaurantException {
+        // OŠETŘENÍ - pro výstup pro grafický FrontEnd je nutné, aby String byl dvoumístný,
+        // na prvním místě měl písmeno a na druhém číslo
+        if (tableSector.length() > 2 || (!Character.isLetter(tableSector.charAt(0))
+                || !Character.isDigit(tableSector.charAt(1)))) {
+            throw new RestaurantException("Chyba - neplatný formát sektoru stolu: " + tableSector);
+        }
+        this.tableSector = tableSector;
+    }
     public int getTableCapacity() {return tableCapacity;}
     public void setTableCapacity(int tableCapacity) {this.tableCapacity = tableCapacity;}
 
