@@ -10,6 +10,10 @@ import static com.certifikace.projekt1.RestaurantSettings.delimiter;
 public class RestaurantOrders {
     public static void main(String[] args) {
 
+
+
+        System.out.println(); System.out.println();
+        System.out.println("Restaurant Chez Quis à Prague");
         TableManager tableManager = new TableManager();
         try {tableManager.loadDataTablesFromFile(RestaurantSettings.fileTables(), delimiter());}
         catch (RestaurantException e) {
@@ -18,9 +22,8 @@ public class RestaurantOrders {
             throw new RuntimeException(e);
         }
         List<Table> tableList = tableManager.getTableList();
-
         System.out.println();
-        System.out.println("Surová data ze VSTUPNÍHO souboru DB-ListOfPlantsPrimary.txt:");
+        System.out.println("Seznam stolů restaurace:");
         for (Table table : tableList) {System.out.println(table.getTableInfo());}
 
     }
