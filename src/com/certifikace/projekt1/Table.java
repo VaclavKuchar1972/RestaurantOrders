@@ -1,2 +1,9 @@
-package com.certifikace.projekt1;public class Table {
+package com.certifikace.projekt1;
+
+public class Table {
+
+
+
+
+
 }
