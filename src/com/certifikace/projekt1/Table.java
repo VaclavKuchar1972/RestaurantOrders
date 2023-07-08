@@ -17,13 +17,24 @@ public class Table {
     }
 
     public String getTableInfo () {
-        return "Číslo stolu: " + tableNumber + "   Umístění stolu: " + tableLocation
+        // OŠETŘENÍ - Vložení mezery před číslo stolu, je-li jednociferné
+        String helpString = ""; if (tableNumber < 10) {helpString = " ";}
+        return "Číslo stolu: " + helpString + tableNumber + "   Umístění stolu: " + tableLocation
                 + "   Sektor umístění stolu pro grafický výstup na FrontEndu: " + tableSector +
                 "   Počet míst u stolu: " + tableCapacity;
     }
 
     public int getTableNumber() {return tableNumber;}
-    public void setTableNumber(int tableNumber) {this.tableNumber = tableNumber;}
+    public void setTableNumber(int tableNumber) throws RestaurantException {
+        // OŠETŘENÍ - Číslo stolu musí být maximálně dvouciferné
+        if (tableNumber < 0) {
+            throw new RestaurantException("Chyba - počet stolů je menší než 1");
+        }
+        if (tableNumber > 99) {
+            throw new RestaurantException("Chyba - počet stolů je větší než 99");
+        }
+        this.tableNumber = tableNumber;
+    }
     public String getTableLocation() {return tableLocation;}
     public void setTableLocation(String tableLocation) {this.tableLocation = tableLocation;}
     public String getTableSector() {return tableSector;}
