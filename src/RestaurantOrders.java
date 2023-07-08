@@ -26,6 +26,8 @@ public class RestaurantOrders {
         System.out.println("Seznam stolů restaurace:");
         for (Table table : tableList) {System.out.println(table.getTableInfo());}
 
+
+
     }
 
 }

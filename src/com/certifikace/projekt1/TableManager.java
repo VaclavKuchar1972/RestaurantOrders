@@ -1,11 +1,15 @@
 package com.certifikace.projekt1;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+
+import static com.certifikace.projekt1.RestaurantSettings.delimiter;
+import static com.certifikace.projekt1.RestaurantSettings.fileTables;
+import static com.certifikace.projekt1.RestaurantSettings.fileTablesBackUp;
 
 public class TableManager {
 
@@ -28,7 +32,6 @@ public class TableManager {
         tableList.add(table);
     }
     public void removeTable(Table table) {tableList.remove(table);}
-
 
     public void loadDataTablesFromFile(String fileTables, String delimiter) throws RestaurantException {
         String line = "";
@@ -57,6 +60,25 @@ public class TableManager {
             throw new RestaurantException("Chyba - v databázi není číslo: " + item[helpBadFormatIdentifokator]
                     + " na řádku: " + line);
         }
+    }
+
+    public void saveDataTablesFromFile(String fileName, List<Table> tables) throws RestaurantException {
+        try {
+            // Zálohování souboru před uložením nových hodnot do primárního souboru
+            File originalFile = new File(fileTables());
+            File backupFile = new File(fileTablesBackUp());
+            Files.copy(originalFile.toPath(), backupFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            // Uložení nových dat do primárního souboru
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
+                for (Table table : tableList) {
+                    writer.write(table.getTableNumber() + delimiter() + table.getTableLocation() + delimiter()
+                            + table.getTableSector() + delimiter() + table.getTableCapacity());
+                    writer.newLine();
+                }
+            } catch (IOException e) {
+                throw new RestaurantException("Chyba při ukládání dat do souboru: " + e.getMessage());
+            }
+        } catch (IOException e) {throw new RestaurantException("Chyba při zálohování souboru: " + e.getMessage());}
     }
 
     public List<Table> getTableList() {return new ArrayList<>(tableList);}
