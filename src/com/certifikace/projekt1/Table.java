@@ -27,7 +27,7 @@ public class Table {
     public int getTableNumber() {return tableNumber;}
     public void setTableNumber(int tableNumber) throws RestaurantException {
         // OŠETŘENÍ - Číslo stolu musí být maximálně dvouciferné
-        if (tableNumber < 0) {
+        if (tableNumber < 1) {
             throw new RestaurantException("Chyba - počet stolů je menší než 1");
         }
         if (tableNumber > 99) {
