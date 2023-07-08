@@ -15,6 +15,12 @@ public class Waiter {
         this.waiterTypeOfEmploymentRelationship = waiterTypeOfEmploymentRelationship;
     }
 
+    public String getWaiterInfo () {
+        return "Jméno a příjmení: " + waiterFirstName + " " + waiterSecondName + "   Čislo OP/pasu/náhradního dokladu: "
+                + waiterIdentificationDocumentNumber + "   Typ pracovně právního vztahu: "
+                + waiterTypeOfEmploymentRelationship;
+    }
+
     public String getWaiterFirstName() {return waiterFirstName;}
     public void setWaiterFirstName(String waiterFirstName) {this.waiterFirstName = waiterFirstName;}
     public String getWaiterSecondName() {return waiterSecondName;}
