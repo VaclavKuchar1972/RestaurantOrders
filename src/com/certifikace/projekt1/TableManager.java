@@ -17,6 +17,14 @@ public class TableManager {
         if (tableList.size() > 98) {
             throw new RestaurantException("Chyba - Nelze přidat stůl. Byl dosažen maximální počet stolů.");
         }
+        // OŠETŘENÍ - Nový stůl nesmí být umístěn ve stejné místnosti na stejném místě, kde již jeden stůl stojí
+        for (Table existingTable : tableList) {
+            if (existingTable.getTableLocation().equals(table.getTableLocation()) &&
+                    existingTable.getTableSector().equals(table.getTableSector())) {
+                throw new RestaurantException("Chyba - Nelze přidat stůl ve stejné místnosti na stejné místo,"
+                        +"kde již jedn stůl stojí.");
+            }
+        }
         tableList.add(table);
     }
     public void removeTable(Table table) {tableList.remove(table);}
