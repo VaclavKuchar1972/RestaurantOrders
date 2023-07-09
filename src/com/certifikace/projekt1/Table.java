@@ -41,6 +41,7 @@ public class Table {
     public void setTableSector(String tableSector) throws RestaurantException {
         // OŠETŘENÍ - pro výstup pro grafický FrontEnd je nutné, aby String byl dvoumístný,
         // na prvním místě měl písmeno a na druhém číslo
+        // - vykřičník invertuje (neguje) hodnotu podmínky
         if (tableSector.length() > 2 || (!Character.isLetter(tableSector.charAt(0))
                 || !Character.isDigit(tableSector.charAt(1)))) {
             throw new RestaurantException("Chyba - neplatný formát sektoru stolu: " + tableSector);

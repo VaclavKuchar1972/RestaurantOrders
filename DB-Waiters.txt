@@ -1,0 +1,12 @@
+1; Ing.; Josef; Králík; ; 251954480; HPP
+2; ; Dalibor; Vrána; ; 901950481; HPP
+3; ; Zdeněk; Svěrák; ; 106990851; HPP
+4; MUDr.; Karel; Nešpor; ,CSc.; 999999999; HPP
+5; MUDr.; Miroslav; Plzák; ,CSc.; 999999998; HPP
+6; MUDr.; Radim; Uzel; ,CSc.; 999999998; HPP
+7; JUDr.; Ivo; Jahelka; ; 999999997; HPP
+8; ; Volodymyr; Zelenskyj; ; AH5856ST; BRIGÁDA
+9; ; Joe; Biden; ; AH5856ST1; BRIGÁDA
+10; ; Vladimir; Putin; ; AH5856ST1O; BRIGÁDA
+11; ; Emmanuel; Macron; ; AH5856ST1; BRIGÁDA
+12; prof.PhDr.; Petr; Fiala; ,Ph.D.,LL.M.; 996669998; HPP
