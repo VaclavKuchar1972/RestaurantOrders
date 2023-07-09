@@ -2,7 +2,7 @@ import com.certifikace.projekt1.*;
 
 import java.util.List;
 
-import static com.certifikace.projekt1.RestaurantSettings.delimiter;
+import static com.certifikace.projekt1.RestaurantSettings.*;
 
 public class RestaurantOrders {
     public static void main(String[] args) {

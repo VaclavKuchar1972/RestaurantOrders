@@ -1,11 +1,14 @@
 package com.certifikace.projekt1;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+
+import static com.certifikace.projekt1.RestaurantSettings.*;
+import static com.certifikace.projekt1.RestaurantSettings.delimiter;
 
 public class WaiterManager {
 
@@ -56,6 +59,28 @@ public class WaiterManager {
             throw new RestaurantException("Chyba - v databázi není číslo: " + item[0]
                     + " na řádku: " + line);
         }
+    }
+
+    public void saveDataWaiterFromFile(String fileName, List<Waiter> waiters) throws RestaurantException {
+        try {
+            // Zálohování souboru před uložením nových hodnot do primárního souboru
+            File originalFile = new File(fileWaiters());
+            File backupFile = new File(fileWaitersBackUp());
+            Files.copy(originalFile.toPath(), backupFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            // Uložení nových dat do primárního souboru
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
+                for (Waiter waiter : waiterList) {
+                    writer.write(waiter.getWaiterNumber() + delimiter() + waiter.getWaiterTitleBeforeName()
+                                    + delimiter() + waiter.getWaiterFirstName() + delimiter()
+                            + waiter.getWaiterSecondName() + delimiter() + waiter.getWaiterTitleAfterName()
+                            + delimiter() + waiter.getWaiterIdentificationDocumentNumber() + delimiter()
+                            + waiter.getWaiterTypeOfEmploymentRelationship());
+                    writer.newLine();
+                }
+            } catch (IOException e) {
+                throw new RestaurantException("Chyba při ukládání dat do souboru: " + e.getMessage());
+            }
+        } catch (IOException e) {throw new RestaurantException("Chyba při zálohování souboru: " + e.getMessage());}
     }
 
     public List<Waiter> getWaiterList() {return new ArrayList<>(waiterList);}
