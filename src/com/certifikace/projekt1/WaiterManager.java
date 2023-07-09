@@ -58,4 +58,6 @@ public class WaiterManager {
         }
     }
 
+    public List<Waiter> getWaiterList() {return new ArrayList<>(waiterList);}
+
 }
