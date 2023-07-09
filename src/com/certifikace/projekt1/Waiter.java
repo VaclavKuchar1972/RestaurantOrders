@@ -33,7 +33,7 @@ public class Waiter {
 
     public int getWaiterNumber() {return waiterNumber;}
     public void setWaiterNumber(int waiterNumber) throws RestaurantException {
-        // OŠETŘENÍ - Číslo stolu musí být maximálně dvouciferné
+        // OŠETŘENÍ - Číslo čííšníka musí být maximálně tříciferné
         if (waiterNumber < 1) {
             throw new RestaurantException("Chyba - počet číšníků je menší než 1");
         }
@@ -54,6 +54,9 @@ public class Waiter {
     public void setWaiterTitleAfterName(String waiterTitleAfterName) {this.waiterTitleAfterName = waiterTitleAfterName;}
     public String getWaiterIdentificationDocumentNumber() {return waiterIdentificationDocumentNumber;}
     public void setWaiterIdentificationDocumentNumber(String waiterIdentificationDocumentNumber) {
+        // Vysvětlit proč nemám ošetřeno přijímaní duplicitní fyzich osob
+
+
         this.waiterIdentificationDocumentNumber = waiterIdentificationDocumentNumber;
     }
     public String getWaiterTypeOfEmploymentRelationship() {return waiterTypeOfEmploymentRelationship;}
