@@ -49,7 +49,7 @@ public class TableManager {
                 tableNumber = Integer.parseInt(item[0]);
                 helpBadFormatIdentifokator = 1;
                 tableLocation = item[1];
-                tableSector = item [2];
+                tableSector = item[2];
                 tableCapacity = Integer.parseInt(item [3]);
                 Table newTable = new Table(tableNumber, tableLocation, tableSector, tableCapacity);
                 tableList.add(newTable);
