@@ -8,11 +8,11 @@ public class Waiter {
     private String waiterSecondName;
     private String waiterTitleAfterName;
     private String waiterIdentificationDocumentNumber;
-    private String waiterTypeOfEmploymentRelationship;
+    private WaiterCategory waiterTypeOfEmploymentRelationship;
 
     public Waiter(int waiterNumber, String waiterTitleBeforeName, String waiterFirstName, String waiterSecondName,
                   String waiterTitleAfterName, String waiterIdentificationDocumentNumber,
-                  String waiterTypeOfEmploymentRelationship) {
+                  WaiterCategory waiterTypeOfEmploymentRelationship) {
         this.waiterNumber = waiterNumber;
         this.waiterTitleBeforeName = waiterTitleBeforeName;
         this.waiterFirstName = waiterFirstName;
@@ -21,6 +21,11 @@ public class Waiter {
         this.waiterIdentificationDocumentNumber = waiterIdentificationDocumentNumber;
         this.waiterTypeOfEmploymentRelationship = waiterTypeOfEmploymentRelationship;
     }
+
+//    public void addCategory(String categoryName) {
+//        WaiterCategory newCategory = WaiterCategory.NEW_CATEGORY;
+//        this.waiterTypeOfEmploymentRelationship = newCategory;
+//    }
 
     public String getWaiterInfo () {
         // OŠETŘENÍ - Vložení mezery před číslo číšníka, je-li jedno nebo dvouciferné
@@ -54,15 +59,20 @@ public class Waiter {
     public void setWaiterTitleAfterName(String waiterTitleAfterName) {this.waiterTitleAfterName = waiterTitleAfterName;}
     public String getWaiterIdentificationDocumentNumber() {return waiterIdentificationDocumentNumber;}
     public void setWaiterIdentificationDocumentNumber(String waiterIdentificationDocumentNumber) {
-        // Vysvětlit proč nemám ošetřeno přijímaní duplicitní fyzich osob
-
-
+        // Přijímání duplicitních osob nemám ošetřeno proto, že to není tak jednoduché. To by bylo na samostaný scénář
+        // a bez přístupu do regitsrů to jednoduše nejde. Např. číslo OP může být stejné jako číslo pasu, rodné číslo
+        // může být také u dvou osoab stejné (vlastní zkušenost - a nutili mě abych si ho nechal předělat)
+        // a v neposeldní řadě může jít o cizince, který má i české státní občanství, tudíž při přijímání do práce může
+        // předložit buď OP nebo PAS a v tu chvíli tu máme hned jednoho člověka, který je zaměstnán dvakrát
+        // na stejné pozici.
         this.waiterIdentificationDocumentNumber = waiterIdentificationDocumentNumber;
     }
-    public String getWaiterTypeOfEmploymentRelationship() {return waiterTypeOfEmploymentRelationship;}
-    public void setWaiterTypeOfEmploymentRelationship(String waiterTypeOfEmploymentRelationship) {
+
+    public WaiterCategory getWaiterTypeOfEmploymentRelationship() {return waiterTypeOfEmploymentRelationship;}
+    public void setWaiterTypeOfEmploymentRelationship(WaiterCategory waiterTypeOfEmploymentRelationship) {
         this.waiterTypeOfEmploymentRelationship = waiterTypeOfEmploymentRelationship;
     }
+
 
 }
 

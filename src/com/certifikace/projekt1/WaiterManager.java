@@ -37,7 +37,6 @@ public class WaiterManager {
         try (Scanner scannerLoadData = new Scanner(new BufferedReader(new FileReader(fileWaiters)))) {
             while (scannerLoadData.hasNextLine()) {
                 line = scannerLoadData.nextLine();
-                // Oddělení jednotlivých dat stažených ze souboru - nastavil jsem si "; "
                 item = line.split(delimiter);
                 if (item.length != 7) {
                     throw new RestaurantException("Chyba - špatný počet položek na řádku: " + line);
@@ -49,15 +48,24 @@ public class WaiterManager {
                 waiterTitleAfterName = item[4];
                 waiterIdentificationDocumentNumber = item[5];
                 waiterTypeOfEmploymentRelationship = item[6];
+
+                WaiterCategory category = null;
+
+                category = WaiterCategory.valueOf(waiterTypeOfEmploymentRelationship.toUpperCase());
+ //               try {category = WaiterCategory.valueOf(waiterTypeOfEmploymentRelationship.toUpperCase());}
+ //               catch (
+ //                       IllegalArgumentException e) {
+ //                   throw new RestaurantException("Soubor " + fileWaiters + " nebyl nalezen! " + e.getLocalizedMessage());
+ //               }
+
                 Waiter newWaiter = new Waiter(waiterNumber, waiterTitleBeforeName, waiterFirstName, waiterSecondName,
-                        waiterTitleAfterName, waiterIdentificationDocumentNumber, waiterTypeOfEmploymentRelationship);
+                        waiterTitleAfterName, waiterIdentificationDocumentNumber, category);
                 waiterList.add(newWaiter);
             }
         } catch (FileNotFoundException e) {
             throw new RestaurantException("Soubor " + fileWaiters + " nebyl nalezen! " + e.getLocalizedMessage());
         } catch (NumberFormatException e) {
-            throw new RestaurantException("Chyba - v databázi není číslo: " + item[0]
-                    + " na řádku: " + line);
+            throw new RestaurantException("Chyba - v databázi není číslo: " + item[0] + " na řádku: " + line);
         }
     }
 
