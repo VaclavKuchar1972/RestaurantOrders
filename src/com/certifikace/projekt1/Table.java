@@ -1,25 +1,23 @@
 package com.certifikace.projekt1;
 
-import java.time.format.DateTimeFormatter;
-
 public class Table {
 
     private int tableNumber;
-    private String tableLocation;
+    private TableCategory tableLocationCategory;
     private String tableSector;
     private int tableCapacity;
 
-    public Table(int tableNumber, String tableLocation, String tableSector, int tableCapacity) {
+    public Table(int tableNumber, String tableLocationCategory, String tableSector, int tableCapacity) {
         this.tableNumber = tableNumber;
-        this.tableLocation = tableLocation;
+        this.tableLocationCategory = TableCategory.valueOf(tableLocationCategory);
         this.tableSector = tableSector;
         this.tableCapacity = tableCapacity;
     }
 
-    public String getTableInfo () {
+    public String getTableInfoForPrintMe() {
         // OŠETŘENÍ - Vložení mezery před číslo stolu, je-li jednociferné
         String helpString = ""; if (tableNumber < 10) {helpString = " ";}
-        return "Číslo stolu: " + helpString + tableNumber + "   Umístění stolu: " + tableLocation
+        return "Číslo stolu: " + helpString + tableNumber + "   Umístění stolu: " + tableLocationCategory.toString()
                 + "   Sektor umístění stolu pro grafický výstup na FrontEndu: " + tableSector +
                 "   Počet míst u stolu: " + tableCapacity;
     }
@@ -35,8 +33,10 @@ public class Table {
         }
         this.tableNumber = tableNumber;
     }
-    public String getTableLocation() {return tableLocation;}
-    public void setTableLocation(String tableLocation) {this.tableLocation = tableLocation;}
+    public TableCategory getTableLocationCategory() {return tableLocationCategory;}
+    public void setTableLocationCategory(TableCategory tableLocation) {
+        this.tableLocationCategory = tableLocationCategory;
+    }
     public String getTableSector() {return tableSector;}
     public void setTableSector(String tableSector) throws RestaurantException {
         // OŠETŘENÍ - pro výstup pro grafický FrontEnd je nutné, aby String byl dvoumístný,

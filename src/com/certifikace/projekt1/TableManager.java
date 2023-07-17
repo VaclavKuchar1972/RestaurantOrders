@@ -23,7 +23,7 @@ public class TableManager {
         }
         // OŠETŘENÍ - Nový stůl nesmí být umístěn ve stejné místnosti na stejném místě, kde již jeden stůl stojí
         for (Table existingTable : tableList) {
-            if (existingTable.getTableLocation().equals(table.getTableLocation()) &&
+            if (existingTable.getTableLocationCategory().equals(table.getTableLocationCategory()) &&
                     existingTable.getTableSector().equals(table.getTableSector())) {
                 throw new RestaurantException("Chyba - Nelze přidat stůl ve stejné místnosti na stejné místo,"
                         +"kde již jedn stůl stojí.");
@@ -71,7 +71,7 @@ public class TableManager {
             // Uložení nových dat do primárního souboru
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
                 for (Table table : tableList) {
-                    writer.write(table.getTableNumber() + delimiter() + table.getTableLocation() + delimiter()
+                    writer.write(table.getTableNumber() + delimiter() + table.getTableLocationCategory() + delimiter()
                             + table.getTableSector() + delimiter() + table.getTableCapacity());
                     writer.newLine();
                 }

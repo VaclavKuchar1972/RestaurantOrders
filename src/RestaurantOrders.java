@@ -9,6 +9,13 @@ public class RestaurantOrders {
 
 
 
+
+    }
+
+}
+
+/*
+
         System.out.println(); System.out.println();
         System.out.println("Restaurant Chez Quis à Prague");
 
@@ -35,6 +42,4 @@ public class RestaurantOrders {
         System.out.println("Seznam zaměstnaných servírek a číšníků restaurace:");
         for (Waiter waiter : waiterList) {System.out.println(waiter.getWaiterInfo());}
 
-    }
-
-}
+         */
