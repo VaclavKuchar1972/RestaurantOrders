@@ -7,15 +7,6 @@ import static com.certifikace.projekt1.RestaurantSettings.*;
 public class RestaurantOrders {
     public static void main(String[] args) {
 
-
-
-
-    }
-
-}
-
-/*
-
         System.out.println(); System.out.println();
         System.out.println("Restaurant Chez Quis à Prague");
 
@@ -26,6 +17,22 @@ public class RestaurantOrders {
                     + e.getLocalizedMessage());
             throw new RuntimeException(e);
         }
+
+        List<Table> tableList = tableManager.getTableList();
+        System.out.println();
+        System.out.println("Seznam stolů restaurace:");
+        for (Table table : tableList) {System.out.println(table.getTableInfoForPrintMe());}
+
+
+    }
+
+}
+
+/*
+
+
+
+
         List<Table> tableList = tableManager.getTableList();
         System.out.println();
         System.out.println("Seznam stolů restaurace:");

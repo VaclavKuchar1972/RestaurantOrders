@@ -7,9 +7,9 @@ public class Table {
     private String tableSector;
     private int tableCapacity;
 
-    public Table(int tableNumber, String tableLocationCategory, String tableSector, int tableCapacity) {
+    public Table(int tableNumber, TableCategory tableLocationCategory, String tableSector, int tableCapacity) {
         this.tableNumber = tableNumber;
-        this.tableLocationCategory = TableCategory.valueOf(tableLocationCategory);
+        this.tableLocationCategory = tableLocationCategory;
         this.tableSector = tableSector;
         this.tableCapacity = tableCapacity;
     }

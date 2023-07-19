@@ -36,7 +36,7 @@ public class TableManager {
     public void loadDataTablesFromFile(String fileTables, String delimiter) throws RestaurantException {
         String line = "";
         String[] item = new String[0];
-        int tableNumber; String tableLocation; String tableSector; int tableCapacity;
+        int tableNumber; TableCategory tableLocationCategory; String tableSector; int tableCapacity;
         int helpBadFormatIdentifokator = 0;
         try (Scanner scannerLoadData = new Scanner(new BufferedReader(new FileReader(fileTables)))) {
             while (scannerLoadData.hasNextLine()) {
@@ -48,10 +48,10 @@ public class TableManager {
                 }
                 tableNumber = Integer.parseInt(item[0]);
                 helpBadFormatIdentifokator = 1;
-                tableLocation = item[1];
+                tableLocationCategory = TableCategory.valueOf(item[1]);
                 tableSector = item[2];
                 tableCapacity = Integer.parseInt(item [3]);
-                Table newTable = new Table(tableNumber, tableLocation, tableSector, tableCapacity);
+                Table newTable = new Table(tableNumber, tableLocationCategory, tableSector, tableCapacity);
                 tableList.add(newTable);
             }
         } catch (FileNotFoundException e) {
@@ -62,7 +62,7 @@ public class TableManager {
         }
     }
 
-    public void saveDataTablesFromFile(String fileName, List<Table> tables) throws RestaurantException {
+    public void saveDataTablesFromFile(String fileName) throws RestaurantException {
         try {
             // Zálohování souboru před uložením nových hodnot do primárního souboru
             File originalFile = new File(fileTables());
