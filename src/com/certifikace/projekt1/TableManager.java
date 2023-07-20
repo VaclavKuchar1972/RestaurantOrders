@@ -35,7 +35,25 @@ public class TableManager {
                         +"kde již jedn stůl stojí.");
             }
         }
-        tableList.add(table);
+        // OŠETŘENÍ - Když vznikne po prvním spuštění programu soubor DB-Tables.txt, který bude mít číslo stolu 1
+        // a zbytek dat null a uživatel na FrontEndu zadá do systému první stůl, tento bude nahrazem skutečnými daty
+        // od uživatele a přeuloží v DB-Tables.txt
+        if (tableList.size() == 1 && tableList.get(0).getTableNumber() == 1 &&
+                (tableList.get(0).getTableLocation() == null || tableList.get(0).getTableLocation().isEmpty()) &&
+                (tableList.get(0).getTableSector() == null || tableList.get(0).getTableSector().isEmpty()) &&
+                tableList.get(0).getTableCapacity() == 0) {
+            // Pokud ano, nahraď pouze hodnoty a ponech číslo stolu 1
+            Table tableWithNumberOne = tableList.get(0);
+            tableWithNumberOne.setTableLocation(table.getTableLocation());
+            tableWithNumberOne.setTableSector(table.getTableSector());
+            tableWithNumberOne.setTableCapacity(table.getTableCapacity());
+            saveDataTablesToFile(fileTables());
+        } else {
+            // Jinak se standardně přidá pouze do tableList
+            tableList.add(table);
+        }
+
+
     }
     private boolean isTableNumberDuplicate(int tableNumber) {
         for (Table existingTable : tableList) {if (existingTable.getTableNumber() == tableNumber) {return true;}}

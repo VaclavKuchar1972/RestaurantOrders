@@ -30,6 +30,7 @@ public class RestaurantOrders {
         printLnOutputs.printTableList(tableManager);
         */
 
+
         // Zkušební kód pro odebrání stolu z tableList (stačí ho odkomentovat), ale lze to udělat jen v případě,
         // že před tím byl stůl číslo 20 přidán aktivováním předchozí zkušební metody, jinak to zkolabuje a nemám
         // ošetřeny tyto eventuality - jde jen o to, aby bylo jasné, že stůl lze odebrat
