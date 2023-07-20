@@ -30,25 +30,6 @@ public class RestaurantOrders {
 /*
 
 
-List<Table> tableList = tableManager.getTableList();
-        System.out.println();
-        System.out.println("Seznam stolů restaurace:");
-        for (Table table : tableList) {System.out.println(table.getTableInfoForPrintMe());}
-
-        TableManager tableManager = new TableManager();
-        try {tableManager.loadDataTablesFromFile(RestaurantSettings.fileTables(), delimiter());}
-        catch (RestaurantException e) {
-            System.err.println("Nepodařilo se načíst data ze souboru: " + RestaurantSettings.fileTables() + " "
-                    + e.getLocalizedMessage());
-            throw new RuntimeException(e);
-        }
-
-
-        List<Table> tableList = tableManager.getTableList();
-        System.out.println();
-        System.out.println("Seznam stolů restaurace:");
-        for (Table table : tableList) {System.out.println(table.getTableInfo());}
-
         WaiterManager waiterManager = new WaiterManager();
         try {waiterManager.loadDataWaitersFromFile(RestaurantSettings.fileWaiters(), delimiter());}
         catch (RestaurantException e) {
