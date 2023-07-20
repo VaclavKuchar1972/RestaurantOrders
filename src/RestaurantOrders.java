@@ -11,12 +11,12 @@ public class RestaurantOrders {
         System.out.println("Restaurant Chez Quis à Prague");
 
         TableManager tableManager = new TableManager();
-        try {tableManager.loadDataTablesFromFile(RestaurantSettings.fileTables(), delimiter());}
-        catch (RestaurantException e) {
-            System.err.println("Nepodařilo se načíst data ze souboru: " + RestaurantSettings.fileTables() + " "
-                    + e.getLocalizedMessage());
-            throw new RuntimeException(e);
-        }
+        RestaurantLoadersVoidsForMain loadersVoids = new RestaurantLoadersVoidsForMain();
+
+        loadersVoids.loadTablesData(tableManager);
+
+
+
 
         List<Table> tableList = tableManager.getTableList();
         System.out.println();
@@ -31,6 +31,13 @@ public class RestaurantOrders {
 /*
 
 
+        TableManager tableManager = new TableManager();
+        try {tableManager.loadDataTablesFromFile(RestaurantSettings.fileTables(), delimiter());}
+        catch (RestaurantException e) {
+            System.err.println("Nepodařilo se načíst data ze souboru: " + RestaurantSettings.fileTables() + " "
+                    + e.getLocalizedMessage());
+            throw new RuntimeException(e);
+        }
 
 
         List<Table> tableList = tableManager.getTableList();
