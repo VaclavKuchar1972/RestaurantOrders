@@ -11,12 +11,28 @@ public class RestaurantOrders {
         System.out.println("Restaurant Chez Quis à Prague");
 
         TableManager tableManager = new TableManager();
-        RestaurantLoadersVoidsForMain loadersVoids = new RestaurantLoadersVoidsForMain();
         RestaurantPrintLnOutputsForMain printLnOutputs = new RestaurantPrintLnOutputsForMain();
+        RestaurantLoadersVoidsForMain loadersVoids = new RestaurantLoadersVoidsForMain();
+        RestaurantSaversVoidsForMain saversVoids = new RestaurantSaversVoidsForMain();
 
         loadersVoids.loadTablesData(tableManager);
         printLnOutputs.printTableList(tableManager);
 
+
+        // Zkušební kód pro přidání stolu do tableList (stačí ho odkomentovat)
+
+        try {
+            tableManager.addTable(new Table(tableManager.getTableList().size() + 1, "SALONEK",
+                    "A2", 2));
+        }
+        catch (RestaurantException e) {
+            System.err.println("Nepodařilo se přidat nový stůl: " + e.getLocalizedMessage());
+        }
+        printLnOutputs.printTableList(tableManager);
+
+
+        saversVoids.saveTablesData(tableManager);
+        printLnOutputs.printTableList(tableManager);
 
 
 

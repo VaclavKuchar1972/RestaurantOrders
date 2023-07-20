@@ -42,6 +42,7 @@ public class TableManager {
     }
     public void removeTable(Table table) {tableList.remove(table);}
 
+
     public void loadDataTablesFromFile(String fileTables, String delimiter) throws RestaurantException {
         String line = "";
         String[] item = new String[0];
@@ -71,7 +72,7 @@ public class TableManager {
         }
     }
 
-    public void saveDataTablesFromFile(String fileName) throws RestaurantException {
+    public void saveDataTablesToFile(String fileName) throws RestaurantException {
         try {
             // Zálohování souboru před uložením nových hodnot do primárního souboru
             File originalFile = new File(fileTables());
