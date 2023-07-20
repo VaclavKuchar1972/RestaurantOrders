@@ -8,7 +8,7 @@ public class RestaurantLoadersVoidsForMain {
         try {
             tableManager.loadDataTablesFromFile(RestaurantSettings.fileTables(), delimiter());
         } catch (RestaurantException e) {
-            System.err.println("Nepodařilo se načíst data ze souboru: " + RestaurantSettings.fileTables() + " "
+            System.err.println("Nepodařilo se načíst data stolů ze souboru: " + RestaurantSettings.fileTables() + " "
                     + e.getLocalizedMessage());
             throw new RuntimeException(e);
         }
