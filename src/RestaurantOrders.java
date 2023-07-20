@@ -12,16 +12,15 @@ public class RestaurantOrders {
 
         TableManager tableManager = new TableManager();
         RestaurantLoadersVoidsForMain loadersVoids = new RestaurantLoadersVoidsForMain();
+        RestaurantPrintLnOutputsForMain printLnOutputs = new RestaurantPrintLnOutputsForMain();
 
         loadersVoids.loadTablesData(tableManager);
+        printLnOutputs.printTableList(tableManager);
 
 
 
 
-        List<Table> tableList = tableManager.getTableList();
-        System.out.println();
-        System.out.println("Seznam stolů restaurace:");
-        for (Table table : tableList) {System.out.println(table.getTableInfoForPrintMe());}
+
 
 
     }
@@ -30,6 +29,11 @@ public class RestaurantOrders {
 
 /*
 
+
+List<Table> tableList = tableManager.getTableList();
+        System.out.println();
+        System.out.println("Seznam stolů restaurace:");
+        for (Table table : tableList) {System.out.println(table.getTableInfoForPrintMe());}
 
         TableManager tableManager = new TableManager();
         try {tableManager.loadDataTablesFromFile(RestaurantSettings.fileTables(), delimiter());}
