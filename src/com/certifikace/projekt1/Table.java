@@ -3,13 +3,13 @@ package com.certifikace.projekt1;
 public class Table {
 
     private int tableNumber;
-    private TableCategory tableLocationCategory;
+    private String tableLocation;
     private String tableSector;
     private int tableCapacity;
 
-    public Table(int tableNumber, TableCategory tableLocationCategory, String tableSector, int tableCapacity) {
+    public Table(int tableNumber, String tableLocation, String tableSector, int tableCapacity) {
         this.tableNumber = tableNumber;
-        this.tableLocationCategory = tableLocationCategory;
+        this.tableLocation = tableLocation;
         this.tableSector = tableSector;
         this.tableCapacity = tableCapacity;
     }
@@ -17,7 +17,7 @@ public class Table {
     public String getTableInfoForPrintMe() {
         // OŠETŘENÍ - Vložení mezery před číslo stolu, je-li jednociferné
         String helpString = ""; if (tableNumber < 10) {helpString = " ";}
-        return "Číslo stolu: " + helpString + tableNumber + "   Umístění stolu: " + tableLocationCategory.toString()
+        return "Číslo stolu: " + helpString + tableNumber + "   Umístění stolu: " + tableLocation.toString()
                 + "   Sektor umístění stolu pro grafický výstup na FrontEndu: " + tableSector +
                 "   Počet míst u stolu: " + tableCapacity;
     }
@@ -33,10 +33,8 @@ public class Table {
         }
         this.tableNumber = tableNumber;
     }
-    public TableCategory getTableLocationCategory() {return tableLocationCategory;}
-    public void setTableLocationCategory(TableCategory tableLocation) {
-        this.tableLocationCategory = tableLocationCategory;
-    }
+    public String getTableLocation() {return tableLocation;}
+    public void setTableLocation(String tableLocation) {this.tableLocation = tableLocation;}
     public String getTableSector() {return tableSector;}
     public void setTableSector(String tableSector) throws RestaurantException {
         // OŠETŘENÍ - pro výstup pro grafický FrontEnd je nutné, aby String byl dvoumístný,

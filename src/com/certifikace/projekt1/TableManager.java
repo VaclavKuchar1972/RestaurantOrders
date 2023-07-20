@@ -21,9 +21,14 @@ public class TableManager {
         if (tableList.size() > 98) {
             throw new RestaurantException("Chyba - Nelze přidat stůl. Byl dosažen maximální počet stolů.");
         }
+        // OŠETŘENÍ - Nový stůl nesmí mít stejné číslo jako již existující stůl
+        if (isTableNumberDuplicate(table.getTableNumber())) {
+            throw new RestaurantException("Chyba - Nelze přidat stůl s již existujícím číslem stolu: "
+                    + table.getTableNumber());
+        }
         // OŠETŘENÍ - Nový stůl nesmí být umístěn ve stejné místnosti na stejném místě, kde již jeden stůl stojí
         for (Table existingTable : tableList) {
-            if (existingTable.getTableLocationCategory().equals(table.getTableLocationCategory()) &&
+            if (existingTable.getTableLocation().equals(table.getTableLocation()) &&
                     existingTable.getTableSector().equals(table.getTableSector())) {
                 throw new RestaurantException("Chyba - Nelze přidat stůl ve stejné místnosti na stejné místo,"
                         +"kde již jedn stůl stojí.");
@@ -31,12 +36,16 @@ public class TableManager {
         }
         tableList.add(table);
     }
+    private boolean isTableNumberDuplicate(int tableNumber) {
+        for (Table existingTable : tableList) {if (existingTable.getTableNumber() == tableNumber) {return true;}}
+        return false;
+    }
     public void removeTable(Table table) {tableList.remove(table);}
 
     public void loadDataTablesFromFile(String fileTables, String delimiter) throws RestaurantException {
         String line = "";
         String[] item = new String[0];
-        int tableNumber; TableCategory tableLocationCategory; String tableSector; int tableCapacity;
+        int tableNumber; String tableLocation; String tableSector; int tableCapacity;
         int helpBadFormatIdentifokator = 0;
         try (Scanner scannerLoadData = new Scanner(new BufferedReader(new FileReader(fileTables)))) {
             while (scannerLoadData.hasNextLine()) {
@@ -48,10 +57,10 @@ public class TableManager {
                 }
                 tableNumber = Integer.parseInt(item[0]);
                 helpBadFormatIdentifokator = 1;
-                tableLocationCategory = TableCategory.valueOf(item[1]);
+                tableLocation = item[1];
                 tableSector = item[2];
                 tableCapacity = Integer.parseInt(item [3]);
-                Table newTable = new Table(tableNumber, tableLocationCategory, tableSector, tableCapacity);
+                Table newTable = new Table(tableNumber, tableLocation, tableSector, tableCapacity);
                 tableList.add(newTable);
             }
         } catch (FileNotFoundException e) {
@@ -71,7 +80,7 @@ public class TableManager {
             // Uložení nových dat do primárního souboru
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
                 for (Table table : tableList) {
-                    writer.write(table.getTableNumber() + delimiter() + table.getTableLocationCategory() + delimiter()
+                    writer.write(table.getTableNumber() + delimiter() + table.getTableLocation() + delimiter()
                             + table.getTableSector() + delimiter() + table.getTableCapacity());
                     writer.newLine();
                 }
