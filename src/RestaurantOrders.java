@@ -32,13 +32,15 @@ public class RestaurantOrders {
 
         // Zkušební kód pro odebrání stolu z tableList (stačí ho odkomentovat), ale lze to udělat jen v případě,
         // že před tím byl stůl číslo 20 přidán aktivováním předchozí zkušební metody, jinak to zkolabuje a nemám
-        // ošetřeny tyto eventuality - jde jen o to, aby bylo jasné, že stůl lze odebrat (stačí ho odkomentovat)
+        // ošetřeny tyto eventuality - jde jen o to, aby bylo jasné, že stůl lze odebrat
         /*tableManager.removeTableByNumber(20);
         saversVoids.saveTablesData(tableManager);
         printLnOutputs.printTableList(tableManager);
          */
 
-
+        // Zkušební kód pro ověření, že program nezkolabuje při prvním zpuštění když ještě nebude existovat
+        // soubor DB-Tables.txt není potřeba. Stačí z adresáře programu tento soubor smazat a spustit program.
+        // Program tento soubor vygeneruje, přidá do něj stůl číslo 1 a všechny ostatní data stolu nastaví na null.
 
 
 

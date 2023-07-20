@@ -2,6 +2,7 @@ package com.certifikace.projekt1;
 
 import java.io.*;
 import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +46,16 @@ public class TableManager {
         tableList.removeIf(table -> table.getTableNumber() == tableNumber);
     }
 
+    private void createEmptyTablesFile(String fileTables) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileTables))) {
+            writer.write("1; ; ; 0"); writer.newLine();
+        } catch (IOException e) {
+            System.err.println("Chyba při vytváření prázdného souboru se Stoly: " + e.getMessage());}
+    }
     public void loadDataTablesFromFile(String fileTables, String delimiter) throws RestaurantException {
+        // OŠETŘENÍ prvního spuštění programu, když ještě nebude existovat soubor DB-Tables.txt
+        if (!Files.exists(Paths.get(fileTables))) {createEmptyTablesFile(fileTables); return;}
+
         String line = "";
         String[] item = new String[0];
         int tableNumber; String tableLocation; String tableSector; int tableCapacity;
