@@ -41,7 +41,9 @@ public class TableManager {
         return false;
     }
     public void removeTable(Table table) {tableList.remove(table);}
-
+    public void removeTableByNumber(int tableNumber) {
+        tableList.removeIf(table -> table.getTableNumber() == tableNumber);
+    }
 
     public void loadDataTablesFromFile(String fileTables, String delimiter) throws RestaurantException {
         String line = "";

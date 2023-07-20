@@ -20,8 +20,7 @@ public class RestaurantOrders {
 
 
         // Zkušební kód pro přidání stolu do tableList (stačí ho odkomentovat)
-
-        try {
+        /*try {
             tableManager.addTable(new Table(tableManager.getTableList().size() + 1, "SALONEK",
                     "A2", 2));
         }
@@ -29,11 +28,15 @@ public class RestaurantOrders {
             System.err.println("Nepodařilo se přidat nový stůl: " + e.getLocalizedMessage());
         }
         printLnOutputs.printTableList(tableManager);
+        */
 
-
+        // Zkušební kód pro odebrání stolu z tableList (stačí ho odkomentovat), ale lze to udělat jen v případě,
+        // že před tím byl stůl číslo 20 přidán aktivováním předchozí zkušební metody, jinak to zkolabuje a nemám
+        // ošetřeny tyto eventuality - jde jen o to, aby bylo jasné, že stůl lze odebrat (stačí ho odkomentovat)
+        /*tableManager.removeTableByNumber(20);
         saversVoids.saveTablesData(tableManager);
         printLnOutputs.printTableList(tableManager);
-
+         */
 
 
 
