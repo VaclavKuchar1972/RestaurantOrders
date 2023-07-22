@@ -31,6 +31,25 @@ public class Waiter {
                 + "   Typ pracovně právního vztahu: " + waiterTypeOfEmploymentRelationship;
     }
 
+    public String getWaiterInfoForPrintMeNoAbbreviationRelationship() {
+        // OŠETŘENÍ - Vložení mezery před číslo číšníka, je-li jedno nebo dvouciferné
+        String helpString = ""; if (waiterNumber < 100) {helpString = " ";}; if (waiterNumber < 10) {helpString = "  ";}
+        return "Číslo číšníka: " + helpString + waiterNumber + "   Jméno a příjmení/tituly: " + waiterTitleBeforeName
+                + waiterFirstName + " " + waiterSecondName + waiterTitleAfterName +
+                "   Čislo OP/pasu/náhradního dokladu: " + waiterIdentificationDocumentNumber;
+    }
+
+    public String getWaiterTypeOfEmploymentRelationshipNoAbbreviation() {
+        String abbreviation = getWaiterTypeOfEmploymentRelationship();
+        switch (abbreviation) {
+            case "HPP": return "hlavní pracovní poměr";
+            case "VPP": return "vedlejší pracovní poměr";
+            case "BRIGADA": return "brigáda";
+            case "DPP": return "dohoda o provedení práce";
+            default: return "neznámý typ pracovního poměru";
+        }
+    }
+
     public int getWaiterNumber() {return waiterNumber;}
     public void setWaiterNumber(int waiterNumber) throws RestaurantException {
         // OŠETŘENÍ - Číslo čííšníka musí být maximálně tříciferné
@@ -66,6 +85,8 @@ public class Waiter {
     public void setWaiterTypeOfEmploymentRelationship(String waiterTypeOfEmploymentRelationship) {
         this.waiterTypeOfEmploymentRelationship = waiterTypeOfEmploymentRelationship;
     }
+
+
 
 }
 

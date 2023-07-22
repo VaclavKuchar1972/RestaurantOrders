@@ -22,4 +22,17 @@ public class RestaurantPrintLnOutputsForMain {
         }
     }
 
+    public void printWaiterListNoAbbreviationRelationship(WaiterManager waiterManager) {
+        List<Waiter> waiterList = waiterManager.getWaiterList();
+        System.out.println();
+        System.out.println("Seznam číšníků restaurace s pracovním vztahem v nezkácené verzi:");
+        for (Waiter waiter : waiterList) {
+            System.out.println(waiter.getWaiterInfoForPrintMeNoAbbreviationRelationship()
+                    + "   Typ pracovně právního vztahu: "
+                    + waiter.getWaiterTypeOfEmploymentRelationshipNoAbbreviation());
+        }
+    }
+
+
+
 }

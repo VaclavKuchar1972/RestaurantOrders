@@ -47,7 +47,7 @@ public class RestaurantOrders {
 
 
         loadersVoids.loadWaitersData(waiterManager);
-        printLnOutputs.printWaiterList(waiterManager);
+        printLnOutputs.printWaiterListNoAbbreviationRelationship(waiterManager);
 
 
 

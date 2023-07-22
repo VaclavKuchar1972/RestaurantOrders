@@ -26,6 +26,7 @@ public class WaiterManager {
 
     public void removeWaiter(Waiter waiter) {waiterList.remove(waiter);}
 
+    /*
     private String getWaiterTypeOfEmploymentRelationshipNoAbbreviation(String abbreviation) {
         switch (abbreviation) {
             case "HPP": return "hlavní pracovní poměr";
@@ -35,6 +36,7 @@ public class WaiterManager {
             default: return "neznámý zaměstnanecký vztah";
         }
     }
+    */
 
     public void loadDataWaitersFromFile(String fileWaiters, String delimiter) throws RestaurantException {
 
@@ -57,12 +59,11 @@ public class WaiterManager {
                 waiterIdentificationDocumentNumber = item[5];
                 waiterTypeOfEmploymentRelationship = item[6];
 
-                String waiterTypeOfEmploymentRelationshipNoAbbreviation
-                        = getWaiterTypeOfEmploymentRelationshipNoAbbreviation(waiterTypeOfEmploymentRelationship);
+                //String waiterTypeOfEmploymentRelationshipNoAbbreviation
+                //        = getWaiterTypeOfEmploymentRelationshipNoAbbreviation(waiterTypeOfEmploymentRelationship);
 
                 Waiter newWaiter = new Waiter(waiterNumber, waiterTitleBeforeName, waiterFirstName, waiterSecondName,
-                        waiterTitleAfterName, waiterIdentificationDocumentNumber,
-                        waiterTypeOfEmploymentRelationshipNoAbbreviation);
+                        waiterTitleAfterName, waiterIdentificationDocumentNumber, waiterTypeOfEmploymentRelationship);
                 waiterList.add(newWaiter);
             }
         } catch (FileNotFoundException e) {
