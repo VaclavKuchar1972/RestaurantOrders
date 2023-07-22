@@ -13,4 +13,13 @@ public class RestaurantPrintLnOutputsForMain {
         }
     }
 
+    public void printWaiterList(WaiterManager waiterManager) {
+        List<Waiter> waiterList = waiterManager.getWaiterList();
+        System.out.println();
+        System.out.println("Seznam číšníků restaurace:");
+        for (Waiter waiter : waiterList) {
+            System.out.println(waiter.getWaiterInfoForPrintMe());
+        }
+    }
+
 }

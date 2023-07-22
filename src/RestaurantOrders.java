@@ -10,14 +10,16 @@ public class RestaurantOrders {
         System.out.println(); System.out.println();
         System.out.println("Restaurant Chez Quis à Prague");
 
+
         TableManager tableManager = new TableManager();
+        WaiterManager waiterManager = new WaiterManager();
         RestaurantPrintLnOutputsForMain printLnOutputs = new RestaurantPrintLnOutputsForMain();
         RestaurantLoadersVoidsForMain loadersVoids = new RestaurantLoadersVoidsForMain();
         RestaurantSaversVoidsForMain saversVoids = new RestaurantSaversVoidsForMain();
 
+
         loadersVoids.loadTablesData(tableManager);
         printLnOutputs.printTableList(tableManager);
-
 
         // Zkušební kód pro přidání stolu do tableList (stačí ho odkomentovat)
         /*try {
@@ -44,23 +46,12 @@ public class RestaurantOrders {
         // Program tento soubor vygeneruje, přidá do něj stůl číslo 1 a všechny ostatní data stolu nastaví na null.
 
 
+        loadersVoids.loadWaitersData(waiterManager);
+        printLnOutputs.printWaiterList(waiterManager);
+
+
+
 
     }
 
 }
-
-/*
-
-
-        WaiterManager waiterManager = new WaiterManager();
-        try {waiterManager.loadDataWaitersFromFile(RestaurantSettings.fileWaiters(), delimiter());}
-        catch (RestaurantException e) {
-            System.err.println("Nepodařilo se načíst data ze souboru: " + RestaurantSettings.fileWaiters() + " "
-                    + e.getLocalizedMessage());
-            throw new RuntimeException(e);
-        }
-        List<Waiter> waiterList = waiterManager.getWaiterList();
-        System.out.println("Seznam zaměstnaných servírek a číšníků restaurace:");
-        for (Waiter waiter : waiterList) {System.out.println(waiter.getWaiterInfo());}
-
-         */

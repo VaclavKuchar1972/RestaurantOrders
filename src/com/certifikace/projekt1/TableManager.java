@@ -35,9 +35,9 @@ public class TableManager {
                         +"kde již jedn stůl stojí.");
             }
         }
-        // OŠETŘENÍ - Když vznikne po prvním spuštění programu soubor DB-Tables.txt, který bude mít číslo stolu 1
-        // a zbytek dat null a uživatel na FrontEndu zadá do systému první stůl, tento bude nahrazem skutečnými daty
-        // od uživatele a přeuloží v DB-Tables.txt
+        // OŠETŘENÍ - Když vznikne po prvním spuštění programu soubor DB-Tables.txt, který bude mít jen jeden stůl
+        // s číslem 1 a zbytek dat bude mít hodnotu null nebo 0 a uživatel na FrontEndu zadá do systému první stůl,
+        // tento bude nahrazem skutečnými daty od uživatele a přeuloží se v DB-Tables.txt
         if (tableList.size() == 1 && tableList.get(0).getTableNumber() == 1 &&
                 (tableList.get(0).getTableLocation() == null || tableList.get(0).getTableLocation().isEmpty()) &&
                 (tableList.get(0).getTableSector() == null || tableList.get(0).getTableSector().isEmpty()) &&

@@ -26,7 +26,7 @@ public class Waiter {
 //        this.waiterTypeOfEmploymentRelationship = newCategory;
 //    }
 
-    public String getWaiterInfo () {
+    public String getWaiterInfoForPrintMe() {
         // OŠETŘENÍ - Vložení mezery před číslo číšníka, je-li jedno nebo dvouciferné
         String helpString = ""; if (waiterNumber < 100) {helpString = " ";}; if (waiterNumber < 10) {helpString = "  ";}
         return "Číslo číšníka: " + helpString + waiterNumber + "   Jméno a příjmení/tituly: " + waiterTitleBeforeName

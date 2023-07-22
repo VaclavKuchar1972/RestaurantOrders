@@ -13,4 +13,13 @@ public class RestaurantLoadersVoidsForMain {
         }
     }
 
+    public void loadWaitersData(WaiterManager waiterManager) {
+        try {waiterManager.loadDataWaitersFromFile(RestaurantSettings.fileWaiters(), delimiter());}
+        catch (RestaurantException e) {
+            System.err.println("Nepodařilo se načíst data 493n9k; ze souboru: " + RestaurantSettings.fileWaiters() + " "
+                    + e.getLocalizedMessage());
+            throw new RuntimeException(e);
+        }
+    }
+
 }
