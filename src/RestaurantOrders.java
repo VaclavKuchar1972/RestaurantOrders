@@ -22,6 +22,10 @@ public class RestaurantOrders {
         printLnOutputs.printTableList(tableManager);
 
         // Zkušební kód pro přidání stolu do tableList a jeho uložení do souboru (stačí ho odkomentovat)
+        // POZOR! Při zkoušce nahrazení prvního prázdného stolu ihned po vytvoření souboru DB-Tables.txt samotným
+        // programem, který je v podstatě prázdný a bude mít jen jednu položku je nutné výše zakomentovat kód
+        // loadersVoids.loadTablesData(tableManager);, jinak se přirozeně vytvoří dva a nic se nenahradí, to je jen
+        // důsledek toho, že si to zkoušim sám pro sebe, pro správný běh programu tento kód být tady vůbec nemusí
         /*try {
             tableManager.addTable(new Table(tableManager.getTableList().size() + 1, "SALONEK",
                     "A2", 2));
@@ -50,6 +54,10 @@ public class RestaurantOrders {
         printLnOutputs.printWaiterListNoAbbreviationRelationship(waiterManager);
 
         // Zkušební kód pro přidání číšníka do waiterList a uložení do souboru (stačí ho odkomentovat)
+        // POZOR! Při zkoušce nahrazení prvního prázdného číšníka ihned po vytvoření souboru DB-Waiters.txt samotným
+        // programem, který je v podstatě prázdný a bude mít jen jednu položku je nutné výše zakomentovat kód
+        // loadersVoids.loadWaitersData(waiterManager);, jinak se přirozeně vytvoří dva a nic se nenahradí, to je jen
+        // důsledek toho, že si to zkoušim sám pro sebe, pro správný běh programu tento kód být tady vůbec nemusí
         /*try {
             waiterManager.addWaiter(new Waiter(waiterManager.getWaiterList().size() + 1,
                     "", "Václav", "Kuchař", "",
@@ -73,6 +81,8 @@ public class RestaurantOrders {
         // Zkušební kód pro ověření, že program nezkolabuje při prvním spuštění, když ještě nebude existovat
         // soubor DB-Waiters.txt není potřeba. Stačí z adresáře programu tento soubor smazat a spustit program.
         // Program tento soubor vygeneruje, přidá do něj číšníka číslo 1 a všechny ostatní data číšníka nastaví na null.
+
+
 
 
     }
