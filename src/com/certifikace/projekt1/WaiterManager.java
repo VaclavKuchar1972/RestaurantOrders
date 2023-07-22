@@ -26,6 +26,16 @@ public class WaiterManager {
 
     public void removeWaiter(Waiter waiter) {waiterList.remove(waiter);}
 
+    private String getWaiterTypeOfEmploymentRelationshipNoAbbreviation(String abbreviation) {
+        switch (abbreviation) {
+            case "HPP": return "hlavní pracovní poměr";
+            case "VPP": return "vedlejší pracovní poměr";
+            case "BRIGADA": return "brigáda";
+            case "DPP": return "dohoda o provedení práce";
+            default: return "neznámý zaměstnanecký vztah";
+        }
+    }
+
     public void loadDataWaitersFromFile(String fileWaiters, String delimiter) throws RestaurantException {
 
         String line = "";
@@ -38,9 +48,7 @@ public class WaiterManager {
             while (scannerLoadData.hasNextLine()) {
                 line = scannerLoadData.nextLine();
                 item = line.split(delimiter);
-                if (item.length != 7) {
-                    throw new RestaurantException("Chyba - špatný počet položek na řádku: " + line);
-                }
+                if (item.length != 7) {throw new RestaurantException("Chyba - špatný počet položek na řádku: " + line);}
                 waiterNumber = Integer.parseInt(item[0]);
                 waiterTitleBeforeName = item[1];
                 waiterFirstName = item[2];
@@ -49,17 +57,12 @@ public class WaiterManager {
                 waiterIdentificationDocumentNumber = item[5];
                 waiterTypeOfEmploymentRelationship = item[6];
 
-                WaiterCategory category = null;
-
-                category = WaiterCategory.valueOf(waiterTypeOfEmploymentRelationship.toUpperCase());
- //               try {category = WaiterCategory.valueOf(waiterTypeOfEmploymentRelationship.toUpperCase());}
- //               catch (
- //                       IllegalArgumentException e) {
- //                   throw new RestaurantException("Soubor " + fileWaiters + " nebyl nalezen! " + e.getLocalizedMessage());
- //               }
+                String waiterTypeOfEmploymentRelationshipNoAbbreviation
+                        = getWaiterTypeOfEmploymentRelationshipNoAbbreviation(waiterTypeOfEmploymentRelationship);
 
                 Waiter newWaiter = new Waiter(waiterNumber, waiterTitleBeforeName, waiterFirstName, waiterSecondName,
-                        waiterTitleAfterName, waiterIdentificationDocumentNumber, category);
+                        waiterTitleAfterName, waiterIdentificationDocumentNumber,
+                        waiterTypeOfEmploymentRelationshipNoAbbreviation);
                 waiterList.add(newWaiter);
             }
         } catch (FileNotFoundException e) {

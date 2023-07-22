@@ -8,11 +8,11 @@ public class Waiter {
     private String waiterSecondName;
     private String waiterTitleAfterName;
     private String waiterIdentificationDocumentNumber;
-    private WaiterCategory waiterTypeOfEmploymentRelationship;
+    private String waiterTypeOfEmploymentRelationship;
 
     public Waiter(int waiterNumber, String waiterTitleBeforeName, String waiterFirstName, String waiterSecondName,
                   String waiterTitleAfterName, String waiterIdentificationDocumentNumber,
-                  WaiterCategory waiterTypeOfEmploymentRelationship) {
+                  String waiterTypeOfEmploymentRelationship) {
         this.waiterNumber = waiterNumber;
         this.waiterTitleBeforeName = waiterTitleBeforeName;
         this.waiterFirstName = waiterFirstName;
@@ -21,10 +21,6 @@ public class Waiter {
         this.waiterIdentificationDocumentNumber = waiterIdentificationDocumentNumber;
         this.waiterTypeOfEmploymentRelationship = waiterTypeOfEmploymentRelationship;
     }
-
-//    public void addCategory(String categoryName) {
-//        this.waiterTypeOfEmploymentRelationship = newCategory;
-//    }
 
     public String getWaiterInfoForPrintMe() {
         // OŠETŘENÍ - Vložení mezery před číslo číšníka, je-li jedno nebo dvouciferné
@@ -66,12 +62,10 @@ public class Waiter {
         // dvakrát na stejné pracovní pozici.
         this.waiterIdentificationDocumentNumber = waiterIdentificationDocumentNumber;
     }
-
-    public WaiterCategory getWaiterTypeOfEmploymentRelationship() {return waiterTypeOfEmploymentRelationship;}
-    public void setWaiterTypeOfEmploymentRelationship(WaiterCategory waiterTypeOfEmploymentRelationship) {
+    public String getWaiterTypeOfEmploymentRelationship() {return waiterTypeOfEmploymentRelationship;}
+    public void setWaiterTypeOfEmploymentRelationship(String waiterTypeOfEmploymentRelationship) {
         this.waiterTypeOfEmploymentRelationship = waiterTypeOfEmploymentRelationship;
     }
-
 
 }
 
