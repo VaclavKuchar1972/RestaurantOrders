@@ -37,9 +37,9 @@ public class RestaurantOrders {
         // že před tím byl stůl číslo 20 přidán aktivováním předchozí zkušební metody, jinak to zkolabuje a nemám
         // ošetřeny tyto eventuality - jde jen o to, aby bylo jasné, že stůl lze odebrat
         /*tableManager.removeTableByNumber(20);
-        saversVoids.saveTablesData(tableManager);
         printLnOutputs.printTableList(tableManager);
-         */
+        saversVoids.saveTablesData(tableManager);
+        */
 
         // Zkušební kód pro ověření, že program nezkolabuje při prvním spuštění, když ještě nebude existovat
         // soubor DB-Tables.txt není potřeba. Stačí z adresáře programu tento soubor smazat a spustit program.
@@ -66,8 +66,8 @@ public class RestaurantOrders {
         // že před tím byl číšník s číslem 25 přidán aktivováním předchozí zkušební metody, jinak to zkolabuje a nemám
         // ošetřeny tyto eventuality - jde jen o to, aby bylo jasné, že stůl lze odebrat
         /*waiterManager.removeWaiterByNumber(25);
-        saversVoids.saveWaitersData(waiterManager);
         printLnOutputs.printWaiterList(waiterManager);
+        saversVoids.saveWaitersData(waiterManager);
         */
 
         // Zkušební kód pro ověření, že program nezkolabuje při prvním spuštění, když ještě nebude existovat

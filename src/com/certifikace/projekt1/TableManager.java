@@ -42,13 +42,13 @@ public class TableManager {
                 (tableList.get(0).getTableLocation() == null || tableList.get(0).getTableLocation().isEmpty()) &&
                 (tableList.get(0).getTableSector() == null || tableList.get(0).getTableSector().isEmpty()) &&
                 tableList.get(0).getTableCapacity() == 0) {
-            // Pokud ano, nahraď pouze hodnoty a ponech číslo stolu 1
-            Table tableWithNumberOne = tableList.get(0);
-            tableWithNumberOne.setTableLocation(table.getTableLocation());
-            tableWithNumberOne.setTableSector(table.getTableSector());
-            tableWithNumberOne.setTableCapacity(table.getTableCapacity());
-            saveDataTablesToFile(fileTables());
-        } else {
+            // Pokud ano, nahradí pouze ostatní hodnoty a ponechá číslo stolu 1
+            Table tableNumberOne = tableList.get(0);
+            tableNumberOne.setTableLocation(table.getTableLocation());
+            tableNumberOne.setTableSector(table.getTableSector());
+            tableNumberOne.setTableCapacity(table.getTableCapacity());
+        }
+        else {
             // Jinak se standardně přidá pouze do tableList
             tableList.add(table);
         }
@@ -68,7 +68,7 @@ public class TableManager {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileTables))) {
             writer.write("1; ; ; 0"); writer.newLine();
         } catch (IOException e) {
-            System.err.println("Chyba při vytváření prázdného souboru se Stoly: " + e.getMessage());}
+            System.err.println("Chyba při vytváření souboru při neexistenci souboru se Stoly: " + e.getMessage());}
     }
     public void loadDataTablesFromFile(String fileTables, String delimiter) throws RestaurantException {
         // OŠETŘENÍ prvního spuštění programu, když ještě nebude existovat soubor DB-Tables.txt

@@ -2,6 +2,7 @@ package com.certifikace.projekt1;
 
 import java.io.*;
 import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +22,33 @@ public class WaiterManager {
             throw new RestaurantException("Chyba - Nelze přidat číšníka. Byl dosažen maximální počet číšníků " +
                     "v pracovním poměru");
         }
-        waiterList.add(waiter);
+        // OŠETŘENÍ - Když vznikne po prvním spuštění programu soubor DB-Waiters.txt, který bude mít jen jednoho číšníka
+        // s číslem 1 a zbytek dat bude mít hodnotu null nebo 0 a uživatel na FrontEndu zadá do systému první stůl,
+        // tento bude nahrazem skutečnými daty od uživatele a přeuloží se v DB-Tables.txt
+        if (waiterList.size() == 1 && waiterList.get(0).getWaiterNumber() == 1
+                && (waiterList.get(0).getWaiterTitleBeforeName() == null
+                || waiterList.get(0).getWaiterTitleBeforeName().isEmpty())
+                && (waiterList.get(0).getWaiterSecondName() == null
+                || waiterList.get(0).getWaiterSecondName().isEmpty())
+                && (waiterList.get(0).getWaiterTitleAfterName() == null
+                || waiterList.get(0).getWaiterTitleAfterName().isEmpty())
+                && (waiterList.get(0).getWaiterIdentificationDocumentNumber() == null
+                || waiterList.get(0).getWaiterIdentificationDocumentNumber().isEmpty())
+                && (waiterList.get(0).getWaiterTypeOfEmploymentRelationship() == null
+                || waiterList.get(0).getWaiterTypeOfEmploymentRelationship().isEmpty())) {
+            // Pokud ano, nahradí pouze ostatní hodnoty a ponechá číšníka 1
+            Waiter waiterNumberOne = waiterList.get(0);
+            waiterNumberOne.setWaiterTitleBeforeName(waiter.getWaiterTitleBeforeName());
+            waiterNumberOne.setWaiterFirstName(waiter.getWaiterFirstName());
+            waiterNumberOne.setWaiterSecondName(waiter.getWaiterFirstName());
+            waiterNumberOne.setWaiterTitleAfterName(waiter.getWaiterTitleAfterName());
+            waiterNumberOne.setWaiterIdentificationDocumentNumber(waiter.getWaiterIdentificationDocumentNumber());
+            waiterNumberOne.setWaiterTypeOfEmploymentRelationship(waiter.getWaiterTypeOfEmploymentRelationship());
+        }
+        else {
+            // Jinak se standardně přidá pouze do waiterList
+            waiterList.add(waiter);
+        }
     }
 
     public void removeWaiter(Waiter waiter) {waiterList.remove(waiter);}
@@ -29,26 +56,21 @@ public class WaiterManager {
         waiterList.removeIf(table -> table.getWaiterNumber() == waiterNumber);
     }
 
-    /*
-    private String getWaiterTypeOfEmploymentRelationshipNoAbbreviation(String abbreviation) {
-        switch (abbreviation) {
-            case "HPP": return "hlavní pracovní poměr";
-            case "VPP": return "vedlejší pracovní poměr";
-            case "BRIGADA": return "brigáda";
-            case "DPP": return "dohoda o provedení práce";
-            default: return "neznámý zaměstnanecký vztah";
-        }
+    private void createEmptyWaitersFile(String fileWaiters) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileWaiters))) {
+            writer.write("1; ; ; ; ; ; ;"); writer.newLine();
+        } catch (IOException e) {
+            System.err.println("Chyba při vytváření souboru při neexistenci souboru se Stoly: " + e.getMessage());}
     }
-    */
-
     public void loadDataWaitersFromFile(String fileWaiters, String delimiter) throws RestaurantException {
+        // OŠETŘENÍ prvního spuštění programu, když ještě nebude existovat soubor DB-Waiters.txt
+        if (!Files.exists(Paths.get(fileWaiters))) {createEmptyWaitersFile(fileWaiters); return;}
 
         String line = "";
         String[] item = new String[0];
         int waiterNumber; String waiterTitleBeforeName; String waiterFirstName; String waiterSecondName;
         String waiterTitleAfterName; String waiterIdentificationDocumentNumber;
         String waiterTypeOfEmploymentRelationship;
-
         try (Scanner scannerLoadData = new Scanner(new BufferedReader(new FileReader(fileWaiters)))) {
             while (scannerLoadData.hasNextLine()) {
                 line = scannerLoadData.nextLine();
@@ -61,10 +83,6 @@ public class WaiterManager {
                 waiterTitleAfterName = item[4];
                 waiterIdentificationDocumentNumber = item[5];
                 waiterTypeOfEmploymentRelationship = item[6];
-
-                //String waiterTypeOfEmploymentRelationshipNoAbbreviation
-                //        = getWaiterTypeOfEmploymentRelationshipNoAbbreviation(waiterTypeOfEmploymentRelationship);
-
                 Waiter newWaiter = new Waiter(waiterNumber, waiterTitleBeforeName, waiterFirstName, waiterSecondName,
                         waiterTitleAfterName, waiterIdentificationDocumentNumber, waiterTypeOfEmploymentRelationship);
                 waiterList.add(newWaiter);
