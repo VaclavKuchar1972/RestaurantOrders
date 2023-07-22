@@ -86,8 +86,6 @@ public class Waiter {
         this.waiterTypeOfEmploymentRelationship = waiterTypeOfEmploymentRelationship;
     }
 
-
-
 }
 
 
