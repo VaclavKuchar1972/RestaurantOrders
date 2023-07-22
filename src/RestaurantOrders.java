@@ -21,7 +21,7 @@ public class RestaurantOrders {
         loadersVoids.loadTablesData(tableManager);
         printLnOutputs.printTableList(tableManager);
 
-        // Zkušební kód pro přidání stolu do tableList (stačí ho odkomentovat)
+        // Zkušební kód pro přidání stolu do tableList a jeho uložení do souboru (stačí ho odkomentovat)
         /*try {
             tableManager.addTable(new Table(tableManager.getTableList().size() + 1, "SALONEK",
                     "A2", 2));
@@ -30,8 +30,8 @@ public class RestaurantOrders {
             System.err.println("Nepodařilo se přidat nový stůl: " + e.getLocalizedMessage());
         }
         printLnOutputs.printTableList(tableManager);
+        saversVoids.saveTablesData(tableManager);
         */
-
 
         // Zkušební kód pro odebrání stolu z tableList (stačí ho odkomentovat), ale lze to udělat jen v případě,
         // že před tím byl stůl číslo 20 přidán aktivováním předchozí zkušební metody, jinak to zkolabuje a nemám
@@ -41,7 +41,7 @@ public class RestaurantOrders {
         printLnOutputs.printTableList(tableManager);
          */
 
-        // Zkušební kód pro ověření, že program nezkolabuje při prvním zpuštění když ještě nebude existovat
+        // Zkušební kód pro ověření, že program nezkolabuje při prvním spuštění, když ještě nebude existovat
         // soubor DB-Tables.txt není potřeba. Stačí z adresáře programu tento soubor smazat a spustit program.
         // Program tento soubor vygeneruje, přidá do něj stůl číslo 1 a všechny ostatní data stolu nastaví na null.
 
@@ -49,7 +49,30 @@ public class RestaurantOrders {
         loadersVoids.loadWaitersData(waiterManager);
         printLnOutputs.printWaiterListNoAbbreviationRelationship(waiterManager);
 
+        // Zkušební kód pro přidání číšníka do waiterList a uložení do souboru (stačí ho odkomentovat)
+        /*try {
+            waiterManager.addWaiter(new Waiter(waiterManager.getWaiterList().size() + 1,
+                    "", "Václav", "Kuchař", "",
+                    "151237620", "HPP"));
+        }
+        catch (RestaurantException e) {
+            System.err.println("Nepodařilo se přidat nového číšníka: " + e.getLocalizedMessage());
+        }
+        printLnOutputs.printWaiterListNoAbbreviationRelationship(waiterManager);
+        saversVoids.saveWaitersData(waiterManager);
+        */
 
+        // Zkušební kód pro odebrání stolu z tableList (stačí ho odkomentovat), ale lze to udělat jen v případě,
+        // že před tím byl číšník s číslem 25 přidán aktivováním předchozí zkušební metody, jinak to zkolabuje a nemám
+        // ošetřeny tyto eventuality - jde jen o to, aby bylo jasné, že stůl lze odebrat
+        /*waiterManager.removeWaiterByNumber(25);
+        saversVoids.saveWaitersData(waiterManager);
+        printLnOutputs.printWaiterList(waiterManager);
+        */
+
+        // Zkušební kód pro ověření, že program nezkolabuje při prvním spuštění, když ještě nebude existovat
+        // soubor DB-Waiters.txt není potřeba. Stačí z adresáře programu tento soubor smazat a spustit program.
+        // Program tento soubor vygeneruje, přidá do něj číšníka číslo 1 a všechny ostatní data číšníka nastaví na null.
 
 
     }

@@ -25,6 +25,9 @@ public class WaiterManager {
     }
 
     public void removeWaiter(Waiter waiter) {waiterList.remove(waiter);}
+    public void removeWaiterByNumber(int waiterNumber) {
+        waiterList.removeIf(table -> table.getWaiterNumber() == waiterNumber);
+    }
 
     /*
     private String getWaiterTypeOfEmploymentRelationshipNoAbbreviation(String abbreviation) {
@@ -73,7 +76,7 @@ public class WaiterManager {
         }
     }
 
-    public void saveDataWaiterFromFile(String fileName, List<Waiter> waiters) throws RestaurantException {
+    public void saveDataWaiterToFile(String fileName) throws RestaurantException {
         try {
             // Zálohování souboru před uložením nových hodnot do primárního souboru
             File originalFile = new File(fileWaiters());
