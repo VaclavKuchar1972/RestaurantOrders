@@ -10,7 +10,8 @@ public class RestaurantSettings {
     public static String fileWaiters() {return "DB-Waiters.txt";}
     public static String fileWaitersBackUp() {return "DB-WaitersBackUp.txt";}
 
-
+    public static String fileDishs() {return "DB-Dishs.txt";}
+    public static String filefileDishsBackUp() {return "DB-DishsBackUp.txt";}
 
 
 }
