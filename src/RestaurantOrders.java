@@ -13,6 +13,7 @@ public class RestaurantOrders {
 
         TableManager tableManager = new TableManager();
         WaiterManager waiterManager = new WaiterManager();
+        DishManager dishManager = new DishManager();
         RestaurantPrintLnOutputsForMain printLnOutputs = new RestaurantPrintLnOutputsForMain();
         RestaurantLoadersVoidsForMain loadersVoids = new RestaurantLoadersVoidsForMain();
         RestaurantSaversVoidsForMain saversVoids = new RestaurantSaversVoidsForMain();
@@ -82,7 +83,8 @@ public class RestaurantOrders {
         // soubor DB-Waiters.txt není potřeba. Stačí z adresáře programu tento soubor smazat a spustit program.
         // Program tento soubor vygeneruje, přidá do něj číšníka číslo 1 a všechny ostatní data číšníka nastaví na null.
 
-
+        loadersVoids.loadDishsData(dishManager);
+        printLnOutputs.printDishListRawDataFromFile(dishManager);
 
 
     }

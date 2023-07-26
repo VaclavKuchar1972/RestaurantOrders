@@ -1,14 +1,13 @@
 package com.certifikace.projekt1;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.math.BigDecimal;
 
 public class Dish {
 
     private FoodCategory dishRecomendedMainCategory;
-    private int dishNumberOfNextCategory;
-    private List<FoodCategory> dishNextCategory;
+    private int dishNumberOfNextRecomendedCategory;
+    private List<FoodCategory> dishNextRecomendedCategory;
     private String dishTitle;
     private int dishRecommendedQuantity;
     private String dishRecommendedUnitOfQuantity;
@@ -18,19 +17,45 @@ public class Dish {
     private int dishNumberOfNextPhotos;
     private List<String> dishNextPhoto;
 
-    public Dish() {this.dishNextCategory = new ArrayList<>(); this.dishNextPhoto = new ArrayList<>();}
+    //public Dish() {this.dishNextRecomendedCategory = new ArrayList<>(); this.dishNextPhoto = new ArrayList<>();}
+
+
+    public Dish(FoodCategory dishRecomendedMainCategory, int dishNumberOfNextRecomendedCategory,
+                List<FoodCategory> dishNextRecomendedCategory, String dishTitle, int dishRecommendedQuantity,
+                String dishRecommendedUnitOfQuantity, BigDecimal dishRecommendPrice, int dishEstimatedPreparationTime,
+                String dishMainPhoto, int dishNumberOfNextPhotos, List<String> dishNextPhoto) {
+        this.dishRecomendedMainCategory = dishRecomendedMainCategory;
+        this.dishNumberOfNextRecomendedCategory = dishNumberOfNextRecomendedCategory;
+        this.dishNextRecomendedCategory = dishNextRecomendedCategory;
+        this.dishTitle = dishTitle;
+        this.dishRecommendedQuantity = dishRecommendedQuantity;
+        this.dishRecommendedUnitOfQuantity = dishRecommendedUnitOfQuantity;
+        this.dishRecommendPrice = dishRecommendPrice;
+        this.dishEstimatedPreparationTime = dishEstimatedPreparationTime;
+        this.dishMainPhoto = dishMainPhoto;
+        this.dishNumberOfNextPhotos = dishNumberOfNextPhotos;
+        this.dishNextPhoto = dishNextPhoto;
+    }
+
+    public String getDishInfoForTestPrint() {
+        return dishRecomendedMainCategory + ", " + dishNumberOfNextRecomendedCategory + ", "
+                + dishNextRecomendedCategory + ", " + dishTitle + ", " + dishRecommendedQuantity
+                + ", " + dishRecommendedUnitOfQuantity + ", " + dishRecommendPrice + ", " + dishEstimatedPreparationTime
+                + ", " + dishMainPhoto + ", " + dishNumberOfNextPhotos + ", " + dishNextPhoto;
+    }
 
     public FoodCategory getDishRecomendedMainCategory() {return dishRecomendedMainCategory;}
     public void setDishRecomendedMainCategory(FoodCategory dishRecomendedMainCategory) {
         this.dishRecomendedMainCategory = dishRecomendedMainCategory;
     }
-    public int getDishNumberOfNextCategory() {return dishNumberOfNextCategory;}
-    public void setDishNumberOfNextCategory(int dishNumberOfNextCategory) {
-        this.dishNumberOfNextCategory = dishNumberOfNextCategory;
+    public int getDishNumberOfNextRecomendedCategory() {return dishNumberOfNextRecomendedCategory;}
+    public void setDishNumberOfNextRecomendedCategory(int dishNumberOfNextRecomendedCategory) {
+        this.dishNumberOfNextRecomendedCategory = dishNumberOfNextRecomendedCategory;
     }
-    public List<FoodCategory> getDishNextCategory() {return dishNextCategory;}
-    public void setDishNextCategory(List<FoodCategory> dishNextCategory) {this.dishNextCategory = dishNextCategory;}
-    public void addDishCategory(FoodCategory category) {dishNextCategory.add(category);}
+    public List<FoodCategory> getDishNextRecomendedCategory() {return dishNextRecomendedCategory;}
+    public void setDishNextRecomendedCategory(List<FoodCategory> dishNextRecomendedCategory) {
+        this.dishNextRecomendedCategory = dishNextRecomendedCategory;
+    }
     public String getDishTitle() {return dishTitle;}
     public void setDishTitle(String dishTitle) {this.dishTitle = dishTitle;}
     public int getDishRecommendedQuantity() {return dishRecommendedQuantity;}
