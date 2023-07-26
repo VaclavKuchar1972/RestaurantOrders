@@ -14,7 +14,7 @@ public class Table {
         this.tableCapacity = tableCapacity;
     }
 
-    public String getTableInfoForPrintMe() {
+    public String getTableInfoForTestPrint() {
         // OŠETŘENÍ - Vložení mezery před číslo stolu, je-li jednociferné
         String helpString = ""; if (tableNumber < 10) {helpString = " ";}
         return "Číslo stolu: " + helpString + tableNumber + "   Umístění stolu: " + tableLocation.toString()
