@@ -84,7 +84,18 @@ public class RestaurantOrders {
         // Program tento soubor vygeneruje, přidá do něj číšníka číslo 1 a všechny ostatní data číšníka nastaví na null.
 
         loadersVoids.loadDishsData(dishManager);
-        printLnOutputs.printDishListRawDataFromFile(dishManager);
+        printLnOutputs.printDishListDataFromFile(dishManager);
+
+
+            // Získání seznamu jídel z třídy Restaurant
+            //List<Dish> dishList = dishManager.getDishList();
+
+            // Výpis obsahu dishList
+            //for (Dish dish : dishList) {
+            //    System.out.println(dish); // Nebo můžete zvolit jakoukoli jinou formu výpisu, která odpovídá vašim potřebám
+            //}
+
+
 
 
     }

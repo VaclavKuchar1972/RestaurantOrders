@@ -14,46 +14,42 @@ public class DishManager {
     public DishManager() {this.dishList = new ArrayList<>();}
 
 
-
     public void loadDataDishsFromFile(String fileDishs, String delimiter) throws RestaurantException {
 
         // CHYBÍ!!! OŠETŘENÍ prvního spuštění programu, když ještě nebude existovat soubor DB-Dishs.txt
 
-
+        int i;
+        String line = "";
+        String[] item = new String[0];
+        FoodCategory dishRecomendedMainCategory; int dishNumberOfNextRecomendedCategory; String dishTitle;
+        int dishRecommendedQuantity; String dishRecommendedUnitOfQuantity; BigDecimal dishRecommendPrice;
+        int dishEstimatedPreparationTime; String dishMainPhoto; int dishNumberOfNextPhotos;
         try (Scanner scannerLoadData = new Scanner(new BufferedReader(new FileReader(fileDishs)))) {
             while (scannerLoadData.hasNextLine()) {
-                String line = scannerLoadData.nextLine();
-                String[] item = line.split(delimiter);
-
-                // Ošetřit špatný počet položek na řádku!!!
-                //if (item.length != 12) {
-                //    throw new RestaurantException("Chyba - špatný počet položek na řádku: " + line);
-                //}
+                line = scannerLoadData.nextLine();
+                item = line.split(delimiter);
 
                 // Ošetřit, že když to nalouduje kategorii, která není ve FoodCategory, přidá jí tam
 
-                FoodCategory dishRecomendedMainCategory = FoodCategory.valueOf(item[0]);
-
-                int dishNumberOfNextRecomendedCategory = Integer.parseInt(item[1]);
+                dishRecomendedMainCategory = FoodCategory.valueOf(item[0]);
+                dishNumberOfNextRecomendedCategory = Integer.parseInt(item[1]);
                 List<FoodCategory> dishNextRecomendedCategory = new ArrayList<>();
-                for (int i = 0; i < dishNumberOfNextRecomendedCategory; i++) {
-                    dishNextRecomendedCategory.add(FoodCategory.valueOf(item[i]));
+                for (i = 0; i < dishNumberOfNextRecomendedCategory; i++) {
+                    dishNextRecomendedCategory.add(FoodCategory.valueOf(item[i + 2]));
                 }
 
-                String dishTitle = item[2 + dishNumberOfNextRecomendedCategory];
-                // int dishRecommendedQuantity = Integer.parseInt(item[4 + dishNumberOfNextRecomendedCategory].trim());
-                int dishRecommendedQuantity = Integer.parseInt(item[3 + dishNumberOfNextRecomendedCategory]);
-                String dishRecommendedUnitOfQuantity = item[4 + dishNumberOfNextRecomendedCategory];
-                BigDecimal dishRecommendPrice = new BigDecimal(item[5 + dishNumberOfNextRecomendedCategory]);
-                int dishEstimatedPreparationTime = Integer.parseInt(item[6 + dishNumberOfNextRecomendedCategory]);
-                String dishMainPhoto = item[7 + dishNumberOfNextRecomendedCategory];
+                dishTitle = item[2 + dishNumberOfNextRecomendedCategory];
+                dishRecommendedQuantity = Integer.parseInt(item[3 + dishNumberOfNextRecomendedCategory]);
+                dishRecommendedUnitOfQuantity = item[4 + dishNumberOfNextRecomendedCategory];
+                dishRecommendPrice = new BigDecimal(item[5 + dishNumberOfNextRecomendedCategory]);
+                dishEstimatedPreparationTime = Integer.parseInt(item[6 + dishNumberOfNextRecomendedCategory]);
 
-
-
-                int dishNumberOfNextPhotos = Integer.parseInt(item[8 + dishNumberOfNextRecomendedCategory]);
+                dishMainPhoto = item[7 + dishNumberOfNextRecomendedCategory];
+                dishNumberOfNextPhotos = Integer.parseInt(item[8 + dishNumberOfNextRecomendedCategory]);
                 List<String> dishNextPhoto = new ArrayList<>();
-                for (int i = 9 + dishNumberOfNextRecomendedCategory; i < 9 + dishNumberOfNextRecomendedCategory
-                        + dishNumberOfNextPhotos; i++) {dishNextPhoto.add(item[i]);}
+                for (i = 0; i < dishNumberOfNextPhotos; i++) {
+                    dishNextPhoto.add(item[i + 9 + dishNumberOfNextRecomendedCategory]);
+                }
 
                 Dish newDish = new Dish(dishRecomendedMainCategory, dishNumberOfNextRecomendedCategory,
                         dishNextRecomendedCategory, dishTitle, dishRecommendedQuantity, dishRecommendedUnitOfQuantity,
@@ -61,15 +57,12 @@ public class DishManager {
                         dishNextPhoto);
                 dishList.add(newDish);
             }
-
-            // DOLADIT!!! ty ošetření
         } catch (FileNotFoundException e) {
             throw new RestaurantException("Soubor " + fileDishs + " nebyl nalezen! " + e.getLocalizedMessage());
         } catch (NumberFormatException e) {
-            throw new RestaurantException("Chyba - špatný formát čísla v databázi na řádku: " + e.getMessage());
+            throw new RestaurantException("Chyba - špatný formát čísla v databázi na řádku: " + " na řádku: " + line);
         }
     }
-
 
     public List<Dish> getDishList() {return new ArrayList<>(dishList);}
 

@@ -87,12 +87,12 @@ public class TableManager {
                     throw new RestaurantException("Chyba - špatný počet položek na řádku: " + line);
                 }
                 tableNumber = Integer.parseInt(item[0]);
-                helpBadFormatIdentifokator = 1;
+                helpBadFormatIdentifokator = 3;
                 tableLocation = item[1];
                 tableSector = item[2];
                 tableCapacity = Integer.parseInt(item [3]);
-                Table newTable = new Table(tableNumber, tableLocation, tableSector, tableCapacity);
-                tableList.add(newTable);
+                Table table = new Table(tableNumber, tableLocation, tableSector, tableCapacity);
+                tableList.add(table);
             }
         } catch (FileNotFoundException e) {
             throw new RestaurantException("Soubor " + fileTables + " nebyl nalezen! " + e.getLocalizedMessage());

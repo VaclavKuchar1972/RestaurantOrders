@@ -83,9 +83,9 @@ public class WaiterManager {
                 waiterTitleAfterName = item[4];
                 waiterIdentificationDocumentNumber = item[5];
                 waiterTypeOfEmploymentRelationship = item[6];
-                Waiter newWaiter = new Waiter(waiterNumber, waiterTitleBeforeName, waiterFirstName, waiterSecondName,
+                Waiter waiter = new Waiter(waiterNumber, waiterTitleBeforeName, waiterFirstName, waiterSecondName,
                         waiterTitleAfterName, waiterIdentificationDocumentNumber, waiterTypeOfEmploymentRelationship);
-                waiterList.add(newWaiter);
+                waiterList.add(waiter);
             }
         } catch (FileNotFoundException e) {
             throw new RestaurantException("Soubor " + fileWaiters + " nebyl nalezen! " + e.getLocalizedMessage());

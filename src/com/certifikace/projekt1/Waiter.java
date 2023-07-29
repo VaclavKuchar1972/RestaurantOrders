@@ -79,6 +79,7 @@ public class Waiter {
         // předělat) a v neposeldní řadě může jít o cizince, který má i české státní občanství, tudíž při přijímání
         // do práce může předložit buď OP nebo PAS a v tu chvíli tu máme hned jednoho člověka, který je zaměstnán
         // dvakrát na stejné pracovní pozici.
+        // NAVÍC!!! - GDPR!? Toto by se prostě celkově muselo vyřešit jinak...
         this.waiterIdentificationDocumentNumber = waiterIdentificationDocumentNumber;
     }
     public String getWaiterTypeOfEmploymentRelationship() {return waiterTypeOfEmploymentRelationship;}

@@ -33,13 +33,12 @@ public class RestaurantPrintLnOutputsForMain {
         }
     }
 
-    public void printDishListRawDataFromFile(DishManager dishManager) {
+    public void printDishListDataFromFile(DishManager dishManager) {
         List<Dish> dishList = dishManager.getDishList();
         System.out.println();
-        System.out.println("Surová data ze souboru DB-Dishs:");
+        System.out.println("Výpis dat nečtených ze souboru DB-Dishs.txt:");
         for (Dish dish : dishList) {System.out.println(dish.getDishInfoForTestPrint());}
     }
-
 
 
 }

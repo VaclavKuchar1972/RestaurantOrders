@@ -3,6 +3,8 @@ package com.certifikace.projekt1;
 import java.util.List;
 import java.math.BigDecimal;
 
+import static com.certifikace.projekt1.RestaurantSettings.delimiter;
+
 public class Dish {
 
     private FoodCategory dishRecomendedMainCategory;
@@ -16,9 +18,6 @@ public class Dish {
     private String dishMainPhoto;
     private int dishNumberOfNextPhotos;
     private List<String> dishNextPhoto;
-
-    //public Dish() {this.dishNextRecomendedCategory = new ArrayList<>(); this.dishNextPhoto = new ArrayList<>();}
-
 
     public Dish(FoodCategory dishRecomendedMainCategory, int dishNumberOfNextRecomendedCategory,
                 List<FoodCategory> dishNextRecomendedCategory, String dishTitle, int dishRecommendedQuantity,
@@ -43,6 +42,8 @@ public class Dish {
                 + ", " + dishRecommendedUnitOfQuantity + ", " + dishRecommendPrice + ", " + dishEstimatedPreparationTime
                 + ", " + dishMainPhoto + ", " + dishNumberOfNextPhotos + ", " + dishNextPhoto;
     }
+
+    private String delimiter() {return "; ";}
 
     public FoodCategory getDishRecomendedMainCategory() {return dishRecomendedMainCategory;}
     public void setDishRecomendedMainCategory(FoodCategory dishRecomendedMainCategory) {
@@ -81,5 +82,6 @@ public class Dish {
     public List<String> getDishNextPhoto() {return dishNextPhoto;}
     public void setDishNextPhoto(List<String> dishNextPhoto) {this.dishNextPhoto = dishNextPhoto;}
     public void addDishNextPhoto(String photo) {dishNextPhoto.add(photo);}
+
 
 }
