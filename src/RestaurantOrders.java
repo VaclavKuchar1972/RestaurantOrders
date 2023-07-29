@@ -87,17 +87,6 @@ public class RestaurantOrders {
         printLnOutputs.printDishListDataFromFile(dishManager);
 
 
-            // Získání seznamu jídel z třídy Restaurant
-            //List<Dish> dishList = dishManager.getDishList();
-
-            // Výpis obsahu dishList
-            //for (Dish dish : dishList) {
-            //    System.out.println(dish); // Nebo můžete zvolit jakoukoli jinou formu výpisu, která odpovídá vašim potřebám
-            //}
-
-
-
-
     }
 
 }
