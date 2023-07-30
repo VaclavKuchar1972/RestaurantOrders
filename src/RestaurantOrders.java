@@ -9,6 +9,8 @@ public class RestaurantOrders {
         System.out.println("Restaurant Chez Quis à Prague");
 
 
+        FoodCategory foodCategory;
+
         TableManager tableManager = new TableManager();
         WaiterManager waiterManager = new WaiterManager();
         DishManager dishManager = new DishManager();
@@ -85,24 +87,32 @@ public class RestaurantOrders {
         // Program tento soubor vygeneruje, přidá do něj číšníka číslo 1 a všechny ostatní data číšníka nastaví na null.
 
 
-        FoodCategory foodCategory = FoodCategory.getInstance();
+        foodCategory = FoodCategory.getInstance();
         printLnOutputs.printFoodCategoryList(foodCategory);
+
+        // Zkušební kód pro přidání nové kategorie do foodCategory a uložení do souboru (stačí ho odkomentovat)
+        /*
+        FoodCategoryManager foodCategoryManager = new FoodCategoryManager();
+        foodCategoryManager.addCategory("NEWCATEGORY", "nová kategorie");
+        foodCategory = FoodCategory.getInstance();
+        printLnOutputs.printFoodCategoryList(foodCategory);
+        */
+
+        // Zkušební kód pro odebrání kategorie z foodCategory a uložení do souboru (stačí ho odkomentovat)
+        // Jako příklad jsem odebral kategorii, kterou jsem přidal v předchozím testovacím kódu NEWCATEGORY,
+        // takže se musí nejdříve přidat, jinak to vyhodí chybovou hlášku.
+        /*
+        foodCategory = FoodCategory.getInstance();
+        foodCategory.removeCategory("NEWCATEGORY");
+        */
+
+        // Zkušební kód pro ověření, že program nezkolabuje při prvním spuštění, když ještě nebude existovat
+        // soubor DB-FoodCategories.txt není potřeba. Stačí z adresáře programu tento soubor smazat a spustit program.
+        // Program tento soubor vygeneruje, přidá do něj kategorii EMPTYCATEGORY a česky "prázdná kategorie"
 
 
         loadersVoids.loadDishsData(dishManager);
         printLnOutputs.printDishListDataFromFile(dishManager);
-
-
-        //System.out.println(); System.out.println("Aktuální kategorie:");
-        //for (FoodCategory category : FoodCategory.values()) {
-        //    System.out.println(category.name() + " (" + category + ")");
-        //}
-
-        //FoodCategory.addCategory("NEWCATEGORY", "nová kategorie");
-        //System.out.println(); System.out.println("Aktuální kategorie po přidání kategorie:");
-        //for (FoodCategory category : FoodCategory.values()) {
-        //    System.out.println(category.name() + " (" + category + ")");
-        //}
 
 
 
