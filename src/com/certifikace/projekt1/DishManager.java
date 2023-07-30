@@ -31,11 +31,11 @@ public class DishManager {
 
                 // Ošetřit, že když to nalouduje kategorii, která není ve FoodCategory, přidá jí tam
 
-                dishRecomendedMainCategory = FoodCategory.valueOf(item[0]);
+                dishRecomendedMainCategory = FoodCategory.getInstance().valueOf(item[0]);
                 dishNumberOfNextRecomendedCategory = Integer.parseInt(item[1]);
                 List<FoodCategory> dishNextRecomendedCategory = new ArrayList<>();
                 for (i = 0; i < dishNumberOfNextRecomendedCategory; i++) {
-                    dishNextRecomendedCategory.add(FoodCategory.valueOf(item[i + 2]));
+                    dishNextRecomendedCategory.add(FoodCategory.getInstance().valueOf(item[i + 2]));
                 }
 
                 dishTitle = item[2 + dishNumberOfNextRecomendedCategory];

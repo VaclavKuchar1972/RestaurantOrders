@@ -43,8 +43,6 @@ public class Dish {
                 + ", " + dishMainPhoto + ", " + dishNumberOfNextPhotos + ", " + dishNextPhoto;
     }
 
-    private String delimiter() {return "; ";}
-
     public FoodCategory getDishRecomendedMainCategory() {return dishRecomendedMainCategory;}
     public void setDishRecomendedMainCategory(FoodCategory dishRecomendedMainCategory) {
         this.dishRecomendedMainCategory = dishRecomendedMainCategory;

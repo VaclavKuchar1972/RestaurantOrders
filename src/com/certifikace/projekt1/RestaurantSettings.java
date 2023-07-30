@@ -11,6 +11,7 @@ public class RestaurantSettings {
     public static String fileWaitersBackUp() {return "DB-WaitersBackUp.txt";}
 
     public static String fileFoodCategories() {return "DB-FoodCategories.txt";}
+    public static String fileFoodCategoriesBackUp() {return "DB-FoodCategoriesBackUp.txt";}
 
     public static String fileDishs() {return "DB-Dishs.txt";}
     public static String filefileDishsBackUp() {return "DB-DishsBackUp.txt";}

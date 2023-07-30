@@ -22,6 +22,8 @@ public class RestaurantLoadersVoidsForMain {
         }
     }
 
+    public void loadFoodCategoriesData() {FoodCategory.getInstance();/* Načtení kategorií pomocí singletonu*/}
+
     public void loadDishsData(DishManager dishManager) {
         try {dishManager.loadDataDishsFromFile(RestaurantSettings.fileDishs(), delimiter());}
         catch (RestaurantException e) {
