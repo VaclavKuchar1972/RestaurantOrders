@@ -22,7 +22,7 @@ public class FoodCategory {
     public String getName() {return name;}
     public String getDescription() {return description;}
     @Override
-    public String toString() {return name + ", " + description;}
+    public String toString() {return description;}
 
     private static FoodCategory instance;
     public static FoodCategory getInstance() {
@@ -111,6 +111,7 @@ public class FoodCategory {
     }
 
     public List<FoodCategory> getAllCategories() {return new ArrayList<>(categoriesMap.values());}
+
     public FoodCategory getCategoryByName(String name) {return categoriesMap.get(name);}
     public static FoodCategory valueOf(String name) {return getInstance().getCategoryByName(name);}
 

@@ -5,14 +5,12 @@ import java.util.Map;
 
 public class RestaurantPrintLnOutputsForMain {
 
-
     public void printTableList(TableManager tableManager) {
         List<Table> tableList = tableManager.getTableList();
         System.out.println();
         System.out.println("Seznam stolů restaurace:");
         for (Table table : tableList) {System.out.println(table.getTableInfoForTestPrint());}
     }
-
     public void printWaiterList(WaiterManager waiterManager) {
         List<Waiter> waiterList = waiterManager.getWaiterList();
         System.out.println();
@@ -23,7 +21,6 @@ public class RestaurantPrintLnOutputsForMain {
                     + waiter.getWaiterTypeOfEmploymentRelationshipNoAbbreviation());
         }
     }
-
     public void printFoodCategoryList(FoodCategory foodCategory) {
         System.out.println();
         System.out.println("Seznam kategorií jídel:");
@@ -31,7 +28,6 @@ public class RestaurantPrintLnOutputsForMain {
             System.out.println(category.getName() + ", " + category.getDescription());
         }
     }
-
     public void printDishListDataFromFile(DishManager dishManager) {
         List<Dish> dishList = dishManager.getDishList();
         System.out.println();
