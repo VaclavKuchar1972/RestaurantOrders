@@ -58,7 +58,8 @@ public class WaiterManager {
 
     private void createEmptyWaitersFile(String fileWaiters) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileWaiters))) {
-            writer.write("1; ; ; ; ; ; ;"); writer.newLine();
+            writer.write("1" + delimiter() + delimiter() + delimiter() + delimiter() + delimiter() + delimiter());
+            writer.newLine();
         } catch (IOException e) {
             System.err.println("Chyba při vytváření souboru při neexistenci souboru se Stoly: " + e.getMessage());}
     }

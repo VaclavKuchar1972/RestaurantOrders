@@ -17,6 +17,10 @@ public class TableManager {
     private List<Table> tableList;
     public TableManager() {this.tableList = new ArrayList<>();}
 
+    private boolean isTableNumberDuplicate(int tableNumber) {
+        for (Table existingTable : tableList) {if (existingTable.getTableNumber() == tableNumber) {return true;}}
+        return false;
+    }
     public void addTable(Table table) throws RestaurantException {
         // OŠETŔENÍ - Počet stolů musí být dvoumístný - nelze přidat více stolů nad počet 99
         if (tableList.size() > 98) {
@@ -55,10 +59,7 @@ public class TableManager {
 
 
     }
-    private boolean isTableNumberDuplicate(int tableNumber) {
-        for (Table existingTable : tableList) {if (existingTable.getTableNumber() == tableNumber) {return true;}}
-        return false;
-    }
+
     public void removeTable(Table table) {tableList.remove(table);}
     public void removeTableByNumber(int tableNumber) {
         tableList.removeIf(table -> table.getTableNumber() == tableNumber);
@@ -66,9 +67,10 @@ public class TableManager {
 
     private void createEmptyTablesFile(String fileTables) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileTables))) {
-            writer.write("1; ; ; 0"); writer.newLine();
+            writer.write("1" + delimiter() + delimiter() + delimiter() + "0"); writer.newLine();
         } catch (IOException e) {
-            System.err.println("Chyba při vytváření souboru při neexistenci souboru se Stoly: " + e.getMessage());}
+            System.err.println("Chyba při vytváření souboru při neexistenci souboru se Stoly: " + e.getMessage());
+        }
     }
     public void loadDataTablesFromFile(String fileTables, String delimiter) throws RestaurantException {
         // OŠETŘENÍ prvního spuštění programu, když ještě nebude existovat soubor DB-Tables.txt

@@ -61,7 +61,7 @@ public class FoodCategory {
 
     private void createFoodCategoriesFile(String fileFoodCategories) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileFoodCategories))) {
-            writer.write("EMPTYCATEGORY; prázdná kategorie");
+            writer.write("EMPTYCATEGORY" + delimiter() + "prázdná kategorie");
             writer.newLine();
         } catch (IOException e) {
             System.err.println("Chyba při vytváření souboru při neexistenci souboru s Kategoriemi: " + e.getMessage());
