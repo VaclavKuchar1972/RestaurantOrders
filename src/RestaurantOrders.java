@@ -5,18 +5,36 @@ import static com.certifikace.projekt1.RestaurantSettings.*;
 public class RestaurantOrders {
     public static void main(String[] args) {
 
+        RestaurantPrintLnOutputsForMain printLnOutputs = new RestaurantPrintLnOutputsForMain();
+        RestaurantLoadersVoidsForMain loadersVoids = new RestaurantLoadersVoidsForMain();
+        RestaurantSaversVoidsForMain saversVoids = new RestaurantSaversVoidsForMain();
+        FoodCategory foodCategory; foodCategory = FoodCategory.getInstance();
+        TableManager tableManager = new TableManager();
+        WaiterManager waiterManager = new WaiterManager();
+        DishManager dishManager = new DishManager();
+
         System.out.println(); System.out.println();
         System.out.println("Restaurant Chez Quis à Prague");
 
 
-        FoodCategory foodCategory;
+        printLnOutputs.printFoodCategoryList(foodCategory);
 
-        TableManager tableManager = new TableManager();
-        WaiterManager waiterManager = new WaiterManager();
-        DishManager dishManager = new DishManager();
-        RestaurantPrintLnOutputsForMain printLnOutputs = new RestaurantPrintLnOutputsForMain();
-        RestaurantLoadersVoidsForMain loadersVoids = new RestaurantLoadersVoidsForMain();
-        RestaurantSaversVoidsForMain saversVoids = new RestaurantSaversVoidsForMain();
+        // Zkušební kód pro přidání nové kategorie do foodCategory a uložení do souboru (stačí ho odkomentovat)
+        /*
+        foodCategory.addCategory("NEWCATEGORY", "nová kategorie");
+        printLnOutputs.printFoodCategoryList(foodCategory);
+        */
+
+        // Zkušební kód pro odebrání kategorie z foodCategory a uložení do souboru (stačí ho odkomentovat)
+        // Jako příklad jsem odebral kategorii, kterou jsem přidal v předchozím testovacím kódu NEWCATEGORY,
+        // takže se musí nejdříve přidat, jinak to vyhodí chybovou hlášku.
+        /*
+        foodCategory.removeCategory("NEWCATEGORY"); printLnOutputs.printFoodCategoryList(foodCategory);
+        */
+
+        // Zkušební kód pro ověření, že program nezkolabuje při prvním spuštění, když ještě nebude existovat
+        // soubor DB-FoodCategories.txt není potřeba. Stačí z adresáře programu tento soubor smazat a spustit program.
+        // Program tento soubor vygeneruje, přidá do něj kategorii EMPTYCATEGORY a česky "prázdná kategorie"
 
 
         loadersVoids.loadTablesData(tableManager);
@@ -85,31 +103,6 @@ public class RestaurantOrders {
         // Zkušební kód pro ověření, že program nezkolabuje při prvním spuštění, když ještě nebude existovat
         // soubor DB-Waiters.txt není potřeba. Stačí z adresáře programu tento soubor smazat a spustit program.
         // Program tento soubor vygeneruje, přidá do něj číšníka číslo 1 a všechny ostatní data číšníka nastaví na null.
-
-
-        foodCategory = FoodCategory.getInstance();
-        printLnOutputs.printFoodCategoryList(foodCategory);
-
-        // Zkušební kód pro přidání nové kategorie do foodCategory a uložení do souboru (stačí ho odkomentovat)
-        /*
-        FoodCategoryManager foodCategoryManager = new FoodCategoryManager();
-        foodCategoryManager.addCategory("NEWCATEGORY", "nová kategorie");
-        foodCategory = FoodCategory.getInstance();
-        printLnOutputs.printFoodCategoryList(foodCategory);
-        */
-
-        // Zkušební kód pro odebrání kategorie z foodCategory a uložení do souboru (stačí ho odkomentovat)
-        // Jako příklad jsem odebral kategorii, kterou jsem přidal v předchozím testovacím kódu NEWCATEGORY,
-        // takže se musí nejdříve přidat, jinak to vyhodí chybovou hlášku.
-        /*
-        foodCategory = FoodCategory.getInstance();
-        foodCategory.removeCategory("NEWCATEGORY");
-        */
-
-        // Zkušební kód pro ověření, že program nezkolabuje při prvním spuštění, když ještě nebude existovat
-        // soubor DB-FoodCategories.txt není potřeba. Stačí z adresáře programu tento soubor smazat a spustit program.
-        // Program tento soubor vygeneruje, přidá do něj kategorii EMPTYCATEGORY a česky "prázdná kategorie"
-
 
         loadersVoids.loadDishsData(dishManager);
         printLnOutputs.printDishListDataFromFile(dishManager);

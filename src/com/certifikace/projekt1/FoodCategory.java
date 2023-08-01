@@ -30,27 +30,49 @@ public class FoodCategory {
         return instance;
     }
 
-    private FoodCategory() {
+    public FoodCategory() {
         loadDataCategoriesFromFile();
         // Private konstruktor pro singleton
         // Nějaká inicializace nebo načtení dat pro FoodCategoryManager
         // Například inicializace spojení s databází, načtení konfiguračních parametrů, apod.
     }
 
-    // Kontrola, zda je název psán velkými písmeny a neobsahuje mezery
-    private boolean isValidCategoryName(String name) {return name.matches("^[A-Z]+$");}
+    // Pomocný Boolean pro kontrolu, zda je název psán velkými písmeny a neobsahuje mezery
+    private boolean iFisValidCategoryName(String name) {return name.matches("^[A-Z]+$");}
     public void addCategory(String name, String description) {
-        if (!isValidCategoryName(name)) {
+        if (!iFisValidCategoryName(name)) {
             System.err.println("Chyba: Název kategorie musí být psán velkými písmeny a nesmí obsahovat mezery, "
                     + "kategorii tedy nelze přidat.");
             return;
         }
-        if (!categoriesMap.containsKey(name)) {
-            FoodCategory category = new FoodCategory(name, description);
-            categoriesMap.put(name, category);
+
+        // Ošetření prvního spuštění programu, kdy je soubor DB-FoodCategories.txt prázdný resp. obsahuje nesmysly
+        // po prvním spuštění
+        if (categoriesMap.isEmpty()) {
+            FoodCategory emptyCategory = new FoodCategory(name, description);
+            categoriesMap.put(name, emptyCategory);
         } else {
-            System.err.println("Chyba: Kategorie s názvem " + name + " již existuje, nelze ji tedy přidat.");
+            // Nahrazení prázdné kategorie skutečnými daty z FrontEndu, pokud byla zadána nová kategorie.
+            // To se stane pouze v případě, že soubor s kategoriemi nubude obsahovat jen jednu položku, pak ať si tam
+            // na FrontEndu, dělají co chtějí, resp. uživatel. :-) Spíš asi oba, FrontEnd musí zajistit, aby tady "name"
+            // kategorie přistálo bez mezer a s velkými písmeny, jinak bude zase zle... :-) ...ale jinak, můžou tam
+            // přidat to samé co jsem si vymyslel, ale nebudou tam prostě dvě stejný věci duplicitně, to nikdo nechce,
+            // nebo jedna zbytačná po prvním spuštění, to nechce taky nikdo. Takhle složitě je to proto, aby někdo
+            // později mohl přidat i tuto "blbost", kdyby chtěl, aby uživatel nebyl omezen programátorem.
+            if (categoriesMap.containsKey("EMPTYCATEGORY") && categoriesMap.size() == 1) {
+                FoodCategory emptyCategory = categoriesMap.get("EMPTYCATEGORY");
+                emptyCategory.name = name;
+                emptyCategory.description = description;
+            } else {
+                if (!categoriesMap.containsKey(name)) {
+                    FoodCategory category = new FoodCategory(name, description);
+                    categoriesMap.put(name, category);
+                } else {
+                    System.err.println("Chyba: Kategorie s názvem " + name + " již existuje, nelze ji tedy přidat.");
+                }
+            }
         }
+
         try {saveDataCategoriesToFile();}
         catch (RestaurantException e) {
             System.err.println("Chyba: Při přidávání kategorie při pokusu o uložení: " + e.getMessage());
@@ -88,7 +110,7 @@ public class FoodCategory {
                 if (item.length == 2) {
                     name = item[0].trim();
                     description = item[1].trim();
-                    if (isValidCategoryName(name)) {
+                    if (iFisValidCategoryName(name)) {
                         FoodCategory category = new FoodCategory(name, description);
                         categoriesMap.put(name, category);
                     } else {
