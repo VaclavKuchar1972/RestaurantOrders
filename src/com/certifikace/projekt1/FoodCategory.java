@@ -14,7 +14,7 @@ import static com.certifikace.projekt1.RestaurantSettings.fileFoodCategories;
 
 //  Kategorie nemám jako ENUM, jak jsme se to učili, protože ENUM je v Javě statická a nemůže se měnit za běhu
 //  programu. Takže nemůžu jednoduše přidávat nové položky do enum třídy za běhu programu. Také musím splnit to,
-//  že když program selže nebo někdo vypne počítač, tak se mi nově přidané, resp. aktuální kategorie načtou ze souboru.
+//  že když program selže nebo někdo vypne systém, tak se mi nově přidané, resp. aktuální kategorie načtou ze souboru.
 public class FoodCategory {
 
     private String name; private String description;
@@ -37,14 +37,23 @@ public class FoodCategory {
         // Například inicializace spojení s databází, načtení konfiguračních parametrů, apod.
     }
 
+    // Kontrola, zda je název psán velkými písmeny a neobsahuje mezery
+    private boolean isValidCategoryName(String name) {return name.matches("^[A-Z]+$");}
     public void addCategory(String name, String description) {
+        if (!isValidCategoryName(name)) {
+            System.err.println("Chyba: Název kategorie musí být psán velkými písmeny a nesmí obsahovat mezery, "
+                    + "kategorii tedy nelze přidat.");
+            return;
+        }
         if (!categoriesMap.containsKey(name)) {
             FoodCategory category = new FoodCategory(name, description);
             categoriesMap.put(name, category);
-        } else {System.err.println("Kategorie s názvem " + name + " již existuje, nelze ji tedy přidat ");}
+        } else {
+            System.err.println("Chyba: Kategorie s názvem " + name + " již existuje, nelze ji tedy přidat.");
+        }
         try {saveDataCategoriesToFile();}
         catch (RestaurantException e) {
-            System.err.println("Chyba při ukládání kategorií: " + e.getMessage());
+            System.err.println("Chyba: Při přidávání kategorie při pokusu o uložení: " + e.getMessage());
         }
     }
 
@@ -53,7 +62,7 @@ public class FoodCategory {
             categoriesMap.remove(name);
         } else {System.err.println("Kategorie s názvem " + name + " neexistuje, nelze jí tedy odebrat");}
         try {saveDataCategoriesToFile();} catch (RestaurantException e) {
-            System.err.println("Chyba při ukládání kategorií: " + e.getMessage());
+            System.err.println("Chyba při odebírání kategorie při pokusu o uložení" + e.getMessage());
         }
     }
 
@@ -69,7 +78,7 @@ public class FoodCategory {
     }
     private void loadDataCategoriesFromFile() {
         // OŠETŘENÍ prvního spuštění programu, když ještě nebude existovat soubor DB-FoodCategories.txt
-        if (!Files.exists(Paths.get(fileFoodCategories()))) {createFoodCategoriesFile(fileFoodCategories()); return;}
+        if (!Files.exists(Paths.get(fileFoodCategories()))) {createFoodCategoriesFile(fileFoodCategories());return;}
 
         try (BufferedReader reader = new BufferedReader(new FileReader(fileFoodCategories()))) {
             String line;
@@ -79,8 +88,14 @@ public class FoodCategory {
                 if (item.length == 2) {
                     name = item[0].trim();
                     description = item[1].trim();
-                    FoodCategory category = new FoodCategory(name, description);
-                    categoriesMap.put(name, category);
+                    if (isValidCategoryName(name)) {
+                        FoodCategory category = new FoodCategory(name, description);
+                        categoriesMap.put(name, category);
+                    } else {
+                        System.err.println("Chyba: Formát kategorie v souboru DB-FoodCategories.txt je nesprávný. Název"
+                                + " kategorie musí být psán velkými písmeny a nesmí obsahovat mezery. Kategorie "
+                                + "s názvem " + name + " bude ignorována.");
+                    }
                 }
             }
         } catch (IOException e) {
