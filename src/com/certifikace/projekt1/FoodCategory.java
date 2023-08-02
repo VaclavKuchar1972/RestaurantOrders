@@ -26,12 +26,17 @@ public class FoodCategory {
 
     private static FoodCategory instance;
     public static FoodCategory getInstance() {
-        if (instance == null) {instance = new FoodCategory(); instance.loadDataCategoriesFromFile();}
-        return instance;
+        if (instance == null) {
+            instance = new FoodCategory();
+            try {instance.loadDataCategoriesFromFile();}
+            catch (RestaurantException e) {System.err.println("Chyba: " + e.getMessage());}
+            return instance;
     }
-
+        return null;
+    }
     public FoodCategory() {
-        loadDataCategoriesFromFile();
+        try {loadDataCategoriesFromFile();}
+        catch (RestaurantException e) {System.err.println("Chyba: " + e.getMessage());}
         // Private konstruktor pro singleton
         // Nějaká inicializace nebo načtení dat pro FoodCategoryManager
         // Například inicializace spojení s databází, načtení konfiguračních parametrů, apod.
@@ -98,13 +103,17 @@ public class FoodCategory {
             System.err.println("Chyba při vytváření souboru při neexistenci souboru s Kategoriemi: " + e.getMessage());
         }
     }
-    private void loadDataCategoriesFromFile() {
+    private void loadDataCategoriesFromFile() throws RestaurantException {
         // OŠETŘENÍ prvního spuštění programu, když ještě nebude existovat soubor DB-FoodCategories.txt
-        if (!Files.exists(Paths.get(fileFoodCategories()))) {createFoodCategoriesFile(fileFoodCategories());return;}
+        if (!Files.exists(Paths.get(fileFoodCategories()))) {
+            createFoodCategoriesFile(fileFoodCategories());
+            return;
+        }
 
         try (BufferedReader reader = new BufferedReader(new FileReader(fileFoodCategories()))) {
             String line;
-            String name; String description;
+            String name;
+            String description;
             while ((line = reader.readLine()) != null) {
                 String[] item = line.split(RestaurantSettings.delimiter());
                 if (item.length == 2) {
@@ -114,14 +123,16 @@ public class FoodCategory {
                         FoodCategory category = new FoodCategory(name, description);
                         categoriesMap.put(name, category);
                     } else {
-                        System.err.println("Chyba: Formát kategorie v souboru DB-FoodCategories.txt je nesprávný. Název"
+                        // Instead of printing the error, throw the RestaurantException
+                        throw new RestaurantException("Chyba: Formát kategorie v souboru DB-FoodCategories.txt je nesprávný. Název"
                                 + " kategorie musí být psán velkými písmeny a nesmí obsahovat mezery. Kategorie "
                                 + "s názvem " + name + " bude ignorována.");
                     }
                 }
             }
         } catch (IOException e) {
-            System.err.println("Chyba při načítání kategorií ze souboru DB-FoodCategories.txt: " + e.getMessage());
+            // Instead of printing the error, throw the RestaurantException
+            throw new RestaurantException("Chyba při načítání kategorií ze souboru DB-FoodCategories.txt: " + e.getMessage());
         }
     }
 
