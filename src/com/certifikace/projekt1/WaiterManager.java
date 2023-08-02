@@ -82,6 +82,9 @@ public class WaiterManager {
                 item = line.split(delimiter);
                 if (item.length != 7) {throw new RestaurantException("Chyba - špatný počet položek na řádku: " + line);}
                 waiterNumber = Integer.parseInt(item[0]);
+                if (waiterNumber < 1) {
+                    throw new RestaurantException("Chyba - číslo číšníka je menší než 1 na řádku: " + line);
+                }
                 waiterTitleBeforeName = item[1];
                 waiterFirstName = item[2];
                 waiterSecondName = item[3];

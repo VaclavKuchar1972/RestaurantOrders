@@ -47,7 +47,11 @@ public class Dish {
     public void setDishRecomendedMainCategory(FoodCategory dishRecomendedMainCategory) {
         this.dishRecomendedMainCategory = dishRecomendedMainCategory;
     }
-    public int getDishNumberOfNextRecomendedCategory() {return dishNumberOfNextRecomendedCategory;}
+    public int getDishNumberOfNextRecomendedCategory() {
+
+
+        return dishNumberOfNextRecomendedCategory;
+    }
     public void setDishNumberOfNextRecomendedCategory(int dishNumberOfNextRecomendedCategory) {
         this.dishNumberOfNextRecomendedCategory = dishNumberOfNextRecomendedCategory;
     }

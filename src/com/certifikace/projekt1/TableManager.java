@@ -68,7 +68,7 @@ public class TableManager {
     }
 
     public void removeTable(Table table) {tableList.remove(table);}
-    public void removeTableByNumber(int tableNumber) {
+    public void removeTableByNumber(int tableNumber) throws RestaurantException {
         tableList.removeIf(table -> table.getTableNumber() == tableNumber);
     }
 
@@ -96,10 +96,16 @@ public class TableManager {
                     throw new RestaurantException("Chyba - špatný počet položek na řádku: " + line);
                 }
                 tableNumber = Integer.parseInt(item[0]);
+                if (tableNumber < 1) {
+                    throw new RestaurantException("Chyba - číslo stolu je menší než 1 na řádku: " + line);
+                }
                 helpBadFormatIdentificator = 3;
                 tableLocation = item[1];
                 tableSector = item[2];
                 tableCapacity = Integer.parseInt(item [3]);
+                if (tableCapacity < 1) {
+                    throw new RestaurantException("Chyba - kapacita stolu je menší než 1 na řádku: " + line);
+                }
                 Table table = new Table(tableNumber, tableLocation, tableSector, tableCapacity);
                 tableList.add(table);
             }
