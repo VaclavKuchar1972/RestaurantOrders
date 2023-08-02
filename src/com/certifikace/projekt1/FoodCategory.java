@@ -40,45 +40,37 @@ public class FoodCategory {
     // Pomocný Boolean pro kontrolu, zda je název psán velkými písmeny a neobsahuje mezery
     private boolean ifIsValidCategoryName(String name) {return name.matches("^[A-Z]+$");}
     public void addCategory(String name, String description) throws RestaurantException {
-        if (ifIsValidCategoryName(name)) {
-            if (categoriesMap.isEmpty()) {
-                FoodCategory emptyCategory = new FoodCategory(name, description);
-                categoriesMap.put(name, emptyCategory);
-            } else {
-                // Nahrazení prázdné kategorie skutečnými daty z FrontEndu, pokud byla zadána nová kategorie.
-                // To se stane pouze v případě, že soubor s kategoriemi nubude obsahovat jen jednu položku, pak ať si tam
-                // na FrontEndu, dělají co chtějí, resp. uživatel. :-) Spíš asi oba, FrontEnd musí zajistit, aby tady "name"
-                // kategorie přistálo bez mezer a s velkými písmeny, jinak bude zase zle... :-) ...ale jinak, můžou tam
-                // přidat to samé co jsem si vymyslel, ale nebudou tam prostě dvě stejný věci duplicitně, to nikdo nechce,
-                // nebo jedna zbytačná po prvním spuštění, to nechce taky nikdo. Takhle složitě je to proto, aby někdo
-                // později mohl přidat i tuto "blbost", kdyby chtěl, aby uživatel nebyl omezen programátorem.
-                if (categoriesMap.containsKey("EMPTYCATEGORY") && categoriesMap.size() == 1) {
-                    FoodCategory emptyCategory = categoriesMap.get("EMPTYCATEGORY");
-                    emptyCategory.name = name;
-                    emptyCategory.description = description;
-                } else {
-                    if (!categoriesMap.containsKey(name)) {
-                        FoodCategory category = new FoodCategory(name, description);
-                        categoriesMap.put(name, category);
-                    } else {
-                        throw new RestaurantException("Chyba: Název kategorie musí být psán velkými písmeny a nesmí obsahovat mezery, "
-                            + "kategorii tedy nelze přidat.");
-
-
-                        //System.err.println("Chyba: Kategorie s názvem " + name + " již existuje, nelze ji tedy přidat.");
-                    }
-                }
-
-
-
+        if (!ifIsValidCategoryName(name)) {
+            System.err.println("Chyba: Název kategorie musí být psán velkými písmeny a nesmí obsahovat mezery, "
+                    + "kategorii tedy nelze přidat.");
+            return;
         }
-
-        //throw new RestaurantException("Chyba: Název kategorie musí být psán velkými písmeny a nesmí obsahovat mezery, "
-        //        + "kategorii tedy nelze přidat.");
 
         // Ošetření prvního spuštění programu, kdy je soubor DB-FoodCategories.txt prázdný resp. obsahuje nesmysly
         // po prvním spuštění
-
+        if (categoriesMap.isEmpty()) {
+            FoodCategory emptyCategory = new FoodCategory(name, description);
+            categoriesMap.put(name, emptyCategory);
+        } else {
+            // Nahrazení prázdné kategorie skutečnými daty z FrontEndu, pokud byla zadána nová kategorie.
+            // To se stane pouze v případě, že soubor s kategoriemi nubude obsahovat jen jednu položku, pak ať si tam
+            // na FrontEndu, dělají co chtějí, resp. uživatel. :-) Spíš asi oba, FrontEnd musí zajistit, aby tady "name"
+            // kategorie přistálo bez mezer a s velkými písmeny, jinak bude zase zle... :-) ...ale jinak, můžou tam
+            // přidat to samé co jsem si vymyslel, ale nebudou tam prostě dvě stejný věci duplicitně, to nikdo nechce,
+            // nebo jedna zbytačná po prvním spuštění, to nechce taky nikdo. Takhle složitě je to proto, aby někdo
+            // později mohl přidat i tuto "blbost", kdyby chtěl, aby uživatel nebyl omezen programátorem.
+            if (categoriesMap.containsKey("EMPTYCATEGORY") && categoriesMap.size() == 1) {
+                FoodCategory emptyCategory = categoriesMap.get("EMPTYCATEGORY");
+                emptyCategory.name = name;
+                emptyCategory.description = description;
+            } else {
+                if (!categoriesMap.containsKey(name)) {
+                    FoodCategory category = new FoodCategory(name, description);
+                    categoriesMap.put(name, category);
+                } else {
+                    System.err.println("Chyba: Kategorie s názvem " + name + " již existuje, nelze ji tedy přidat.");
+                }
+            }
         }
 
         try {saveDataCategoriesToFile();}
