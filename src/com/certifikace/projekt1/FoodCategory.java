@@ -124,16 +124,15 @@ public class FoodCategory {
                         FoodCategory category = new FoodCategory(name, description);
                         categoriesMap.put(name, category);
                     } else {
-                        // Instead of printing the error, throw the RestaurantException
-                        throw new RestaurantException("Chyba: Formát kategorie v souboru DB-FoodCategories.txt je nesprávný. Název"
-                                + " kategorie musí být psán velkými písmeny a nesmí obsahovat mezery. Kategorie "
-                                + "s názvem " + name + " bude ignorována.");
+                        throw new RestaurantException("Chyba: Formát kategorie v souboru DB-FoodCategories.txt je "
+                                + "nesprávný. Název kategorie musí být psán velkými písmeny a nesmí obsahovat mezery. "
+                                + "Kategorie s názvem " + name + " bude ignorována.");
                     }
                 }
             }
         } catch (IOException e) {
-            // Instead of printing the error, throw the RestaurantException
-            throw new RestaurantException("Chyba při načítání kategorií ze souboru DB-FoodCategories.txt: " + e.getMessage());
+            throw new RestaurantException("Chyba při načítání kategorií ze souboru DB-FoodCategories.txt: "
+                    + e.getMessage());
         }
     }
 
