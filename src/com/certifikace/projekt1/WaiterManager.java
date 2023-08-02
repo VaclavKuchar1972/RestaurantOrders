@@ -17,6 +17,10 @@ public class WaiterManager {
     public WaiterManager() {this.waiterList = new ArrayList<>();}
 
     public void addWaiter(Waiter waiter) throws RestaurantException {
+        if (waiter.getWaiterNumber() < 1) {
+            throw new RestaurantException("Chyba - Číslo číšníka nemůže být záporné nebo nulové: "
+                    + waiter.getWaiterNumber());
+        }
         // OŠETŔENÍ - Počet číšníků musí být třímístný - nelze přidat více číšníku nebo servírek nad počet 999
         if (waiterList.size() > 998) {
             throw new RestaurantException("Chyba - Nelze přidat číšníka. Byl dosažen maximální počet číšníků " +
@@ -91,7 +95,8 @@ public class WaiterManager {
         } catch (FileNotFoundException e) {
             throw new RestaurantException("Soubor " + fileWaiters + " nebyl nalezen! " + e.getLocalizedMessage());
         } catch (NumberFormatException e) {
-            throw new RestaurantException("Chyba - v databázi není číslo: " + item[0] + " na řádku: " + line);
+            throw new RestaurantException("Chyba - v databázi není číslo: " + item[0] + " na řádku: " + line
+                    + " položka č. 0");
         }
     }
 

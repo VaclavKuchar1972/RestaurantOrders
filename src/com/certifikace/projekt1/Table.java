@@ -24,7 +24,7 @@ public class Table {
 
     public int getTableNumber() {return tableNumber;}
     public void setTableNumber(int tableNumber) throws RestaurantException {
-        // OŠETŘENÍ - Číslo stolu musí být maximálně dvouciferné
+        // OŠETŘENÍ - Číslo stolu musí být maximálně dvouciferné a nesmí být nulové nebo záporné
         if (tableNumber < 1) {
             throw new RestaurantException("Chyba - počet stolů je menší než 1");
         }
@@ -46,7 +46,11 @@ public class Table {
         }
         this.tableSector = tableSector;
     }
-    public int getTableCapacity() {return tableCapacity;}
-    public void setTableCapacity(int tableCapacity) {this.tableCapacity = tableCapacity;}
+    public int getTableCapacity() throws RestaurantException {return tableCapacity;}
+    public void setTableCapacity(int tableCapacity) throws RestaurantException {
+        if (tableCapacity < 1) {
+            throw new RestaurantException("Chyba - počet míst u stolu je menší než 1");
+        }
+        this.tableCapacity = tableCapacity;}
 
 }

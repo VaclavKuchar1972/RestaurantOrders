@@ -18,7 +18,7 @@ public class DishManager {
 
         // CHYBÍ!!! OŠETŘENÍ prvního spuštění programu, když ještě nebude existovat soubor DB-Dishs.txt
 
-        int i;
+        int i; int helpBadFormatIdentificator = 0;
         String line = "";
         String[] item = new String[0];
         FoodCategory dishRecomendedMainCategory; int dishNumberOfNextRecomendedCategory; String dishTitle;
@@ -32,6 +32,7 @@ public class DishManager {
                 // Ošetřit, že když to nalouduje kategorii, která není ve FoodCategory, přidá jí tam
 
                 dishRecomendedMainCategory = FoodCategory.getInstance().valueOf(item[0]);
+                helpBadFormatIdentificator = 1;
                 dishNumberOfNextRecomendedCategory = Integer.parseInt(item[1]);
                 List<FoodCategory> dishNextRecomendedCategory = new ArrayList<>();
                 for (i = 0; i < dishNumberOfNextRecomendedCategory; i++) {
@@ -39,13 +40,19 @@ public class DishManager {
                 }
 
                 dishTitle = item[2 + dishNumberOfNextRecomendedCategory];
+                helpBadFormatIdentificator = 2 + dishNumberOfNextRecomendedCategory;
                 dishRecommendedQuantity = Integer.parseInt(item[3 + dishNumberOfNextRecomendedCategory]);
                 dishRecommendedUnitOfQuantity = item[4 + dishNumberOfNextRecomendedCategory];
                 dishRecommendPrice = new BigDecimal(item[5 + dishNumberOfNextRecomendedCategory]);
+                helpBadFormatIdentificator = 5 + dishNumberOfNextRecomendedCategory;
                 dishEstimatedPreparationTime = Integer.parseInt(item[6 + dishNumberOfNextRecomendedCategory]);
 
                 dishMainPhoto = item[7 + dishNumberOfNextRecomendedCategory];
+                helpBadFormatIdentificator = 7 + dishNumberOfNextRecomendedCategory;
                 dishNumberOfNextPhotos = Integer.parseInt(item[8 + dishNumberOfNextRecomendedCategory]);
+                if (item.length != 9 + dishNumberOfNextRecomendedCategory + dishNumberOfNextPhotos) {
+                    throw new RestaurantException("Chyba - špatný počet položek na řádku: " + line);
+                }
                 List<String> dishNextPhoto = new ArrayList<>();
                 for (i = 0; i < dishNumberOfNextPhotos; i++) {
                     dishNextPhoto.add(item[i + 9 + dishNumberOfNextRecomendedCategory]);
@@ -60,7 +67,8 @@ public class DishManager {
         } catch (FileNotFoundException e) {
             throw new RestaurantException("Soubor " + fileDishs + " nebyl nalezen! " + e.getLocalizedMessage());
         } catch (NumberFormatException e) {
-            throw new RestaurantException("Chyba - špatný formát čísla v databázi na řádku: " + " na řádku: " + line);
+            throw new RestaurantException("Chyba - v databázi není číslo: " + " na řádku: " + line + " položka č."
+                    + helpBadFormatIdentificator);
         }
     }
 

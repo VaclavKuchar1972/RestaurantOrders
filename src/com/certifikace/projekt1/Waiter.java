@@ -52,7 +52,7 @@ public class Waiter {
 
     public int getWaiterNumber() {return waiterNumber;}
     public void setWaiterNumber(int waiterNumber) throws RestaurantException {
-        // OŠETŘENÍ - Číslo čííšníka musí být maximálně tříciferné
+        // OŠETŘENÍ - Číslo čííšníka musí být maximálně tříciferné a nesmí být nulové
         if (waiterNumber < 1) {
             throw new RestaurantException("Chyba - počet číšníků je menší než 1");
         }

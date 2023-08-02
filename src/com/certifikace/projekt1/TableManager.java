@@ -17,17 +17,24 @@ public class TableManager {
     private List<Table> tableList;
     public TableManager() {this.tableList = new ArrayList<>();}
 
-    private boolean isTableNumberDuplicate(int tableNumber) {
+    private boolean isTableNumberDuplicity(int tableNumber) {
         for (Table existingTable : tableList) {if (existingTable.getTableNumber() == tableNumber) {return true;}}
         return false;
     }
     public void addTable(Table table) throws RestaurantException {
+        if (table.getTableNumber() < 1) {
+            throw new RestaurantException("Chyba - Nelze přidat stůl se záporným nebo nulovým číslem: "
+                    + table.getTableNumber());
+        }
+        if (table.getTableCapacity() < 1) {
+            throw new RestaurantException("Chyba - Nelze mít stůl se zápornou nebo nulovou kapacitou: "
+                    + table.getTableNumber());
+        }
         // OŠETŔENÍ - Počet stolů musí být dvoumístný - nelze přidat více stolů nad počet 99
         if (tableList.size() > 98) {
             throw new RestaurantException("Chyba - Nelze přidat stůl. Byl dosažen maximální počet stolů.");
         }
-        // OŠETŘENÍ - Nový stůl nesmí mít stejné číslo jako již existující stůl
-        if (isTableNumberDuplicate(table.getTableNumber())) {
+        if (isTableNumberDuplicity(table.getTableNumber())) {
             throw new RestaurantException("Chyba - Nelze přidat stůl s již existujícím číslem stolu: "
                     + table.getTableNumber());
         }
@@ -76,10 +83,10 @@ public class TableManager {
         // OŠETŘENÍ prvního spuštění programu, když ještě nebude existovat soubor DB-Tables.txt
         if (!Files.exists(Paths.get(fileTables))) {createEmptyTablesFile(fileTables); return;}
 
+        int helpBadFormatIdentificator = 0;
         String line = "";
         String[] item = new String[0];
         int tableNumber; String tableLocation; String tableSector; int tableCapacity;
-        int helpBadFormatIdentifokator = 0;
         try (Scanner scannerLoadData = new Scanner(new BufferedReader(new FileReader(fileTables)))) {
             while (scannerLoadData.hasNextLine()) {
                 line = scannerLoadData.nextLine();
@@ -89,7 +96,7 @@ public class TableManager {
                     throw new RestaurantException("Chyba - špatný počet položek na řádku: " + line);
                 }
                 tableNumber = Integer.parseInt(item[0]);
-                helpBadFormatIdentifokator = 3;
+                helpBadFormatIdentificator = 3;
                 tableLocation = item[1];
                 tableSector = item[2];
                 tableCapacity = Integer.parseInt(item [3]);
@@ -99,8 +106,8 @@ public class TableManager {
         } catch (FileNotFoundException e) {
             throw new RestaurantException("Soubor " + fileTables + " nebyl nalezen! " + e.getLocalizedMessage());
         } catch (NumberFormatException e) {
-            throw new RestaurantException("Chyba - v databázi není číslo: " + item[helpBadFormatIdentifokator]
-                    + " na řádku: " + line);
+            throw new RestaurantException("Chyba - v databázi není číslo: " + item[helpBadFormatIdentificator]
+                    + " na řádku: " + line + " položka č. " + helpBadFormatIdentificator);
         }
     }
 
