@@ -1,5 +1,9 @@
 import com.certifikace.projekt1.*;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+
 import static com.certifikace.projekt1.RestaurantSettings.*;
 
 public class RestaurantOrders {
@@ -24,6 +28,7 @@ public class RestaurantOrders {
         foodCategory.addCategory("NEWCATEGORY", "nová kategorie");
         printLnOutputs.printFoodCategoryList(foodCategory);
         */
+
         // Zkušební kód pro odebrání kategorie z foodCategory a uložení do souboru (stačí ho odkomentovat)
         // Jako příklad jsem odebral kategorii, kterou jsem přidal v předchozím testovacím kódu NEWCATEGORY,
         // takže se musí nejdříve přidat, jinak to vyhodí chybovou hlášku.
@@ -104,6 +109,15 @@ public class RestaurantOrders {
         // Program tento soubor vygeneruje, přidá do něj číšníka číslo 1 a všechny ostatní data číšníka nastaví na null.
 
         loadersVoids.loadDishsData(dishManager);
+        printLnOutputs.printDishListDataFromFile(dishManager);
+
+        // Zkušební kód pro přidání jídla do zásobníku a jeho uložení do souboru (stačí ho odkomentovat)
+        // POZOR! Při zkoušce nahrazení prvního prázdného stolu ihned po vytvoření souboru DB-Dishs.txt samotným
+        // programem, který je v podstatě prázdný a bude mít jen jednu položku je nutné výše zakomentovat kód
+        // loadersVoids.loadDishsData(dishManager);, jinak se přirozeně vytvoří dva a nic se nenahradí, to je jen
+        // důsledek toho, že si to zkoušim sám pro sebe, pro správný běh programu tento kód výše být tady vůbec nemusí
+
+        TestVoidsForMain.createAndAddNewDish(dishManager);
         printLnOutputs.printDishListDataFromFile(dishManager);
 
 

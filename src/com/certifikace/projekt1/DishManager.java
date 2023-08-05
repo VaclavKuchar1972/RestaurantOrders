@@ -1,12 +1,15 @@
 package com.certifikace.projekt1;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.*;
 import java.math.BigDecimal;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
+
+import static com.certifikace.projekt1.RestaurantSettings.delimiter;
 
 public class DishManager {
 
@@ -14,9 +17,38 @@ public class DishManager {
     public DishManager() {this.dishList = new ArrayList<>();}
 
 
-    public void loadDataDishsFromFile(String fileDishs, String delimiter) throws RestaurantException {
 
-        // CHYBÍ!!! OŠETŘENÍ prvního spuštění programu, když ještě nebude existovat soubor DB-Dishs.txt
+    private boolean firstWriteDetector(Dish dish) {
+        return dish.getDishNumberOfNextRecomendedCategory() == 0 && dish.getDishTitle().equals("Empty Title")
+                && dish.getDishNumberOfNextPhotos() == 0;
+    }
+    private void removefirstWrite() {
+        Iterator<Dish> iterator = dishList.iterator();
+        while (iterator.hasNext()) {Dish dish = iterator.next(); if (firstWriteDetector(dish)) {iterator.remove();}}
+    }
+
+    public void addDish(Dish dish) throws RestaurantException {
+
+        // Když tam bude první zápis odstraní ho z Listu
+        if (firstWriteDetector(dish)) {removefirstWrite();}
+
+
+
+
+        dishList.add(dish);
+    }
+    private void createEmptyDishsFile(String fileDishs) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileDishs))) {
+            writer.write(delimiter() + "0" + delimiter() + "Empty Title" + delimiter() + delimiter() + delimiter()
+                    + delimiter() + delimiter() + delimiter() + "0"); writer.newLine();
+        } catch (IOException e) {
+            System.err.println("Chyba při vytváření souboru při neexistenci souboru se zásobníkem jídel: "
+                    + e.getMessage());
+        }
+    }
+    public void loadDataDishsFromFile(String fileDishs, String delimiter) throws RestaurantException {
+        // OŠETŘENÍ prvního spuštění programu, když ještě nebude existovat soubor DB-Dishs.txt
+        if (!Files.exists(Paths.get(fileDishs))) {createEmptyDishsFile(fileDishs); return;}
 
         int i; int helpBadFormatIdentificator = 0;
         String line = "";
@@ -28,9 +60,6 @@ public class DishManager {
             while (scannerLoadData.hasNextLine()) {
                 line = scannerLoadData.nextLine();
                 item = line.split(delimiter);
-
-                // Ošetřit, že když to nalouduje kategorii, která není ve FoodCategory, přidá jí tam
-
                 dishRecomendedMainCategory = FoodCategory.getInstance().valueOf(item[0]);
                 helpBadFormatIdentificator = 1;
                 dishNumberOfNextRecomendedCategory = Integer.parseInt(item[1]);
@@ -38,7 +67,6 @@ public class DishManager {
                 for (i = 0; i < dishNumberOfNextRecomendedCategory; i++) {
                     dishNextRecomendedCategory.add(FoodCategory.getInstance().valueOf(item[i + 2]));
                 }
-
                 dishTitle = item[2 + dishNumberOfNextRecomendedCategory];
                 helpBadFormatIdentificator = 2 + dishNumberOfNextRecomendedCategory;
                 dishRecommendedQuantity = Integer.parseInt(item[3 + dishNumberOfNextRecomendedCategory]);
@@ -46,7 +74,6 @@ public class DishManager {
                 dishRecommendPrice = new BigDecimal(item[5 + dishNumberOfNextRecomendedCategory]);
                 helpBadFormatIdentificator = 5 + dishNumberOfNextRecomendedCategory;
                 dishEstimatedPreparationTime = Integer.parseInt(item[6 + dishNumberOfNextRecomendedCategory]);
-
                 dishMainPhoto = item[7 + dishNumberOfNextRecomendedCategory];
                 helpBadFormatIdentificator = 7 + dishNumberOfNextRecomendedCategory;
                 dishNumberOfNextPhotos = Integer.parseInt(item[8 + dishNumberOfNextRecomendedCategory]);
