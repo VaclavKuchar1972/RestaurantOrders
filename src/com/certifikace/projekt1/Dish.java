@@ -43,13 +43,19 @@ public class Dish {
 
     public FoodCategory getDishRecomendedMainCategory() {return dishRecomendedMainCategory;}
     public void setDishRecomendedMainCategory(FoodCategory dishRecomendedMainCategory) throws RestaurantException {
-        // OŠETŘENÍ - kategorie může mít pouze velká písmena, číslice a znak "_" (vykřičník opět neguje podmínku),
-        // toto "^[A-Z0-9_]+$" mi poradil ChatGPT3.5, nevím jak bych se k tomu jinak rychle dopracoval, ale je jasné,
-        // že to bude dělat to co chci, takže je zbytečné to testovat
+        // OŠETŘENÍ - kategorie může mít pouze velká písmena, číslice a znak "_"
         if (!dishRecomendedMainCategory.getName().matches("^[A-Z0-9_]+$")) {
             throw new RestaurantException("Chyba: dishRecomendedMainCategory může obsahovat pouze velká písmena, "
-                    // takto do textového řetězce můžu vkládat uvozovky
                     + "číslice a znak \"_\".");
+        }
+        // OŠETŘENÍ - dishRecomendedMainCategory nesmí být null
+        if (dishRecomendedMainCategory == null) {
+            throw new RestaurantException("Chyba: dishRecomendedMainCategory nesmí být null.");
+        }
+        // OŠETŘENÍ - kategorie musí existovat v kategoriích z FoodCategory
+        FoodCategory category = FoodCategory.valueOf(dishRecomendedMainCategory.getName());
+        if (category == null) {
+            throw new RestaurantException("Chyba: Kategorie " + dishRecomendedMainCategory.getName() + " neexistuje.");
         }
         this.dishRecomendedMainCategory = dishRecomendedMainCategory;
     }
@@ -64,11 +70,21 @@ public class Dish {
     public List<FoodCategory> getDishNextRecomendedCategory() {return dishNextRecomendedCategory;}
     public void setDishNextRecomendedCategory(List<FoodCategory> dishNextRecomendedCategory)
             throws RestaurantException {
-        // OŠETŘENÍ - stejné jako pro dishRecomendedMainCategory
+        // OŠETŘENÍ - dishNextRecomendedCategory nesmí být null
+        if (dishNextRecomendedCategory == null) {
+            throw new RestaurantException("Chyba: dishNextRecomendedCategory nesmí být null.");
+        }
+        // OŠETŘENÍ - projdu celý List a zkontroluji, zda každá kategorie existuje v kategoriích z FoodCategory
+        // a jestli má platný formát
         for (FoodCategory category : dishNextRecomendedCategory) {
             if (!category.getName().matches("^[A-Z0-9_]+$")) {
-                throw new RestaurantException("Chyba: dishRecomendedMainCategory může obsahovat pouze velká písmena, "
+                throw new RestaurantException("Chyba: dishNextRecomendedCategory může obsahovat pouze velká písmena, "
                         + "číslice a znak \"_\".");
+            }
+            FoodCategory existingCategory = FoodCategory.valueOf(category.getName());
+            if (existingCategory == null) {
+                throw new RestaurantException("Chyba: Kategorie " + category.getName() + " neexistuje. Musí se "
+                        + "nejdříve přidat do FoodCategory");
             }
         }
         this.dishNextRecomendedCategory = dishNextRecomendedCategory;

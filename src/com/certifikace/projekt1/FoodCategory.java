@@ -24,23 +24,37 @@ public class FoodCategory {
     @Override
     public String toString() {return description;}
 
-    private static FoodCategory instance;
+    private static FoodCategory instance = null;
+
+    private FoodCategory() {
+        try {loadDataCategoriesFromFile();}
+        catch (RestaurantException e) {System.err.println("Chyba: " + e.getMessage());}
+    }
+
     public static FoodCategory getInstance() {
+        if (instance == null) {instance = new FoodCategory();}
+        return instance;
+    }
+
+    /*public static FoodCategory getInstance() {
         if (instance == null) {
             instance = new FoodCategory();
             try {instance.loadDataCategoriesFromFile();}
             catch (RestaurantException e) {System.err.println("Chyba: " + e.getMessage());}
             return instance;
+        }
+        return instance;
     }
-        return null;
-    }
-    public FoodCategory() {
+     */
+
+    /*public FoodCategory() {
         try {loadDataCategoriesFromFile();}
         catch (RestaurantException e) {System.err.println("Chyba: " + e.getMessage());}
         // Private konstruktor pro singleton
         // Nějaká inicializace nebo načtení dat pro FoodCategoryManager
         // Například inicializace spojení s databází, načtení konfiguračních parametrů, apod.
     }
+     */
 
     // Pomocný Boolean pro kontrolu, zda je název psán velkými písmeny a neobsahuje mezery
     private boolean ifIsValidCategoryName(String name) {return name.matches("^[A-Z]+$");}

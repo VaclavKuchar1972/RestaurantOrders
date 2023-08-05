@@ -3,7 +3,7 @@ import com.certifikace.projekt1.*;
 import static com.certifikace.projekt1.RestaurantSettings.*;
 
 public class RestaurantOrders {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws RestaurantException {
 
         RestaurantPrintLnOutputsForMain printLnOutputs = new RestaurantPrintLnOutputsForMain();
         RestaurantLoadersVoidsForMain loadersVoids = new RestaurantLoadersVoidsForMain();
@@ -24,7 +24,6 @@ public class RestaurantOrders {
         foodCategory.addCategory("NEWCATEGORY", "nová kategorie");
         printLnOutputs.printFoodCategoryList(foodCategory);
         */
-
         // Zkušební kód pro odebrání kategorie z foodCategory a uložení do souboru (stačí ho odkomentovat)
         // Jako příklad jsem odebral kategorii, kterou jsem přidal v předchozím testovacím kódu NEWCATEGORY,
         // takže se musí nejdříve přidat, jinak to vyhodí chybovou hlášku.
