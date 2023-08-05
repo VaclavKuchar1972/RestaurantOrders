@@ -105,7 +105,16 @@ public class Dish {
         this.dishEstimatedPreparationTime = dishEstimatedPreparationTime;
     }
     public String getDishMainPhoto() {return dishMainPhoto;}
-    public void setDishMainPhoto(String dishMainPhoto) {
+    public void setDishMainPhoto(String dishMainPhoto) throws RestaurantException {
+        // Zakázané znaky pro název souboru ve Windows 10
+        String forbiddenCharacters = "<>:\"/\\|?*";
+        // OŠETĚNÍ: dishMainPhoto nesmí obsahovat zakázané znaky
+        for (char forbiddenCharacter : forbiddenCharacters.toCharArray()) {
+            if (dishMainPhoto.contains(String.valueOf(forbiddenCharacter))) {
+                throw new RestaurantException ("Chyba: dishMainPhoto obsahuje zakázaný znak \""
+                        + forbiddenCharacter + "\".");
+            }
+        }
         if (dishMainPhoto == null || dishMainPhoto.isEmpty()) {this.dishMainPhoto = "blank";}
         else {this.dishMainPhoto = dishMainPhoto;}
     }
@@ -117,7 +126,19 @@ public class Dish {
         this.dishNumberOfNextPhotos = dishNumberOfNextPhotos;
     }
     public List<String> getDishNextPhoto() {return dishNextPhoto;}
-    public void setDishNextPhoto(List<String> dishNextPhoto) {this.dishNextPhoto = dishNextPhoto;}
+    public void setDishNextPhoto(List<String> dishNextPhoto) throws RestaurantException {
+        String forbiddenCharacters = "<>:\"/\\|?*";
+        // OŠETŘENÍ - projdu celý List a hledám, jestli neobsahuje zakázané znaky
+        for (String nextPhoto : dishNextPhoto) {
+            for (char forbiddenCharacter : forbiddenCharacters.toCharArray()) {
+                if (nextPhoto.contains(String.valueOf(forbiddenCharacter))) {
+                    throw new RestaurantException ("Chyba: ArrayList dishNextPhoto obsahuje zakázaný znak \""
+                            + forbiddenCharacter + "\".");
+                }
+            }
+        }
+        this.dishNextPhoto = dishNextPhoto;
+    }
     public void addDishNextPhoto(String photo) {dishNextPhoto.add(photo);}
 
 
