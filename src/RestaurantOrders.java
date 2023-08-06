@@ -28,7 +28,12 @@ public class RestaurantOrders {
 
         // Zkušební kód pro odebrání kategorie z foodCategory a uložení do souboru (stačí ho odkomentovat)
         // Jako příklad jsem odebral kategorii, kterou jsem přidal v předchozím testovacím kódu NEWCATEGORY,
-        // takže se musí nejdříve přidat, jinak to vyhodí chybovou hlášku.
+        // takže se musí nejdříve přidat, jinak to vyhodí chybovou hlášku nebo se musí odebrat nějaká kategorie z již
+        // existujících, které mám uloženy v testovacím TXT souboru, ale to bych nedělal! Simuluji třídu ENUM,
+        // která má být statická, ale zároveň plním výzvu: "Možnost přidávat a odebírat kategorie jídel" a podmínku,
+        // že po pádu systému se tento obnoví "bez ztráty kytičky". :-) Jinak by to mělo splňovat všechny podmínky
+        // zadání, ale když se odebere nějaká kategorie z testovacího souboru, bude to vyhazovat chybový hlášky,
+        // protože je nutný pro další mé testovací data.
         //foodCategory.removeCategory("NEWCATEGORY"); printLnOutputs.printFoodCategoryList(foodCategory);
 
         // Zkušební kód pro ověření, že program nezkolabuje při prvním spuštění, když ještě nebude existovat
@@ -40,17 +45,11 @@ public class RestaurantOrders {
         printLnOutputs.printTableList(tableManager);
 
         // Zkušební kód pro přidání stolu do tableList a jeho uložení do souboru (stačí ho odkomentovat)
-        // POZOR! Při zkoušce nahrazení prvního prázdného stolu ihned po vytvoření souboru DB-Tables.txt samotným
-        // programem, který je v podstatě prázdný a bude mít jen jednu položku je nutné výše zakomentovat kód
-        // loadersVoids.loadTablesData(tableManager);, jinak se přirozeně vytvoří dva a nic se nenahradí, to je jen
-        // důsledek toho, že si to zkoušim sám pro sebe, pro správný běh programu tento kód výše být tady vůbec nemusí
         //TestVoidsForMain.createAndAddNewTable(tableManager); printLnOutputs.printTableList(tableManager);
 
         // Zkušební kód pro odebrání stolu z tableList (stačí ho odkomentovat), ale lze to udělat jen v případě,
-        // že před tím byl stůl číslo 20 přidán aktivováním předchozí zkušební metody, jinak to zkolabuje a nemám
-        // ošetřeny tyto eventuality - jde jen o to, aby bylo jasné, že stůl lze odebrat. Nebo odebrat třeba stůl č.1.
-        //tableManager.removeTableByNumber(20); saversVoids.saveTablesData(tableManager);
-        //printLnOutputs.printTableList(tableManager);
+        // že před tím byl stůl číslo 20 přidán aktivováním předchozí zkušební metody, jinak to bude hlásit chybu
+        //TestVoidsForMain.removeTableByNumber(tableManager); printLnOutputs.printTableList(tableManager);
 
         // Zkušební kód pro ověření, že program nezkolabuje při prvním spuštění, když ještě nebude existovat
         // soubor DB-Tables.txt není potřeba. Stačí z adresáře programu tento soubor smazat a spustit program.

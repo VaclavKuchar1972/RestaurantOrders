@@ -20,7 +20,7 @@ public class TableManager {
 
 
     private boolean firstWriteDetector(Table table) {
-        return table.getTableNumber() == 0 && table.getTableCapacity() == 0;
+        return table.getTableNumber() == 99 && table.getTableCapacity() == 999999;
     }
     private void removefirstWrite() {
         /*
@@ -30,9 +30,11 @@ public class TableManager {
         seznamem dishList a vyhledal, jestli prvek odpovídá specifickému záznamu, který chci odstranit.
          */
         Iterator<Table> iterator = tableList.iterator();
-        while (iterator.hasNext()) {Table table = iterator.next(); if (firstWriteDetector(table)) {iterator.remove();}}
+        while (iterator.hasNext()) {Table table = iterator.next(); if (firstWriteDetector(table)) {iterator.remove();}
+        }
+
     }
-    private boolean isTableNumberDuplicity(int tableNumber) {
+        private boolean isTableNumberDuplicity(int tableNumber) {
         for (Table existingTable : tableList) {if (existingTable.getTableNumber() == tableNumber) {return true;}}
         return false;
     }
@@ -66,11 +68,8 @@ public class TableManager {
                     + "kde již jeden stůl stojí.");
         }
         // Když tam bude první programem vytvořený zápis po prvním spuštěnmí, odstraním ho z Listu
-        if (firstWriteDetector(table)) {removefirstWrite();}
-        else {
-            // Jinak se standardně přidá pouze do tableList
-            tableList.add(table);
-        }
+        removefirstWrite();
+        tableList.add(table);
     }
 
     public void removeTable(Table table) {tableList.remove(table);}
@@ -85,7 +84,7 @@ public class TableManager {
 
     private void createEmptyTablesFile(String fileTables) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileTables))) {
-            writer.write("0" + delimiter() + delimiter() + delimiter() + "0"); writer.newLine();
+            writer.write("99" + delimiter() + delimiter() + delimiter() + "999999"); writer.newLine();
         } catch (IOException e) {
             System.err.println("Chyba při vytváření souboru při neexistenci souboru se Stoly: " + e.getMessage());
         }
