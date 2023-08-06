@@ -48,8 +48,13 @@ public class WaiterManager {
     }
 
     public void removeWaiter(Waiter waiter) {waiterList.remove(waiter);}
-    public void removeWaiterByNumber(int waiterNumber) {
-        waiterList.removeIf(table -> table.getWaiterNumber() == waiterNumber);
+    public void removeWaiterByNumber(int waiterNumber) throws RestaurantException {
+        if (isWaiterNumberDuplicity(waiterNumber)) {
+            waiterList.removeIf(waiter -> waiter.getWaiterNumber() == waiterNumber);
+        } else {
+            throw new RestaurantException("Chyba - Číšník s číslem " + waiterNumber + " neexistuje, takže ho nelze "
+                    + "odebrat, nebyl tedy odebrán.");
+        }
     }
 
     private void createEmptyWaitersFile(String fileWaiters) throws RestaurantException {

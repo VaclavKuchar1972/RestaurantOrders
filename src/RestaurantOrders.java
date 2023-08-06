@@ -65,11 +65,8 @@ public class RestaurantOrders {
         //TestVoidsForMain.createAndAddNewWaiter(waiterManager); printLnOutputs.printWaiterList(waiterManager);
 
         // Zkušební kód pro odebrání číšníka z waiterList (stačí ho odkomentovat), ale lze to udělat jen v případě,
-        // že před tím byl číšník s číslem 25 přidán aktivováním předchozí zkušební metody, jinak to zkolabuje a nemám
-        // ošetřeny tyto eventuality - jde jen o to, aby bylo jasné, že číšníka lze odebrat.
-        // Nebo odebrat třeba číšníka č.1.
-        //waiterManager.removeWaiterByNumber(25); printLnOutputs.printWaiterList(waiterManager);
-        //saversVoids.saveWaitersData(waiterManager);
+        // že před tím byl číšník s číslem 25 přidán aktivováním předchozí zkušební metody, jinak to bude hlásit chybu
+        //TestVoidsForMain.removeWaiterByNumber(waiterManager); printLnOutputs.printWaiterList(waiterManager);
 
         // Zkušební kód pro ověření, že program nezkolabuje při prvním spuštění, když ještě nebude existovat
         // soubor DB-Waiters.txt není potřeba. Stačí z adresáře programu tento soubor smazat a spustit program.

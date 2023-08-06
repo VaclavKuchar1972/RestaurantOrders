@@ -17,7 +17,6 @@ public class TestVoidsForMain {
         catch (RestaurantException e) {System.err.println("Nepodařilo se přidat nový stůl: "
                 + e.getLocalizedMessage());}
     }
-
     public static void removeTableByNumber (TableManager tableManager) throws RestaurantException {
         try {
             tableManager.removeTableByNumber(20);
@@ -38,10 +37,14 @@ public class TestVoidsForMain {
         }
         saversVoids.saveWaitersData(waiterManager);
     }
-
-
-
-
+    public static void removeWaiterByNumber (WaiterManager waiterManager) throws RestaurantException {
+        try {
+            waiterManager.removeWaiterByNumber(25);
+            saversVoids.saveWaitersData(waiterManager);
+        } catch (RestaurantException e) {
+            System.err.println("Nepodařilo se odebrat číšníka: " + e.getLocalizedMessage());
+        }
+    }
 
     public static void createAndAddNewDish(DishManager dishManager) throws RestaurantException {
         try {
