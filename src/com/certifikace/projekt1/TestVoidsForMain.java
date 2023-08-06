@@ -29,15 +29,19 @@ public class TestVoidsForMain {
 
     public static void createAndAddNewWaiter (WaiterManager waiterManager) throws RestaurantException {
         try {
-            waiterManager.addWaiter(new Waiter(waiterManager.getWaiterList().size() + 1,
-                    "", "Václav", "Kuchař", "",
-                    "151237620", "HPP"));
-            saversVoids.saveWaitersData(waiterManager);
+            waiterManager.addWaiter(new Waiter(25,  "", "Václav",
+                    "Kuchař", "",  "151237620",
+                    "HPP"));
         }
         catch (RestaurantException e) {
             System.err.println("Nepodařilo se přidat nového číšníka: " + e.getLocalizedMessage());
         }
+        saversVoids.saveWaitersData(waiterManager);
     }
+
+
+
+
 
     public static void createAndAddNewDish(DishManager dishManager) throws RestaurantException {
         try {

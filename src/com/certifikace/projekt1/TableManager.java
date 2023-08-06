@@ -34,7 +34,7 @@ public class TableManager {
         }
 
     }
-        private boolean isTableNumberDuplicity(int tableNumber) {
+    private boolean isTableNumberDuplicity(int tableNumber) {
         for (Table existingTable : tableList) {if (existingTable.getTableNumber() == tableNumber) {return true;}}
         return false;
     }
@@ -82,13 +82,16 @@ public class TableManager {
         }
     }
 
-    private void createEmptyTablesFile(String fileTables) {
+    private void createEmptyTablesFile(String fileTables) throws RestaurantException {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileTables))) {
-            writer.write("99" + delimiter() + delimiter() + delimiter() + "999999"); writer.newLine();
+            writer.write("99" + delimiter() + delimiter() + delimiter() + "999999");
+            writer.newLine();
         } catch (IOException e) {
-            System.err.println("Chyba při vytváření souboru při neexistenci souboru se Stoly: " + e.getMessage());
+            throw new RestaurantException("Chyba při vytváření souboru při neexistenci souboru se Stoly: "
+                    + e.getMessage());
         }
     }
+
     public void loadDataTablesFromFile(String fileTables, String delimiter) throws RestaurantException {
         // OŠETŘENÍ prvního spuštění programu, když ještě nebude existovat soubor DB-Tables.txt
         if (!Files.exists(Paths.get(fileTables))) {createEmptyTablesFile(fileTables); return;}

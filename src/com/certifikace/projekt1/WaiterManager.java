@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 
@@ -16,43 +17,34 @@ public class WaiterManager {
     private List<Waiter> waiterList;
     public WaiterManager() {this.waiterList = new ArrayList<>();}
 
+    private boolean firstWriteDetector(Waiter waiter) {
+        // POZOR na záseky s blbostma - Stringy nemohu porovnávat stejně jako Inty, to nefunguje Stringy EQUALS!!!
+        return waiter.getWaiterNumber() == 999 && waiter.getWaiterTypeOfEmploymentRelationship().equals("EMPTY");
+    }
+    private void removefirstWrite() {
+        Iterator<Waiter> iterator = waiterList.iterator();
+        while (iterator.hasNext()) {Waiter waiter = iterator.next();
+            if (firstWriteDetector(waiter)) {iterator.remove();}
+        }
+    }
+    private boolean isWaiterNumberDuplicity(int waiterNumber) {
+        for (Waiter existingWaiter : waiterList) {if (existingWaiter.getWaiterNumber() == waiterNumber) {return true;}}
+        return false;
+    }
     public void addWaiter(Waiter waiter) throws RestaurantException {
         if (waiter.getWaiterNumber() < 1) {
             throw new RestaurantException("Chyba - Číslo číšníka nemůže být záporné nebo nulové: "
                     + waiter.getWaiterNumber());
         }
-        // OŠETŔENÍ - Počet číšníků musí být třímístný - nelze přidat více číšníku nebo servírek nad počet 999
         if (waiterList.size() > 998) {
-            throw new RestaurantException("Chyba - Nelze přidat číšníka. Byl dosažen maximální počet číšníků " +
-                    "v pracovním poměru");
+            throw new RestaurantException("Chyba - Nelze přidat číšníka. Byl dosažen maximální počet číšníků.");
         }
-        // OŠETŘENÍ - Když vznikne po prvním spuštění programu soubor DB-Waiters.txt, který bude mít jen jednoho číšníka
-        // s číslem 1 a zbytek dat bude mít hodnotu null nebo 0 a uživatel na FrontEndu zadá do systému první stůl,
-        // tento bude nahrazem skutečnými daty od uživatele a přeuloží se v DB-Tables.txt
-        if (waiterList.size() == 1 && waiterList.get(0).getWaiterNumber() == 1
-                && (waiterList.get(0).getWaiterTitleBeforeName() == null
-                || waiterList.get(0).getWaiterTitleBeforeName().isEmpty())
-                && (waiterList.get(0).getWaiterSecondName() == null
-                || waiterList.get(0).getWaiterSecondName().isEmpty())
-                && (waiterList.get(0).getWaiterTitleAfterName() == null
-                || waiterList.get(0).getWaiterTitleAfterName().isEmpty())
-                && (waiterList.get(0).getWaiterIdentificationDocumentNumber() == null
-                || waiterList.get(0).getWaiterIdentificationDocumentNumber().isEmpty())
-                && (waiterList.get(0).getWaiterTypeOfEmploymentRelationship() == null
-                || waiterList.get(0).getWaiterTypeOfEmploymentRelationship().isEmpty())) {
-            // Pokud ano, nahradí pouze ostatní hodnoty a ponechá číšníka 1
-            Waiter waiterNumberOne = waiterList.get(0);
-            waiterNumberOne.setWaiterTitleBeforeName(waiter.getWaiterTitleBeforeName());
-            waiterNumberOne.setWaiterFirstName(waiter.getWaiterFirstName());
-            waiterNumberOne.setWaiterSecondName(waiter.getWaiterFirstName());
-            waiterNumberOne.setWaiterTitleAfterName(waiter.getWaiterTitleAfterName());
-            waiterNumberOne.setWaiterIdentificationDocumentNumber(waiter.getWaiterIdentificationDocumentNumber());
-            waiterNumberOne.setWaiterTypeOfEmploymentRelationship(waiter.getWaiterTypeOfEmploymentRelationship());
+        if (isWaiterNumberDuplicity(waiter.getWaiterNumber())) {
+            throw new RestaurantException("Chyba - Nelze přidat číšníka se stejným číslem, číšník s tímto číslem již "
+                    + "existuje.");
         }
-        else {
-            // Jinak se standardně přidá pouze do waiterList
-            waiterList.add(waiter);
-        }
+        removefirstWrite();
+        waiterList.add(waiter);
     }
 
     public void removeWaiter(Waiter waiter) {waiterList.remove(waiter);}
@@ -60,17 +52,16 @@ public class WaiterManager {
         waiterList.removeIf(table -> table.getWaiterNumber() == waiterNumber);
     }
 
-    private void createEmptyWaitersFile(String fileWaiters) {
+    private void createEmptyWaitersFile(String fileWaiters) throws RestaurantException {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileWaiters))) {
-            writer.write("1" + delimiter() + delimiter() + delimiter() + delimiter() + delimiter() + delimiter());
+            writer.write("999" + delimiter() + delimiter() + delimiter() + delimiter() + delimiter() + delimiter() + "EMPTY");
             writer.newLine();
         } catch (IOException e) {
-            System.err.println("Chyba při vytváření souboru při neexistenci souboru se Stoly: " + e.getMessage());}
+            throw new RestaurantException("Chyba při vytváření souboru při neexistenci souboru s číšníky: "
+                    + e.getMessage());}
     }
     public void loadDataWaitersFromFile(String fileWaiters, String delimiter) throws RestaurantException {
-        // OŠETŘENÍ prvního spuštění programu, když ještě nebude existovat soubor DB-Waiters.txt
         if (!Files.exists(Paths.get(fileWaiters))) {createEmptyWaitersFile(fileWaiters); return;}
-
         String line = "";
         String[] item = new String[0];
         int waiterNumber; String waiterTitleBeforeName; String waiterFirstName; String waiterSecondName;

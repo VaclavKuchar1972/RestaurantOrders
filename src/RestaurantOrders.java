@@ -33,7 +33,8 @@ public class RestaurantOrders {
         // která má být statická, ale zároveň plním výzvu: "Možnost přidávat a odebírat kategorie jídel" a podmínku,
         // že po pádu systému se tento obnoví "bez ztráty kytičky". :-) Jinak by to mělo splňovat všechny podmínky
         // zadání, ale když se odebere nějaká kategorie z testovacího souboru, bude to vyhazovat chybový hlášky,
-        // protože je nutný pro další mé testovací data.
+        // protože je nutný pro další mé testovací data, jinak by to podle mě mělo být OK i v případě, že žádné
+        // testovací TXT soubory nebudou existovat.
         //foodCategory.removeCategory("NEWCATEGORY"); printLnOutputs.printFoodCategoryList(foodCategory);
 
         // Zkušební kód pro ověření, že program nezkolabuje při prvním spuštění, když ještě nebude existovat
@@ -53,17 +54,14 @@ public class RestaurantOrders {
 
         // Zkušební kód pro ověření, že program nezkolabuje při prvním spuštění, když ještě nebude existovat
         // soubor DB-Tables.txt není potřeba. Stačí z adresáře programu tento soubor smazat a spustit program.
-        // Program tento soubor vygeneruje, přidá do něj stůl číslo 1 a všechny ostatní data stolu nastaví na null.
+        // Program tento soubor vygeneruje, přidá do něj stůl číslo 99, kapacitu stolu na 999999
+        // a všechny ostatní data stolu nastaví na null.
 
 
         loadersVoids.loadWaitersData(waiterManager);
         printLnOutputs.printWaiterList(waiterManager);
 
         // Zkušební kód pro přidání číšníka do waiterList a uložení do souboru (stačí ho odkomentovat)
-        // POZOR! Při zkoušce nahrazení prvního prázdného číšníka ihned po vytvoření souboru DB-Waiters.txt samotným
-        // programem, který je v podstatě prázdný a bude mít jen jednu položku je nutné výše zakomentovat kód
-        // loadersVoids.loadWaitersData(waiterManager);, jinak se přirozeně vytvoří dva a nic se nenahradí, to je jen
-        // důsledek toho, že si to zkoušim sám pro sebe, pro správný běh programu tento kód výše být tady vůbec nemusí
         //TestVoidsForMain.createAndAddNewWaiter(waiterManager); printLnOutputs.printWaiterList(waiterManager);
 
         // Zkušební kód pro odebrání číšníka z waiterList (stačí ho odkomentovat), ale lze to udělat jen v případě,
@@ -75,7 +73,8 @@ public class RestaurantOrders {
 
         // Zkušební kód pro ověření, že program nezkolabuje při prvním spuštění, když ještě nebude existovat
         // soubor DB-Waiters.txt není potřeba. Stačí z adresáře programu tento soubor smazat a spustit program.
-        // Program tento soubor vygeneruje, přidá do něj číšníka číslo 1 a všechny ostatní data číšníka nastaví na null.
+        // Program tento soubor vygeneruje, přidá do něj číšníka číslo 25 a všechny ostatní data číšníka nastaví
+        // na null.
 
 
         loadersVoids.loadDishsData(dishManager);
