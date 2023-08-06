@@ -70,8 +70,8 @@ public class RestaurantOrders {
 
         // Zkušební kód pro ověření, že program nezkolabuje při prvním spuštění, když ještě nebude existovat
         // soubor DB-Waiters.txt není potřeba. Stačí z adresáře programu tento soubor smazat a spustit program.
-        // Program tento soubor vygeneruje, přidá do něj číšníka číslo 25 a všechny ostatní data číšníka nastaví
-        // na null.
+        // Program tento soubor vygeneruje, přidá do něj číšníka číslo 999, typ PPV na EMPTY
+        // a všechny ostatní data číšníka nastaví na null.
 
 
         loadersVoids.loadDishsData(dishManager);
