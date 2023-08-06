@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 
@@ -17,8 +18,31 @@ public class TableManager {
     private List<Table> tableList;
     public TableManager() {this.tableList = new ArrayList<>();}
 
+
+    private boolean firstWriteDetector(Table table) {
+        return table.getTableNumber() == 0 && table.getTableCapacity() == 0;
+    }
+    private void removefirstWrite() {
+        /*
+        Iterator může být použit pro procházení kolekcí bez ohledu na jejich typ. Nemusím tedy specifikovat, jaká
+        kolekce se používá (seznam, množina, mapa atd.), ale můžu použít stejný způsob pro iteraci jakékoliv kolekce.
+        Díky tomu by kód měl být flexibilnější a jednodušší na údržbu. Iterator jsem použil k tomu, abych prošel
+        seznamem dishList a vyhledal, jestli prvek odpovídá specifickému záznamu, který chci odstranit.
+         */
+        Iterator<Table> iterator = tableList.iterator();
+        while (iterator.hasNext()) {Table table = iterator.next(); if (firstWriteDetector(table)) {iterator.remove();}}
+    }
     private boolean isTableNumberDuplicity(int tableNumber) {
         for (Table existingTable : tableList) {if (existingTable.getTableNumber() == tableNumber) {return true;}}
+        return false;
+    }
+    private boolean isTableLocationDuplicity(Table newTable) {
+        for (Table existingTable : tableList) {
+            if (existingTable.getTableLocation().equals(newTable.getTableLocation()) &&
+                    existingTable.getTableSector().equals(newTable.getTableSector())) {
+                return true;
+            }
+        }
         return false;
     }
     public void addTable(Table table) throws RestaurantException {
@@ -30,7 +54,6 @@ public class TableManager {
             throw new RestaurantException("Chyba - Nelze mít stůl se zápornou nebo nulovou kapacitou: "
                     + table.getTableNumber());
         }
-        // OŠETŔENÍ - Počet stolů musí být dvoumístný - nelze přidat více stolů nad počet 99
         if (tableList.size() > 98) {
             throw new RestaurantException("Chyba - Nelze přidat stůl. Byl dosažen maximální počet stolů.");
         }
@@ -38,43 +61,31 @@ public class TableManager {
             throw new RestaurantException("Chyba - Nelze přidat stůl s již existujícím číslem stolu: "
                     + table.getTableNumber());
         }
-        // OŠETŘENÍ - Nový stůl nesmí být umístěn ve stejné místnosti na stejném místě, kde již jeden stůl stojí
-        for (Table existingTable : tableList) {
-            if (existingTable.getTableLocation().equals(table.getTableLocation()) &&
-                    existingTable.getTableSector().equals(table.getTableSector())) {
-                throw new RestaurantException("Chyba - Nelze přidat stůl ve stejné místnosti na stejné místo,"
-                        +"kde již jedn stůl stojí.");
-            }
+        if (isTableLocationDuplicity(table)) {
+            throw new RestaurantException("Chyba - Nelze přidat stůl ve stejné místnosti na stejné místo,"
+                    + "kde již jeden stůl stojí.");
         }
-        // OŠETŘENÍ - Když vznikne po prvním spuštění programu soubor DB-Tables.txt, který bude mít jen jeden stůl
-        // s číslem 1 a zbytek dat bude mít hodnotu null nebo 0 a uživatel na FrontEndu zadá do systému první stůl,
-        // tento bude nahrazem skutečnými daty od uživatele a přeuloží se v DB-Tables.txt
-        if (tableList.size() == 1 && tableList.get(0).getTableNumber() == 1 &&
-                (tableList.get(0).getTableLocation() == null || tableList.get(0).getTableLocation().isEmpty()) &&
-                (tableList.get(0).getTableSector() == null || tableList.get(0).getTableSector().isEmpty()) &&
-                tableList.get(0).getTableCapacity() == 0) {
-            // Pokud ano, nahradí pouze ostatní hodnoty a ponechá číslo stolu 1
-            Table tableNumberOne = tableList.get(0);
-            tableNumberOne.setTableLocation(table.getTableLocation());
-            tableNumberOne.setTableSector(table.getTableSector());
-            tableNumberOne.setTableCapacity(table.getTableCapacity());
-        }
+        // Když tam bude první programem vytvořený zápis po prvním spuštěnmí, odstraním ho z Listu
+        if (firstWriteDetector(table)) {removefirstWrite();}
         else {
             // Jinak se standardně přidá pouze do tableList
             tableList.add(table);
         }
-
-
     }
 
     public void removeTable(Table table) {tableList.remove(table);}
     public void removeTableByNumber(int tableNumber) throws RestaurantException {
-        tableList.removeIf(table -> table.getTableNumber() == tableNumber);
+        if (isTableNumberDuplicity(tableNumber)) {
+            tableList.removeIf(table -> table.getTableNumber() == tableNumber);
+        } else {
+            throw new RestaurantException("Chyba - Stůl s číslem " + tableNumber + " neexistuje, takže ho nelze "
+                    + "odebrat, nebyl tedy odebrán.");
+        }
     }
 
     private void createEmptyTablesFile(String fileTables) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileTables))) {
-            writer.write("1" + delimiter() + delimiter() + delimiter() + "0"); writer.newLine();
+            writer.write("0" + delimiter() + delimiter() + delimiter() + "0"); writer.newLine();
         } catch (IOException e) {
             System.err.println("Chyba při vytváření souboru při neexistenci souboru se Stoly: " + e.getMessage());
         }

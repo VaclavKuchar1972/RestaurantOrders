@@ -65,8 +65,7 @@ public class RestaurantOrders {
         // programem, který je v podstatě prázdný a bude mít jen jednu položku je nutné výše zakomentovat kód
         // loadersVoids.loadWaitersData(waiterManager);, jinak se přirozeně vytvoří dva a nic se nenahradí, to je jen
         // důsledek toho, že si to zkoušim sám pro sebe, pro správný běh programu tento kód výše být tady vůbec nemusí
-        //TestVoidsForMain.createAndAddNewWaiter(waiterManager);
-        //printLnOutputs.printWaiterList(waiterManager);
+        //TestVoidsForMain.createAndAddNewWaiter(waiterManager); printLnOutputs.printWaiterList(waiterManager);
 
         // Zkušební kód pro odebrání číšníka z waiterList (stačí ho odkomentovat), ale lze to udělat jen v případě,
         // že před tím byl číšník s číslem 25 přidán aktivováním předchozí zkušební metody, jinak to zkolabuje a nemám
@@ -88,8 +87,7 @@ public class RestaurantOrders {
         // programem, který je v podstatě prázdný a bude mít jen jednu položku je nutné výše zakomentovat kód
         // loadersVoids.loadDishsData(dishManager);, jinak se přirozeně vytvoří dva a nic se nenahradí, to je jen
         // důsledek toho, že si to zkoušim sám pro sebe, pro správný běh programu tento kód výše být tady vůbec nemusí
-        //TestVoidsForMain.createAndAddNewDish(dishManager);
-        //printLnOutputs.printDishListDataFromFile(dishManager);
+        //TestVoidsForMain.createAndAddNewDish(dishManager); printLnOutputs.printDishListDataFromFile(dishManager);
 
 
 

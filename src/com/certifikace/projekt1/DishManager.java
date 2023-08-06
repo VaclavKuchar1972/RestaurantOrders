@@ -23,15 +23,10 @@ public class DishManager {
                 && dish.getDishNumberOfNextPhotos() == 0;
     }
     private void removefirstWrite() {
-        /*
-        Iterator může být použit pro procházení kolekcí bez ohledu na jejich typ. Nemusím tedy specifikovat, jaká
-        kolekce se používá (seznam, množina, mapa atd.), ale můžu použít stejný způsob pro iteraci jakékoliv kolekce.
-        Díky tomu by kód měl být flexibilnější a jednodušší na údržbu. Iterator jsem použil k tomu, abych prošel
-        seznamem dishList a vyhledal, jestli prvek odpovídá specifickému záznamu, který chci odstranit.
-         */
         Iterator<Dish> iterator = dishList.iterator();
         while (iterator.hasNext()) {Dish dish = iterator.next(); if (firstWriteDetector(dish)) {iterator.remove();}}
     }
+
     public void addDish(Dish dish) throws RestaurantException {
 
         // Když tam bude první programem vytvořený zápis po prvním spuštěnmí, odstraním ho z Listu
