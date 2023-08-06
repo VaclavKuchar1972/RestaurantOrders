@@ -23,13 +23,18 @@ public class DishManager {
                 && dish.getDishNumberOfNextPhotos() == 0;
     }
     private void removefirstWrite() {
+        /*
+        Iterator může být použit pro procházení kolekcí bez ohledu na jejich typ. Nemusím tedy specifikovat, jaká
+        kolekce se používá (seznam, množina, mapa atd.), ale můžu použít stejný způsob pro iteraci jakékoliv kolekce.
+        Díky tomu by kód měl být flexibilnější a jednodušší na údržbu. Iterator jsem použil k tomu, abych prošel
+        seznamem dishList a vyhledal, jestli prvek odpovídá specifickému záznamu, který chci odstranit.
+         */
         Iterator<Dish> iterator = dishList.iterator();
         while (iterator.hasNext()) {Dish dish = iterator.next(); if (firstWriteDetector(dish)) {iterator.remove();}}
     }
-
     public void addDish(Dish dish) throws RestaurantException {
 
-        // Když tam bude první zápis odstraní ho z Listu
+        // Když tam bude první programem vytvořený zápis po prvním spuštěnmí, odstraním ho z Listu
         if (firstWriteDetector(dish)) {removefirstWrite();}
 
 
@@ -37,6 +42,7 @@ public class DishManager {
 
         dishList.add(dish);
     }
+
     private void createEmptyDishsFile(String fileDishs) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileDishs))) {
             writer.write(delimiter() + "0" + delimiter() + "Empty Title" + delimiter() + delimiter() + delimiter()
@@ -49,10 +55,8 @@ public class DishManager {
     public void loadDataDishsFromFile(String fileDishs, String delimiter) throws RestaurantException {
         // OŠETŘENÍ prvního spuštění programu, když ještě nebude existovat soubor DB-Dishs.txt
         if (!Files.exists(Paths.get(fileDishs))) {createEmptyDishsFile(fileDishs); return;}
-
         int i; int helpBadFormatIdentificator = 0;
-        String line = "";
-        String[] item = new String[0];
+        String line = ""; String[] item = new String[0];
         FoodCategory dishRecomendedMainCategory; int dishNumberOfNextRecomendedCategory; String dishTitle;
         int dishRecommendedQuantity; String dishRecommendedUnitOfQuantity; BigDecimal dishRecommendPrice;
         int dishEstimatedPreparationTime; String dishMainPhoto; int dishNumberOfNextPhotos;
@@ -84,7 +88,6 @@ public class DishManager {
                 for (i = 0; i < dishNumberOfNextPhotos; i++) {
                     dishNextPhoto.add(item[i + 9 + dishNumberOfNextRecomendedCategory]);
                 }
-
                 Dish newDish = new Dish(dishRecomendedMainCategory, dishNumberOfNextRecomendedCategory,
                         dishNextRecomendedCategory, dishTitle, dishRecommendedQuantity, dishRecommendedUnitOfQuantity,
                         dishRecommendPrice, dishEstimatedPreparationTime, dishMainPhoto, dishNumberOfNextPhotos,
