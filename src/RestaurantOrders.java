@@ -50,6 +50,7 @@ public class RestaurantOrders {
 
         // Zkušební kód pro odebrání stolu z tableList (stačí ho odkomentovat), ale lze to udělat jen v případě,
         // že před tím byl stůl číslo 20 přidán aktivováním předchozí zkušební metody, jinak to bude hlásit chybu
+        // a stůl se neodebere, ale program nespadne
         //TestVoidsForMain.removeTableByNumber(tableManager); printLnOutputs.printTableList(tableManager);
 
         // Zkušební kód pro ověření, že program nezkolabuje při prvním spuštění, když ještě nebude existovat
@@ -66,6 +67,7 @@ public class RestaurantOrders {
 
         // Zkušební kód pro odebrání číšníka z waiterList (stačí ho odkomentovat), ale lze to udělat jen v případě,
         // že před tím byl číšník s číslem 25 přidán aktivováním předchozí zkušební metody, jinak to bude hlásit chybu
+        // a číšník se neodebere, ale program nespadne
         //TestVoidsForMain.removeWaiterByNumber(waiterManager); printLnOutputs.printWaiterList(waiterManager);
 
         // Zkušební kód pro ověření, že program nezkolabuje při prvním spuštění, když ještě nebude existovat
@@ -78,11 +80,15 @@ public class RestaurantOrders {
         printLnOutputs.printDishListDataFromFile(dishManager);
 
         // Zkušební kód pro přidání jídla do zásobníku a jeho uložení do souboru (stačí ho odkomentovat)
-        // POZOR! Při zkoušce nahrazení prvního prázdného stolu ihned po vytvoření souboru DB-Dishs.txt samotným
-        // programem, který je v podstatě prázdný a bude mít jen jednu položku je nutné výše zakomentovat kód
-        // loadersVoids.loadDishsData(dishManager);, jinak se přirozeně vytvoří dva a nic se nenahradí, to je jen
-        // důsledek toho, že si to zkoušim sám pro sebe, pro správný běh programu tento kód výše být tady vůbec nemusí
         //TestVoidsForMain.createAndAddNewDish(dishManager); printLnOutputs.printDishListDataFromFile(dishManager);
+
+        // Zkušební kód pro odebrání jídla z dishList (stačí ho odkomentovat), ale lze to udělat jen v případě,
+        // že před tím bylo jídlo "Katův šleh "Chez Quis à Prague" s doporučeným nožstvím 250 g přidáno aktivováním
+        // předchozí zkušební metody, jinak to bude hlásit chybu a jídlo se neodebere, ale program nespadne
+        /*
+        TestVoidsForMain.removeDishByTitleAndQuantity(dishManager);
+        printLnOutputs.printDishListDataFromFile(dishManager);
+        */
 
 
 

@@ -68,6 +68,15 @@ public class TestVoidsForMain {
         saversVoids.saveDishsData(dishManager);
     }
 
+    public static void removeDishByTitleAndQuantity (DishManager dishManager) throws RestaurantException {
+        try {
+            dishManager.removeDishByTitleAndQuantity("Katův šleh \"Chez Quis à Prague\"", 250);
+            saversVoids.saveDishsData(dishManager);
+        } catch (RestaurantException e) {
+            System.err.println("Nepodařilo se odebrat jídlo do zásobníku: " + e.getLocalizedMessage());
+        }
+    }
+
 }
 
 

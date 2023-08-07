@@ -39,6 +39,22 @@ public class DishManager {
         dishList.add(dish);
     }
 
+
+    public void removeDish(Dish dish) {dishList.remove(dish);}
+    public void removeDishByTitleAndQuantity(String dishTitle, int recommendedQuantity) throws RestaurantException {
+        boolean removed = false;
+        for (Dish dish : dishList) {
+            if (dish.getDishTitle().equals(dishTitle) && dish.getDishRecommendedQuantity() == recommendedQuantity) {
+                dishList.remove(dish); removed = true;
+                break;
+            }
+        }
+        if (!removed) {
+            throw new RestaurantException("Chyba - Jídlo s názvem " + dishTitle + " a doporučeným množstvím "
+                    + recommendedQuantity + " jednotek neexistuje, nelze ho tedy odebrat.");
+        }
+    }
+
     private void createEmptyDishsFile(String fileDishs) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileDishs))) {
             writer.write(delimiter() + 0 + delimiter() + "Empty Title" + delimiter() + 0 + delimiter() + delimiter()
@@ -108,10 +124,14 @@ public class DishManager {
             // Uložení nových dat do primárního souboru
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
                 for (Dish dish : dishList) {
-                    writer.write(dish.getDishRecomendedMainCategory() + delimiter());
+                    // Musím získat název kategorie v angličtině, jinak se mi tam zapíšou český názvy a bude zle!!!
+                    // Zase problém s ENUM, který není ENUM, ale jinak to nejde :D
+                    writer.write(dish.getDishRecomendedMainCategory().getName() + delimiter());
                     writer.write(dish.getDishNumberOfNextRecomendedCategory() + delimiter());
                     List<FoodCategory> nextRecomendedCategories = dish.getDishNextRecomendedCategory();
-                    for (FoodCategory category : nextRecomendedCategories) {writer.write(category + delimiter());}
+                    for (FoodCategory category : nextRecomendedCategories) {
+                        writer.write(category.getName() + delimiter());
+                    }
                     writer.write(dish.getDishTitle() + delimiter());
                     writer.write(dish.getDishRecommendedQuantity() + delimiter());
                     writer.write(dish.getDishRecommendedUnitOfQuantity() + delimiter());
@@ -120,13 +140,17 @@ public class DishManager {
                     writer.write(dish.getDishMainPhoto() + delimiter());
                     writer.write(dish.getDishNumberOfNextPhotos() + delimiter());
                     List<String> nextPhotos = dish.getDishNextPhoto();
-                    for (String photo : nextPhotos) {writer.write(photo + delimiter());}
+                    for (String photo : nextPhotos) {
+                        writer.write(photo + delimiter());
+                    }
                     writer.newLine();
                 }
             } catch (IOException e) {
                 throw new RestaurantException("Chyba při ukládání dat do souboru: " + e.getMessage());
             }
-        } catch (IOException e) {throw new RestaurantException("Chyba při zálohování souboru: " + e.getMessage());}
+        } catch (IOException e) {
+            throw new RestaurantException("Chyba při zálohování souboru: " + e.getMessage());
+        }
     }
 
     public List<Dish> getDishList() {return new ArrayList<>(dishList);}
