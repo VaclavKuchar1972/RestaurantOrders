@@ -112,7 +112,7 @@ public class Dish {
             throw new RestaurantException("Chyba: dishRecommendPrice nesmí mít zápornou hodnotu.");
         }
         this.dishRecommendPrice = dishRecommendPrice;}
-    public int getDishEstimatedPreparationTime() throws RestaurantException {return dishEstimatedPreparationTime;}
+    public int getDishEstimatedPreparationTime() {return dishEstimatedPreparationTime;}
     public void setDishEstimatedPreparationTime(int dishEstimatedPreparationTime) throws RestaurantException {
         // OŠETŘENÍ - opravdu nejde nic udělat za nulový čas, tedy lze - další nic :-)
         if (dishEstimatedPreparationTime < 1 ) {

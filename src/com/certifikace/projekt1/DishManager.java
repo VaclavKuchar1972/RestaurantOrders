@@ -4,12 +4,13 @@ import java.io.*;
 import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 
-import static com.certifikace.projekt1.RestaurantSettings.delimiter;
+import static com.certifikace.projekt1.RestaurantSettings.*;
 
 public class DishManager {
 
@@ -20,7 +21,8 @@ public class DishManager {
 
     private boolean firstWriteDetector(Dish dish) {
         return dish.getDishNumberOfNextRecomendedCategory() == 0 && dish.getDishTitle().equals("Empty Title")
-                && dish.getDishNumberOfNextPhotos() == 0;
+                && dish.getDishRecommendedQuantity() == 0  && dish.getDishRecommendPrice().compareTo(BigDecimal.ZERO) == 0
+                && dish.getDishEstimatedPreparationTime() == 999999 && dish.getDishNumberOfNextPhotos() == 0;
     }
     private void removefirstWrite() {
         Iterator<Dish> iterator = dishList.iterator();
@@ -28,9 +30,8 @@ public class DishManager {
     }
 
     public void addDish(Dish dish) throws RestaurantException {
-
         // Když tam bude první programem vytvořený zápis po prvním spuštěnmí, odstraním ho z Listu
-        if (firstWriteDetector(dish)) {removefirstWrite();}
+        removefirstWrite();
 
 
 
@@ -40,8 +41,8 @@ public class DishManager {
 
     private void createEmptyDishsFile(String fileDishs) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileDishs))) {
-            writer.write(delimiter() + "0" + delimiter() + "Empty Title" + delimiter() + delimiter() + delimiter()
-                    + delimiter() + delimiter() + delimiter() + "0"); writer.newLine();
+            writer.write(delimiter() + 0 + delimiter() + "Empty Title" + delimiter() + 0 + delimiter() + delimiter()
+                    + "0" + delimiter() + 999999 + delimiter() + delimiter() + 0); writer.newLine();
         } catch (IOException e) {
             System.err.println("Chyba při vytváření souboru při neexistenci souboru se zásobníkem jídel: "
                     + e.getMessage());
@@ -70,6 +71,7 @@ public class DishManager {
                 helpBadFormatIdentificator = 2 + dishNumberOfNextRecomendedCategory;
                 dishRecommendedQuantity = Integer.parseInt(item[3 + dishNumberOfNextRecomendedCategory]);
                 dishRecommendedUnitOfQuantity = item[4 + dishNumberOfNextRecomendedCategory];
+                helpBadFormatIdentificator = 4 + dishNumberOfNextRecomendedCategory;
                 dishRecommendPrice = new BigDecimal(item[5 + dishNumberOfNextRecomendedCategory]);
                 helpBadFormatIdentificator = 5 + dishNumberOfNextRecomendedCategory;
                 dishEstimatedPreparationTime = Integer.parseInt(item[6 + dishNumberOfNextRecomendedCategory]);
@@ -95,6 +97,36 @@ public class DishManager {
             throw new RestaurantException("Chyba - v databázi není číslo: " + " na řádku: " + line + " položka č."
                     + helpBadFormatIdentificator);
         }
+    }
+
+    public void saveDataDishsToFile(String fileName) throws RestaurantException {
+        try {
+            // Zálohování souboru před uložením nových hodnot do primárního souboru
+            File originalFile = new File(fileDishs());
+            File backupFile = new File(fileDishsBackUp());
+            Files.copy(originalFile.toPath(), backupFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            // Uložení nových dat do primárního souboru
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
+                for (Dish dish : dishList) {
+                    writer.write(dish.getDishRecomendedMainCategory() + delimiter());
+                    writer.write(dish.getDishNumberOfNextRecomendedCategory() + delimiter());
+                    List<FoodCategory> nextRecomendedCategories = dish.getDishNextRecomendedCategory();
+                    for (FoodCategory category : nextRecomendedCategories) {writer.write(category + delimiter());}
+                    writer.write(dish.getDishTitle() + delimiter());
+                    writer.write(dish.getDishRecommendedQuantity() + delimiter());
+                    writer.write(dish.getDishRecommendedUnitOfQuantity() + delimiter());
+                    writer.write(dish.getDishRecommendPrice() + delimiter());
+                    writer.write(dish.getDishEstimatedPreparationTime() + delimiter());
+                    writer.write(dish.getDishMainPhoto() + delimiter());
+                    writer.write(dish.getDishNumberOfNextPhotos() + delimiter());
+                    List<String> nextPhotos = dish.getDishNextPhoto();
+                    for (String photo : nextPhotos) {writer.write(photo + delimiter());}
+                    writer.newLine();
+                }
+            } catch (IOException e) {
+                throw new RestaurantException("Chyba při ukládání dat do souboru: " + e.getMessage());
+            }
+        } catch (IOException e) {throw new RestaurantException("Chyba při zálohování souboru: " + e.getMessage());}
     }
 
     public List<Dish> getDishList() {return new ArrayList<>(dishList);}

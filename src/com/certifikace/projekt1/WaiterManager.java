@@ -32,6 +32,8 @@ public class WaiterManager {
         return false;
     }
     public void addWaiter(Waiter waiter) throws RestaurantException {
+        // Když tam bude první programem vytvořený zápis po prvním spuštěnmí, odstraním ho z Listu
+        removefirstWrite();
         if (waiter.getWaiterNumber() < 1) {
             throw new RestaurantException("Chyba - Číslo číšníka nemůže být záporné nebo nulové: "
                     + waiter.getWaiterNumber());
@@ -43,7 +45,7 @@ public class WaiterManager {
             throw new RestaurantException("Chyba - Nelze přidat číšníka se stejným číslem, číšník s tímto číslem již "
                     + "existuje.");
         }
-        removefirstWrite();
+        // Když tam bude první programem vytvořený zápis po prvním spuštěnmí, odstraním ho z Listu
         waiterList.add(waiter);
     }
 
@@ -59,7 +61,7 @@ public class WaiterManager {
 
     private void createEmptyWaitersFile(String fileWaiters) throws RestaurantException {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileWaiters))) {
-            writer.write("999" + delimiter() + delimiter() + delimiter() + delimiter() + delimiter() + delimiter() + "EMPTY");
+            writer.write(999 + delimiter() + delimiter() + delimiter() + delimiter() + delimiter() + delimiter() + "EMPTY");
             writer.newLine();
         } catch (IOException e) {
             throw new RestaurantException("Chyba při vytváření souboru při neexistenci souboru s číšníky: "
@@ -99,7 +101,7 @@ public class WaiterManager {
         }
     }
 
-    public void saveDataWaiterToFile(String fileName) throws RestaurantException {
+    public void saveDataWaitersToFile(String fileName) throws RestaurantException {
         try {
             // Zálohování souboru před uložením nových hodnot do primárního souboru
             File originalFile = new File(fileWaiters());

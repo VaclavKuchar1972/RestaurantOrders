@@ -65,6 +65,7 @@ public class TestVoidsForMain {
         } catch (RestaurantException e) {
             System.err.println("Nepodařilo se přidat nové jídlo do zásobníku: " + e.getLocalizedMessage());
         }
+        saversVoids.saveDishsData(dishManager);
     }
 
 }

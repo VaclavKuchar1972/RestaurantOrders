@@ -48,6 +48,8 @@ public class TableManager {
         return false;
     }
     public void addTable(Table table) throws RestaurantException {
+        // Když tam bude první programem vytvořený zápis po prvním spuštěnmí, odstraním ho z Listu
+        removefirstWrite();
         if (table.getTableNumber() < 1) {
             throw new RestaurantException("Chyba - Nelze přidat stůl se záporným nebo nulovým číslem: "
                     + table.getTableNumber());
@@ -64,11 +66,9 @@ public class TableManager {
                     + table.getTableNumber());
         }
         if (isTableLocationDuplicity(table)) {
-            throw new RestaurantException("Chyba - Nelze přidat stůl ve stejné místnosti na stejné místo,"
+            throw new RestaurantException("Chyba - Nelze přidat stůl ve stejné místnosti na stejné místo, "
                     + "kde již jeden stůl stojí.");
         }
-        // Když tam bude první programem vytvořený zápis po prvním spuštěnmí, odstraním ho z Listu
-        removefirstWrite();
         tableList.add(table);
     }
 
@@ -84,7 +84,7 @@ public class TableManager {
 
     private void createEmptyTablesFile(String fileTables) throws RestaurantException {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileTables))) {
-            writer.write("99" + delimiter() + delimiter() + delimiter() + "999999");
+            writer.write(99 + delimiter() + delimiter() + delimiter() + 999999);
             writer.newLine();
         } catch (IOException e) {
             throw new RestaurantException("Chyba při vytváření souboru při neexistenci souboru se Stoly: "
