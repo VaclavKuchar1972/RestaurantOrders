@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static com.certifikace.projekt1.RestaurantSettings.*;
 import static com.certifikace.projekt1.RestaurantSettings.fileFoodCategories;
@@ -36,28 +37,16 @@ public class FoodCategory {
         return instance;
     }
 
-    /*public static FoodCategory getInstance() {
-        if (instance == null) {
-            instance = new FoodCategory();
-            try {instance.loadDataCategoriesFromFile();}
-            catch (RestaurantException e) {System.err.println("Chyba: " + e.getMessage());}
-            return instance;
-        }
-        return instance;
-    }
-     */
-
-    /*public FoodCategory() {
-        try {loadDataCategoriesFromFile();}
-        catch (RestaurantException e) {System.err.println("Chyba: " + e.getMessage());}
-        // Private konstruktor pro singleton
-        // Nějaká inicializace nebo načtení dat pro FoodCategoryManager
-        // Například inicializace spojení s databází, načtení konfiguračních parametrů, apod.
-    }
-     */
-
     // Pomocný Boolean pro kontrolu, zda je název psán velkými písmeny a neobsahuje mezery
     private boolean ifIsValidCategoryName(String name) {return name.matches("^[A-Z]+$");}
+    public static List<String> getAllCategoryNames() {
+        return getAllCategories()
+                .stream()
+                .map(FoodCategory::getName)
+                .collect(Collectors.toList());
+    }
+
+
     public void addCategory(String name, String description) throws RestaurantException {
         if (!ifIsValidCategoryName(name)) {
             System.err.println("Chyba: Název kategorie musí být psán velkými písmeny a nesmí obsahovat mezery, "
@@ -107,7 +96,7 @@ public class FoodCategory {
         }
     }
 
-    private Map<String, FoodCategory> categoriesMap = new HashMap<>();
+    private static Map<String, FoodCategory> categoriesMap = new HashMap<>();
 
     private void createFoodCategoriesFile(String fileFoodCategories) throws RestaurantException {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileFoodCategories))) {
@@ -172,7 +161,7 @@ public class FoodCategory {
         }
     }
 
-    public List<FoodCategory> getAllCategories() {return new ArrayList<>(categoriesMap.values());}
+    public static List<FoodCategory> getAllCategories() {return new ArrayList<>(categoriesMap.values());}
 
     public FoodCategory getCategoryByName(String name) {return categoriesMap.get(name);}
     public static FoodCategory valueOf(String name) {return getInstance().getCategoryByName(name);}

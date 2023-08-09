@@ -33,11 +33,30 @@ public class DishManager {
         // Když tam bude první programem vytvořený zápis po prvním spuštěnmí, odstraním ho z Listu
         removefirstWrite();
 
+        List<String> validCategoryNames = FoodCategory.getAllCategoryNames();
 
+
+        // Toto musím rozdělit na dvě různé chyby , ale dnes mám dost
+        if (dish.getDishRecomendedMainCategory() == null ||
+                !validCategoryNames.contains(dish.getDishRecomendedMainCategory().getName())) {
+            throw new RestaurantException("Chyba - neplatná hlavní kategorie jídla.");
+        }
+
+
+        // Toto lépe oštřit!! , ale dnes mám dost
+        for (FoodCategory category : dish.getDishNextRecomendedCategory()) {
+            if (!validCategoryNames.contains(category.getName())) {
+                throw new RestaurantException("Chyba - neplatná doporučená kategorie jídla: " + category.getName());
+            }
+        }
 
 
         dishList.add(dish);
+
+
     }
+
+
 
 
     public void removeDish(Dish dish) {dishList.remove(dish);}

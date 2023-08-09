@@ -17,6 +17,10 @@ public class RestaurantOrders {
         WaiterManager waiterManager = new WaiterManager();
         DishManager dishManager = new DishManager();
 
+        loadersVoids.loadTablesData(tableManager);
+        loadersVoids.loadWaitersData(waiterManager);
+        loadersVoids.loadDishsData(dishManager);
+
         System.out.println(); System.out.println();
         System.out.println("Restaurant Chez Quis à Prague");
 
@@ -32,7 +36,7 @@ public class RestaurantOrders {
         // existujících, které mám uloženy v testovacím TXT souboru, ale to bych nedělal! Simuluji třídu ENUM,
         // která má být statická, ale zároveň plním výzvu: "Možnost přidávat a odebírat kategorie jídel" a podmínku,
         // že po pádu systému se tento obnoví "bez ztráty kytičky". :-) Jinak by to mělo splňovat všechny podmínky
-        // zadání, ale když se odebere nějaká kategorie z testovacího souboru, bude to vyhazovat chybový hlášky,
+        // zadání, ale když se odebere nějaká kategorie z testovacího souboru TXT, bude to vyhazovat chybový hlášky,
         // protože je nutný pro další mé testovací data, jinak by to podle mě mělo být OK i v případě, že žádné
         // testovací TXT soubory nebudou existovat.
         //foodCategory.removeCategory("NEWCATEGORY"); printLnOutputs.printFoodCategoryList(foodCategory);
@@ -40,9 +44,9 @@ public class RestaurantOrders {
         // Zkušební kód pro ověření, že program nezkolabuje při prvním spuštění, když ještě nebude existovat
         // soubor DB-FoodCategories.txt není potřeba. Stačí z adresáře programu tento soubor smazat a spustit program.
         // Program tento soubor vygeneruje, přidá do něj kategorii EMPTYCATEGORY a česky "prázdná kategorie"
+        // Pak je ale třeba tam vrátit ten první testovací, jinak viz. výše
 
 
-        loadersVoids.loadTablesData(tableManager);
         printLnOutputs.printTableList(tableManager);
 
         // Zkušební kód pro přidání stolu do tableList a jeho uložení do souboru (stačí ho odkomentovat)
@@ -59,7 +63,6 @@ public class RestaurantOrders {
         // a všechny ostatní data stolu nastaví na null.
 
 
-        loadersVoids.loadWaitersData(waiterManager);
         printLnOutputs.printWaiterList(waiterManager);
 
         // Zkušební kód pro přidání číšníka do waiterList a uložení do souboru (stačí ho odkomentovat)
@@ -76,7 +79,6 @@ public class RestaurantOrders {
         // a všechny ostatní data číšníka nastaví na null.
 
 
-        loadersVoids.loadDishsData(dishManager);
         printLnOutputs.printDishListDataFromFile(dishManager);
 
         // Zkušební kód pro přidání jídla do zásobníku a jeho uložení do souboru (stačí ho odkomentovat)
