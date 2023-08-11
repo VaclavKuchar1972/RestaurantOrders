@@ -4,6 +4,8 @@ import static com.certifikace.projekt1.RestaurantSettings.delimiter;
 
 public class RestaurantLoadersVoidsForMain {
     String errorMessage = "Nepodařilo se načíst data ze souboru: ";
+
+    public void loadFoodCategoriesData() {FoodCategory.getInstance();/* Načtení kategorií pomocí singletonu*/}
     public void loadTablesData(TableManager tableManager) {
         try {tableManager.loadDataTablesFromFile(RestaurantSettings.fileTables(), delimiter());}
         catch (RestaurantException e) {
@@ -18,7 +20,6 @@ public class RestaurantLoadersVoidsForMain {
             throw new RuntimeException(e);
         }
     }
-    public void loadFoodCategoriesData() {FoodCategory.getInstance();/* Načtení kategorií pomocí singletonu*/}
     public void loadDishsData(DishManager dishManager) {
         try {dishManager.loadDataDishsFromFile(RestaurantSettings.fileDishs(), delimiter());}
         catch (RestaurantException e) {
@@ -26,5 +27,7 @@ public class RestaurantLoadersVoidsForMain {
             throw new RuntimeException(e);
         }
     }
+
+
 
 }

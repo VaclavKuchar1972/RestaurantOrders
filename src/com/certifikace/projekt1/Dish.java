@@ -42,23 +42,68 @@ public class Dish {
     }
 
     public FoodCategory getDishRecomendedMainCategory() {return dishRecomendedMainCategory;}
+
+    // Upravená část setDishRecomendedMainCategory
     public void setDishRecomendedMainCategory(FoodCategory dishRecomendedMainCategory) throws RestaurantException {
+        try {
+            // OŠETŘENÍ - dishRecomendedMainCategory nesmí být null
+            if (dishRecomendedMainCategory == null) {
+                throw new RestaurantException("Chyba: dishRecomendedMainCategory nesmí být null.");
+            }
+
+            // OŠETŘENÍ - kategorie může mít pouze velká písmena, číslice a znak "_"
+            if (!dishRecomendedMainCategory.getName().matches("^[A-Z0-9_]+$")) {
+                throw new RestaurantException("Chyba: dishRecomendedMainCategory může obsahovat pouze velká písmena, "
+                        + "číslice a znak \"_\".");
+            }
+
+            // OŠETŘENÍ - kategorie musí existovat v kategoriích z FoodCategory
+            FoodCategory category = FoodCategory.valueOf(dishRecomendedMainCategory.getName());
+            if (category == null) {
+                throw new RestaurantException("Chyba: Kategorie " + dishRecomendedMainCategory.getName() + " neexistuje.");
+            }
+
+            this.dishRecomendedMainCategory = dishRecomendedMainCategory;
+        } catch (RestaurantException e) {
+            // Vypsání chybové hlášky
+            System.err.println("Chyba při nastavování kategorie: " + e.getLocalizedMessage());
+            throw e; // Přidáno - pro zachování chování metody
+        }
+    }
+
+
+    /*
+    public void setDishRecomendedMainCategory(FoodCategory dishRecomendedMainCategory) throws RestaurantException {
+
+        try {
+        // OŠETŘENÍ - dishRecomendedMainCategory nesmí být null
+        if (dishRecomendedMainCategory == null) {
+            throw new RestaurantException("Chyba: dishRecomendedMainCategory nesmí být null.");
+        }
+
         // OŠETŘENÍ - kategorie může mít pouze velká písmena, číslice a znak "_"
         if (!dishRecomendedMainCategory.getName().matches("^[A-Z0-9_]+$")) {
             throw new RestaurantException("Chyba: dishRecomendedMainCategory může obsahovat pouze velká písmena, "
                     + "číslice a znak \"_\".");
         }
-        // OŠETŘENÍ - dishRecomendedMainCategory nesmí být null
-        if (dishRecomendedMainCategory == null) {
-            throw new RestaurantException("Chyba: dishRecomendedMainCategory nesmí být null.");
-        }
+
         // OŠETŘENÍ - kategorie musí existovat v kategoriích z FoodCategory
         FoodCategory category = FoodCategory.valueOf(dishRecomendedMainCategory.getName());
         if (category == null) {
             throw new RestaurantException("Chyba: Kategorie " + dishRecomendedMainCategory.getName() + " neexistuje.");
         }
+
+
+
         this.dishRecomendedMainCategory = dishRecomendedMainCategory;
+        } catch (RestaurantException e) {
+            System.err.println("Chyba při nastavování kategorie: " + e.getLocalizedMessage());
+        }
     }
+
+     */
+
+
     public int getDishNumberOfNextRecomendedCategory() {return dishNumberOfNextRecomendedCategory;}
     public void setDishNumberOfNextRecomendedCategory(int dishNumberOfNextRecomendedCategory)
             throws RestaurantException {
@@ -68,8 +113,10 @@ public class Dish {
         this.dishNumberOfNextRecomendedCategory = dishNumberOfNextRecomendedCategory;
     }
     public List<FoodCategory> getDishNextRecomendedCategory() {return dishNextRecomendedCategory;}
+
     public void setDishNextRecomendedCategory(List<FoodCategory> dishNextRecomendedCategory)
             throws RestaurantException {
+
         // OŠETŘENÍ - dishNextRecomendedCategory nesmí být null
         if (dishNextRecomendedCategory == null) {
             throw new RestaurantException("Chyba: dishNextRecomendedCategory nesmí být null.");
@@ -87,6 +134,8 @@ public class Dish {
                         + "nejdříve přidat do FoodCategory");
             }
         }
+
+
         this.dishNextRecomendedCategory = dishNextRecomendedCategory;
     }
     public String getDishTitle() {return dishTitle;}

@@ -19,7 +19,14 @@ public class RestaurantOrders {
 
         loadersVoids.loadTablesData(tableManager);
         loadersVoids.loadWaitersData(waiterManager);
-        loadersVoids.loadDishsData(dishManager);
+        try {
+            // ... (další kód)
+            dishManager.loadDataDishsFromFile(fileDishs(), delimiter());
+            // ... (další kód)
+        } catch (RestaurantException e) {
+            System.err.println("Chyba: " + e.getMessage());
+        }
+        //loadersVoids.loadDishsData(dishManager);
 
         System.out.println(); System.out.println();
         System.out.println("Restaurant Chez Quis à Prague");
@@ -44,8 +51,7 @@ public class RestaurantOrders {
         // Zkušební kód pro ověření, že program nezkolabuje při prvním spuštění, když ještě nebude existovat
         // soubor DB-FoodCategories.txt není potřeba. Stačí z adresáře programu tento soubor smazat a spustit program.
         // Program tento soubor vygeneruje, přidá do něj kategorii EMPTYCATEGORY a česky "prázdná kategorie"
-        // Pak je ale třeba tam vrátit ten první testovací, jinak viz. výše
-
+        // Pak je ale třeba tam vrátit ten první testovací, jinak viz. výše.
 
         printLnOutputs.printTableList(tableManager);
 
@@ -77,7 +83,7 @@ public class RestaurantOrders {
         // soubor DB-Waiters.txt není potřeba. Stačí z adresáře programu tento soubor smazat a spustit program.
         // Program tento soubor vygeneruje, přidá do něj číšníka číslo 999, typ PPV na EMPTY
         // a všechny ostatní data číšníka nastaví na null.
-
+        // Pak je ale třeba tam vrátit ten první testovací, jinak viz. výše.
 
         printLnOutputs.printDishListDataFromFile(dishManager);
 
