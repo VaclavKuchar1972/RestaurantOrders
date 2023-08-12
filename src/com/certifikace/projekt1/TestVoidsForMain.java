@@ -48,7 +48,7 @@ public class TestVoidsForMain {
 
     public static void createAndAddNewDish(DishManager dishManager) throws RestaurantException {
         try {
-            FoodCategory mainCategory = FoodCategory.getInstance().valueOf("SPECIA LITY");
+            FoodCategory mainCategory = FoodCategory.getInstance().valueOf("SPECIALITY");
             int dishNumberOfNextRecomendedCategory = 3;
             List<FoodCategory> nextRecommendedCategories = new ArrayList<>();
             nextRecommendedCategories.add(FoodCategory.getInstance().valueOf("MINUTEMEAL"));
