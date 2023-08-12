@@ -23,31 +23,12 @@ public class Table {
     }
 
     public int getTableNumber() {return tableNumber;}
-    public void setTableNumber(int tableNumber) throws RestaurantException {
-        // OŠETŘENÍ - Číslo stolu musí být maximálně dvouciferné a nesmí být nulové nebo záporné
-        if (tableNumber < 1 || tableNumber > 99) {
-            throw new RestaurantException("Chyba - číslo stolu musí být v rozmezí 1 až 99");
-        }
-        this.tableNumber = tableNumber;
-    }
+    public void setTableNumber(int tableNumber) {this.tableNumber = tableNumber;}
     public String getTableLocation() {return tableLocation;}
     public void setTableLocation(String tableLocation) {this.tableLocation = tableLocation;}
     public String getTableSector() {return tableSector;}
-    public void setTableSector(String tableSector) throws RestaurantException {
-        // OŠETŘENÍ - pro výstup pro grafický FrontEnd je nutné, aby String byl dvoumístný,
-        // na prvním místě měl písmeno a na druhém číslo
-        // - vykřičník invertuje (neguje) hodnotu podmínky
-        if (tableSector.length() > 2 || (!Character.isLetter(tableSector.charAt(0))
-                || !Character.isDigit(tableSector.charAt(1)))) {
-            throw new RestaurantException("Chyba - neplatný formát sektoru stolu: " + tableSector);
-        }
-        this.tableSector = tableSector;
-    }
+    public void setTableSector(String tableSector) throws RestaurantException {this.tableSector = tableSector;}
     public int getTableCapacity() {return tableCapacity;}
-    public void setTableCapacity(int tableCapacity) throws RestaurantException {
-        if (tableCapacity < 1) {
-            throw new RestaurantException("Chyba - počet míst u stolu je menší než 1");
-        }
-        this.tableCapacity = tableCapacity;}
+    public void setTableCapacity(int tableCapacity) {this.tableCapacity = tableCapacity;}
 
 }

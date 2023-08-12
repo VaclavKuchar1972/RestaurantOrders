@@ -17,6 +17,11 @@ public class Dish {
     private int dishNumberOfNextPhotos;
     private List<String> dishNextPhoto;
 
+
+    public boolean detectSameTitleAndQuantity(String title, int quantity) {
+        return dishTitle.equals(title) && dishRecommendedQuantity == quantity;
+    }
+
     public Dish(FoodCategory dishRecomendedMainCategory, int dishNumberOfNextRecomendedCategory,
                 List<FoodCategory> dishNextRecomendedCategory, String dishTitle, int dishRecommendedQuantity,
                 String dishRecommendedUnitOfQuantity, BigDecimal dishRecommendPrice, int dishEstimatedPreparationTime,
@@ -53,38 +58,13 @@ public class Dish {
         this.dishNumberOfNextRecomendedCategory = dishNumberOfNextRecomendedCategory;
     }
     public List<FoodCategory> getDishNextRecomendedCategory() {return dishNextRecomendedCategory;}
-    public void setDishNextRecomendedCategory(List<FoodCategory> dishNextRecomendedCategory)
-            throws RestaurantException {
-
-        // OŠETŘENÍ - dishNextRecomendedCategory nesmí být null
-        if (dishNextRecomendedCategory == null) {
-            throw new RestaurantException("Chyba: dishNextRecomendedCategory nesmí být null.");
-        }
-        // OŠETŘENÍ - projdu celý List a zkontroluji, zda každá kategorie existuje v kategoriích z FoodCategory
-        // a jestli má platný formát
-        for (FoodCategory category : dishNextRecomendedCategory) {
-            if (!category.getName().matches("^[A-Z0-9_]+$")) {
-                throw new RestaurantException("Chyba: dishNextRecomendedCategory může obsahovat pouze velká písmena, "
-                        + "číslice a znak \"_\".");
-            }
-            FoodCategory existingCategory = FoodCategory.valueOf(category.getName());
-            if (existingCategory == null) {
-                throw new RestaurantException("Chyba: Kategorie " + category.getName() + " neexistuje. Musí se "
-                        + "nejdříve přidat do FoodCategory");
-            }
-        }
-
-
+    public void setDishNextRecomendedCategory(List<FoodCategory> dishNextRecomendedCategory) {
         this.dishNextRecomendedCategory = dishNextRecomendedCategory;
     }
     public String getDishTitle() {return dishTitle;}
     public void setDishTitle(String dishTitle) {this.dishTitle = dishTitle;}
     public int getDishRecommendedQuantity() {return dishRecommendedQuantity;}
     public void setDishRecommendedQuantity(int dishRecommendedQuantity) throws RestaurantException {
-        // OŠETŘENÍ - Restaurace nemůže za peníze prodávat nulové množství čehokoli
-        if (dishRecommendedQuantity < 1) {
-            throw new RestaurantException("Chyba: dishRecommendedQuantity je menší než 1.");
-        }
         this.dishRecommendedQuantity = dishRecommendedQuantity;
     }
     public String getDishRecommendedUnitOfQuantity() {return dishRecommendedUnitOfQuantity;}
@@ -93,12 +73,6 @@ public class Dish {
     }
     public BigDecimal getDishRecommendPrice() {return dishRecommendPrice;}
     public void setDishRecommendPrice(BigDecimal dishRecommendPrice) throws RestaurantException {
-        // OŠETŘENÍ - Restaurace nemůže vracet peníze za objednávky klientů, může jim to ale dát zadarmo, např., když
-        // na takovou položku udělá restaurace akci nebo si prostě majitel usmyslí, že chleby k polévce budou zadarmo
-        // - a hotovo (rozhodnutí managementu)
-        if (dishRecommendPrice.compareTo(BigDecimal.ZERO) < 0) {
-            throw new RestaurantException("Chyba: dishRecommendPrice nesmí mít zápornou hodnotu.");
-        }
         this.dishRecommendPrice = dishRecommendPrice;}
     public int getDishEstimatedPreparationTime() {return dishEstimatedPreparationTime;}
     public void setDishEstimatedPreparationTime(int dishEstimatedPreparationTime) throws RestaurantException {

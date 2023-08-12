@@ -19,6 +19,8 @@ public class RestaurantOrders {
 
         loadersVoids.loadTablesData(tableManager);
         loadersVoids.loadWaitersData(waiterManager);
+        loadersVoids.loadDishsData(dishManager);
+        /*
         try {
             // ... (další kód)
             dishManager.loadDataDishsFromFile(fileDishs(), delimiter());
@@ -27,6 +29,8 @@ public class RestaurantOrders {
             System.err.println("Chyba: " + e.getMessage());
         }
         //loadersVoids.loadDishsData(dishManager);
+
+         */
 
         System.out.println(); System.out.println();
         System.out.println("Restaurant Chez Quis à Prague");
@@ -69,7 +73,7 @@ public class RestaurantOrders {
         // a všechny ostatní data stolu nastaví na null.
 
 
-        printLnOutputs.printWaiterList(waiterManager);
+        //printLnOutputs.printWaiterList(waiterManager);
 
         // Zkušební kód pro přidání číšníka do waiterList a uložení do souboru (stačí ho odkomentovat)
         //TestVoidsForMain.createAndAddNewWaiter(waiterManager); printLnOutputs.printWaiterList(waiterManager);
@@ -85,7 +89,7 @@ public class RestaurantOrders {
         // a všechny ostatní data číšníka nastaví na null.
         // Pak je ale třeba tam vrátit ten první testovací, jinak viz. výše.
 
-        printLnOutputs.printDishListDataFromFile(dishManager);
+        //printLnOutputs.printDishListDataFromFile(dishManager);
 
         // Zkušební kód pro přidání jídla do zásobníku a jeho uložení do souboru (stačí ho odkomentovat)
         //TestVoidsForMain.createAndAddNewDish(dishManager); printLnOutputs.printDishListDataFromFile(dishManager);

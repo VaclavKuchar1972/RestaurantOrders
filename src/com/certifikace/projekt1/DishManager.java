@@ -1,5 +1,6 @@
 package com.certifikace.projekt1;
 
+import javax.swing.*;
 import java.io.*;
 import java.math.BigDecimal;
 import java.nio.file.Files;
@@ -33,20 +34,66 @@ public class DishManager {
         // Když tam bude první programem vytvořený zápis po prvním spuštěnmí, odstraním ho z Listu
         removefirstWrite();
 
-        Boolean helpErrorIdentificator = false;
-
         if (dish.getDishRecomendedMainCategory() == null) {
-            helpErrorIdentificator = true;
-            System.err.println("Chyba: Pokoušíte se přidat kategorii, která má hodnotu null nebo má neplatný formát " +
-                    "nebo neexistuje v seznamu kategorií ve FoodCategory a je třeba jí před přidám jídla přidat do " +
-                    "seznamu kategorií. Jídlo NEBYLO přidáno do dishList.");}
+            System.err.println("Chyba: Pokoušíte se přidat kategorii, která má hodnotu null nebo má neplatný formát "
+                    + "nebo neexistuje v seznamu kategorií ve FoodCategory a je třeba jí před přidáním jídla přidat do "
+                    + "seznamu kategorií. Jídlo NEBYLO přidáno do dishList!");
+            // RETURN ukončuje okamžitě celou metodu, pokud na něj program narazí - UŽITEČNÝ!
+            return;
+        }
+        if (dish.getDishNumberOfNextRecomendedCategory() < 0) {
+            throw new RestaurantException("Chyba: Pokoušíte se přidat jídlo se záporným počtem dalších doporučených "
+                    + "kategorií do zásobníku. Jídlo NEBYLO přidáno do dishList!"
+                    + dish.getDishNumberOfNextRecomendedCategory());
+        }
+        for (FoodCategory category : dish.getDishNextRecomendedCategory()) {
+            if (category == null) {
+                System.err.println("Chyba: Pokoušíte se přidat jídlo, kde další doporučená kategorie má hodnotu null "
+                        + "nebo má neplatný formát nebo neexistuje v seznamu kategorií ve FoodCategory a je třeba ji "
+                        + "před přidáním jídla přidat do seznamu kategorií. Jídlo NEBYLO přidáno do dishList!");
+                return;
+            }
+        }
+        if (dish.getDishRecommendedQuantity() < 1) {
+            throw new RestaurantException("Chyba: Pokoušíte se přidat jídlo se záporným doporučeným množstvím k " +
+                    "prodeji, to nejde. Jídlo NEBYLO přidáno do dishList!"
+                    + dish.getDishRecommendedQuantity());
+        }
+        for (Dish existingDish : dishList) {
+            if (existingDish.detectSameTitleAndQuantity(dish.getDishTitle(), dish.getDishRecommendedQuantity())) {
+                System.err.println("Chyba: Jídlo s názvem " + dish.getDishTitle() + " a doporučeným množstvím "
+                        + dish.getDishRecommendedQuantity() + " již existuje v seznamu kategorií ve FoodCategory a "
+                        + "nelze ho tedy přidat do seznamu kategorií. Jídlo NEBYLO přidáno do dishList!");
+                return;
+            }
+        }
+        if (dish.getDishRecommendPrice().compareTo(BigDecimal.ZERO) < 0) {
+            throw new RestaurantException("Chyba: Pokoušíte se přidat jídlo se zápornou doporučenou cenou "
+                    + dish.getDishRecommendPrice() + ",- Kč to by opravdu nešlo. ...možná \"akcička\" za nula, ale "
+                    + "jinak?!... :D Jídlo NEBYLO přidáno do dishList!");
+        }
 
-        if (helpErrorIdentificator == false) {dishList.add(dish);}
 
+
+
+
+
+        dishList.add(dish);
     }
 
 
     public void removeDish(Dish dish) {dishList.remove(dish);}
+
+
+    public void removeDishByTitleAndQuantity(String dishTitle, int recommendedQuantity) throws RestaurantException {
+        for (Dish dish : dishList) {
+            if (!dish.detectSameTitleAndQuantity(dishTitle, recommendedQuantity)) {dishList.remove(dish); return;}
+        }
+        throw new RestaurantException("Chyba: Jídlo s názvem " + dishTitle + " a doporučeným množstvím " +
+                recommendedQuantity + " jednotek neexistuje v seznamu kategorií, nelze ho tedy odebrat z dishList.");
+    }
+
+    /*
     public void removeDishByTitleAndQuantity(String dishTitle, int recommendedQuantity) throws RestaurantException {
         boolean removed = false;
         for (Dish dish : dishList) {
@@ -61,6 +108,8 @@ public class DishManager {
         }
     }
 
+     */
+
     private void createEmptyDishsFile(String fileDishs) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileDishs))) {
             writer.write(delimiter() + 0 + delimiter() + "Empty Title" + delimiter() + 0 + delimiter() + delimiter()
@@ -74,7 +123,7 @@ public class DishManager {
         // OŠETŘENÍ prvního spuštění programu, když ještě nebude existovat soubor DB-Dishs.txt
         if (!Files.exists(Paths.get(fileDishs))) {createEmptyDishsFile(fileDishs); return;}
 
-        int i; int helpBadFormatIdentificator = 0;
+        int i; int helpBadFormatIdentificator = 0; FoodCategory helpNextRecomendedCategory = null;
         String line = ""; String[] item = new String[0];
         FoodCategory dishRecomendedMainCategory; int dishNumberOfNextRecomendedCategory; String dishTitle;
         int dishRecommendedQuantity; String dishRecommendedUnitOfQuantity; BigDecimal dishRecommendPrice;
@@ -85,13 +134,17 @@ public class DishManager {
                 item = line.split(delimiter);
                 dishRecomendedMainCategory = FoodCategory.valueOf(item[0]);
                 if (dishRecomendedMainCategory == null) {System.err.println("Chyba: V souboru DB-Dish.txt je "
-                        + "kategorie, která má hodnotu null nebo má neplatný formát nebo neexistuje v seznamu "
-                        + "kategorií ve FoodCategory na řádku s obsahem: " + line);}
+                        + "základní doporučená kategorie, která má hodnotu null nebo má neplatný formát nebo neexistuje"
+                        + " v seznamu kategorií ve FoodCategory na řádku s obsahem: " + line);}
                 helpBadFormatIdentificator = 1;
                 dishNumberOfNextRecomendedCategory = Integer.parseInt(item[1]);
                 List<FoodCategory> dishNextRecomendedCategory = new ArrayList<>();
                 for (i = 0; i < dishNumberOfNextRecomendedCategory; i++) {
-                    dishNextRecomendedCategory.add(FoodCategory.valueOf(item[i + 2]));
+                    helpNextRecomendedCategory = FoodCategory.valueOf(item[i + 2]);
+                    dishNextRecomendedCategory.add(helpNextRecomendedCategory);
+                    if (helpNextRecomendedCategory == null) {System.err.println("Chyba: V souboru DB-Dish.txt je další "
+                            + "doporučená kategorie, která má hodnotu null nebo má neplatný formát nebo neexistuje "
+                            + "v seznamu kategorií ve FoodCategory na řádku s obsahem: " + line);}
                 }
                 dishTitle = item[2 + dishNumberOfNextRecomendedCategory];
                 helpBadFormatIdentificator = 2 + dishNumberOfNextRecomendedCategory;
@@ -105,7 +158,7 @@ public class DishManager {
                 helpBadFormatIdentificator = 7 + dishNumberOfNextRecomendedCategory;
                 dishNumberOfNextPhotos = Integer.parseInt(item[8 + dishNumberOfNextRecomendedCategory]);
                 if (item.length != 9 + dishNumberOfNextRecomendedCategory + dishNumberOfNextPhotos) {
-                    throw new RestaurantException("Chyba - špatný počet položek na řádku: " + line);
+                    throw new RestaurantException("Chyba: Špatný počet položek na řádku: " + line);
                 }
                 List<String> dishNextPhoto = new ArrayList<>();
                 for (i = 0; i < dishNumberOfNextPhotos; i++) {
@@ -118,10 +171,10 @@ public class DishManager {
                 dishList.add(newDish);
             }
         } catch (FileNotFoundException e) {
-            throw new RestaurantException("Soubor " + fileDishs + " nebyl nalezen! " + e.getLocalizedMessage());
+            throw new RestaurantException("Chyba: Soubor " + fileDishs + " nebyl nalezen! " + e.getLocalizedMessage());
         } catch (NumberFormatException e) {
-            throw new RestaurantException("Chyba - v databázi není číslo: " + " na řádku: " + line + " položka č."
-                    + helpBadFormatIdentificator);
+            throw new RestaurantException("Chyba: V souboru DB-Dish.txt není číslo nebo má nedovolenou zápornou hodnotu"
+                    + " na řádku: " + line + " položka č." + helpBadFormatIdentificator);
         }
     }
 

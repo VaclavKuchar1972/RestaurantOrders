@@ -50,25 +50,41 @@ public class TableManager {
     public void addTable(Table table) throws RestaurantException {
         // Když tam bude první programem vytvořený zápis po prvním spuštěnmí, odstraním ho z Listu
         removefirstWrite();
+
+        String helpDuplicityErrMessage =  " Stůl NEBYL přidán do tableList!";
+
         if (table.getTableNumber() < 1) {
-            throw new RestaurantException("Chyba - Nelze přidat stůl se záporným nebo nulovým číslem: "
-                    + table.getTableNumber());
+            System.err.println("Chyba: Nelze přidat stůl se záporným nebo nulovým číslem." + helpDuplicityErrMessage);
+                    return;
         }
-        if (table.getTableCapacity() < 1) {
-            throw new RestaurantException("Chyba - Nelze mít stůl se zápornou nebo nulovou kapacitou: "
-                    + table.getTableNumber());
+        if (table.getTableNumber() > 99) {
+            System.err.println("Chyba: Nelze přidat stůl s číslem nad 99, překoročilo by to maximální počet stolů pro "
+                    + "tuto restauraci." + helpDuplicityErrMessage); return;
         }
         if (tableList.size() > 98) {
-            throw new RestaurantException("Chyba - Nelze přidat stůl. Byl dosažen maximální počet stolů.");
+            System.err.println("Chyba: Nelze přidat stůl. Byl dosažen maximální počet stolů, tj. 99."
+                    + helpDuplicityErrMessage); return;
         }
         if (isTableNumberDuplicity(table.getTableNumber())) {
-            throw new RestaurantException("Chyba - Nelze přidat stůl s již existujícím číslem stolu: "
-                    + table.getTableNumber());
+            System.err.println("Chyba: Nelze přidat stůl s již existujícím číslem stolu: " + table.getTableNumber()
+                    + "."+ helpDuplicityErrMessage); return;
+        }
+        if (table.getTableCapacity() < 1) {
+            System.err.println("Chyba: Nelze přidat stůl se zápornou nebo nulovou kapacitou: "
+                    + table.getTableCapacity() + "." + helpDuplicityErrMessage); return;
         }
         if (isTableLocationDuplicity(table)) {
-            throw new RestaurantException("Chyba - Nelze přidat stůl ve stejné místnosti na stejné místo, "
-                    + "kde již jeden stůl stojí.");
+            System.err.println("Chyba: Nelze přidat stůl ve stejné místnosti na stejné místo, kde již jeden stůl stojí."
+                    + helpDuplicityErrMessage); return;
         }
+        String tableSector = table.getTableSector();
+        if (tableSector.length() != 2 || !Character.isUpperCase(tableSector.charAt(0))
+                || !Character.isDigit(tableSector.charAt(1)) || tableSector.charAt(1) < '1'
+                || tableSector.charAt(1) > '9') {
+            System.err.println("Chyba: Nelze přidat stůl s neplatným formátem sektoru stolu: " + table.getTableSector()
+                    + "." + helpDuplicityErrMessage); return;
+        }
+
         tableList.add(table);
     }
 
@@ -77,7 +93,7 @@ public class TableManager {
         if (isTableNumberDuplicity(tableNumber)) {
             tableList.removeIf(table -> table.getTableNumber() == tableNumber);
         } else {
-            throw new RestaurantException("Chyba - Stůl s číslem " + tableNumber + " neexistuje, takže ho nelze "
+            throw new RestaurantException("Chyba: Stůl s číslem " + tableNumber + " neexistuje, takže ho nelze "
                     + "odebrat, nebyl tedy odebrán.");
         }
     }
@@ -106,18 +122,18 @@ public class TableManager {
                 // Oddělení jednotlivých dat stažených ze souboru - nastavil jsem si "; "
                 item = line.split(delimiter);
                 if (item.length != 4) {
-                    throw new RestaurantException("Chyba - špatný počet položek na řádku: " + line);
+                    throw new RestaurantException("Chyba: Špatný počet položek na řádku: " + line);
                 }
                 tableNumber = Integer.parseInt(item[0]);
                 if (tableNumber < 1) {
-                    throw new RestaurantException("Chyba - číslo stolu je menší než 1 na řádku: " + line);
+                    throw new RestaurantException("Chyba: Číslo stolu je menší než 1 na řádku: " + line);
                 }
                 helpBadFormatIdentificator = 3;
                 tableLocation = item[1];
                 tableSector = item[2];
                 tableCapacity = Integer.parseInt(item [3]);
                 if (tableCapacity < 1) {
-                    throw new RestaurantException("Chyba - kapacita stolu je menší než 1 na řádku: " + line);
+                    throw new RestaurantException("Chyba: Kapacita stolu je menší než 1 na řádku: " + line);
                 }
                 Table table = new Table(tableNumber, tableLocation, tableSector, tableCapacity);
                 tableList.add(table);
@@ -125,7 +141,7 @@ public class TableManager {
         } catch (FileNotFoundException e) {
             throw new RestaurantException("Soubor " + fileTables + " nebyl nalezen! " + e.getLocalizedMessage());
         } catch (NumberFormatException e) {
-            throw new RestaurantException("Chyba - v databázi není číslo: " + item[helpBadFormatIdentificator]
+            throw new RestaurantException("Chyba: v souboru DB-Table.txt není číslo: " + item[helpBadFormatIdentificator]
                     + " na řádku: " + line + " položka č. " + helpBadFormatIdentificator);
         }
     }
