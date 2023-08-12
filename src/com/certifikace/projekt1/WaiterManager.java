@@ -34,18 +34,22 @@ public class WaiterManager {
     public void addWaiter(Waiter waiter) throws RestaurantException {
         // Když tam bude první programem vytvořený zápis po prvním spuštěnmí, odstraním ho z Listu
         removefirstWrite();
+
+        String helpDuplicityErrMessage =  " Číšník NEBYL přidán do waiterList!";
+
         if (waiter.getWaiterNumber() < 1) {
-            throw new RestaurantException("Chyba - Číslo číšníka nemůže být záporné nebo nulové: "
-                    + waiter.getWaiterNumber());
+            System.err.println("Chyba: Číslo číšníka nemůže být záporné nebo nulové tedy: " + waiter.getWaiterNumber()
+                    + helpDuplicityErrMessage); return;
         }
         if (waiterList.size() > 998) {
-            throw new RestaurantException("Chyba - Nelze přidat číšníka. Byl dosažen maximální počet číšníků.");
+            System.err.println("Chyba: Nelze přidat číšníka. Byl dosažen maximální počet číšníků co6 je 999."
+                    + helpDuplicityErrMessage); return;
         }
         if (isWaiterNumberDuplicity(waiter.getWaiterNumber())) {
-            throw new RestaurantException("Chyba - Nelze přidat číšníka se stejným číslem, číšník s tímto číslem již "
-                    + "existuje.");
+            System.err.println("Chyba: Nelze přidat číšníka se stejným číslem: " + waiter.getWaiterNumber()
+                    + " Číšník s tímto číslem již existuje." + helpDuplicityErrMessage); return;
         }
-        // Když tam bude první programem vytvořený zápis po prvním spuštěnmí, odstraním ho z Listu
+
         waiterList.add(waiter);
     }
 
@@ -78,10 +82,10 @@ public class WaiterManager {
             while (scannerLoadData.hasNextLine()) {
                 line = scannerLoadData.nextLine();
                 item = line.split(delimiter);
-                if (item.length != 7) {throw new RestaurantException("Chyba - špatný počet položek na řádku: " + line);}
+                if (item.length != 7) {throw new RestaurantException("Chyba: Špatný počet položek na řádku: " + line);}
                 waiterNumber = Integer.parseInt(item[0]);
                 if (waiterNumber < 1) {
-                    throw new RestaurantException("Chyba - číslo číšníka je menší než 1 na řádku: " + line);
+                    throw new RestaurantException("Chyba: Číslo číšníka je menší než 1 na řádku: " + line);
                 }
                 waiterTitleBeforeName = item[1];
                 waiterFirstName = item[2];
@@ -96,8 +100,8 @@ public class WaiterManager {
         } catch (FileNotFoundException e) {
             throw new RestaurantException("Soubor " + fileWaiters + " nebyl nalezen! " + e.getLocalizedMessage());
         } catch (NumberFormatException e) {
-            throw new RestaurantException("Chyba - v databázi není číslo: " + item[0] + " na řádku: " + line
-                    + " položka č. 0");
+            throw new RestaurantException("Chyba: V souboru " + fileWaiters+ "není číslo: " + item[0] + " na řádku: "
+                    + line + " položka č. 0");
         }
     }
 

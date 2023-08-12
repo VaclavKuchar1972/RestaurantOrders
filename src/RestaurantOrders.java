@@ -48,8 +48,8 @@ public class RestaurantOrders {
         // která má být statická, ale zároveň plním výzvu: "Možnost přidávat a odebírat kategorie jídel" a podmínku,
         // že po pádu systému se tento obnoví "bez ztráty kytičky". :-) Jinak by to mělo splňovat všechny podmínky
         // zadání, ale když se odebere nějaká kategorie z testovacího souboru TXT, bude to vyhazovat chybový hlášky,
-        // protože je nutný pro další mé testovací data, jinak by to podle mě mělo být OK i v případě, že žádné
-        // testovací TXT soubory nebudou existovat.
+        // protože je nutný pro další má testovací data, jinak by to podle mě mělo být OK i v případě, že žádné
+        // testovací TXT soubory nebudou existovat, když se ten projekt spustí úplně "holej".
         //foodCategory.removeCategory("NEWCATEGORY"); printLnOutputs.printFoodCategoryList(foodCategory);
 
         // Zkušební kód pro ověření, že program nezkolabuje při prvním spuštění, když ještě nebude existovat
@@ -73,7 +73,7 @@ public class RestaurantOrders {
         // a všechny ostatní data stolu nastaví na null.
 
 
-        //printLnOutputs.printWaiterList(waiterManager);
+        printLnOutputs.printWaiterList(waiterManager);
 
         // Zkušební kód pro přidání číšníka do waiterList a uložení do souboru (stačí ho odkomentovat)
         //TestVoidsForMain.createAndAddNewWaiter(waiterManager); printLnOutputs.printWaiterList(waiterManager);
