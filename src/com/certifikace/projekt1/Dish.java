@@ -43,6 +43,8 @@ public class Dish {
 
     public FoodCategory getDishRecomendedMainCategory() {return dishRecomendedMainCategory;}
 
+    /*
+    // Upravená část setDishRecomendedMainCategory
     // Upravená část setDishRecomendedMainCategory
     public void setDishRecomendedMainCategory(FoodCategory dishRecomendedMainCategory) throws RestaurantException {
         try {
@@ -71,12 +73,17 @@ public class Dish {
         }
     }
 
+     */
 
-    /*
-    public void setDishRecomendedMainCategory(FoodCategory dishRecomendedMainCategory) throws RestaurantException {
 
-        try {
+
+
+
+    public void setDishRecomendedMainCategory(FoodCategory dishRecomendedMainCategory) /*throws RestaurantException*/ {
+
+
         // OŠETŘENÍ - dishRecomendedMainCategory nesmí být null
+        /*
         if (dishRecomendedMainCategory == null) {
             throw new RestaurantException("Chyba: dishRecomendedMainCategory nesmí být null.");
         }
@@ -93,15 +100,15 @@ public class Dish {
             throw new RestaurantException("Chyba: Kategorie " + dishRecomendedMainCategory.getName() + " neexistuje.");
         }
 
+         */
+
 
 
         this.dishRecomendedMainCategory = dishRecomendedMainCategory;
-        } catch (RestaurantException e) {
-            System.err.println("Chyba při nastavování kategorie: " + e.getLocalizedMessage());
-        }
+
     }
 
-     */
+
 
 
     public int getDishNumberOfNextRecomendedCategory() {return dishNumberOfNextRecomendedCategory;}

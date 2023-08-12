@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
+//import java.util.stream.Collectors;
 
 import static com.certifikace.projekt1.RestaurantSettings.*;
 import static com.certifikace.projekt1.RestaurantSettings.fileFoodCategories;
@@ -37,8 +37,8 @@ public class FoodCategory {
         return instance;
     }
 
-    // Pomocný Boolean pro kontrolu, zda je název psán velkými písmeny a neobsahuje mezery
-    private boolean ifIsValidCategoryName(String name) {return name.matches("^[A-Z]+$");}
+
+    /*
     public static List<String> getAllCategoryNames() {
         return getAllCategories()
                 .stream()
@@ -46,7 +46,12 @@ public class FoodCategory {
                 .collect(Collectors.toList());
     }
 
+     */
 
+
+
+    // Pomocný Boolean pro kontrolu, zda je název psán velkými písmeny a neobsahuje mezery
+    private boolean ifIsValidCategoryName(String name) {return name.matches("^[A-Z]+$");}
     public void addCategory(String name, String description) throws RestaurantException {
         if (!ifIsValidCategoryName(name)) {
             System.err.println("Chyba: Název kategorie musí být psán velkými písmeny a nesmí obsahovat mezery, "

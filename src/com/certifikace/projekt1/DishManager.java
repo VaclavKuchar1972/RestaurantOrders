@@ -33,16 +33,17 @@ public class DishManager {
         // Když tam bude první programem vytvořený zápis po prvním spuštěnmí, odstraním ho z Listu
         removefirstWrite();
 
-        List<String> validCategoryNames = FoodCategory.getAllCategoryNames();
+        Boolean helpErrorIdentificator = false;
+
+        //List<String> validCategoryNames = FoodCategory.getAllCategoryNames();
+
+        if (dish.getDishRecomendedMainCategory() == null) {
+            helpErrorIdentificator = true;
+            System.err.println("ADD - MANAGER - Chyba - neplatná kategorie na řádku: ");}
+
+
 
         /*
-        if (!dishRecomendedMainCategory.getName().matches("^[A-Z0-9_]+$")) {
-            throw new RestaurantException("Chyba: dishRecomendedMainCategory může obsahovat pouze velká písmena, "
-                    + "číslice a znak \"_\".");
-        }
-
-         */
-
         if (dish.getDishRecomendedMainCategory() == null) {
             throw new RestaurantException("Chyba: dishRecomXXXXendedMainCategory nesmí být null, jídlo tedy nebylo "
                     + "přidáno.");
@@ -53,6 +54,22 @@ public class DishManager {
                     + " neexistuje ve FoodCategory, jídlo tedy nebylo přidáno. Je nutné kategorii nejdříve přidat do "
                     + "FoodCategory a pak to půjde.");
         }
+
+         */
+
+
+
+
+
+
+        /*
+        if (!dishRecomendedMainCategory.getName().matches("^[A-Z0-9_]+$")) {
+            throw new RestaurantException("Chyba: dishRecomendedMainCategory může obsahovat pouze velká písmena, "
+                    + "číslice a znak \"_\".");
+        }
+
+         */
+
 
 
         /*
@@ -66,9 +83,9 @@ public class DishManager {
          */
 
 
+        if (helpErrorIdentificator == false) {dishList.add(dish);}
 
 
-        dishList.add(dish);
 
 
     }
@@ -108,7 +125,7 @@ public class DishManager {
         }
         int i;
         int helpBadFormatIdentificator = 0;
-        String helpCategoryName = "";
+
         String line = "";
         String[] item = new String[0];
         FoodCategory dishRecomendedMainCategory;
@@ -140,7 +157,7 @@ public class DishManager {
                  */
 
                 dishRecomendedMainCategory = FoodCategory.valueOf(item[0]);
-                if (dishRecomendedMainCategory == null) {System.err.println("Chyba - neplatná kategorie na řádku: " + line);}
+                if (dishRecomendedMainCategory == null) {System.err.println("MANAGER - Chyba - neplatná kategorie na řádku: " + line);}
 
 
 
