@@ -45,19 +45,7 @@ public class Waiter {
     }
 
     public int getWaiterNumber() {return waiterNumber;}
-    public void setWaiterNumber(int waiterNumber) throws RestaurantException {
-        /*
-        // OŠETŘENÍ - Číslo čííšníka musí být maximálně tříciferné a nesmí být nulové
-        if (waiterNumber < 1) {
-            throw new RestaurantException("Chyba - počet číšníků je menší než 1");
-        }
-        if (waiterNumber > 999) {
-            throw new RestaurantException("Chyba - počet číšníků je větší než 999");
-        }
-        this.waiterNumber = waiterNumber;
-
-         */
-    }
+    public void setWaiterNumber(int waiterNumber) {this.waiterNumber = waiterNumber;}
     public String getWaiterTitleBeforeName() {return waiterTitleBeforeName;}
     public void setWaiterTitleBeforeName(String waiterTitleBeforeName) {
         this.waiterTitleBeforeName = waiterTitleBeforeName;

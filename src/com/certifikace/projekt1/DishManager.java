@@ -34,81 +34,89 @@ public class DishManager {
         // Když tam bude první programem vytvořený zápis po prvním spuštěnmí, odstraním ho z Listu
         removefirstWrite();
 
+        String forbiddenCharacters = "<>:\"/\\|?*"; // Zakázané znaky pro název souboru ve Windows 10
+        String helpSameErrMessage =  " Jídlo NEBYLO přidáno do dishList!";
+
         if (dish.getDishRecomendedMainCategory() == null) {
             System.err.println("Chyba: Pokoušíte se přidat kategorii, která má hodnotu null nebo má neplatný formát "
                     + "nebo neexistuje v seznamu kategorií ve FoodCategory a je třeba jí před přidáním jídla přidat do "
-                    + "seznamu kategorií. Jídlo NEBYLO přidáno do dishList!");
-            // RETURN ukončuje okamžitě celou metodu, pokud na něj program narazí - UŽITEČNÝ!
+                    + "seznamu kategorií." + helpSameErrMessage);
             return;
         }
         if (dish.getDishNumberOfNextRecomendedCategory() < 0) {
-            throw new RestaurantException("Chyba: Pokoušíte se přidat jídlo se záporným počtem dalších doporučených "
-                    + "kategorií do zásobníku. Jídlo NEBYLO přidáno do dishList!"
-                    + dish.getDishNumberOfNextRecomendedCategory());
+            System.err.println("Chyba: Pokoušíte se přidat jídlo se záporným počtem dalších doporučených "
+                    + "kategorií do zásobníku, to nejde." + helpSameErrMessage);
+            return;
         }
-        for (FoodCategory category : dish.getDishNextRecomendedCategory()) {
-            if (category == null) {
-                System.err.println("Chyba: Pokoušíte se přidat jídlo, kde další doporučená kategorie má hodnotu null "
-                        + "nebo má neplatný formát nebo neexistuje v seznamu kategorií ve FoodCategory a je třeba ji "
-                        + "před přidáním jídla přidat do seznamu kategorií. Jídlo NEBYLO přidáno do dishList!");
-                return;
+        if (dish.getDishNumberOfNextRecomendedCategory() > 0) {
+            for (FoodCategory category : dish.getDishNextRecomendedCategory()) {
+                if (category == null) {
+                    System.err.println("Chyba: Pokoušíte se přidat jídlo, kde některá další doporučená kategorie má "
+                            + "hodnotu null nebo má neplatný formát nebo neexistuje v seznamu kategorií ve FoodCategory"
+                            + " a je třeba ji před přidáním jídla přidat do seznamu kategorií." + helpSameErrMessage);
+                    return;
+                }
             }
         }
         if (dish.getDishRecommendedQuantity() < 1) {
-            throw new RestaurantException("Chyba: Pokoušíte se přidat jídlo se záporným doporučeným množstvím k " +
-                    "prodeji, to nejde. Jídlo NEBYLO přidáno do dishList!"
-                    + dish.getDishRecommendedQuantity());
+            throw new RestaurantException("Chyba: Pokoušíte se přidat jídlo s nulovým nebo záporným doporučeným " +
+                    "množstvím k prodeji: " + dish.getDishRecommendedQuantity() + ", to nejde." + helpSameErrMessage);
         }
         for (Dish existingDish : dishList) {
             if (existingDish.detectSameTitleAndQuantity(dish.getDishTitle(), dish.getDishRecommendedQuantity())) {
                 System.err.println("Chyba: Jídlo s názvem " + dish.getDishTitle() + " a doporučeným množstvím "
                         + dish.getDishRecommendedQuantity() + " již existuje v seznamu kategorií ve FoodCategory a "
-                        + "nelze ho tedy přidat do seznamu kategorií. Jídlo NEBYLO přidáno do dishList!");
+                        + "nelze ho tedy přidat do seznamu kategorií." + helpSameErrMessage);
                 return;
             }
         }
         if (dish.getDishRecommendPrice().compareTo(BigDecimal.ZERO) < 0) {
             throw new RestaurantException("Chyba: Pokoušíte se přidat jídlo se zápornou doporučenou cenou "
-                    + dish.getDishRecommendPrice() + ",- Kč to by opravdu nešlo. ...možná \"akcička\" za nula, ale "
-                    + "jinak?!... :D Jídlo NEBYLO přidáno do dishList!");
+                    + dish.getDishRecommendPrice() + ",- Kč, to by opravdu nešlo. ...možná \"akcička\" za nula, ale "
+                    + "jinak?!... :D" + helpSameErrMessage);
+        }
+        if (dish.getDishEstimatedPreparationTime() < 1) {
+            throw new RestaurantException("Chyba: Pokoušíte se přidat jídlo s nulovou nebo zápornou předpokládanou "
+                    + "dobou přípravy: " + dish.getDishEstimatedPreparationTime() + " minut, to fakt nejde."
+                    + helpSameErrMessage);
         }
 
+        for (char forbiddenCharacter : forbiddenCharacters.toCharArray()) {
+            if (dish.getDishMainPhoto().contains(String.valueOf(forbiddenCharacter))) {
+                throw new RestaurantException ("Chyba: Pokoušíte se přidat jídlo s názvem hlavní fotogarfie, který "
+                        + "obsahuje nepovolený znak: " + forbiddenCharacter + "." + helpSameErrMessage);
+            }
+        }
+        if (dish.getDishMainPhoto() == null || dish.getDishMainPhoto().equals("")) {dish.setDishMainPhoto("blank");}
 
 
-
-
+        if (dish.getDishNumberOfNextPhotos() < 0) {
+            throw new RestaurantException ("Chyba: Pokoušíte se přidat jídlo se záporným počtem dalších fotografií, to "
+                    + "nejde." + helpSameErrMessage);
+        }
+        if (dish.getDishNumberOfNextPhotos() > 0) {
+            for (String nextPhoto : dish.getDishNextPhoto()) {
+                for (char forbiddenCharacter : forbiddenCharacters.toCharArray()) {
+                    if (nextPhoto.contains(String.valueOf(forbiddenCharacter))) {
+                        throw new RestaurantException ("Chyba: Pokoušíte se přidat jídlo, které obsahuje jednu z "
+                                + "dalších další fotografií, jejíž název obsahuje zakázaný znak: " + forbiddenCharacter
+                                + "." + helpSameErrMessage);
+                    }
+                }
+            }
+        }
 
         dishList.add(dish);
     }
 
-
     public void removeDish(Dish dish) {dishList.remove(dish);}
-
-
     public void removeDishByTitleAndQuantity(String dishTitle, int recommendedQuantity) throws RestaurantException {
         for (Dish dish : dishList) {
-            if (!dish.detectSameTitleAndQuantity(dishTitle, recommendedQuantity)) {dishList.remove(dish); return;}
+            if (dish.detectSameTitleAndQuantity(dishTitle, recommendedQuantity)) {dishList.remove(dish); return;}
         }
         throw new RestaurantException("Chyba: Jídlo s názvem " + dishTitle + " a doporučeným množstvím " +
                 recommendedQuantity + " jednotek neexistuje v seznamu kategorií, nelze ho tedy odebrat z dishList.");
     }
-
-    /*
-    public void removeDishByTitleAndQuantity(String dishTitle, int recommendedQuantity) throws RestaurantException {
-        boolean removed = false;
-        for (Dish dish : dishList) {
-            if (dish.getDishTitle().equals(dishTitle) && dish.getDishRecommendedQuantity() == recommendedQuantity) {
-                dishList.remove(dish); removed = true;
-                break;
-            }
-        }
-        if (!removed) {
-            throw new RestaurantException("Chyba: Jídlo s názvem " + dishTitle + " a doporučeným množstvím "
-                    + recommendedQuantity + " jednotek neexistuje, nelze ho tedy odebrat.");
-        }
-    }
-
-     */
 
     private void createEmptyDishsFile(String fileDishs) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileDishs))) {

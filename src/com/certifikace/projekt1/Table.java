@@ -27,7 +27,7 @@ public class Table {
     public String getTableLocation() {return tableLocation;}
     public void setTableLocation(String tableLocation) {this.tableLocation = tableLocation;}
     public String getTableSector() {return tableSector;}
-    public void setTableSector(String tableSector) throws RestaurantException {this.tableSector = tableSector;}
+    public void setTableSector(String tableSector) {this.tableSector = tableSector;}
     public int getTableCapacity() {return tableCapacity;}
     public void setTableCapacity(int tableCapacity) {this.tableCapacity = tableCapacity;}
 

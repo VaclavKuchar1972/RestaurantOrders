@@ -42,7 +42,7 @@ public class WaiterManager {
                     + helpDuplicityErrMessage); return;
         }
         if (waiterList.size() > 998) {
-            System.err.println("Chyba: Nelze přidat číšníka. Byl dosažen maximální počet číšníků co6 je 999."
+            System.err.println("Chyba: Nelze přidat číšníka. Byl dosažen maximální počet číšníků což je 999."
                     + helpDuplicityErrMessage); return;
         }
         if (isWaiterNumberDuplicity(waiter.getWaiterNumber())) {

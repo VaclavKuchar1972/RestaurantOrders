@@ -9,6 +9,7 @@ public class TestVoidsForMain {
 
     static RestaurantSaversVoidsForMain saversVoids = new RestaurantSaversVoidsForMain();
 
+
     public static void createAndAddNewTable (TableManager tableManager) throws RestaurantException {
         try {tableManager.addTable(new Table(20, "SALONEK",
                 "A2", 2));
@@ -17,6 +18,7 @@ public class TestVoidsForMain {
         catch (RestaurantException e) {System.err.println("Nepodařilo se přidat nový stůl: "
                 + e.getLocalizedMessage());}
     }
+
     public static void removeTableByNumber (TableManager tableManager) throws RestaurantException {
         try {
             tableManager.removeTableByNumber(20);
@@ -59,7 +61,7 @@ public class TestVoidsForMain {
             dishNextPhoto.add("SP-MM-KatuvSleh-01");
             Dish newDish = new Dish(mainCategory, dishNumberOfNextRecomendedCategory, nextRecommendedCategories,
                     "Katův šleh \"Chez Quis à Prague\"", 250,
-                    "g", new BigDecimal("240"), 15,
+                    "g", new BigDecimal("240"), 20,
                     "SP-MM-KatuvSleh-Main", dishNumberOfNextPhotos, dishNextPhoto);
             dishManager.addDish(newDish);
         } catch (RestaurantException e) {

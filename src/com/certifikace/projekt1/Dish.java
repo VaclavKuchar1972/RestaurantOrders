@@ -45,16 +45,13 @@ public class Dish {
                 + ", " + dishRecommendedUnitOfQuantity + ", " + dishRecommendPrice + ", " + dishEstimatedPreparationTime
                 + ", " + dishMainPhoto + ", " + dishNumberOfNextPhotos + ", " + dishNextPhoto;
     }
+
     public FoodCategory getDishRecomendedMainCategory() {return dishRecomendedMainCategory;}
     public void setDishRecomendedMainCategory(FoodCategory dishRecomendedMainCategory) {
         this.dishRecomendedMainCategory = dishRecomendedMainCategory;
     }
     public int getDishNumberOfNextRecomendedCategory() {return dishNumberOfNextRecomendedCategory;}
-    public void setDishNumberOfNextRecomendedCategory(int dishNumberOfNextRecomendedCategory)
-            throws RestaurantException {
-        if (dishNumberOfNextRecomendedCategory < 0) {
-            throw new RestaurantException("Chyba: dishNumberOfNextRecomendedCategory nesmí být menší než nula.");
-        }
+    public void setDishNumberOfNextRecomendedCategory(int dishNumberOfNextRecomendedCategory) {
         this.dishNumberOfNextRecomendedCategory = dishNumberOfNextRecomendedCategory;
     }
     public List<FoodCategory> getDishNextRecomendedCategory() {return dishNextRecomendedCategory;}
@@ -64,7 +61,7 @@ public class Dish {
     public String getDishTitle() {return dishTitle;}
     public void setDishTitle(String dishTitle) {this.dishTitle = dishTitle;}
     public int getDishRecommendedQuantity() {return dishRecommendedQuantity;}
-    public void setDishRecommendedQuantity(int dishRecommendedQuantity) throws RestaurantException {
+    public void setDishRecommendedQuantity(int dishRecommendedQuantity) {
         this.dishRecommendedQuantity = dishRecommendedQuantity;
     }
     public String getDishRecommendedUnitOfQuantity() {return dishRecommendedUnitOfQuantity;}
@@ -72,51 +69,43 @@ public class Dish {
         this.dishRecommendedUnitOfQuantity = dishRecommendedUnitOfQuantity;
     }
     public BigDecimal getDishRecommendPrice() {return dishRecommendPrice;}
-    public void setDishRecommendPrice(BigDecimal dishRecommendPrice) throws RestaurantException {
+    public void setDishRecommendPrice(BigDecimal dishRecommendPrice) {
         this.dishRecommendPrice = dishRecommendPrice;}
     public int getDishEstimatedPreparationTime() {return dishEstimatedPreparationTime;}
     public void setDishEstimatedPreparationTime(int dishEstimatedPreparationTime) throws RestaurantException {
-        // OŠETŘENÍ - opravdu nejde nic udělat za nulový čas, tedy lze - další nic :-)
-        if (dishEstimatedPreparationTime < 1 ) {
-            throw new RestaurantException("Chyba: dishEstimatedPreparationTime nesmí být menší než 1.");
-        }
         this.dishEstimatedPreparationTime = dishEstimatedPreparationTime;
     }
     public String getDishMainPhoto() {return dishMainPhoto;}
-    public void setDishMainPhoto(String dishMainPhoto) throws RestaurantException {
+    public void setDishMainPhoto(String dishMainPhoto) /*throws RestaurantException*/ {
+        // Obdobné kódy jsem měl ve všech metodách všech základních tříd, kde podle toho co jme se učili mají být,
+        // ale jednoduše nefungují, takže jsem veškerou tuto správu přesunul do Managerů příslušných základních tříd.
+        // Myslím, že tento problém je spojený s testovací třídou TestVoidsForMain, ale neporadil mi ani ChatGPT,
+        // kde je problém a jak ho odstarnit a já bohužel nemám čas, čekat na odpovědi přes Diskord, program je ale plně
+        // funkční a dělá to co má přesně podle zadání, jen nevypadá tak, jak nás to učil Martin. :-(
+
+        /*
         // Zakázané znaky pro název souboru ve Windows 10
         String forbiddenCharacters = "<>:\"/\\|?*";
-        // OŠETĚNÍ: dishMainPhoto nesmí obsahovat zakázané znaky
-        for (char forbiddenCharacter : forbiddenCharacters.toCharArray()) {
-            if (dishMainPhoto.contains(String.valueOf(forbiddenCharacter))) {
-                throw new RestaurantException ("Chyba: dishMainPhoto obsahuje zakázaný znak \""
-                        + forbiddenCharacter + "\".");
-            }
-        }
-        if (dishMainPhoto == null || dishMainPhoto.isEmpty()) {this.dishMainPhoto = "blank";}
-        else {this.dishMainPhoto = dishMainPhoto;}
-    }
-    public int getDishNumberOfNextPhotos() {return dishNumberOfNextPhotos;}
-    public void setDishNumberOfNextPhotos(int dishNumberOfNextPhotos) throws RestaurantException {
-        if (dishNumberOfNextPhotos < 0) {
-            throw new RestaurantException("Chyba: dishNumberOfNextPhotos nesmí být menší než 0.");
-        }
-        this.dishNumberOfNextPhotos = dishNumberOfNextPhotos;
-    }
-    public List<String> getDishNextPhoto() {return dishNextPhoto;}
-    public void setDishNextPhoto(List<String> dishNextPhoto) throws RestaurantException {
-        String forbiddenCharacters = "<>:\"/\\|?*";
-        // OŠETŘENÍ - projdu celý List a hledám, jestli neobsahuje zakázané znaky
-        for (String nextPhoto : dishNextPhoto) {
+        if (dishMainPhoto == null || dishMainPhoto.equals("")) {this.dishMainPhoto = "blank";}
+        else {
             for (char forbiddenCharacter : forbiddenCharacters.toCharArray()) {
-                if (nextPhoto.contains(String.valueOf(forbiddenCharacter))) {
-                    throw new RestaurantException ("Chyba: ArrayList dishNextPhoto obsahuje zakázaný znak \""
+                if (dishMainPhoto.contains(String.valueOf(forbiddenCharacter))) {
+                    throw new RestaurantException ("Chyba: dishMainPhoto obsahuje zakázaný znak \""
                             + forbiddenCharacter + "\".");
                 }
             }
+            this.dishMainPhoto = dishMainPhoto;
         }
-        this.dishNextPhoto = dishNextPhoto;
+        */
+
+        this.dishMainPhoto = dishMainPhoto;
     }
+    public int getDishNumberOfNextPhotos() {return dishNumberOfNextPhotos;}
+    public void setDishNumberOfNextPhotos(int dishNumberOfNextPhotos) {
+        this.dishNumberOfNextPhotos = dishNumberOfNextPhotos;
+    }
+    public List<String> getDishNextPhoto() {return dishNextPhoto;}
+    public void setDishNextPhoto(List<String> dishNextPhoto) {this.dishNextPhoto = dishNextPhoto;}
     public void addDishNextPhoto(String photo) {dishNextPhoto.add(photo);}
 
 

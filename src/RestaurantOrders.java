@@ -89,7 +89,7 @@ public class RestaurantOrders {
         // a všechny ostatní data číšníka nastaví na null.
         // Pak je ale třeba tam vrátit ten první testovací, jinak viz. výše.
 
-        //printLnOutputs.printDishListDataFromFile(dishManager);
+        printLnOutputs.printDishListDataFromFile(dishManager);
 
         // Zkušební kód pro přidání jídla do zásobníku a jeho uložení do souboru (stačí ho odkomentovat)
         //TestVoidsForMain.createAndAddNewDish(dishManager); printLnOutputs.printDishListDataFromFile(dishManager);
@@ -101,6 +101,9 @@ public class RestaurantOrders {
         TestVoidsForMain.removeDishByTitleAndQuantity(dishManager);
         printLnOutputs.printDishListDataFromFile(dishManager);
         */
+
+
+
 
 
 
