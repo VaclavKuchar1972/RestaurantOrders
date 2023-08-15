@@ -102,8 +102,11 @@ public class RestaurantOrders {
         printLnOutputs.printDishListDataFromFile(dishManager);
         */
 
-
-
+        // Zkušební kód pro nahrazení hlavní doporučené kategorie jidla v dishList (stačí ho odkomentovat)
+        /*
+        TestVoidsForMain.replaceDishRecomendedMainCategoryByTitleAndQuantity(dishManager);
+        printLnOutputs.printDishListDataFromFile(dishManager);
+        */
 
 
 

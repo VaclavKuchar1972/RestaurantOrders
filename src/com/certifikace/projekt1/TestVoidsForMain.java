@@ -1,6 +1,5 @@
 package com.certifikace.projekt1;
 
-
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -78,6 +77,21 @@ public class TestVoidsForMain {
             System.err.println("Nepodařilo se odebrat jídlo do zásobníku: " + e.getLocalizedMessage());
         }
     }
+
+    public static void replaceDishRecomendedMainCategoryByTitleAndQuantity(DishManager dishManager) {
+        try {
+            FoodCategory newRecomendedMainCategory = FoodCategory.getInstance().getCategoryByName("SPECIALITY");
+            dishManager.replaceDishRecomendedMainCategoryByTitleAndQuantity(
+                    "Grilovaný hovězí biftek z mladého býčka s pepřovou omáčkou", 300,
+                    newRecomendedMainCategory);
+            saversVoids.saveDishsData(dishManager);
+        } catch (RestaurantException e) {
+            System.err.println("Nepodařilo se nahradit dopručenou hlavní kategorii jídla: "
+                    + e.getLocalizedMessage());
+        }
+    }
+
+
 
 }
 

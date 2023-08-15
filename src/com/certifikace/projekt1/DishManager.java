@@ -29,7 +29,6 @@ public class DishManager {
         Iterator<Dish> iterator = dishList.iterator();
         while (iterator.hasNext()) {Dish dish = iterator.next(); if (firstWriteDetector(dish)) {iterator.remove();}}
     }
-
     public void addDish(Dish dish) throws RestaurantException {
         // Když tam bude první programem vytvořený zápis po prvním spuštěnmí, odstraním ho z Listu
         removefirstWrite();
@@ -110,6 +109,11 @@ public class DishManager {
     }
 
     public void removeDish(Dish dish) {dishList.remove(dish);}
+
+    // Nevidím důvod, proč by nemohli existovat dvě jídla se shodným názvem, ale jen s odlišným množstvím jednotek,
+    // které se hostovi prodají. Když tam budou, nic se neděje, restauratér si jen vybere, které z nich chce dát na Menu
+    // a když bude chtít tam dát obě tak je tam dá obě a každé bude prodávat s jinou cenou. Např. někdo chce guláš se
+    // šesti tak tam bude jako příloha Knedlík s jednotkou 6 a ne 4.
     public void removeDishByTitleAndQuantity(String dishTitle, int recommendedQuantity) throws RestaurantException {
         for (Dish dish : dishList) {
             if (dish.detectSameTitleAndQuantity(dishTitle, recommendedQuantity)) {dishList.remove(dish); return;}
@@ -117,6 +121,33 @@ public class DishManager {
         throw new RestaurantException("Chyba: Jídlo s názvem " + dishTitle + " a doporučeným množstvím " +
                 recommendedQuantity + " jednotek neexistuje v seznamu kategorií, nelze ho tedy odebrat z dishList.");
     }
+
+    // V mém projektu nelze mít jídlo v zásobníku bez hlavní kategorie, lze ji pouze nahradit, je to obdobné jako s tou
+    // hlavní fotkou dle zadání Projektu 1 a myslím, že je to tak správné. Lépe se pak budou třídit i jídla na jídelním
+    // lístku pro případný výstup na tiskárnu nebo i na web, kdyby se měl jídelní lístek předkádat hostům i
+    // elektornicky.
+    public void replaceDishRecomendedMainCategoryByTitleAndQuantity
+    (String title, int quantity, FoodCategory newRecomendedMainCategory) throws RestaurantException {
+        for (Dish dish : dishList) {
+            if (dish.detectSameTitleAndQuantity(title, quantity)) {
+                if (newRecomendedMainCategory != null) {dish.setDishRecomendedMainCategory(newRecomendedMainCategory);}
+                else {System.err.println("Chyba: Pokoušíte se změnit dopručenou hlavní kategorii jídla v zásobníku, "
+                        + "tato kategorie ale nemá platný formát nebo neexistuje ve FoodCategory a je třeba ji tam "
+                        + "nejříve přidat. Hlavní doporučená kategorie u jídla " + title + " s dopručeným množstvím "
+                        + quantity + " jednotek NEBYLA nahrazena Vámi požadovanou novou kategorií v dishList!" );}
+                return;
+            }
+        }
+        System.err.println ("Chyba: Jídlo s názvem '" + title + "' a množstvím " + quantity + " nebylo nalezeno v "
+                + "současném dishList. Hlavní kategorie u jídla tedy NEMOHLA být nahrazena.");
+    }
+
+
+
+
+
+
+
 
     private void createEmptyDishsFile(String fileDishs) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileDishs))) {
