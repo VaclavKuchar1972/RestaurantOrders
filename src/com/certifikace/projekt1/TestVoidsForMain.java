@@ -91,6 +91,18 @@ public class TestVoidsForMain {
         }
     }
 
+    public static void addDishNextRecomendedCategoryByTitleAndQuantity(DishManager dishManager) {
+        try {
+            FoodCategory newRecomendedNextCategory = FoodCategory.getInstance().getCategoryByName("SPE CIALITY");
+            dishManager.addDishNextRecomendedCategoryByTitleAndQuantity(
+                    "Grilovaný hovězí biftek z mladého býčka s pepřovou omáčkou", 300,
+                    String.valueOf(newRecomendedNextCategory));
+            //saversVoids.saveDishsData(dishManager);
+        } catch (RestaurantException e) {
+            System.err.println("Nepodařilo se nahradit dopručenou hlavní kategorii jídla: "
+                    + e.getLocalizedMessage());
+        }
+    }
 
 
 }

@@ -108,6 +108,10 @@ public class RestaurantOrders {
         printLnOutputs.printDishListDataFromFile(dishManager);
         */
 
+        // Zkušební kód pro přidání další doporučené kategorie jidla v dishList (stačí ho odkomentovat)
+
+        TestVoidsForMain.addDishNextRecomendedCategoryByTitleAndQuantity(dishManager);
+        printLnOutputs.printDishListDataFromFile(dishManager);
 
 
     }

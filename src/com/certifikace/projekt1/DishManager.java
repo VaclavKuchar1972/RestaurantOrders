@@ -138,16 +138,74 @@ public class DishManager {
                 return;
             }
         }
-        System.err.println ("Chyba: Jídlo s názvem '" + title + "' a množstvím " + quantity + " nebylo nalezeno v "
+        System.err.println ("Chyba: Jídlo s názvem " + title + " a množstvím " + quantity + " nebylo nalezeno v "
                 + "současném dishList. Hlavní kategorie u jídla tedy NEMOHLA být nahrazena.");
     }
 
+    /*
+    public void addDishNextRecomendedCategoryByTitleAndQuantity
+            (String title, int quantity, String newRecomendedNextCategory) throws RestaurantException {
+        FoodCategory newRecomendedNextCategory = FoodCategory.getCategoryByName(newRecomendedNextCategory);
+        if (newRecomendedNextCategory == null) {
+            System.err.println("Chyba: Zadaná kategorie '" + newRecomendedNextCategory +
+                    "' nemá platný formát nebo neexistuje ve FoodCategory.");
+            return;
+        }
+        for (Dish dish : dishList) {
+            if (dish.detectSameTitleAndQuantity(title, quantity)) {
+                List<FoodCategory> nextRecomendedCategory = new ArrayList<>(dish.getDishNextRecomendedCategory());
 
+                FoodCategory mainRecomendedCategory = dish.getDishRecomendedMainCategory();
 
+                if (nextRecomendedCategory.contains(newRecomendedNextCategory)
+                        || (newRecomendedNextCategory == null
+                        || mainRecomendedCategory.equals(newRecomendedNextCategory))) {
+                    System.err.println("Chyba: Zadaná kategorie '" + newRecomendedNextCategory +
+                            "' již existuje mezi doporučenými kategoriemi pro jídlo '" + title + "' nebo je " +
+                            "již nastavena jako hlavní doporučená kategorie.");
+                    return;
+                }
 
+                nextRecomendedCategory.add(FoodCategory.valueOf(newRecomendedNextCategory));
+                dish.setDishNextRecomendedCategory(nextRecomendedCategory);
+                return;
+            }
+        }
+        throw new RestaurantException("Chyba: Jídlo s názvem '" + title + "' a doporučeným množstvím " +
+                quantity + " jednotek neexistuje v seznamu kategorií, nelze tedy přidat další " +
+                "doporučenou kategorii.");
+    }
+    */
 
+    public void addDishNextRecomendedCategoryByTitleAndQuantity(String dishTitle, int dishRecommendedQuantity, String newCategoryName) throws RestaurantException {
+        FoodCategory newCategory = new FoodCategory(newCategoryName, "");
+        if (newCategory == null) {
+            throw new RestaurantException("Chyba: Zadaná kategorie '" + newCategoryName +
+                    "' nemá platný formát nebo neexistuje ve FoodCategory.");
+        }
 
+        for (Dish dish : dishList) {
+            if (dish.detectSameTitleAndQuantity(dishTitle, dishRecommendedQuantity)) {
+                List<FoodCategory> nextRecomendedCategory = new ArrayList<>(dish.getDishNextRecomendedCategory());
+                FoodCategory mainRecomendedCategory = dish.getDishRecomendedMainCategory();
 
+                if (nextRecomendedCategory.contains(newCategory) ||
+                        (mainRecomendedCategory != null && mainRecomendedCategory.equals(newCategory))) {
+                    throw new RestaurantException("Chyba: Zadaná kategorie '" + newCategoryName +
+                            "' již existuje mezi doporučenými kategoriemi pro jídlo '" + dishTitle + "' nebo je " +
+                            "již nastavena jako hlavní doporučená kategorie.");
+                }
+
+                nextRecomendedCategory.add(newCategory);
+                dish.setDishNextRecomendedCategory(nextRecomendedCategory);
+                return;
+            }
+        }
+
+        throw new RestaurantException("Chyba: Jídlo s názvem '" + dishTitle + "' a doporučeným množstvím " +
+                dishRecommendedQuantity + " jednotek neexistuje v seznamu jídel, nelze tedy přidat další " +
+                "doporučenou kategorii.");
+    }
 
     private void createEmptyDishsFile(String fileDishs) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileDishs))) {
