@@ -92,37 +92,7 @@ public class TestVoidsForMain {
     }
 
     /*
-    public static void addDishNextRecomendedCategoryByTitleAndQuantity(DishManager dishManager) {
-        try {
-            FoodCategory newRecomendedNextCategory = FoodCategory.getInstance().getCategoryByName("SALAD");
-            dishManager.addDishNextRecomendedCategoryByTitleAndQuantity(
-                    "Grilovaný hovězí biftek z mladého býčka s pepřovou omáčkou", 300,
-                    String.valueOf(newRecomendedNextCategory));
-            //saversVoids.saveDishsData(dishManager);
-        } catch (RestaurantException e) {
-            System.err.println("Nepodařilo se nahradit dopručenou další kategorii jídla: "
-                    + e.getLocalizedMessage());
-        }
-    }
-    */
-/*
-
-    public static void addDishNextRecomendedCategoryByTitleAndQuantity(DishManager dishManager) {
-        try {
-            FoodCategory newRecommendedNextCategory = FoodCategory.getInstance().getCategoryByName("SALAD");
-            dishManager.addDishNextRecomendedCategoryByTitleAndQuantity(
-                    "Grilovaný hovězí biftek z mladého býčka s pepřovou omáčkou", 300,
-                    String.valueOf(newRecommendedNextCategory));
-            saversVoids.saveDishsData(dishManager); // Uložení dat po změně
-        } catch (RestaurantException e) {
-            System.err.println("Nepodařilo se přidat novou doporučenou další kategorii jídla: " + e.getLocalizedMessage());
-        }
-    }
-
- */
-
-/*
-    public static void addDishNextRecomendedCategoryByTitleAndQuantity(DishManager dishManager) {
+    public static void addDishNextRecomendedCategoryByTitleAndQuantityTest(DishManager dishManager) {
         try {
             String dishTitle = "Grilovaný hovězí biftek z mladého býčka s pepřovou omáčkou";
             int dishQuantity = 300;
@@ -134,7 +104,9 @@ public class TestVoidsForMain {
         }
     }
 
- */
+     */
+
+
 
 
 }
