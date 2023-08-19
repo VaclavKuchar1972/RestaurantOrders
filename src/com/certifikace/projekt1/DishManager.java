@@ -133,7 +133,7 @@ public class DishManager {
                 if (newRecomendedMainCategory != null) {dish.setDishRecomendedMainCategory(newRecomendedMainCategory);}
                 else {System.err.println("Chyba: Pokoušíte se změnit dopručenou hlavní kategorii jídla v zásobníku, "
                         + "tato kategorie ale nemá platný formát nebo neexistuje ve FoodCategory a je třeba ji tam "
-                        + "nejříve přidat. Hlavní doporučená kategorie u jídla " + title + " s dopručeným množstvím "
+                        + "nejdříve přidat. Hlavní doporučená kategorie u jídla " + title + " s dopručeným množstvím "
                         + quantity + " jednotek NEBYLA nahrazena Vámi požadovanou novou kategorií v dishList!" );}
                 return;
             }
@@ -176,7 +176,7 @@ public class DishManager {
                 "doporučenou kategorii.");
     }
     */
-
+    /*
     public void addDishNextRecomendedCategoryByTitleAndQuantity(String dishTitle, int dishRecommendedQuantity, String newCategoryName) throws RestaurantException {
         FoodCategory newCategory = new FoodCategory(newCategoryName, "");
         if (newCategory == null) {
@@ -206,6 +206,269 @@ public class DishManager {
                 dishRecommendedQuantity + " jednotek neexistuje v seznamu jídel, nelze tedy přidat další " +
                 "doporučenou kategorii.");
     }
+    */
+
+
+
+/*
+    public void addDishNextRecomendedCategoryByTitleAndQuantity
+            (String title, int quantity, String newNextRecomendedCategoryName) throws RestaurantException {
+        FoodCategory newCategory = FoodCategory.valueOf(newNextRecomendedCategoryName);
+        if (newCategory == null) {
+            throw new RestaurantException("Chyba: Pokoušíte se přidat další dopručenou kategorii jídla v zásobníku, "
+                    + "tato kategorie ale nemá platný formát nebo neexistuje ve FoodCategory a je třeba ji tam "
+                    + "nejdříve přidat. Další doporučená kategorie u jídla " + title + " s dopručeným množstvím "
+                    + quantity + " jednotek NEBYLA přidána do dishList!" );
+        }
+
+
+
+        for (Dish dish : dishList) {
+            if (dish.detectSameTitleAndQuantity(title, quantity)) {
+                List<FoodCategory> nextRecomendedCategory = new ArrayList<>(dish.getDishNextRecomendedCategory());
+                FoodCategory mainRecomendedCategory = dish.getDishRecomendedMainCategory();
+
+                if (nextRecomendedCategory.contains(newCategory) ||
+                        (mainRecomendedCategory != null && mainRecomendedCategory.equals(newCategory))) {
+                    throw new RestaurantException("Chyba: Zadaná kategorie '" + newNextRecomendedCategoryName +
+                            "' již existuje mezi doporučenými kategoriemi pro jídlo '" + title + "' nebo je " +
+                            "již nastavena jako hlavní doporučená kategorie.");
+                }
+
+                nextRecomendedCategory.add(newCategory);
+                dish.setDishNextRecomendedCategory(nextRecomendedCategory);
+                return;
+            }
+        }
+
+        throw new RestaurantException("Chyba: Jídlo s názvem '" + title + "' a doporučeným množstvím " +
+                quantity + " jednotek neexistuje v seznamu jídel, nelze tedy přidat další " +
+                "doporučenou kategorii.");
+    }
+*/
+/*
+    public void addDishNextRecomendedCategoryByTitleAndQuantity
+            (String title, int quantity, String newNextRecomendedCategoryName) throws RestaurantException {
+        // Zde je důležité zkontrolovat, zda taková kategorie existuje ve FoodCategory.
+        // Je třeba použít try-catch blok, protože pokud kategorie neexistuje, volání valueOf
+        // vyvolá IllegalArgumentException.
+        try {
+            FoodCategory newCategory = FoodCategory.valueOf(newNextRecomendedCategoryName);
+            for (Dish dish : dishList) {
+                if (dish.detectSameTitleAndQuantity(title, quantity)) {
+                    List<FoodCategory> nextRecomendedCategory = new ArrayList<>(dish.getDishNextRecomendedCategory());
+                    FoodCategory mainRecomendedCategory = dish.getDishRecomendedMainCategory();
+
+                    if (nextRecomendedCategory.contains(newCategory) ||
+                            (mainRecomendedCategory != null && mainRecomendedCategory.equals(newCategory))) {
+                        throw new RestaurantException("Chyba: Zadaná kategorie '" + newNextRecomendedCategoryName +
+                                "' již existuje mezi doporučenými kategoriemi pro jídlo '" + title + "' nebo je " +
+                                "již nastavena jako hlavní doporučená kategorie.");
+                    }
+
+                    nextRecomendedCategory.add(newCategory);
+                    dish.setDishNextRecomendedCategory(nextRecomendedCategory);
+                    return;
+                }
+            }
+
+            throw new RestaurantException("Chyba: Jídlo s názvem '" + title + "' a doporučeným množstvím " +
+                    quantity + " jednotek neexistuje v seznamu jídel, nelze tedy přidat další " +
+                    "doporučenou kategorii.");
+        } catch (IllegalArgumentException e) {
+            throw new RestaurantException("Chyba: Zadaná kategorie '" + newNextRecomendedCategoryName +
+                    "' nemá platný formát nebo neexistuje ve FoodCategory.");
+        }
+    }*/
+
+    /*
+    public void addDishNextRecomendedCategoryByTitleAndQuantity
+            (String title, int quantity, String newNextRecomendedCategoryName) throws RestaurantException {
+        try {
+            FoodCategory newCategory = FoodCategory.valueOf(newNextRecomendedCategoryName);
+
+            if (!FoodCategory.ifIsValidCategoryName(newNextRecomendedCategoryName)) {
+                throw new RestaurantException("Chyba: Zadaná kategorie '" + newNextRecomendedCategoryName +
+                        "' nemá platný formát.");
+            }
+
+            boolean foundDish = false; // Indikuje, zda bylo jídlo nalezeno
+            for (Dish dish : dishList) {
+                if (dish.detectSameTitleAndQuantity(title, quantity)) {
+                    foundDish = true;
+
+                    List<FoodCategory> nextRecomendedCategory = new ArrayList<>(dish.getDishNextRecomendedCategory());
+                    FoodCategory mainRecomendedCategory = dish.getDishRecomendedMainCategory();
+
+                    if (nextRecomendedCategory.contains(newCategory) ||
+                            (mainRecomendedCategory != null && mainRecomendedCategory.equals(newCategory))) {
+                        throw new RestaurantException("Chyba: Zadaná kategorie '" + newNextRecomendedCategoryName +
+                                "' již existuje mezi doporučenými kategoriemi pro jídlo '" + title + "' nebo je " +
+                                "již nastavena jako hlavní doporučená kategorie.");
+                    }
+
+                    nextRecomendedCategory.add(newCategory);
+                    dish.setDishNextRecomendedCategory(nextRecomendedCategory);
+                    break; // Ukončení smyčky po provedení operace
+                }
+            }
+
+            if (!foundDish) {
+                throw new RestaurantException("Chyba: Jídlo s názvem '" + title + "' a doporučeným množstvím " +
+                        quantity + " jednotek neexistuje v seznamu jídel, nelze tedy přidat další " +
+                        "doporučenou kategorii.");
+            }
+        } catch (IllegalArgumentException e) {
+            throw new RestaurantException("Chyba: Zadaná kategorie '" + newNextRecomendedCategoryName +
+                    "' nemá platný formát nebo neexistuje ve FoodCategory.");
+        }
+    }*/
+    /*
+    public void addDishNextRecomendedCategoryByTitleAndQuantity(
+            String title, int quantity, String newNextRecomendedCategoryName) throws RestaurantException {
+        try {
+            FoodCategory newCategory = FoodCategory.valueOf(newNextRecomendedCategoryName);
+
+            if (!FoodCategory.ifIsValidCategoryName(newNextRecomendedCategoryName)) {
+                throw new RestaurantException("Chyba: Zadaná kategorie nemá platný formát.");
+            }
+
+            for (Dish dish : dishList) {
+                if (dish.detectSameTitleAndQuantity(title, quantity)) {
+                    List<FoodCategory> nextRecomendedCategory = new ArrayList<>(dish.getDishNextRecomendedCategory());
+                    FoodCategory mainRecomendedCategory = dish.getDishRecomendedMainCategory();
+
+                    if (nextRecomendedCategory.contains(newCategory) ||
+                            (mainRecomendedCategory != null && mainRecomendedCategory.equals(newCategory))) {
+                        throw new RestaurantException("Chyba: Zadaná kategorie '" + newNextRecomendedCategoryName +
+                                "' již existuje mezi doporučenými kategoriemi pro jídlo '" + title + "' nebo je " +
+                                "již nastavena jako hlavní doporučená kategorie.");
+                    }
+
+                    nextRecomendedCategory.add(newCategory);
+                    dish.setDishNextRecomendedCategory(nextRecomendedCategory);
+                    return; // Ukončení metody po provedení operace
+                }
+            }
+
+            throw new RestaurantException("Chyba: Jídlo s názvem '" + title + "' a doporučeným množstvím " +
+                    quantity + " jednotek neexistuje v seznamu jídel, nelze tedy přidat další " +
+                    "doporučenou kategorii.");
+        } catch (IllegalArgumentException e) {
+            throw new RestaurantException("Chyba: Zadaná kategorie '" + newNextRecomendedCategoryName +
+                    "' nemá platný formát nebo neexistuje ve FoodCategory.");
+        }
+    }*/
+
+/*
+    public void addDishNextRecomendedCategoryByTitleAndQuantity(
+            String title, int quantity, String newNextRecomendedCategoryName) throws RestaurantException {
+        try {
+            FoodCategory newCategory = FoodCategory.valueOf(newNextRecomendedCategoryName);
+
+            if (!FoodCategory.ifIsValidCategoryName(newNextRecomendedCategoryName)) {
+                throw new RestaurantException("Chyba: Zadaná kategorie '" + newNextRecomendedCategoryName +
+                        "' nemá platný formát.");
+            }
+
+            for (Dish dish : dishList) {
+                if (dish.detectSameTitleAndQuantity(title, quantity)) {
+                    List<FoodCategory> nextRecomendedCategory = new ArrayList<>(dish.getDishNextRecomendedCategory());
+                    FoodCategory mainRecomendedCategory = dish.getDishRecomendedMainCategory();
+
+
+                    if (nextRecomendedCategory.contains(newCategory) ||
+                            (mainRecomendedCategory != null && mainRecomendedCategory.equals(newCategory))) {
+                        throw new RestaurantException("Chyba: Zadaná kategorie '" + newNextRecomendedCategoryName +
+                                "' již existuje mezi doporučenými kategoriemi pro jídlo '" + title + "' nebo je " +
+                                "již nastavena jako hlavní doporučená kategorie.");
+                    }
+
+
+
+                    nextRecomendedCategory.add(newCategory);
+                    dish.setDishNextRecomendedCategory(nextRecomendedCategory);
+                    return; // Ukončení metody po provedení operace
+                }
+            }
+
+            throw new RestaurantException("Chyba: Jídlo s názvem '" + title + "' a doporučeným množstvím " +
+                    quantity + " jednotek neexistuje v seznamu jídel, nelze tedy přidat další " +
+                    "doporučenou kategorii.");
+        } catch (IllegalArgumentException e) {
+            throw new RestaurantException("Chyba: Zadaná kategorie '" + newNextRecomendedCategoryName +
+                    "' nemá platný formát nebo neexistuje ve FoodCategory.");
+        }
+    }
+
+ */
+
+
+/*
+    public void addDishNextRecomendedCategoryByTitleAndQuantity(
+            String title, int quantity, String newNextRecomendedCategoryName) throws RestaurantException {
+        try {
+            FoodCategory newCategory = FoodCategory.valueOf(newNextRecomendedCategoryName);
+
+            if (!FoodCategory.ifIsValidCategoryName(newNextRecomendedCategoryName)) {
+                throw new RestaurantException("Chyba: Zadaná kategorie '" + newNextRecomendedCategoryName +
+                        "' nemá platný formát.");
+            }
+
+            boolean foundDish = false; // Indikuje, zda bylo jídlo nalezeno
+            for (Dish dish : dishList) {
+                if (dish.detectSameTitleAndQuantity(title, quantity)) {
+                    foundDish = true;
+
+                    List<FoodCategory> nextRecomendedCategory = new ArrayList<>(dish.getDishNextRecomendedCategory());
+                    FoodCategory mainRecomendedCategory = dish.getDishRecomendedMainCategory();
+
+                    if (nextRecomendedCategory.contains(newCategory) ||
+                            (mainRecomendedCategory != null && mainRecomendedCategory.equals(newCategory))) {
+                        throw new RestaurantException("Chyba: Zadaná kategorie '" + newNextRecomendedCategoryName +
+                                "' již existuje mezi doporučenými kategoriemi pro jídlo '" + title + "' nebo je " +
+                                "již nastavena jako hlavní doporučená kategorie.");
+                    }
+
+                    nextRecomendedCategory.add(newCategory);
+                    dish.setDishNextRecomendedCategory(nextRecomendedCategory);
+                    break; // Ukončení smyčky po provedení operace
+                }
+            }
+
+            if (!foundDish) {
+                throw new RestaurantException("Chyba: Jídlo s názvem '" + title + "' a doporučeným množstvím " +
+                        quantity + " jednotek neexistuje v seznamu jídel, nelze tedy přidat další " +
+                        "doporučenou kategorii.");
+            }
+        } catch (IllegalArgumentException e) {
+            throw new RestaurantException("Chyba: Zadaná kategorie '" + newNextRecomendedCategoryName +
+                    "' nemá platný formát nebo neexistuje ve FoodCategory.");
+        }
+    }
+ */
+
+
+/*
+    public void addDishNextRecomendedCategoryByTitleAndQuantity(String title, int quantity, String newCategoryName) throws RestaurantException {
+        Dish dishToUpdate = findDishByTitleAndQuantity(title, quantity);
+
+        if (dishToUpdate == null) {
+            throw new RestaurantException("Jídlo s názvem \"" + title + "\" a množstvím " + quantity + " nenalezeno.");
+        }
+
+        FoodCategory newRecomendedNextCategory = FoodCategory.getInstance().getCategoryByName(newCategoryName);
+        if (newRecomendedNextCategory == null) {
+            throw new RestaurantException("Doporučená další kategorie s názvem \"" + newCategoryName + "\" neexistuje.");
+        }
+
+        dishToUpdate.addDishNextRecomendedCategory(newRecomendedNextCategory);
+    }
+
+ */
+
+
+
 
     private void createEmptyDishsFile(String fileDishs) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileDishs))) {
