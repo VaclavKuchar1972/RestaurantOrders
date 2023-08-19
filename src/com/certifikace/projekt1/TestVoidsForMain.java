@@ -91,8 +91,8 @@ public class TestVoidsForMain {
         }
     }
 
-    /*
-    public static void addDishNextRecomendedCategoryByTitleAndQuantityTest(DishManager dishManager) {
+
+    public static void addDishNextRecomendedCategoryByTitleAndQuantity(DishManager dishManager) {
         try {
             String dishTitle = "Grilovaný hovězí biftek z mladého býčka s pepřovou omáčkou";
             int dishQuantity = 300;
@@ -104,7 +104,7 @@ public class TestVoidsForMain {
         }
     }
 
-     */
+
 
 
 

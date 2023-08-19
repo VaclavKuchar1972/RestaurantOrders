@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
+import com.certifikace.projekt1.RestaurantException;
 
 import static com.certifikace.projekt1.RestaurantSettings.*;
 
@@ -142,8 +143,35 @@ public class DishManager {
                 + "současném dishList. Hlavní kategorie u jídla tedy NEMOHLA být nahrazena.");
     }
 
-
-
+    public void addDishNextRecomendedCategoryByTitleAndQuantity
+            (String title, int quantity, String newRecomendedNextCategory) throws RestaurantException{
+        String helpSameErrMessage =  " Kategorie NEBYLA přídána k příslušnému jídlu do dishList!";
+        for (Dish dish : dishList) {
+            if (dish.detectSameTitleAndQuantity(title, quantity)) {
+                FoodCategory newCategory = FoodCategory.getInstance().getCategoryByName(newRecomendedNextCategory);
+                if (newCategory == null) {
+                    System.err.println("Chyba: Další doporučená kategorie, kterou se pokoušíte přidat do  \""
+                            + newRecomendedNextCategory + "\" nemá platný formát nebo neexistuje ve FoodCategory a je "
+                            + "třeba jí tam nejdříve přidat." + helpSameErrMessage);
+                    return;
+                }
+                List<FoodCategory> existingCategories = new ArrayList<>(dish.getDishNextRecomendedCategory());
+                existingCategories.add(dish.getDishRecomendedMainCategory());
+                for (FoodCategory existingCategory : existingCategories) {
+                    if (existingCategory.equals(newCategory)) {
+                        System.err.println("Chyba: Další doporučená kategorie, kterou se pokoušíte přidat \""
+                                + newRecomendedNextCategory + "\" již existuje u jídla " + title
+                                + " s doporučeným množstvím " + quantity + " jednotek." + helpSameErrMessage);
+                        return;
+                    }
+                }
+                dish.getDishNextRecomendedCategory().add(newCategory);
+                return;
+            }
+        }
+        System.err.println("Chyba: Jídlo s názvem " + title + " a množstvím " + quantity
+                + " nebylo nalezeno v seznamu kategorií.");
+    }
 
 
     private void createEmptyDishsFile(String fileDishs) {

@@ -1,11 +1,5 @@
 import com.certifikace.projekt1.*;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-
-import static com.certifikace.projekt1.RestaurantSettings.*;
-
 public class RestaurantOrders {
     public static void main(String[] args) throws RestaurantException {
 
@@ -110,7 +104,7 @@ public class RestaurantOrders {
 
         // Zkušební kód pro přidání další doporučené kategorie jidla v dishList (stačí ho odkomentovat)
 
-        //TestVoidsForMain.addDishNextRecomendedCategoryByTitleAndQuantityTest(dishManager);
+        TestVoidsForMain.addDishNextRecomendedCategoryByTitleAndQuantity(dishManager);
         printLnOutputs.printDishListDataFromFile(dishManager);
 
 
