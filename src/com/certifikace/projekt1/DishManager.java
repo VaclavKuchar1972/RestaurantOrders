@@ -1,6 +1,5 @@
 package com.certifikace.projekt1;
 
-import javax.swing.*;
 import java.io.*;
 import java.math.BigDecimal;
 import java.nio.file.Files;
@@ -10,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
-import com.certifikace.projekt1.RestaurantException;
 
 import static com.certifikace.projekt1.RestaurantSettings.*;
 
@@ -166,15 +164,52 @@ public class DishManager {
                     }
                 }
                 dish.getDishNextRecomendedCategory().add(newCategory);
+                dish.setDishNumberOfNextRecomendedCategory(dish.getDishNextRecomendedCategory().size());
                 return;
             }
         }
         System.err.println("Chyba: Jídlo s názvem " + title + " a množstvím " + quantity
-                + " nebylo nalezeno v seznamu kategorií.");
+                + " nebylo nalezeno v seznamu kategorií." + helpSameErrMessage);
     }
 
-
-
+    public void removeDishNextRecomendedCategoryByTitleAndQuantity(
+            String title, int quantity, String categoryNameToRemove) throws RestaurantException {
+        String helpSameErrMessage = " Další dopručená kategorie NEBYLA odebrána z příslušného jídla z dishList!";
+        boolean categoryFound = false;
+        for (Dish dish : dishList) {
+            if (dish.detectSameTitleAndQuantity(title, quantity)) {
+                List<FoodCategory> nextRecommendedCategories = dish.getDishNextRecomendedCategory();
+                if (nextRecommendedCategories.isEmpty()) {
+                    System.err.println("Chyba: Žádná další doporučená kategorie u jídla " + title + " s doporučeným "
+                            + "množstvím " + quantity + "neexistuje, ArrayList nextRecommendedCategories je prázdný."
+                            + helpSameErrMessage);
+                    return;
+                }
+                FoodCategory categoryToRemove = FoodCategory.getInstance().getCategoryByName(categoryNameToRemove);
+                if (categoryToRemove == null) {
+                    System.err.println("Chyba: Kategorie s názvem " + categoryNameToRemove + " neexistuje ve "
+                            + "FoodCategory." + helpSameErrMessage);
+                    return;
+                }
+                List<FoodCategory> existingCategories = new ArrayList<>(nextRecommendedCategories);
+                existingCategories.add(dish.getDishRecomendedMainCategory());
+                for (FoodCategory existingCategory : existingCategories) {
+                    if (existingCategory.equals(categoryToRemove)) {categoryFound = true; break;}
+                }
+                if (categoryFound) {
+                    nextRecommendedCategories.remove(categoryToRemove);
+                    dish.setDishNumberOfNextRecomendedCategory(nextRecommendedCategories.size());
+                } else {
+                    System.err.println("Chyba: Další doporučená kategorie " + categoryNameToRemove + " neexistuje u "
+                            + "jídla " + title + " s doporučeným množstvím " + quantity + " jednotek."
+                            + helpSameErrMessage);
+                }
+                return;
+            }
+        }
+        System.err.println("Chyba: Jídlo s názvem " + title + " a množstvím " + quantity + " nebylo nalezeno v seznamu "
+                + "kategorií." + helpSameErrMessage);
+    }
 
 
 

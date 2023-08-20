@@ -103,9 +103,21 @@ public class RestaurantOrders {
         */
 
         // Zkušební kód pro přidání další doporučené kategorie jidla v dishList (stačí ho odkomentovat)
-
+        /*
         TestVoidsForMain.addDishNextRecomendedCategoryByTitleAndQuantity(dishManager);
         printLnOutputs.printDishListDataFromFile(dishManager);
+        */
+
+        // Zkušební kód pro odebrání další doporučené kategorie z dishList (stačí ho odkomentovat), ale lze to udělat
+        // jen v případě, že před tím byla další doporučená kategorie "SALAD" přidána aktivováním předchozí zkušební
+        // metody, jinak to bude hlásit chybu a kategorie se neodebere, ale program nespadne
+        /*
+        TestVoidsForMain.removeAddressedDishNextRecomendedCategoryByTitleAndQuantity(dishManager);
+        printLnOutputs.printDishListDataFromFile(dishManager);
+        */
+
+
+
 
 
     }

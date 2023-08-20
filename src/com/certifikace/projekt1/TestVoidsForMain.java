@@ -90,21 +90,32 @@ public class TestVoidsForMain {
                     + e.getLocalizedMessage());
         }
     }
-
-
+    
     public static void addDishNextRecomendedCategoryByTitleAndQuantity(DishManager dishManager) {
         try {
             String dishTitle = "Grilovaný hovězí biftek z mladého býčka s pepřovou omáčkou";
             int dishQuantity = 300;
             String newCategoryName = "SALAD";
             dishManager.addDishNextRecomendedCategoryByTitleAndQuantity(dishTitle, dishQuantity, newCategoryName);
-            //saversVoids.saveDishsData(dishManager);
+            saversVoids.saveDishsData(dishManager);
         } catch (RestaurantException e) {
             System.err.println("Nepodařilo se přidat doporučenou další kategorii jídla: " + e.getLocalizedMessage());
         }
     }
 
-
+    public static void removeAddressedDishNextRecomendedCategoryByTitleAndQuantity(DishManager dishManager) {
+        try {
+            String dishTitle = "Grilovaný hovězí biftek z mladého býčka s pepřovou omáčkou";
+            int dishQuantity = 300;
+            String categoryNameToRemove = "SALAD";
+            dishManager.removeDishNextRecomendedCategoryByTitleAndQuantity(
+                    dishTitle, dishQuantity, categoryNameToRemove
+            );
+            saversVoids.saveDishsData(dishManager);
+        } catch (RestaurantException e) {
+            System.err.println("Nepodařilo se odebrat doporučenou další kategorii jídla: " + e.getLocalizedMessage());
+        }
+    }
 
 
 
