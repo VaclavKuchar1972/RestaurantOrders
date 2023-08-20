@@ -21,16 +21,6 @@ public class Dish {
         return dishTitle.equals(title) && dishRecommendedQuantity == quantity;
     }
 
-    /*
-    // Tento konstruktor je tady jen kvůli addDishSameTitleWithDifferentQuantityAndPrice, jinak tu být nemusí
-    public Dish(FoodCategory dishRecomendedMainCategory, int dishNumberOfNextRecomendedCategory,
-                List<FoodCategory> dishNextRecomendedCategory, String existingDishTitle, int newRecommendedQuantity,
-                String dishRecommendedUnitOfQuantity, BigDecimal newRecommendedPrice, String dishMainPhoto,
-                int dishNumberOfNextPhotos, List<String> dishNextPhoto) {
-    }
-
-     */
-
     public Dish(FoodCategory dishRecomendedMainCategory, int dishNumberOfNextRecomendedCategory,
                 List<FoodCategory> dishNextRecomendedCategory, String dishTitle, int dishRecommendedQuantity,
                 String dishRecommendedUnitOfQuantity, BigDecimal dishRecommendPrice, int dishEstimatedPreparationTime,
