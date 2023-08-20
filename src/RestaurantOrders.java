@@ -14,17 +14,6 @@ public class RestaurantOrders {
         loadersVoids.loadTablesData(tableManager);
         loadersVoids.loadWaitersData(waiterManager);
         loadersVoids.loadDishsData(dishManager);
-        /*
-        try {
-            // ... (další kód)
-            dishManager.loadDataDishsFromFile(fileDishs(), delimiter());
-            // ... (další kód)
-        } catch (RestaurantException e) {
-            System.err.println("Chyba: " + e.getMessage());
-        }
-        //loadersVoids.loadDishsData(dishManager);
-
-         */
 
         System.out.println(); System.out.println();
         System.out.println("Restaurant Chez Quis à Prague");
@@ -116,6 +105,13 @@ public class RestaurantOrders {
         printLnOutputs.printDishListDataFromFile(dishManager);
         */
 
+        // Zkušební kód pro změnu doporučeného názvu jídla z dishList (stačí ho odkomentovat), ale lze to udělat
+        // jen v případě, že že máte jako aktuální můj původní soubor DB-dish.txtx, jinak to bude hlásit chybu a nic to
+        // neudělá, ale program poběží dál
+        /*
+        TestVoidsForMain.renameRecomendedDishTitleByTitleAndQuantity(dishManager);
+        printLnOutputs.printDishListDataFromFile(dishManager);
+        */
 
 
 

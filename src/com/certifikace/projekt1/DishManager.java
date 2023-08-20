@@ -211,6 +211,15 @@ public class DishManager {
                 + "kategorií." + helpSameErrMessage);
     }
 
+    public void renameRecomendedDishTitleByTitleAndQuantity(String title, int quantity, String newDishRecomendedTitle)
+            throws RestaurantException {
+        for (Dish dish : dishList) {
+            if (dish.detectSameTitleAndQuantity(title, quantity)) {dish.setDishTitle(newDishRecomendedTitle); return;}
+        }
+        throw new RestaurantException("Chyba: Jídlo s názvem " + title + " a doporučeným množstvím " +
+                quantity + " jednotek neexistuje v seznamu kategorií, nelze ho tedy přejmenovat.");
+    }
+
 
 
 

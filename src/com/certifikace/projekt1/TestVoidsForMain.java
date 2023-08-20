@@ -117,8 +117,18 @@ public class TestVoidsForMain {
         }
     }
 
-
-
+    public static void renameRecomendedDishTitleByTitleAndQuantity(DishManager dishManager) {
+        try {
+            String dishRecomednedOldTitle = "Jahodový zmrzlinový pohár";
+            int dishRecomendedQuantity = 200;
+            String newDishRecomendedTitle = "Čerstvé jahody se zmrzlinou a mátovočokoládovou zálivkou";
+            dishManager.renameRecomendedDishTitleByTitleAndQuantity
+                    (dishRecomednedOldTitle, dishRecomendedQuantity, newDishRecomendedTitle);
+            saversVoids.saveDishsData(dishManager);
+        } catch (RestaurantException e) {
+            System.err.println("Nepodařilo se změnit název jídla: " + e.getLocalizedMessage());
+        }
+    }
 
 }
 
