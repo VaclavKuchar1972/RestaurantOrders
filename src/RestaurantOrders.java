@@ -106,10 +106,18 @@ public class RestaurantOrders {
         */
 
         // Zkušební kód pro změnu doporučeného názvu jídla z dishList (stačí ho odkomentovat), ale lze to udělat
-        // jen v případě, že že máte jako aktuální můj původní soubor DB-dish.txtx, jinak to bude hlásit chybu a nic to
+        // jen v případě, že že máte jako aktuální můj původní soubor DB-dish.txt, jinak to bude hlásit chybu a nic to
         // neudělá, ale program poběží dál
         /*
         TestVoidsForMain.renameRecomendedDishTitleByTitleAndQuantity(dishManager);
+        printLnOutputs.printDishListDataFromFile(dishManager);
+        */
+
+        // Zkušební kód pro přidání nového jídla z dishList se stejným názvem, ale s jinou hodnotou velikosti porce
+        // a cenou (stačí ho odkomentovat), ale lze to udělat jen v případě, že že máte jako aktuální můj původní soubor
+        // DB-dish.txt, jinak to bude hlásit chybu a nic to neudělá, ale program poběží dál
+        /*
+        TestVoidsForMain.addDishSameTitleWithDifferentQuantityAndPrice(dishManager);
         printLnOutputs.printDishListDataFromFile(dishManager);
         */
 

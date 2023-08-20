@@ -17,10 +17,19 @@ public class Dish {
     private int dishNumberOfNextPhotos;
     private List<String> dishNextPhoto;
 
-
     public boolean detectSameTitleAndQuantity(String title, int quantity) {
         return dishTitle.equals(title) && dishRecommendedQuantity == quantity;
     }
+
+    /*
+    // Tento konstruktor je tady jen kvůli addDishSameTitleWithDifferentQuantityAndPrice, jinak tu být nemusí
+    public Dish(FoodCategory dishRecomendedMainCategory, int dishNumberOfNextRecomendedCategory,
+                List<FoodCategory> dishNextRecomendedCategory, String existingDishTitle, int newRecommendedQuantity,
+                String dishRecommendedUnitOfQuantity, BigDecimal newRecommendedPrice, String dishMainPhoto,
+                int dishNumberOfNextPhotos, List<String> dishNextPhoto) {
+    }
+
+     */
 
     public Dish(FoodCategory dishRecomendedMainCategory, int dishNumberOfNextRecomendedCategory,
                 List<FoodCategory> dishNextRecomendedCategory, String dishTitle, int dishRecommendedQuantity,

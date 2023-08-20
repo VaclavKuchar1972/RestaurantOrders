@@ -130,6 +130,25 @@ public class TestVoidsForMain {
         }
     }
 
+    public static void addDishSameTitleWithDifferentQuantityAndPrice(DishManager dishManager) {
+        String targetDishTitle = "Houskový knedlík";
+        int newRecommendedQuantity = 6;
+        BigDecimal newRecommendedPrice = new BigDecimal("30");
+        try {
+            dishManager.addDishSameTitleWithDifferentQuantityAndPrice
+                    (targetDishTitle, newRecommendedQuantity, newRecommendedPrice);
+            saversVoids.saveDishsData(dishManager);
+        } catch (RestaurantException e) {
+            System.err.println("Nepodařilo se přidat jídlo se stejným názvem a jiným doporučeným množstvím a cenou: "
+                    + e.getLocalizedMessage());
+        }
+    }
+
+
+
+
+
+
 }
 
 

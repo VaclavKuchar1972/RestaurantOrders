@@ -220,6 +220,42 @@ public class DishManager {
                 quantity + " jednotek neexistuje v seznamu kategorií, nelze ho tedy přejmenovat.");
     }
 
+    public void addDishSameTitleWithDifferentQuantityAndPrice
+            (String targetDishTitle, int newRecommendedQuantity, BigDecimal newRecommendedPrice)
+            throws RestaurantException {
+        String helpSameErrMessage = " Nové jídlo NEBYLO přidáno do dishList!";
+        boolean existingDishFound = false; Dish existingDish = null;
+        for (Dish dish : dishList) {
+            if (dish.getDishTitle().equals(targetDishTitle)
+                    && dish.getDishRecommendedQuantity() == newRecommendedQuantity) {
+                existingDishFound = true;
+                break;
+            }
+        }
+        if (existingDishFound) {
+            throw new RestaurantException("Chyba: Jídlo se zadaným názvem a stejným množstvím již existuje v dishList. "
+                    + helpSameErrMessage);
+        }
+        for (Dish dish : dishList) {
+            if (dish.getDishTitle().equals(targetDishTitle)) {existingDish = dish; break;}}
+        if (existingDish != null) {
+            Dish newDish = new Dish(
+                    existingDish.getDishRecomendedMainCategory(), existingDish.getDishNumberOfNextRecomendedCategory(),
+                    existingDish.getDishNextRecomendedCategory(), existingDish.getDishTitle(), newRecommendedQuantity,
+                    existingDish.getDishRecommendedUnitOfQuantity(), newRecommendedPrice,
+                    existingDish.getDishEstimatedPreparationTime(), existingDish.getDishMainPhoto(),
+                    existingDish.getDishNumberOfNextPhotos(), existingDish.getDishNextPhoto()
+            );
+            dishList.add(newDish);
+        } else {
+            throw new RestaurantException("Chyba: Jídlo se zadaným názvem nebylo nalezeno v dishList."
+                    + helpSameErrMessage);
+        }
+    }
+
+
+
+
 
 
 
@@ -330,5 +366,6 @@ public class DishManager {
     }
 
     public List<Dish> getDishList() {return new ArrayList<>(dishList);}
+
 
 }
