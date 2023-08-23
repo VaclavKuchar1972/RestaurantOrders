@@ -17,7 +17,7 @@ public class Dish {
     private int dishNumberOfNextPhotos;
     private List<String> dishNextPhoto;
 
-    public boolean detectSameTitleAndQuantity(String title, int quantity) {
+    public boolean dishDetectSameTitleAndQuantity(String title, int quantity) {
         return dishTitle.equals(title) && dishRecommendedQuantity == quantity;
     }
 

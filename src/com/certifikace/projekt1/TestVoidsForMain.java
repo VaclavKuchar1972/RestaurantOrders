@@ -158,6 +158,34 @@ public class TestVoidsForMain {
         }
     }
 
+    public static void replaceDishRecommendedPriceByTitleAndQuantity(DishManager dishManager) {
+        String dishTitle = "Grilovaný hovězí biftek z mladého býčka s pepřovou omáčkou";
+        int dishRecommendedQuantity = 300;
+        BigDecimal newRecommendedPrice = new BigDecimal("250");
+        try {
+            dishManager.replaceDishRecommendedPriceByTitleAndQuantity
+                    (dishTitle, dishRecommendedQuantity, newRecommendedPrice);
+            saversVoids.saveDishsData(dishManager);
+        } catch (RestaurantException e) {
+            System.err.println("Nepodařilo se změnit doporučenou cenu jídla: "
+                    + e.getLocalizedMessage());
+        }
+    }
+
+    public static void replaceDishEstimatedPreparationTimeByTitleAndQuantity(DishManager dishManager) {
+        String dishTitle = "Grilovaný ho vězí biftek z mladého býčka s pepřovou omáčkou";
+        int dishRecommendedQuantity = 300;
+        int newEstimatedPreparationTime = 20;
+        try {
+            dishManager.replaceDishEstimatedPreparationTimeByTitleAndQuantity
+                    (dishTitle, dishRecommendedQuantity, newEstimatedPreparationTime);
+            saversVoids.saveDishsData(dishManager);
+        } catch (RestaurantException e) {
+            System.err.println("Nepodařilo se změnit předpokládaný čas přípravy jídla: "
+                    + e.getLocalizedMessage());
+        }
+    }
+
 
 
 
