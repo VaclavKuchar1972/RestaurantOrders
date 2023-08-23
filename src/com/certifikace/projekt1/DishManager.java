@@ -211,22 +211,22 @@ public class DishManager {
                 + "kategorií." + helpSameErrMessage);
     }
 
-    public void renameRecomendedDishTitleByTitleAndQuantity(String title, int quantity, String newDishRecomendedTitle)
+    public void renameRecomendedDishTitleByTitleAndQuantity(String title, int quantity, String newDishTitle)
             throws RestaurantException {
         for (Dish dish : dishList) {
-            if (dish.detectSameTitleAndQuantity(title, quantity)) {dish.setDishTitle(newDishRecomendedTitle); return;}
+            if (dish.detectSameTitleAndQuantity(title, quantity)) {dish.setDishTitle(newDishTitle); return;}
         }
         throw new RestaurantException("Chyba: Jídlo s názvem " + title + " a doporučeným množstvím " +
                 quantity + " jednotek neexistuje v seznamu kategorií, nelze ho tedy přejmenovat.");
     }
 
     public void addDishSameTitleWithDifferentQuantityAndPrice
-            (String targetDishTitle, int newRecommendedQuantity, BigDecimal newRecommendedPrice)
+            (String dishTitle, int newRecommendedQuantity, BigDecimal newRecommendedPrice)
             throws RestaurantException {
         String helpSameErrMessage = " Nové jídlo NEBYLO přidáno do dishList!";
         boolean existingDishFound = false; Dish existingDish = null;
         for (Dish dish : dishList) {
-            if (dish.getDishTitle().equals(targetDishTitle)
+            if (dish.getDishTitle().equals(dishTitle)
                     && dish.getDishRecommendedQuantity() == newRecommendedQuantity) {
                 existingDishFound = true;
                 break;
@@ -237,7 +237,7 @@ public class DishManager {
                     + helpSameErrMessage);
         }
         for (Dish dish : dishList) {
-            if (dish.getDishTitle().equals(targetDishTitle)) {existingDish = dish; break;}}
+            if (dish.getDishTitle().equals(dishTitle)) {existingDish = dish; break;}}
         if (existingDish != null) {
             Dish newDish = new Dish(
                     existingDish.getDishRecomendedMainCategory(), existingDish.getDishNumberOfNextRecomendedCategory(),
@@ -252,6 +252,19 @@ public class DishManager {
                     + helpSameErrMessage);
         }
     }
+
+    public void replaceDishRecommendedQuantityByTitleAndQuantity
+            (String title, int quantity, int newDishRecomendedQuantity)
+            throws RestaurantException {
+        for (Dish dish : dishList) {
+            if (dish.detectSameTitleAndQuantity(title, quantity)) {
+                dish.setDishRecommendedQuantity(newDishRecomendedQuantity); return;}
+        }
+        throw new RestaurantException("Chyba: Jídlo s názvem " + title + " a doporučeným množstvím " +
+                quantity + " jednotek neexistuje v seznamu kategorií, nelze tedy změnit jeho doporučené množství.");
+    }
+
+
 
 
 

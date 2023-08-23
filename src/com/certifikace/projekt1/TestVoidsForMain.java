@@ -119,11 +119,11 @@ public class TestVoidsForMain {
 
     public static void renameRecomendedDishTitleByTitleAndQuantity(DishManager dishManager) {
         try {
-            String dishRecomednedOldTitle = "Jahodový zmrzlinový pohár";
+            String dishTitle = "Jahodový zmrzlinový pohár";
             int dishRecomendedQuantity = 200;
-            String newDishRecomendedTitle = "Čerstvé jahody se zmrzlinou a mátovočokoládovou zálivkou";
+            String newDishTitle = "Čerstvé jahody se zmrzlinou a mátovočokoládovou zálivkou";
             dishManager.renameRecomendedDishTitleByTitleAndQuantity
-                    (dishRecomednedOldTitle, dishRecomendedQuantity, newDishRecomendedTitle);
+                    (dishTitle, dishRecomendedQuantity, newDishTitle);
             saversVoids.saveDishsData(dishManager);
         } catch (RestaurantException e) {
             System.err.println("Nepodařilo se změnit název jídla: " + e.getLocalizedMessage());
@@ -131,12 +131,12 @@ public class TestVoidsForMain {
     }
 
     public static void addDishSameTitleWithDifferentQuantityAndPrice(DishManager dishManager) {
-        String targetDishTitle = "Houskový knedlík";
-        int newRecommendedQuantity = 6;
+        String dishTitle = "Houskový knedlík";
+        int newDishRecomendedQuantity = 6;
         BigDecimal newRecommendedPrice = new BigDecimal("30");
         try {
             dishManager.addDishSameTitleWithDifferentQuantityAndPrice
-                    (targetDishTitle, newRecommendedQuantity, newRecommendedPrice);
+                    (dishTitle, newDishRecomendedQuantity, newRecommendedPrice);
             saversVoids.saveDishsData(dishManager);
         } catch (RestaurantException e) {
             System.err.println("Nepodařilo se přidat jídlo se stejným názvem a jiným doporučeným množstvím a cenou: "
@@ -144,7 +144,19 @@ public class TestVoidsForMain {
         }
     }
 
-
+    public static void replaceDishRecommendedQuantityByTitleAndQuantity(DishManager dishManager) {
+        String dishTitle = "Katův šleh v moderním kulinářském hávu z vepřové panenky a čerstvé zeleniny";
+        int dishRecommendedQuantity = 300;
+        int newDishRecommendedQuantity = 250;
+        try {
+            dishManager.replaceDishRecommendedQuantityByTitleAndQuantity
+                    (dishTitle, dishRecommendedQuantity, newDishRecommendedQuantity);
+            saversVoids.saveDishsData(dishManager);
+        } catch (RestaurantException e) {
+            System.err.println("Nepodařilo se změnit doporučené množství jídla: "
+                    + e.getLocalizedMessage());
+        }
+    }
 
 
 
