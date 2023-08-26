@@ -145,6 +145,14 @@ public class RestaurantOrders {
         printLnOutputs.printDishListDataFromFile(dishManager);
         */
 
+        // Zkušební kód pro změnu názvu souboru s hlavní fotografií v dishList (stačí ho odkomentovat), ale lze
+        // to udělat jen v případě, že máte jako aktuální můj původní soubor DB-dish.txt, jinak to bude hlásit chybu
+        // a nic to neudělá, ale program poběží dál
+        /*
+        TestVoidsForMain.replaceDishMainPhotoByTitleAndQuantity(dishManager);
+        printLnOutputs.printDishListDataFromFile(dishManager);
+        */
+
 
 
 

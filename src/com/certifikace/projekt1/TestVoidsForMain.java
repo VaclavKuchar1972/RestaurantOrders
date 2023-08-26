@@ -173,7 +173,7 @@ public class TestVoidsForMain {
     }
 
     public static void replaceDishEstimatedPreparationTimeByTitleAndQuantity(DishManager dishManager) {
-        String dishTitle = "Grilovaný ho vězí biftek z mladého býčka s pepřovou omáčkou";
+        String dishTitle = "Grilovaný hovězí biftek z mladého býčka s pepřovou omáčkou";
         int dishRecommendedQuantity = 300;
         int newEstimatedPreparationTime = 20;
         try {
@@ -185,6 +185,21 @@ public class TestVoidsForMain {
                     + e.getLocalizedMessage());
         }
     }
+
+    public static void replaceDishMainPhotoByTitleAndQuantity(DishManager dishManager) {
+        String dishTitle = "Čerstvá Zázvorová";
+        int dishRecommendedQuantity = 330;
+        String newDishMainPhoto = "NA-LM-CerstvaZazvorova-Main-NEW";
+        try {
+            dishManager.replaceDishMainPhotoByTitleAndQuantity(dishTitle, dishRecommendedQuantity, newDishMainPhoto);
+            saversVoids.saveDishsData(dishManager);
+        } catch (RestaurantException e) {
+            System.err.println("Nepodařilo se změnit název souboru s hlavní fotografií: "
+                    + e.getLocalizedMessage());
+        }
+    }
+
+
 
 
 

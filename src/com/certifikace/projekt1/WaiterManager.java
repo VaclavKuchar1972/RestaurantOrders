@@ -53,7 +53,6 @@ public class WaiterManager {
         waiterList.add(waiter);
     }
 
-    public void removeWaiter(Waiter waiter) {waiterList.remove(waiter);}
     public void removeWaiterByNumber(int waiterNumber) throws RestaurantException {
         if (isWaiterNumberDuplicity(waiterNumber)) {
             waiterList.removeIf(waiter -> waiter.getWaiterNumber() == waiterNumber);

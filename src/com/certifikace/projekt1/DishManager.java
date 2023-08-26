@@ -32,7 +32,6 @@ public class DishManager {
         // Když tam bude první programem vytvořený zápis po prvním spuštěnmí, odstraním se z Listu
         removefirstWrite();
 
-        String forbiddenCharacters = "<>:\"/\\|?*"; // Zakázané znaky pro název souboru ve Windows 10
         String helpSameErrMessage =  " Jídlo NEBYLO přidáno do dishList!";
 
         if (dish.getDishRecomendedMainCategory() == null) {
@@ -79,7 +78,7 @@ public class DishManager {
                     + helpSameErrMessage);
         }
 
-        for (char forbiddenCharacter : forbiddenCharacters.toCharArray()) {
+        for (char forbiddenCharacter : forbiddenFileCharacters.toCharArray()) {
             if (dish.getDishMainPhoto().contains(String.valueOf(forbiddenCharacter))) {
                 throw new RestaurantException ("Chyba: Pokoušíte se přidat jídlo s názvem hlavní fotogarfie, který "
                         + "obsahuje nepovolený znak: " + forbiddenCharacter + "." + helpSameErrMessage);
@@ -94,7 +93,7 @@ public class DishManager {
         }
         if (dish.getDishNumberOfNextPhotos() > 0) {
             for (String nextPhoto : dish.getDishNextPhoto()) {
-                for (char forbiddenCharacter : forbiddenCharacters.toCharArray()) {
+                for (char forbiddenCharacter : forbiddenFileCharacters.toCharArray()) {
                     if (nextPhoto.contains(String.valueOf(forbiddenCharacter))) {
                         throw new RestaurantException ("Chyba: Pokoušíte se přidat jídlo, které obsahuje jednu z "
                                 + "dalších další fotografií, jejíž název obsahuje zakázaný znak: " + forbiddenCharacter
@@ -105,8 +104,6 @@ public class DishManager {
         }
         dishList.add(dish);
     }
-
-    public void removeDish(Dish dish) {dishList.remove(dish);}
 
     // Nevidím důvod, proč by nemohli existovat dvě jídla se shodným názvem, ale jen s odlišným množstvím jednotek,
     // které se hostovi prodají. Když tam budou, nic se neděje, restauratér si jen vybere, které z nich chce dát na Menu
@@ -259,8 +256,8 @@ public class DishManager {
             if (dish.dishDetectSameTitleAndQuantity(title, quantity)) {
                 dish.setDishRecommendedQuantity(newDishRecomendedQuantity); return;}
         }
-        throw new RestaurantException("Chyba: Jídlo s názvem " + title + " a doporučeným množstvím " +
-                quantity + " jednotek neexistuje v seznamu kategorií, nelze tedy změnit jeho doporučené množství.");
+        throw new RestaurantException("Chyba: Jídlo s názvem " + title + " a doporučeným množstvím " + quantity
+                + " jednotek neexistuje v seznamu kategorií, nelze tedy změnit jeho doporučené množství.");
     }
 
     public void replaceDishRecommendedPriceByTitleAndQuantity
@@ -270,8 +267,8 @@ public class DishManager {
             if (dish.dishDetectSameTitleAndQuantity(title, quantity)) {
                 dish.setDishRecommendPrice(newRecommendedPrice); return;}
         }
-        throw new RestaurantException("Chyba: Jídlo s názvem " + title + " a doporučeným množstvím " +
-                quantity + " jednotek neexistuje v seznamu kategorií, nelze tedy změnit jeho doporučenou cenu.");
+        throw new RestaurantException("Chyba: Jídlo s názvem " + title + " a doporučeným množstvím " + quantity
+                + " jednotek neexistuje v seznamu kategorií, nelze tedy změnit jeho doporučenou cenu.");
     }
 
     public void replaceDishEstimatedPreparationTimeByTitleAndQuantity
@@ -281,9 +278,29 @@ public class DishManager {
             if (dish.dishDetectSameTitleAndQuantity(title, quantity)) {
                 dish.setDishEstimatedPreparationTime(newDishEstimatedPreparationTime); return;}
         }
-        throw new RestaurantException("Chyba: Jídlo s názvem " + title + " a doporučeným množstvím " +
-                quantity + " jednotek neexistuje v seznamu kategorií, nelze tedy změnit jeho předpokládaný čas "
-                + "přípravy.");
+        throw new RestaurantException("Chyba: Jídlo s názvem " + title + " a doporučeným množstvím " + quantity
+                + " jednotek neexistuje v seznamu kategorií, nelze tedy změnit jeho předpokládaný čas přípravy.");
+    }
+
+    public void replaceDishMainPhotoByTitleAndQuantity(String title, int quantity, String newMainPhoto)
+            throws RestaurantException {
+        for (Dish dish : dishList) {
+            if (dish.dishDetectSameTitleAndQuantity(title, quantity)) {
+                // Kontrola zakázaných znaků
+                for (char forbiddenCharacter : forbiddenFileCharacters.toCharArray()) {
+                    if (newMainPhoto.contains(String.valueOf(forbiddenCharacter))) {
+                        throw new RestaurantException("Chyba: Pokoušíte se změnit hlavní fotogarfii, ale nový název "
+                                + "souboru obsahuje nepovolený znak: " + forbiddenCharacter + " Název souboru s hlavní "
+                                + "fotografií nebyl změněn.");
+                    }
+                }
+                // Nastavení nové hlavní fotografie
+                dish.setDishMainPhoto(newMainPhoto);
+                return;
+            }
+        }
+        throw new RestaurantException("Chyba: Jídlo s názvem " + title + " a doporučeným množstvím " + quantity
+                + " jednotek neexistuje v seznamu kategorií, nelze tedy změnit jeho hlavní fotografii.");
     }
 
 
@@ -402,3 +419,7 @@ public class DishManager {
 
 
 }
+
+
+
+

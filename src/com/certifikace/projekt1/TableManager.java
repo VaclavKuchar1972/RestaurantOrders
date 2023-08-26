@@ -88,7 +88,6 @@ public class TableManager {
         tableList.add(table);
     }
 
-    public void removeTable(Table table) {tableList.remove(table);}
     public void removeTableByNumber(int tableNumber) throws RestaurantException {
         if (isTableNumberDuplicity(tableNumber)) {
             tableList.removeIf(table -> table.getTableNumber() == tableNumber);

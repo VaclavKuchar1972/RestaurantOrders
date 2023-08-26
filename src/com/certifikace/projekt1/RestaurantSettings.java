@@ -3,6 +3,7 @@ package com.certifikace.projekt1;
 public class RestaurantSettings {
 
     public static String delimiter() {return "; ";}
+    public static String forbiddenFileCharacters = "<>:\"/\\|?*"; // Zakázané znaky pro název souboru ve Windows 10
 
     public static String fileTables() {return "DB-Tables.txt";}
     public static String fileTablesBackUp() {return "DB-TablesBackUp.txt";}
