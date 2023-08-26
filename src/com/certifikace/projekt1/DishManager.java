@@ -33,7 +33,6 @@ public class DishManager {
         removefirstWrite();
 
         String helpSameErrMessage =  " Jídlo NEBYLO přidáno do dishList!";
-
         if (dish.getDishRecomendedMainCategory() == null) {
             System.err.println("Chyba: Pokoušíte se přidat kategorii, která má hodnotu null nebo má neplatný formát "
                     + "nebo neexistuje v seznamu kategorií ve FoodCategory a je třeba jí před přidáním jídla přidat do "
@@ -45,15 +44,10 @@ public class DishManager {
                     + "kategorií do zásobníku, to nejde." + helpSameErrMessage);
             return;
         }
-        if (dish.getDishNumberOfNextRecomendedCategory() > 0) {
-            for (FoodCategory category : dish.getDishNextRecomendedCategory()) {
-                if (category == null) {
-                    System.err.println("Chyba: Pokoušíte se přidat jídlo, kde některá další doporučená kategorie má "
-                            + "hodnotu null nebo má neplatný formát nebo neexistuje v seznamu kategorií ve FoodCategory"
-                            + " a je třeba ji před přidáním jídla přidat do seznamu kategorií." + helpSameErrMessage);
-                    return;
-                }
-            }
+        if (dish.getDishTitle() == null || dish.getDishTitle().isEmpty()) {
+            System.err.println("Chyba: Pokoušíte se přidat jídlo s prázdným názvem jídla, to nejde."
+                    + helpSameErrMessage);
+            return;
         }
         if (dish.getDishRecommendedQuantity() < 1) {
             throw new RestaurantException("Chyba: Pokoušíte se přidat jídlo s nulovým nebo záporným doporučeným " +
@@ -134,7 +128,7 @@ public class DishManager {
             }
         }
         System.err.println ("Chyba: Jídlo s názvem " + title + " a množstvím " + quantity + " nebylo nalezeno v "
-                + "současném dishList. Hlavní kategorie u jídla tedy NEMOHLA být nahrazena.");
+                + "dishList. Hlavní kategorie u jídla tedy NEMOHLA být nahrazena.");
     }
 
     public void addDishNextRecomendedCategoryByTitleAndQuantity
@@ -165,10 +159,10 @@ public class DishManager {
             }
         }
         System.err.println("Chyba: Jídlo s názvem " + title + " a množstvím " + quantity
-                + " nebylo nalezeno v seznamu kategorií." + helpSameErrMessage);
+                + " nebylo nalezeno v dishList" + helpSameErrMessage);
     }
 
-    public void removeDishNextRecomendedCategoryByTitleAndQuantity(
+    public void removeAddressedDishNextRecomendedCategoryByTitleAndQuantity(
             String title, int quantity, String categoryNameToRemove) throws RestaurantException {
         String helpSameErrMessage = " Další dopručená kategorie NEBYLA odebrána z příslušného jídla z dishList!";
         boolean categoryFound = false;
@@ -203,37 +197,46 @@ public class DishManager {
                 return;
             }
         }
-        System.err.println("Chyba: Jídlo s názvem " + title + " a množstvím " + quantity + " nebylo nalezeno v seznamu "
-                + "kategorií." + helpSameErrMessage);
+        System.err.println("Chyba: Jídlo s názvem " + title + " a množstvím " + quantity + " nebylo nalezeno "
+                + "v dishList." + helpSameErrMessage);
     }
 
-    public void renameRecomendedDishTitleByTitleAndQuantity(String title, int quantity, String newDishTitle)
+    public void renameDishTitleByTitleAndQuantity(String title, int quantity, String newDishTitle)
             throws RestaurantException {
         for (Dish dish : dishList) {
             if (dish.dishDetectSameTitleAndQuantity(title, quantity)) {dish.setDishTitle(newDishTitle); return;}
         }
         throw new RestaurantException("Chyba: Jídlo s názvem " + title + " a doporučeným množstvím " +
-                quantity + " jednotek neexistuje v seznamu kategorií, nelze ho tedy přejmenovat.");
+                quantity + " jednotek nebylo nalezeno v dishList, nelze ho tedy přejmenovat.");
     }
 
     public void addDishSameTitleWithDifferentQuantityAndPrice
-            (String dishTitle, int newRecommendedQuantity, BigDecimal newRecommendedPrice)
+            (String title, int newRecommendedQuantity, BigDecimal newRecommendedPrice)
             throws RestaurantException {
         String helpSameErrMessage = " Nové jídlo NEBYLO přidáno do dishList!";
+        if (newRecommendedQuantity < 1) {
+            throw new RestaurantException("Chyba: Pokoušíte se přidat jídlo s nulovým nebo záporným doporučeným " +
+                    "množstvím k prodeji: " + newRecommendedQuantity + ", to nejde." + helpSameErrMessage);
+        }
+        if (newRecommendedPrice.compareTo(BigDecimal.ZERO) < 0) {
+            throw new RestaurantException("Chyba: Pokoušíte se přidat jídlo se zápornou doporučenou cenou "
+                    + newRecommendedPrice + ",- Kč, to by opravdu nešlo. ...možná \"akcička\" za nula, ale jinak?!... "
+                    + ":D" + helpSameErrMessage);
+        }
         boolean existingDishFound = false; Dish existingDish = null;
         for (Dish dish : dishList) {
-            if (dish.getDishTitle().equals(dishTitle)
+            if (dish.getDishTitle().equals(title)
                     && dish.getDishRecommendedQuantity() == newRecommendedQuantity) {
                 existingDishFound = true;
                 break;
             }
         }
         if (existingDishFound) {
-            throw new RestaurantException("Chyba: Jídlo se zadaným názvem a stejným množstvím již existuje v dishList. "
-                    + helpSameErrMessage);
+            throw new RestaurantException("Chyba: Jídlo se zadaným názvem " + title + "a stejným množstvím"
+                    + newRecommendedQuantity + "již existuje v dishList. " + helpSameErrMessage);
         }
         for (Dish dish : dishList) {
-            if (dish.getDishTitle().equals(dishTitle)) {existingDish = dish; break;}}
+            if (dish.getDishTitle().equals(title)) {existingDish = dish; break;}}
         if (existingDish != null) {
             Dish newDish = new Dish(
                     existingDish.getDishRecomendedMainCategory(), existingDish.getDishNumberOfNextRecomendedCategory(),
@@ -244,32 +247,52 @@ public class DishManager {
             );
             dishList.add(newDish);
         } else {
-            throw new RestaurantException("Chyba: Jídlo se zadaným názvem nebylo nalezeno v dishList."
-                    + helpSameErrMessage);
+            throw new RestaurantException("Chyba: Jídlo se zadaným názvem " + title + " a doporučeným množstvím "
+                    + newRecommendedQuantity + " nebylo nalezeno v dishList." + helpSameErrMessage);
         }
     }
 
     public void replaceDishRecommendedQuantityByTitleAndQuantity
             (String title, int quantity, int newDishRecomendedQuantity)
             throws RestaurantException {
+        String helpSameErrMessage = " Nové doporučené množství NEBYLO změněno, zůstalo tam staré!";
+        if (newDishRecomendedQuantity < 1) {
+            throw new RestaurantException("Chyba: Pokoušíte se změnit doporučené množství u jídla " + title
+                    + " na nové doporučené množstvím k prodeji: " + newDishRecomendedQuantity + ", tedy s nulovou nebo "
+                    + "zápornou hodnotou, to nejde." + helpSameErrMessage);
+        }
         for (Dish dish : dishList) {
             if (dish.dishDetectSameTitleAndQuantity(title, quantity)) {
                 dish.setDishRecommendedQuantity(newDishRecomendedQuantity); return;}
         }
         throw new RestaurantException("Chyba: Jídlo s názvem " + title + " a doporučeným množstvím " + quantity
-                + " jednotek neexistuje v seznamu kategorií, nelze tedy změnit jeho doporučené množství.");
+                + " jednotek nebylo nalezeno v dishList." + helpSameErrMessage);
     }
 
     public void replaceDishRecommendedPriceByTitleAndQuantity
             (String title, int quantity, BigDecimal newRecommendedPrice)
             throws RestaurantException {
+        String helpSameErrMessage = " Nová doporučená cena NEBYLA změněna, zůstala tam stará!";
+        /*
+        if (newRecommendedPrice.compareTo(BigDecimal.ZERO) < 0) {
+            throw new RestaurantException("Chyba: Pokoušíte se změnit doporučenou cenu u jídla " + title + " na novou "
+                    + "doporučenou cenu k prodeji: " + newRecommendedPrice + ",- Kč, to by opravdu nešlo. ...možná "
+                    + " \"akcička\" za nula, ale jinak?!... :D" + helpSameErrMessage);
+        }
+
+         */
         for (Dish dish : dishList) {
             if (dish.dishDetectSameTitleAndQuantity(title, quantity)) {
                 dish.setDishRecommendPrice(newRecommendedPrice); return;}
         }
         throw new RestaurantException("Chyba: Jídlo s názvem " + title + " a doporučeným množstvím " + quantity
-                + " jednotek neexistuje v seznamu kategorií, nelze tedy změnit jeho doporučenou cenu.");
+                + " jednotek nebylo nalezeno v dishList." + helpSameErrMessage);
     }
+
+
+
+
+
 
     public void replaceDishEstimatedPreparationTimeByTitleAndQuantity
             (String title, int quantity, int newDishEstimatedPreparationTime)
@@ -279,29 +302,34 @@ public class DishManager {
                 dish.setDishEstimatedPreparationTime(newDishEstimatedPreparationTime); return;}
         }
         throw new RestaurantException("Chyba: Jídlo s názvem " + title + " a doporučeným množstvím " + quantity
-                + " jednotek neexistuje v seznamu kategorií, nelze tedy změnit jeho předpokládaný čas přípravy.");
+                + " jednotek nebylo nalezeno v dishList, nelze tedy změnit jeho předpokládaný čas přípravy.");
     }
 
     public void replaceDishMainPhotoByTitleAndQuantity(String title, int quantity, String newMainPhoto)
             throws RestaurantException {
+        String helpSameErrMessage =  " Název souboru s hlavní fotografií nebyl změněn!";
+        if (newMainPhoto == null || newMainPhoto.isEmpty()) {
+            throw new RestaurantException("Chyba: Pokoušíte se změnit u jídla " + title + " s doporučeným " + quantity
+                    + " název souboru hlavní fotografie. Nový je ale prázdný znak. " + helpSameErrMessage);
+        }
         for (Dish dish : dishList) {
             if (dish.dishDetectSameTitleAndQuantity(title, quantity)) {
-                // Kontrola zakázaných znaků
                 for (char forbiddenCharacter : forbiddenFileCharacters.toCharArray()) {
                     if (newMainPhoto.contains(String.valueOf(forbiddenCharacter))) {
-                        throw new RestaurantException("Chyba: Pokoušíte se změnit hlavní fotogarfii, ale nový název "
-                                + "souboru obsahuje nepovolený znak: " + forbiddenCharacter + " Název souboru s hlavní "
-                                + "fotografií nebyl změněn.");
+                        throw new RestaurantException("Chyba: Pokoušíte se změnit hlavní fotogarfii u jídla " + title
+                                + " s doporučeným nožstvím" + quantity + ", ale nový název souboru obsahuje nepovolený "
+                                + "znak: " + forbiddenCharacter + "." + helpSameErrMessage);
                     }
                 }
-                // Nastavení nové hlavní fotografie
                 dish.setDishMainPhoto(newMainPhoto);
                 return;
             }
         }
         throw new RestaurantException("Chyba: Jídlo s názvem " + title + " a doporučeným množstvím " + quantity
-                + " jednotek neexistuje v seznamu kategorií, nelze tedy změnit jeho hlavní fotografii.");
+                + " jednotek nebylo nalezeno v dishList, nelze tedy změnit jeho hlavní fotografii.");
     }
+
+
 
 
 

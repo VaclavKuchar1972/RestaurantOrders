@@ -66,7 +66,7 @@ public class TestVoidsForMain {
         } catch (RestaurantException e) {
             System.err.println("Nepodařilo se přidat nové jídlo do zásobníku: " + e.getLocalizedMessage());
         }
-        saversVoids.saveDishsData(dishManager);
+        //saversVoids.saveDishsData(dishManager);
     }
 
     public static void removeDishByTitleAndQuantity (DishManager dishManager) throws RestaurantException {
@@ -108,7 +108,7 @@ public class TestVoidsForMain {
             String dishTitle = "Grilovaný hovězí biftek z mladého býčka s pepřovou omáčkou";
             int dishQuantity = 300;
             String categoryNameToRemove = "SALAD";
-            dishManager.removeDishNextRecomendedCategoryByTitleAndQuantity(
+            dishManager.removeAddressedDishNextRecomendedCategoryByTitleAndQuantity(
                     dishTitle, dishQuantity, categoryNameToRemove
             );
             saversVoids.saveDishsData(dishManager);
@@ -117,13 +117,12 @@ public class TestVoidsForMain {
         }
     }
 
-    public static void renameRecomendedDishTitleByTitleAndQuantity(DishManager dishManager) {
+    public static void renameDishTitleByTitleAndQuantity(DishManager dishManager) {
         try {
             String dishTitle = "Jahodový zmrzlinový pohár";
             int dishRecomendedQuantity = 200;
             String newDishTitle = "Čerstvé jahody se zmrzlinou a mátovočokoládovou zálivkou";
-            dishManager.renameRecomendedDishTitleByTitleAndQuantity
-                    (dishTitle, dishRecomendedQuantity, newDishTitle);
+            dishManager.renameDishTitleByTitleAndQuantity(dishTitle, dishRecomendedQuantity, newDishTitle);
             saversVoids.saveDishsData(dishManager);
         } catch (RestaurantException e) {
             System.err.println("Nepodařilo se změnit název jídla: " + e.getLocalizedMessage());
@@ -165,7 +164,7 @@ public class TestVoidsForMain {
         try {
             dishManager.replaceDishRecommendedPriceByTitleAndQuantity
                     (dishTitle, dishRecommendedQuantity, newRecommendedPrice);
-            saversVoids.saveDishsData(dishManager);
+            //saversVoids.saveDishsData(dishManager);
         } catch (RestaurantException e) {
             System.err.println("Nepodařilo se změnit doporučenou cenu jídla: "
                     + e.getLocalizedMessage());
@@ -189,7 +188,7 @@ public class TestVoidsForMain {
     public static void replaceDishMainPhotoByTitleAndQuantity(DishManager dishManager) {
         String dishTitle = "Čerstvá Zázvorová";
         int dishRecommendedQuantity = 330;
-        String newDishMainPhoto = "NA-LM-CerstvaZazvorova-Main-NEW";
+        String newDishMainPhoto = "";
         try {
             dishManager.replaceDishMainPhotoByTitleAndQuantity(dishTitle, dishRecommendedQuantity, newDishMainPhoto);
             saversVoids.saveDishsData(dishManager);
