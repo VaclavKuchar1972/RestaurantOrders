@@ -160,11 +160,11 @@ public class TestVoidsForMain {
     public static void replaceDishRecommendedPriceByTitleAndQuantity(DishManager dishManager) {
         String dishTitle = "Grilovaný hovězí biftek z mladého býčka s pepřovou omáčkou";
         int dishRecommendedQuantity = 300;
-        BigDecimal newRecommendedPrice = new BigDecimal("250");
+        BigDecimal newRecommendedPrice = new BigDecimal("450");
         try {
             dishManager.replaceDishRecommendedPriceByTitleAndQuantity
                     (dishTitle, dishRecommendedQuantity, newRecommendedPrice);
-            //saversVoids.saveDishsData(dishManager);
+            saversVoids.saveDishsData(dishManager);
         } catch (RestaurantException e) {
             System.err.println("Nepodařilo se změnit doporučenou cenu jídla: "
                     + e.getLocalizedMessage());
@@ -193,12 +193,23 @@ public class TestVoidsForMain {
             dishManager.replaceDishMainPhotoByTitleAndQuantity(dishTitle, dishRecommendedQuantity, newDishMainPhoto);
             saversVoids.saveDishsData(dishManager);
         } catch (RestaurantException e) {
-            System.err.println("Nepodařilo se změnit název souboru s hlavní fotografií: "
+            System.err.println("Nepodařilo se změnit název souboru s hlavní fotografe: "
                     + e.getLocalizedMessage());
         }
     }
 
-
+    public static void addDishNextPhotoByTitleAndQuantity(DishManager dishManager) {
+        String dishTitle = "Čerstvý pstruh na grilu s ledovým salátem";
+        int dishRecommendedQuantity = 250;
+        String newDishMainPhoto = "MM-GL-MM-GL-PstruhGril-NEW02";
+        try {
+            dishManager.addDishNextPhotoByTitleAndQuantity(dishTitle, dishRecommendedQuantity, newDishMainPhoto);
+            saversVoids.saveDishsData(dishManager);
+        } catch (RestaurantException e) {
+            System.err.println("Nepodařilo se přidat další název souboru fotografie v dalších fotografiích: "
+                    + e.getLocalizedMessage());
+        }
+    }
 
 
 

@@ -255,7 +255,7 @@ public class DishManager {
     public void replaceDishRecommendedQuantityByTitleAndQuantity
             (String title, int quantity, int newDishRecomendedQuantity)
             throws RestaurantException {
-        String helpSameErrMessage = " Nové doporučené množství NEBYLO změněno, zůstalo tam staré!";
+        String helpSameErrMessage = " Nové doporučené množství NEBYLO změněno!";
         if (newDishRecomendedQuantity < 1) {
             throw new RestaurantException("Chyba: Pokoušíte se změnit doporučené množství u jídla " + title
                     + " na nové doporučené množstvím k prodeji: " + newDishRecomendedQuantity + ", tedy s nulovou nebo "
@@ -272,15 +272,12 @@ public class DishManager {
     public void replaceDishRecommendedPriceByTitleAndQuantity
             (String title, int quantity, BigDecimal newRecommendedPrice)
             throws RestaurantException {
-        String helpSameErrMessage = " Nová doporučená cena NEBYLA změněna, zůstala tam stará!";
-        /*
+        String helpSameErrMessage = " Nová doporučená cena NEBYLA změněna!";
         if (newRecommendedPrice.compareTo(BigDecimal.ZERO) < 0) {
             throw new RestaurantException("Chyba: Pokoušíte se změnit doporučenou cenu u jídla " + title + " na novou "
-                    + "doporučenou cenu k prodeji: " + newRecommendedPrice + ",- Kč, to by opravdu nešlo. ...možná "
+                    + "doporučenou cenu k prodeji: " + newRecommendedPrice.toString() + ",- Kč, to by opravdu nešlo. ...možná "
                     + " \"akcička\" za nula, ale jinak?!... :D" + helpSameErrMessage);
         }
-
-         */
         for (Dish dish : dishList) {
             if (dish.dishDetectSameTitleAndQuantity(title, quantity)) {
                 dish.setDishRecommendPrice(newRecommendedPrice); return;}
@@ -289,25 +286,26 @@ public class DishManager {
                 + " jednotek nebylo nalezeno v dishList." + helpSameErrMessage);
     }
 
-
-
-
-
-
     public void replaceDishEstimatedPreparationTimeByTitleAndQuantity
             (String title, int quantity, int newDishEstimatedPreparationTime)
             throws RestaurantException {
+        String helpSameErrMessage = " Nový předpokládaný čas přípravy jídla NEBYL změněn!";
+        if (newDishEstimatedPreparationTime < 1) {
+            throw new RestaurantException("Chyba: Pokoušíte se změnit předpokládaný čas přípravy u jídla " + title
+                    + " na nový nulový nebo záporný: " + newDishEstimatedPreparationTime + " minut. To nejde."
+                    + helpSameErrMessage);
+        }
         for (Dish dish : dishList) {
             if (dish.dishDetectSameTitleAndQuantity(title, quantity)) {
                 dish.setDishEstimatedPreparationTime(newDishEstimatedPreparationTime); return;}
         }
         throw new RestaurantException("Chyba: Jídlo s názvem " + title + " a doporučeným množstvím " + quantity
-                + " jednotek nebylo nalezeno v dishList, nelze tedy změnit jeho předpokládaný čas přípravy.");
+                + " jednotek nebylo nalezeno v dishList." + helpSameErrMessage);
     }
 
     public void replaceDishMainPhotoByTitleAndQuantity(String title, int quantity, String newMainPhoto)
             throws RestaurantException {
-        String helpSameErrMessage =  " Název souboru s hlavní fotografií nebyl změněn!";
+        String helpSameErrMessage =  " Název souboru s hlavní fotografií NEBYL změněn!";
         if (newMainPhoto == null || newMainPhoto.isEmpty()) {
             throw new RestaurantException("Chyba: Pokoušíte se změnit u jídla " + title + " s doporučeným " + quantity
                     + " název souboru hlavní fotografie. Nový je ale prázdný znak. " + helpSameErrMessage);
@@ -328,6 +326,38 @@ public class DishManager {
         throw new RestaurantException("Chyba: Jídlo s názvem " + title + " a doporučeným množstvím " + quantity
                 + " jednotek nebylo nalezeno v dishList, nelze tedy změnit jeho hlavní fotografii.");
     }
+
+    public void addDishNextPhotoByTitleAndQuantity(String title, int quantity, String newNextPhoto)
+            throws RestaurantException {
+        String helpSameErrMessage =  " Další název souboru fotografie NEBYL přidán do dishNextPhoto listu!";
+        for (Dish dish : dishList) {
+            if (dish.dishDetectSameTitleAndQuantity(title, quantity)) {
+                if (newNextPhoto == null || newNextPhoto.isEmpty()) {
+                    throw new RestaurantException("Chyba: Pokoušíte se u jídla " + title + " s doporučeným množstvím "
+                            + quantity + " přidat další fotografii, ale její název je prázdný řetězec."
+                            + helpSameErrMessage);
+                }
+                for (char forbiddenCharacter : forbiddenFileCharacters.toCharArray()) {
+                    if (newNextPhoto.contains(String.valueOf(forbiddenCharacter))) {
+                        throw new RestaurantException("Chyba: Pokoušíte se u jídla " + title + " s doporučeným "
+                                + "množsvím " + quantity + " přidat název souboru fotografie, který obsahuje zakázaný "
+                                + "znak: " + forbiddenCharacter + "." + helpSameErrMessage);
+                    }
+                }
+                if (dish.getDishNextPhoto().contains(newNextPhoto) || newNextPhoto.equals(dish.getDishMainPhoto())) {
+                    throw new RestaurantException("Chyba: Pokoušíte se u jídla " + title + " s doporučeným množsvím "
+                            + quantity + " přidat název souboru fotografie: " + newNextPhoto + ". Stejný název je již "
+                            + "ale obsažen v dishMainPhoto nebo v doshNextPhoto listu." + helpSameErrMessage);
+                }
+                dish.getDishNextPhoto().add(newNextPhoto);
+                dish.setDishNumberOfNextPhotos(dish.getDishNextPhoto().size());
+                return;
+            }
+        }
+        throw new RestaurantException("Chyba: Jídlo s názvem " + title + " a množstvím " + quantity + " nebylo nalezeno"
+                + " v dishList." + helpSameErrMessage);
+    }
+
 
 
 
