@@ -358,14 +358,25 @@ public class DishManager {
                 + " v dishList." + helpSameErrMessage);
     }
 
-
-
-
-
-
-
-
-
+    public void removeAddressedDishNextPhotoByTitleAndQuantity(String title, int quantity, String photoToRemove)
+            throws RestaurantException {
+        String helpSameErrMessage =  " Další název souboru fotografie NEBYL odstraněn z dishNextPhoto listu!";
+        for (Dish dish : dishList) {
+            if (dish.dishDetectSameTitleAndQuantity(title, quantity)) {
+                List<String> nextPhotos = dish.getDishNextPhoto();
+                if (!nextPhotos.contains(photoToRemove)) {
+                    throw new RestaurantException("Chyba: Název footografie: " + photoToRemove + ", kterou se pokoušíte"
+                            + " odebrat z dishNextPhoto u jídla " + title + " s doporučeným množstvím " + quantity
+                            + " v něm není obsažen nebo ještě prázdný." + helpSameErrMessage);
+                }
+                nextPhotos.remove(photoToRemove);
+                dish.setDishNumberOfNextPhotos(nextPhotos.size());
+                return;
+            }
+        }
+        throw new RestaurantException("Chyba: Jídlo s názvem " + title + " a množstvím " + quantity + " nebylo nalezeno"
+                + " v dishList." + helpSameErrMessage);
+    }
 
     private void createEmptyDishsFile(String fileDishs) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileDishs))) {
@@ -474,7 +485,6 @@ public class DishManager {
     }
 
     public List<Dish> getDishList() {return new ArrayList<>(dishList);}
-
 
 }
 

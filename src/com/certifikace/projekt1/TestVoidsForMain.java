@@ -211,6 +211,20 @@ public class TestVoidsForMain {
         }
     }
 
+    public static void removeAddressedDishNextPhotoByTitleAndQuantity(DishManager dishManager) {
+        String dishTitle = "Čerstvý pstruh na grilu s ledovým salátem";
+        int dishRecommendedQuantity = 250;
+        String photoToRemove = "MM-GL-MM-GL-PstruhGril-NEW02";
+        try {
+            dishManager.removeAddressedDishNextPhotoByTitleAndQuantity
+                    (dishTitle, dishRecommendedQuantity, photoToRemove);
+            saversVoids.saveDishsData(dishManager);
+        } catch (RestaurantException e) {
+            System.err.println("Nepodařilo se odebrat další název souboru fotografie v dalších fotografiích: "
+                    + e.getLocalizedMessage());
+        }
+    }
+
 
 
 

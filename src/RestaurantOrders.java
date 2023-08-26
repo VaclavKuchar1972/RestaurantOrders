@@ -161,6 +161,14 @@ public class RestaurantOrders {
         printLnOutputs.printDishListDataFromFile(dishManager);
         */
 
+        // Zkušební kód pro odebrání dalšího názvu souboru fotografie z dalších fotografií v dishList (stačí ho
+        // odkomentovat), ale lze to udělat jen v případě, že jste před tím přidali další fotku v předchozím zkušebním
+        // kód pro test přidání fotografie, jinak to bude hlásit chybu a nic to neudělá, ale program poběží dál
+        /*
+        TestVoidsForMain.removeAddressedDishNextPhotoByTitleAndQuantity(dishManager);
+        printLnOutputs.printDishListDataFromFile(dishManager);
+        */
+
 
 
 
