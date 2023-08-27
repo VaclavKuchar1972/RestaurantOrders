@@ -19,15 +19,16 @@ public class DishManager {
 
     private boolean firstWriteDetector(Dish dish) {
         return dish.getDishNumberOfNextRecomendedCategories() == 0 && dish.getDishTitle().equals("Empty Title")
-                && dish.getDishRecommendedQuantity() == 0  && dish.getDishRecommendPrice().compareTo(BigDecimal.ZERO) == 0
+                && dish.getDishRecommendedQuantity() == 0
+                && dish.getDishRecommendPrice().compareTo(BigDecimal.ZERO) == 0
                 && dish.getDishEstimatedPreparationTime() == 999999 && dish.getDishNumberOfNextPhotos() == 0;
     }
     private void removefirstWrite() {
         Iterator<Dish> iterator = dishList.iterator();
-        while (iterator.hasNext()) {Dish dish = iterator.next(); if (firstWriteDetector(dish)) {iterator.remove();}}
+        while (iterator.hasNext()) {Dish dish = iterator.next();if (firstWriteDetector(dish)) {iterator.remove();}}
     }
     public void addDish(Dish dish) throws RestaurantException {
-        // Když tam bude první programem vytvořený zápis po prvním spuštěnmí, odstraním se z Listu
+        // Když tam bude první programem vytvořený zápis po prvním spuštěnmí, odstraní se z Listu
         removefirstWrite();
 
         String helpSameErrMessage =  " Jídlo NEBYLO přidáno do dishList!";

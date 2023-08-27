@@ -18,4 +18,9 @@ public class RestaurantSettings {
     public static String fileDishsBackUp() {return "DB-DishsBackUp.txt";}
 
 
+    public static String fileActualMenu() {return "DB-ActualMenu.txt";}
+
+
+
+
 }

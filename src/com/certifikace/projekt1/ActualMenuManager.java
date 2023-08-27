@@ -1,7 +1,15 @@
 package com.certifikace.projekt1;
 
+import java.io.*;
+import java.math.BigDecimal;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Scanner;
+
+import static com.certifikace.projekt1.RestaurantSettings.delimiter;
 
 public class ActualMenuManager {
 
@@ -10,7 +18,22 @@ public class ActualMenuManager {
     public ActualMenuManager() {this.amList = new ArrayList<>();}
 
 
+    private boolean firstWriteDetector(ActualMenu actualMenu) {
+        return actualMenu.getAmNumberOfNextCategories() == 0 && actualMenu.getAmTitle().equals("Empty Title")
+                && actualMenu.getAmQuantity() == 0  && actualMenu.getAmPrice().compareTo(BigDecimal.ZERO) == 0
+                && actualMenu.getAmPreparationTime() == 999999 && actualMenu.getAmNumberOfNextPhotos() == 0;
+    }
+    private void removefirstWrite() {
+        Iterator<ActualMenu> iterator = amList.iterator();
+        while (iterator.hasNext()) {
+            ActualMenu actualMenu = iterator.next();
+            if (firstWriteDetector(actualMenu)) {iterator.remove();}
+        }
+    }
     public void addFoodToMenu(String title, int quantity, DishManager dishManager) throws RestaurantException {
+        // Když tam bude první programem vytvořený zápis po prvním spuštěnmí, odstraní se z Listu
+        removefirstWrite();
+
         for (Dish dish : dishManager.getDishList()) {
             if (dish.dishDetectSameTitleAndQuantity(title, quantity)) {
                 ActualMenu newFoodToMenu = new ActualMenu(
@@ -51,6 +74,74 @@ public class ActualMenuManager {
     }
 
 
+
+    private void createEmptyDishsFile(String fileActualMenu) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileActualMenu))) {
+            writer.write(delimiter() + 0 + delimiter() + "Empty Title" + delimiter() + 0 + delimiter() + delimiter()
+                    + "0" + delimiter() + 999999 + delimiter() + delimiter() + 0); writer.newLine();
+        } catch (IOException e) {
+            System.err.println("Chyba při vytváření souboru při neexistenci souboru s aktuálním menu: "
+                    + e.getMessage());
+        }
+    }
+    public void loadDataDishsFromFile(String fileActualMenu, String delimiter) throws RestaurantException {
+        // OŠETŘENÍ prvního spuštění programu, když ještě nebude existovat soubor DB-Dishs.txt
+        if (!Files.exists(Paths.get(fileActualMenu))) {createEmptyDishsFile(fileActualMenu); return;}
+
+        int i; int helpBadFormatIdentificator = 0; FoodCategory helpCategory = null;
+        String line = ""; String[] item = new String[0];
+        FoodCategory amMainCategory; int amNumberOfNextCategories; String amTitle; int amQuantity;
+        String amUnitOfQuantity; BigDecimal amPrice; int amPreparationTime; String amMainPhoto;
+        int amNumberOfNextPhotos;
+        try (Scanner scannerLoadData = new Scanner(new BufferedReader(new FileReader(fileActualMenu)))) {
+            while (scannerLoadData.hasNextLine()) {
+                line = scannerLoadData.nextLine();
+                item = line.split(delimiter);
+                amMainCategory = FoodCategory.valueOf(item[0]);
+                if (amMainCategory == null) {System.err.println("Chyba: V souboru DB-ActualMenu.txt je "
+                        + "základní kategorie, která má hodnotu null nebo má neplatný formát nebo neexistuje"
+                        + " v seznamu kategorií ve FoodCategory na řádku s obsahem: " + line);}
+                helpBadFormatIdentificator = 1;
+                amNumberOfNextCategories = Integer.parseInt(item[1]);
+                List<FoodCategory> amNextCategory = new ArrayList<>();
+                for (i = 0; i < amNumberOfNextCategories; i++) {
+                    helpCategory = FoodCategory.valueOf(item[i + 2]);
+                    amNextCategory.add(helpCategory);
+                    if (helpCategory == null) {System.err.println("Chyba: V souboru DB-ActualMenu.txt je další "
+                            + "kategorie, která má hodnotu null nebo má neplatný formát nebo neexistuje v seznamu "
+                            + "kategorií ve FoodCategory na řádku s obsahem: " + line);}
+                }
+                amTitle = item[2 + amNumberOfNextCategories];
+                helpBadFormatIdentificator = 2 + amNumberOfNextCategories;
+                amQuantity = Integer.parseInt(item[3 + amNumberOfNextCategories]);
+                amUnitOfQuantity = item[4 + amNumberOfNextCategories];
+                helpBadFormatIdentificator = 4 + amNumberOfNextCategories;
+                amPrice = new BigDecimal(item[5 + amNumberOfNextCategories]);
+                helpBadFormatIdentificator = 5 + amNumberOfNextCategories;
+                amPreparationTime = Integer.parseInt(item[6 + amNumberOfNextCategories]);
+                amMainPhoto = item[7 + amNumberOfNextCategories];
+                helpBadFormatIdentificator = 7 + amNumberOfNextCategories;
+                amNumberOfNextPhotos = Integer.parseInt(item[8 + amNumberOfNextCategories]);
+                if (item.length != 9 + amNumberOfNextCategories + amNumberOfNextPhotos) {
+                    throw new RestaurantException("Chyba: Špatný počet položek na řádku: " + line);
+                }
+                List<String> amNextPhoto = new ArrayList<>();
+                for (i = 0; i < amNumberOfNextPhotos; i++) {
+                    amNextPhoto.add(item[i + 9 + amNumberOfNextCategories]);
+                }
+                ActualMenu newActualMenu = new ActualMenu(amMainCategory, amNumberOfNextCategories, amNextCategory,
+                        amTitle, amQuantity, amUnitOfQuantity, amPrice, amPreparationTime, amMainPhoto,
+                        amNumberOfNextPhotos, amNextPhoto);
+                amList.add(newActualMenu);
+            }
+        } catch (FileNotFoundException e) {
+            throw new RestaurantException("Chyba: Soubor " + fileActualMenu + " nebyl nalezen! "
+                    + e.getLocalizedMessage());
+        } catch (NumberFormatException e) {
+            throw new RestaurantException("Chyba: V souboru DB-ActualMenu.txt není číslo nebo má nedovolenou zápornou "
+                    + "hodnotu na řádku: " + line + " položka č." + helpBadFormatIdentificator);
+        }
+    }
 
 
 
