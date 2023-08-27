@@ -60,7 +60,9 @@ public class RestaurantOrders {
         // Zkušební kód pro ověření, že program nezkolabuje při prvním spuštění, když ještě nebude existovat
         // soubor DB-Tables.txt není potřeba. Stačí z adresáře programu tento soubor smazat a spustit program.
         // Program tento soubor vygeneruje, přidá do něj stůl číslo 99, kapacitu stolu na 999999
-        // a všechny ostatní data stolu nastaví na null.
+        // a všechny ostatní data stolu nastaví na null. Pak je ale třeba tam vrátit ten první testovací, JINAK NEBUDOU
+        // SPRÁVNĚ FUNGOVAT TESTOVACÍ KÓDY, ale kdyby se netestovalo, vše by mělo fungovat jak má, TESTOVAL jsem
+        // to všechno snad víc času než opravdu programoval... :D
 
 
         printLnOutputs.printWaiterList(waiterManager);
@@ -177,6 +179,10 @@ public class RestaurantOrders {
         printLnOutputs.printDishListDataFromFile(dishManager);
         */
 
+        // Zkušební kód pro ověření, že program nezkolabuje při prvním spuštění, když ještě nebude existovat
+        // soubor DB-Dishs.txt není potřeba. Stačí z adresáře programu tento soubor smazat a spustit program.
+        // Program tento soubor vygeneruje, pak je ale třeba tam vrátit ten první testovací, jinak viz. výše.
+
 
         printLnOutputs.printMenuListDataFromFile(amManager);
 
@@ -187,6 +193,18 @@ public class RestaurantOrders {
         // v případě, že jste před tím aktivovali předchozí zkušební metodu pro přidání, jinak to zahlásí chybovou
         // hlášku, nic to neudělá, ale program bude bez pádu pokračovat dál
         //TestVoidsForMain.testRemoveFoodFromMenu(amManager); printLnOutputs.printMenuListDataFromFile(amManager);
+
+
+
+
+
+
+
+
+
+        // Zkušební kód pro ověření, že program nezkolabuje při prvním spuštění, když ještě nebude existovat
+        // soubor DB-ActualMenu.txt není potřeba. Stačí z adresáře programu tento soubor smazat a spustit program.
+        // Program tento soubor vygeneruje, pak je ale třeba tam vrátit ten první testovací, jinak viz. výše.
 
 
 

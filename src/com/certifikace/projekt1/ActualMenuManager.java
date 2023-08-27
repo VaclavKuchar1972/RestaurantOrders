@@ -4,12 +4,13 @@ import java.io.*;
 import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 
-import static com.certifikace.projekt1.RestaurantSettings.delimiter;
+import static com.certifikace.projekt1.RestaurantSettings.*;
 
 public class ActualMenuManager {
 
@@ -153,8 +154,46 @@ public class ActualMenuManager {
     }
 
 
+    /*
+    public void saveDataMenuToFile(String fileName) throws RestaurantException {
+        try {
+            // Zálohování souboru před uložením nových hodnot do primárního souboru
+            File originalFile = new File(fileDishs());
+            File backupFile = new File(fileDishsBackUp());
+            Files.copy(originalFile.toPath(), backupFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            // Uložení nových dat do primárního souboru
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
+                for (Dish dish : dishList) {
+                    // Musím získat název kategorie v angličtině, jinak se mi tam zapíšou český názvy a bude zle!!!
+                    // Zase problém s ENUM, který není ENUM, ale jinak to nejde :D
+                    writer.write(dish.getDishRecomendedMainCategory().getName() + delimiter());
+                    writer.write(dish.getDishNumberOfNextRecomendedCategories() + delimiter());
+                    List<FoodCategory> nextRecomendedCategories = dish.getDishNextRecomendedCategory();
+                    for (FoodCategory category : nextRecomendedCategories) {
+                        writer.write(category.getName() + delimiter());
+                    }
+                    writer.write(dish.getDishTitle() + delimiter());
+                    writer.write(dish.getDishRecommendedQuantity() + delimiter());
+                    writer.write(dish.getDishRecommendedUnitOfQuantity() + delimiter());
+                    writer.write(dish.getDishRecommendPrice() + delimiter());
+                    writer.write(dish.getDishEstimatedPreparationTime() + delimiter());
+                    writer.write(dish.getDishMainPhoto() + delimiter());
+                    writer.write(dish.getDishNumberOfNextPhotos() + delimiter());
+                    List<String> nextPhotos = dish.getDishNextPhoto();
+                    for (String photo : nextPhotos) {
+                        writer.write(photo + delimiter());
+                    }
+                    writer.newLine();
+                }
+            } catch (IOException e) {
+                throw new RestaurantException("Chyba při ukládání dat do souboru: " + e.getMessage());
+            }
+        } catch (IOException e) {
+            throw new RestaurantException("Chyba při zálohování souboru: " + e.getMessage());
+        }
+    }
 
-
+     */
 
 
     public List<ActualMenu> getAmList() {return new ArrayList<>(amList);}

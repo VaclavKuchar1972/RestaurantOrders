@@ -1,5 +1,9 @@
 package com.certifikace.projekt1;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
+
 public class RestaurantSettings {
 
     public static String delimiter() {return "; ";}
@@ -20,6 +24,19 @@ public class RestaurantSettings {
 
     public static String fileActualMenu() {return "DB-ActualMenu.txt";}
 
+    // Tady cítím trochu problém, že bude vznikat spoustu záloh Aktuálního Menu, ale vzhledem k tomu, že je důležité,
+    // aby manager nebo majitel restaurace měl přehled, jak mu po různých změnách "dupou králíci", tak by to podle mě
+    // tak mělo být. Určitě a asi bych to i zvládl, by mělo být možné napsat třídu nebo metodu, která by tyto "odpadní"
+    // TXT soubory automaticky mazala po předem určeném časovém úseku, ale již potřebuji dodělat Projekt1, takže se tím
+    // zabývat nebudu. Nicméně bych takovou metodu přidal do třídy ActualMenuManager a volal jí
+    // z metody loadDataMenuFromFile, takže by se to kontrolovalo a promazávalo při každém spuštění programu. Navíc
+    // si myslím, že to je problém s TXT pseudodatabází a že při použití skutečné by se to mělo dát ošetřit
+    // "elegantněji", ale to jen hádám, protože jsem se ještě nedostal za lekci 7. :D Stále makám na Projek1...
+    public static String fileBackupMenu() {
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd-HHmmss");
+        return "DB-MenuBackUp-" + now.format(formatter) + ".txt";
+    }
 
 
 
