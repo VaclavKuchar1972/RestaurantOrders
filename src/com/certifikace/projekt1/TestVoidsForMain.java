@@ -226,8 +226,8 @@ public class TestVoidsForMain {
     }
 
     public static void testAddFoodToMenu(ActualMenuManager amManager, DishManager dishManager) {
-        String dishTitle = "Plzeň 12 světlá čepovaná";
-        int dishRecommendedQuantity = 500;
+        String dishTitle = "Katův šleh v moderním kulinářském hávu z vepřové panenky a čerstvé zeleniny";
+        int dishRecommendedQuantity = 300;
         try {
             amManager.addFoodToMenu(dishTitle, dishRecommendedQuantity, dishManager);
             //saversVoids.saveActualMenuData(amManager);
@@ -237,8 +237,8 @@ public class TestVoidsForMain {
     }
 
     public static void testRemoveFoodFromMenu(ActualMenuManager amManager) {
-        String dishTitle = "Plzeň 12 světlá čepovaná";
-        int dishRecommendedQuantity = 500;
+        String dishTitle = "Katův šleh v moderním kulinářském hávu z vepřové panenky a čerstvé zeleniny";
+        int dishRecommendedQuantity = 300;
         try {
             amManager.removeFoodFromMenu(dishTitle, dishRecommendedQuantity);
             //saversVoids.saveActualMenuData(amManager);

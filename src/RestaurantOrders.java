@@ -19,6 +19,7 @@ public class RestaurantOrders {
         loadersVoids.loadTablesData(tableManager);
         loadersVoids.loadWaitersData(waiterManager);
         loadersVoids.loadDishsData(dishManager);
+        loadersVoids.loadActualMenuData(amManager);
 
         System.out.println(); System.out.println();
         System.out.println("Restaurant Chez Quis à Prague");
@@ -183,7 +184,7 @@ public class RestaurantOrders {
         //TestVoidsForMain.testAddFoodToMenu(amManager, dishManager); printLnOutputs.printMenuListDataFromFile(amManager);
 
         // Zkušební kód pro odebrání jídla z aktuálního menu (stačí ho odkomentovat), ale lze to udělat jedině
-        // v případě, že jste před tím aktivovali předchozí zkušební metodu pro přidání, jika to zahlásí chybovou
+        // v případě, že jste před tím aktivovali předchozí zkušební metodu pro přidání, jinak to zahlásí chybovou
         // hlášku, nic to neudělá, ale program bude bez pádu pokračovat dál
         //TestVoidsForMain.testRemoveFoodFromMenu(amManager); printLnOutputs.printMenuListDataFromFile(amManager);
 

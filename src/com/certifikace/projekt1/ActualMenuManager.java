@@ -34,8 +34,16 @@ public class ActualMenuManager {
         // Když tam bude první programem vytvořený zápis po prvním spuštěnmí, odstraní se z Listu
         removefirstWrite();
 
+        String helpSameErrMessage = " Jídlo NEBYLO přidáno do amList!";
         for (Dish dish : dishManager.getDishList()) {
             if (dish.dishDetectSameTitleAndQuantity(title, quantity)) {
+                for (ActualMenu existingFood : amList) {
+                    if (existingFood.getAmTitle().equals(dish.getDishTitle()) &&
+                            existingFood.getAmQuantity() == dish.getDishRecommendedQuantity()) {
+                        throw new RestaurantException("Chyba: Jídlo s názvem " + title + " a množstvím " + quantity
+                                + " již existuje v amList." + helpSameErrMessage);
+                    }
+                }
                 ActualMenu newFoodToMenu = new ActualMenu(
                         dish.getDishRecomendedMainCategory(),
                         dish.getDishNumberOfNextRecomendedCategories(),
@@ -54,7 +62,7 @@ public class ActualMenuManager {
             }
         }
         throw new RestaurantException("Chyba: Jídlo s názvem " + title + " a množstvím " + quantity + " nebylo nalezeno"
-                + " dishList. Jídlo NEBYLO přidáno do amList!");
+                + " v dishList." + helpSameErrMessage);
     }
 
     public void removeFoodFromMenu(String title, int quantity) throws RestaurantException {
@@ -75,6 +83,7 @@ public class ActualMenuManager {
 
 
 
+
     private void createEmptyDishsFile(String fileActualMenu) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileActualMenu))) {
             writer.write(delimiter() + 0 + delimiter() + "Empty Title" + delimiter() + 0 + delimiter() + delimiter()
@@ -84,7 +93,7 @@ public class ActualMenuManager {
                     + e.getMessage());
         }
     }
-    public void loadDataDishsFromFile(String fileActualMenu, String delimiter) throws RestaurantException {
+    public void loadDataMenuFromFile(String fileActualMenu, String delimiter) throws RestaurantException {
         // OŠETŘENÍ prvního spuštění programu, když ještě nebude existovat soubor DB-Dishs.txt
         if (!Files.exists(Paths.get(fileActualMenu))) {createEmptyDishsFile(fileActualMenu); return;}
 

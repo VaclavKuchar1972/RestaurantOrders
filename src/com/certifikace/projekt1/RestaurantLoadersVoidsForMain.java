@@ -27,7 +27,12 @@ public class RestaurantLoadersVoidsForMain {
             throw new RuntimeException(e);
         }
     }
-
-
+    public void loadActualMenuData(ActualMenuManager actualMenuManager) {
+        try {actualMenuManager.loadDataMenuFromFile(RestaurantSettings.fileActualMenu(), delimiter());}
+        catch (RestaurantException e) {
+            System.err.println(errorMessage + RestaurantSettings.fileActualMenu() + " " + e.getLocalizedMessage());
+            throw new RuntimeException(e);
+        }
+    }
 
 }
