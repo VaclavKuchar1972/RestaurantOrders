@@ -82,8 +82,7 @@ public class ActualMenuManager {
         }
     }
 
-
-
+    public void clearAmList() {amList.clear(); createEmptyDishsFile(fileActualMenu());}
 
     private void createEmptyDishsFile(String fileActualMenu) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileActualMenu))) {
@@ -186,9 +185,6 @@ public class ActualMenuManager {
             throw new RestaurantException("Chyba při zálohování souboru: " + e.getMessage());
         }
     }
-
-
-
 
     public List<ActualMenu> getAmList() {return new ArrayList<>(amList);}
 

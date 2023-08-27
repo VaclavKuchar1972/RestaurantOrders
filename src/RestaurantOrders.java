@@ -194,13 +194,9 @@ public class RestaurantOrders {
         // hlášku, nic to neudělá, ale program bude bez pádu pokračovat dál
         //TestVoidsForMain.testRemoveFoodFromMenu(amManager); printLnOutputs.printMenuListDataFromFile(amManager);
 
-
-
-
-
-
-
-
+        // Zkušební kód pro splnění zadání - totálního vymazání Menu (stačí ho odkomentovat), program ho vymaže,
+        // pak je ale třeba tam vrátit ten první testovací TXT, jinak viz. výše, jako doposud.
+        //TestVoidsForMain.testClearAndSave(amManager, saversVoids); printLnOutputs.printMenuListDataFromFile(amManager);
 
         // Zkušební kód pro ověření, že program nezkolabuje při prvním spuštění, když ještě nebude existovat
         // soubor DB-ActualMenu.txt není potřeba. Stačí z adresáře programu tento soubor smazat a spustit program.

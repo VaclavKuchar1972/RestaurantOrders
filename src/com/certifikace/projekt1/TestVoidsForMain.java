@@ -241,11 +241,18 @@ public class TestVoidsForMain {
         int dishRecommendedQuantity = 300;
         try {
             amManager.removeFoodFromMenu(dishTitle, dishRecommendedQuantity);
-            //saversVoids.saveActualMenuData(amManager);
+            saversVoids.saveMenuData(amManager);
         } catch (RestaurantException e) {
             System.err.println("Nepodařilo se odebrat jídlo z amList: " + e.getLocalizedMessage());
         }
     }
+
+    public static void testClearAndSave(ActualMenuManager amManager, RestaurantSaversVoidsForMain saversVoids) {
+        amManager.clearAmList();
+    }
+
+
+
 
 
 
