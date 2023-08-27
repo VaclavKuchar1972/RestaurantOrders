@@ -5,6 +5,12 @@ import java.util.Map;
 
 public class RestaurantPrintLnOutputsForMain {
 
+    // Celá tato třída také není nutná pro správný chod programu, je tu jen kvůli testování.
+    // Úplně také neplatí, že se jedná přímo o výpisy z těch TXT souborů, ale vzhledem k tomu, že to mám koncipované
+    // tak, že po každé změně tyto soubory aktualizují (přeuloží) v testovacích metodách v testovací třídě, tak to
+    // vlastně tak je, maslím ale, že to by si měli zajištovat také na FrontEdndu, aby to tak bylo, proto jsem to volání
+    // ukládání nedával přímo do příslušných metod příslušných "managerů", myslím, že to by nebylo v pořádku, ale nevím.
+
     public void printTableList(TableManager tableManager) {
         List<Table> tableList = tableManager.getTableList();
         System.out.println();
@@ -31,5 +37,15 @@ public class RestaurantPrintLnOutputsForMain {
         System.out.println("Výpis dat nečtených ze souboru DB-Dishs.txt:");
         for (Dish dish : dishList) {System.out.println(dish.getDishInfoForTestPrint());}
     }
+
+    public void printMenuListDataFromFile(ActualMenuManager amManager) {
+        List<ActualMenu> amList = amManager.getAmList();
+        System.out.println();
+        System.out.println("Výpis dat nečtených ze souboru DB-ActualMenu.txt:");
+        for (ActualMenu actualMenu : amList) {System.out.println(actualMenu.getActualMenuInfoForTestPrint());}
+    }
+
+
+
 
 }

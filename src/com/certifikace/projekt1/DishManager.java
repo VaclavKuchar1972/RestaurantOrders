@@ -17,8 +17,6 @@ public class DishManager {
     private List<Dish> dishList;
     public DishManager() {this.dishList = new ArrayList<>();}
 
-
-
     private boolean firstWriteDetector(Dish dish) {
         return dish.getDishNumberOfNextRecomendedCategories() == 0 && dish.getDishTitle().equals("Empty Title")
                 && dish.getDishRecommendedQuantity() == 0  && dish.getDishRecommendPrice().compareTo(BigDecimal.ZERO) == 0

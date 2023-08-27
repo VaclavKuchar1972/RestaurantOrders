@@ -225,6 +225,18 @@ public class TestVoidsForMain {
         }
     }
 
+    public static void testAddFoodToMenu(ActualMenuManager amManager, DishManager dishManager) {
+        String dishTitle = "Plzeň 12 světlá čepovaná";
+        int dishRecommendedQuantity = 500;
+        try {
+            amManager.addFoodToMenu(dishTitle, dishRecommendedQuantity, dishManager);
+            //saversVoids.saveActualMenuData(amManager);
+        } catch (RestaurantException e) {
+            System.err.println("Nepodařilo se přidat jídlo do amList: " + e.getLocalizedMessage());
+        }
+    }
+
+
 
 
 

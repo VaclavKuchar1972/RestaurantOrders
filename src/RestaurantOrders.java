@@ -10,7 +10,14 @@ public class RestaurantOrders {
         TableManager tableManager = new TableManager();
         WaiterManager waiterManager = new WaiterManager();
         DishManager dishManager = new DishManager();
+        ActualMenuManager amManager = new ActualMenuManager();
 
+        // Toto tu je jen kvůli testování 1. třech tříd, později (při pozdějším reálném použití programu) se to může
+        // smazat i s testovacími TXT, od třídy ActualMenuManager se již budou nové testovací soubory vytvářet
+        // na základě testovacích TXT souborů těchto tří tříd, testovací TXT jsem udělal dostatečně masivní, abych
+        // při vývoji vyzkoušel všechny možné stavy a tím zaručil bezproblémový chod programu. Nicméně pro testování
+        // jsou pro mě nutné. Nakonec ani jeden řádek kódu pod touto poznámkou není nutný a vše je kvůli testování.
+        // Jestli se nemýlím, kolegům z FrontEndu by mělo stačit vše výše a možná ani to nepotřebují, ale to nevím.
         loadersVoids.loadTablesData(tableManager);
         loadersVoids.loadWaitersData(waiterManager);
         loadersVoids.loadDishsData(dishManager);
@@ -39,6 +46,7 @@ public class RestaurantOrders {
         // soubor DB-FoodCategories.txt není potřeba. Stačí z adresáře programu tento soubor smazat a spustit program.
         // Program tento soubor vygeneruje, přidá do něj kategorii EMPTYCATEGORY a česky "prázdná kategorie"
         // Pak je ale třeba tam vrátit ten první testovací, jinak viz. výše.
+
 
         printLnOutputs.printTableList(tableManager);
 
@@ -71,6 +79,7 @@ public class RestaurantOrders {
         // Program tento soubor vygeneruje, přidá do něj číšníka číslo 999, typ PPV na EMPTY
         // a všechny ostatní data číšníka nastaví na null.
         // Pak je ale třeba tam vrátit ten první testovací, jinak viz. výše.
+
 
         printLnOutputs.printDishListDataFromFile(dishManager);
 
@@ -170,8 +179,10 @@ public class RestaurantOrders {
         */
 
 
+        printLnOutputs.printMenuListDataFromFile(amManager);
 
-
+        // Zkušební kód pro přidání jídla do aktuálního menu a jeho uložení do souboru (stačí ho odkomentovat)
+        TestVoidsForMain.testAddFoodToMenu(amManager, dishManager); printLnOutputs.printMenuListDataFromFile(amManager);
 
     }
 
