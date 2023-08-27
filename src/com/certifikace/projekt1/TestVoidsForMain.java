@@ -236,6 +236,17 @@ public class TestVoidsForMain {
         }
     }
 
+    public static void testRemoveFoodFromMenu(ActualMenuManager amManager) {
+        String dishTitle = "Plzeň 12 světlá čepovaná";
+        int dishRecommendedQuantity = 500;
+        try {
+            amManager.removeFoodFromMenu(dishTitle, dishRecommendedQuantity);
+            //saversVoids.saveActualMenuData(amManager);
+        } catch (RestaurantException e) {
+            System.err.println("Nepodařilo se odebrat jídlo z amList: " + e.getLocalizedMessage());
+        }
+    }
+
 
 
 

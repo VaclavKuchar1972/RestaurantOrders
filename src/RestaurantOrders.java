@@ -182,7 +182,18 @@ public class RestaurantOrders {
         printLnOutputs.printMenuListDataFromFile(amManager);
 
         // Zkušební kód pro přidání jídla do aktuálního menu a jeho uložení do souboru (stačí ho odkomentovat)
-        TestVoidsForMain.testAddFoodToMenu(amManager, dishManager); printLnOutputs.printMenuListDataFromFile(amManager);
+        //TestVoidsForMain.testAddFoodToMenu(amManager, dishManager); printLnOutputs.printMenuListDataFromFile(amManager);
+
+        // Zkušební kód pro odebrání jídla z aktuálního menu (stačí ho odkomentovat), ale lze to udělat jedině
+        // v případě, že jste před tím aktivovali předchozí zkušební metodu pro přidání, jika to zahlásí chybovou
+        // hlášku, nic to neudělá, ale program bude bez pádu pokračovat dál
+        //TestVoidsForMain.testRemoveFoodFromMenu(amManager); printLnOutputs.printMenuListDataFromFile(amManager);
+
+
+
+
+
+
 
     }
 

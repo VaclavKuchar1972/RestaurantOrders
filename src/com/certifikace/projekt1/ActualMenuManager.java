@@ -34,21 +34,23 @@ public class ActualMenuManager {
                 + " dishList. Jídlo NEBYLO přidáno do amList!");
     }
 
-    public void removeFoodFromMenu(String title, int quantity) {
-        if (amList.isEmpty()) {
-            System.err.println("Chyba: amList je prázdný! Jídlo s názvem " + title + " a množstvím " + quantity
-                    + " nelze odtrantit z amList.");
-            return;}
+    public void removeFoodFromMenu(String title, int quantity) throws RestaurantException {
+        if (amList.isEmpty()) {throw new RestaurantException("Chyba: amList je prázdný. Nelze odstranit jídlo.");}
         ActualMenu foodToRemove = null;
         for (ActualMenu food : amList) {
-            if (food.getAmTitle().equals(title) && food.getAmQuantity() == quantity) {foodToRemove = food; break;}
+            if (food.getAmTitle().equals(title) && food.getAmQuantity() == quantity) {
+                foodToRemove = food;
+                break;
+            }
         }
         if (foodToRemove != null) {amList.remove(foodToRemove);}
         else {
-            System.err.println("Chyba: Jídlo s názvem " + title + " a množstvím " + quantity + " nebylo nalezeno v "
-                    + "amList. Nelze ho tedy odstranit.");
+            throw new RestaurantException("Chyba: Jídlo s názvem " + title + " a množstvím " + quantity + " nebylo "
+                    + "nalezeno v amList. Nelze ho tedy odstranit.");
         }
     }
+
+
 
 
 
