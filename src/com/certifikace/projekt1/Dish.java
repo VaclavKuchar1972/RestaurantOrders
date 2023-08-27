@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 public class Dish {
 
     private FoodCategory dishRecomendedMainCategory;
-    private int dishNumberOfNextRecomendedCategory;
+    private int dishNumberOfNextRecomendedCategories;
     private List<FoodCategory> dishNextRecomendedCategory;
     private String dishTitle;
     private int dishRecommendedQuantity;
@@ -21,12 +21,12 @@ public class Dish {
         return dishTitle.equals(title) && dishRecommendedQuantity == quantity;
     }
 
-    public Dish(FoodCategory dishRecomendedMainCategory, int dishNumberOfNextRecomendedCategory,
+    public Dish(FoodCategory dishRecomendedMainCategory, int dishNumberOfNextRecomendedCategories,
                 List<FoodCategory> dishNextRecomendedCategory, String dishTitle, int dishRecommendedQuantity,
                 String dishRecommendedUnitOfQuantity, BigDecimal dishRecommendPrice, int dishEstimatedPreparationTime,
                 String dishMainPhoto, int dishNumberOfNextPhotos, List<String> dishNextPhoto) {
         this.dishRecomendedMainCategory = dishRecomendedMainCategory;
-        this.dishNumberOfNextRecomendedCategory = dishNumberOfNextRecomendedCategory;
+        this.dishNumberOfNextRecomendedCategories = dishNumberOfNextRecomendedCategories;
         this.dishNextRecomendedCategory = dishNextRecomendedCategory;
         this.dishTitle = dishTitle;
         this.dishRecommendedQuantity = dishRecommendedQuantity;
@@ -39,7 +39,7 @@ public class Dish {
     }
 
     public String getDishInfoForTestPrint() {
-        return dishRecomendedMainCategory + ", " + dishNumberOfNextRecomendedCategory + ", "
+        return dishRecomendedMainCategory + ", " + dishNumberOfNextRecomendedCategories + ", "
                 + dishNextRecomendedCategory + ", " + dishTitle + ", " + dishRecommendedQuantity
                 + ", " + dishRecommendedUnitOfQuantity + ", " + dishRecommendPrice + ", " + dishEstimatedPreparationTime
                 + ", " + dishMainPhoto + ", " + dishNumberOfNextPhotos + ", " + dishNextPhoto;
@@ -49,9 +49,9 @@ public class Dish {
     public void setDishRecomendedMainCategory(FoodCategory dishRecomendedMainCategory) {
         this.dishRecomendedMainCategory = dishRecomendedMainCategory;
     }
-    public int getDishNumberOfNextRecomendedCategory() {return dishNumberOfNextRecomendedCategory;}
-    public void setDishNumberOfNextRecomendedCategory(int dishNumberOfNextRecomendedCategory) {
-        this.dishNumberOfNextRecomendedCategory = dishNumberOfNextRecomendedCategory;
+    public int getDishNumberOfNextRecomendedCategories() {return dishNumberOfNextRecomendedCategories;}
+    public void setDishNumberOfNextRecomendedCategories(int dishNumberOfNextRecomendedCategories) {
+        this.dishNumberOfNextRecomendedCategories = dishNumberOfNextRecomendedCategories;
     }
     public List<FoodCategory> getDishNextRecomendedCategory() {return dishNextRecomendedCategory;}
     public void setDishNextRecomendedCategory(List<FoodCategory> dishNextRecomendedCategory) {
@@ -105,7 +105,7 @@ public class Dish {
     }
     public List<String> getDishNextPhoto() {return dishNextPhoto;}
     public void setDishNextPhoto(List<String> dishNextPhoto) {this.dishNextPhoto = dishNextPhoto;}
-    public void addDishNextPhoto(String photo) {dishNextPhoto.add(photo);}
+    //public void addDishNextPhoto(String photo) {dishNextPhoto.add(photo);}
 
 
 }

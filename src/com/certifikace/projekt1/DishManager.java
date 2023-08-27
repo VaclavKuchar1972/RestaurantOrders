@@ -20,7 +20,7 @@ public class DishManager {
 
 
     private boolean firstWriteDetector(Dish dish) {
-        return dish.getDishNumberOfNextRecomendedCategory() == 0 && dish.getDishTitle().equals("Empty Title")
+        return dish.getDishNumberOfNextRecomendedCategories() == 0 && dish.getDishTitle().equals("Empty Title")
                 && dish.getDishRecommendedQuantity() == 0  && dish.getDishRecommendPrice().compareTo(BigDecimal.ZERO) == 0
                 && dish.getDishEstimatedPreparationTime() == 999999 && dish.getDishNumberOfNextPhotos() == 0;
     }
@@ -39,7 +39,7 @@ public class DishManager {
                     + "seznamu kategorií." + helpSameErrMessage);
             return;
         }
-        if (dish.getDishNumberOfNextRecomendedCategory() < 0) {
+        if (dish.getDishNumberOfNextRecomendedCategories() < 0) {
             System.err.println("Chyba: Pokoušíte se přidat jídlo se záporným počtem dalších doporučených "
                     + "kategorií do zásobníku, to nejde." + helpSameErrMessage);
             return;
@@ -154,7 +154,7 @@ public class DishManager {
                     }
                 }
                 dish.getDishNextRecomendedCategory().add(newCategory);
-                dish.setDishNumberOfNextRecomendedCategory(dish.getDishNextRecomendedCategory().size());
+                dish.setDishNumberOfNextRecomendedCategories(dish.getDishNextRecomendedCategory().size());
                 return;
             }
         }
@@ -188,7 +188,7 @@ public class DishManager {
                 }
                 if (categoryFound) {
                     nextRecommendedCategories.remove(categoryToRemove);
-                    dish.setDishNumberOfNextRecomendedCategory(nextRecommendedCategories.size());
+                    dish.setDishNumberOfNextRecomendedCategories(nextRecommendedCategories.size());
                 } else {
                     System.err.println("Chyba: Další doporučená kategorie " + categoryNameToRemove + " neexistuje u "
                             + "jídla " + title + " s doporučeným množstvím " + quantity + " jednotek."
@@ -239,7 +239,7 @@ public class DishManager {
             if (dish.getDishTitle().equals(title)) {existingDish = dish; break;}}
         if (existingDish != null) {
             Dish newDish = new Dish(
-                    existingDish.getDishRecomendedMainCategory(), existingDish.getDishNumberOfNextRecomendedCategory(),
+                    existingDish.getDishRecomendedMainCategory(), existingDish.getDishNumberOfNextRecomendedCategories(),
                     existingDish.getDishNextRecomendedCategory(), existingDish.getDishTitle(), newRecommendedQuantity,
                     existingDish.getDishRecommendedUnitOfQuantity(), newRecommendedPrice,
                     existingDish.getDishEstimatedPreparationTime(), existingDish.getDishMainPhoto(),
@@ -458,7 +458,7 @@ public class DishManager {
                     // Musím získat název kategorie v angličtině, jinak se mi tam zapíšou český názvy a bude zle!!!
                     // Zase problém s ENUM, který není ENUM, ale jinak to nejde :D
                     writer.write(dish.getDishRecomendedMainCategory().getName() + delimiter());
-                    writer.write(dish.getDishNumberOfNextRecomendedCategory() + delimiter());
+                    writer.write(dish.getDishNumberOfNextRecomendedCategories() + delimiter());
                     List<FoodCategory> nextRecomendedCategories = dish.getDishNextRecomendedCategory();
                     for (FoodCategory category : nextRecomendedCategories) {
                         writer.write(category.getName() + delimiter());
