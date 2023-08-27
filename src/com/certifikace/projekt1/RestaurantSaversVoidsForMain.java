@@ -23,4 +23,12 @@ public class RestaurantSaversVoidsForMain {
                 + e.getMessage());}
     }
 
+    public void saveMenuData(ActualMenuManager actualMenuManager) {
+        try {actualMenuManager.saveDataMenuToFile(fileActualMenu()); System.out.println(); System.out.println();
+            System.out.println("Data aktuálního Menu byla uložena.");
+        }
+        catch (RestaurantException e) {System.err.println("Chyba při ukládání dat Menu: "
+                + e.getMessage());}
+    }
+
 }

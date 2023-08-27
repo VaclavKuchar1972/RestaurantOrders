@@ -95,9 +95,7 @@ public class ActualMenuManager {
         }
     }
     public void loadDataMenuFromFile(String fileActualMenu, String delimiter) throws RestaurantException {
-        // OŠETŘENÍ prvního spuštění programu, když ještě nebude existovat soubor DB-Dishs.txt
         if (!Files.exists(Paths.get(fileActualMenu))) {createEmptyDishsFile(fileActualMenu); return;}
-
         int i; int helpBadFormatIdentificator = 0; FoodCategory helpCategory = null;
         String line = ""; String[] item = new String[0];
         FoodCategory amMainCategory; int amNumberOfNextCategories; String amTitle; int amQuantity;
@@ -154,32 +152,28 @@ public class ActualMenuManager {
     }
 
 
-    /*
+
     public void saveDataMenuToFile(String fileName) throws RestaurantException {
         try {
-            // Zálohování souboru před uložením nových hodnot do primárního souboru
-            File originalFile = new File(fileDishs());
-            File backupFile = new File(fileDishsBackUp());
+            File originalFile = new File(fileActualMenu());
+            File backupFile = new File(fileBackUpMenu());
             Files.copy(originalFile.toPath(), backupFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-            // Uložení nových dat do primárního souboru
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
-                for (Dish dish : dishList) {
-                    // Musím získat název kategorie v angličtině, jinak se mi tam zapíšou český názvy a bude zle!!!
-                    // Zase problém s ENUM, který není ENUM, ale jinak to nejde :D
-                    writer.write(dish.getDishRecomendedMainCategory().getName() + delimiter());
-                    writer.write(dish.getDishNumberOfNextRecomendedCategories() + delimiter());
-                    List<FoodCategory> nextRecomendedCategories = dish.getDishNextRecomendedCategory();
-                    for (FoodCategory category : nextRecomendedCategories) {
+                for (ActualMenu actualMenu : amList) {
+                    writer.write(actualMenu.getAmMainCategory() + delimiter());
+                    writer.write(actualMenu.getAmNumberOfNextCategories() + delimiter());
+                    List<FoodCategory> nextCategories = actualMenu.getAmNextCategory();
+                    for (FoodCategory category : nextCategories) {
                         writer.write(category.getName() + delimiter());
                     }
-                    writer.write(dish.getDishTitle() + delimiter());
-                    writer.write(dish.getDishRecommendedQuantity() + delimiter());
-                    writer.write(dish.getDishRecommendedUnitOfQuantity() + delimiter());
-                    writer.write(dish.getDishRecommendPrice() + delimiter());
-                    writer.write(dish.getDishEstimatedPreparationTime() + delimiter());
-                    writer.write(dish.getDishMainPhoto() + delimiter());
-                    writer.write(dish.getDishNumberOfNextPhotos() + delimiter());
-                    List<String> nextPhotos = dish.getDishNextPhoto();
+                    writer.write(actualMenu.getAmTitle() + delimiter());
+                    writer.write(actualMenu.getAmQuantity() + delimiter());
+                    writer.write(actualMenu.getAmUnitOfQuantity() + delimiter());
+                    writer.write(actualMenu.getAmPrice() + delimiter());
+                    writer.write(actualMenu.getAmPreparationTime() + delimiter());
+                    writer.write(actualMenu.getAmMainPhoto() + delimiter());
+                    writer.write(actualMenu.getAmNumberOfNextPhotos() + delimiter());
+                    List<String> nextPhotos = actualMenu.getAmNextPhoto();
                     for (String photo : nextPhotos) {
                         writer.write(photo + delimiter());
                     }
@@ -193,7 +187,7 @@ public class ActualMenuManager {
         }
     }
 
-     */
+
 
 
     public List<ActualMenu> getAmList() {return new ArrayList<>(amList);}

@@ -230,7 +230,7 @@ public class TestVoidsForMain {
         int dishRecommendedQuantity = 300;
         try {
             amManager.addFoodToMenu(dishTitle, dishRecommendedQuantity, dishManager);
-            //saversVoids.saveActualMenuData(amManager);
+            saversVoids.saveMenuData(amManager);
         } catch (RestaurantException e) {
             System.err.println("Nepodařilo se přidat jídlo do amList: " + e.getLocalizedMessage());
         }

@@ -2,7 +2,6 @@ package com.certifikace.projekt1;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Locale;
 
 public class RestaurantSettings {
 
@@ -32,7 +31,7 @@ public class RestaurantSettings {
     // z metody loadDataMenuFromFile, takže by se to kontrolovalo a promazávalo při každém spuštění programu. Navíc
     // si myslím, že to je problém s TXT pseudodatabází a že při použití skutečné by se to mělo dát ošetřit
     // "elegantněji", ale to jen hádám, protože jsem se ještě nedostal za lekci 7. :D Stále makám na Projek1...
-    public static String fileBackupMenu() {
+    public static String fileBackUpMenu() {
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd-HHmmss");
         return "DB-MenuBackUp-" + now.format(formatter) + ".txt";

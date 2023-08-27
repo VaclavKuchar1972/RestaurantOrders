@@ -34,14 +34,14 @@ public class RestaurantPrintLnOutputsForMain {
     public void printDishListDataFromFile(DishManager dishManager) {
         List<Dish> dishList = dishManager.getDishList();
         System.out.println();
-        System.out.println("Výpis dat nečtených ze souboru DB-Dishs.txt:");
+        System.out.println("Výpis dat načtených ze souboru DB-Dishs.txt:");
         for (Dish dish : dishList) {System.out.println(dish.getDishInfoForTestPrint());}
     }
 
     public void printMenuListDataFromFile(ActualMenuManager amManager) {
         List<ActualMenu> amList = amManager.getAmList();
         System.out.println();
-        System.out.println("Výpis dat nečtených ze souboru DB-ActualMenu.txt:");
+        System.out.println("Výpis dat načtených ze souboru DB-ActualMenu.txt:");
         for (ActualMenu actualMenu : amList) {System.out.println(actualMenu.getActualMenuInfoForTestPrint());}
     }
 
