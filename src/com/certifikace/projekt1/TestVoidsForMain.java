@@ -10,15 +10,10 @@ public class TestVoidsForMain {
     static RestaurantSaversVoidsForMain saversVoids = new RestaurantSaversVoidsForMain();
 
 
-    public static void createAndAddNewTable (TableManager tableManager) throws RestaurantException {
-        try {tableManager.addTable(new Table(20, "SALONEK",
-                "A2", 2));
-            saversVoids.saveTablesData(tableManager);
-        }
-        catch (RestaurantException e) {System.err.println("Nepodařilo se přidat nový stůl: "
-                + e.getLocalizedMessage());}
+    public static void createAndAddNewTable (TableManager tableManager) {
+        tableManager.addTable(new Table(20, "SALONEK", "A2", 2));
+        saversVoids.saveTablesData(tableManager);
     }
-
     public static void removeTableByNumber (TableManager tableManager) throws RestaurantException {
         try {
             tableManager.removeTableByNumber(20);
@@ -28,17 +23,14 @@ public class TestVoidsForMain {
         }
     }
 
-    public static void createAndAddNewWaiter (WaiterManager waiterManager) throws RestaurantException {
-        try {
+
+    public static void createAndAddNewWaiter (WaiterManager waiterManager) {
             waiterManager.addWaiter(new Waiter(25,  "", "Václav",
                     "Kuchař", "",  "151237620",
                     "HPP"));
-        }
-        catch (RestaurantException e) {
-            System.err.println("Nepodařilo se přidat nového číšníka: " + e.getLocalizedMessage());
-        }
         saversVoids.saveWaitersData(waiterManager);
     }
+
     public static void removeWaiterByNumber (WaiterManager waiterManager) throws RestaurantException {
         try {
             waiterManager.removeWaiterByNumber(25);

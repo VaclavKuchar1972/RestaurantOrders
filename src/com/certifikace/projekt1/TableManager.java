@@ -47,7 +47,7 @@ public class TableManager {
         }
         return false;
     }
-    public void addTable(Table table) throws RestaurantException {
+    public void addTable(Table table) {
         // Když tam bude první programem vytvořený zápis po prvním spuštěnmí, odstraním ho z Listu
         removefirstWrite();
 
@@ -55,7 +55,7 @@ public class TableManager {
 
         if (table.getTableNumber() < 1) {
             System.err.println("Chyba: Nelze přidat stůl se záporným nebo nulovým číslem." + helpSameErrMessage);
-                    return;
+            return;
         }
         if (table.getTableNumber() > 99) {
             System.err.println("Chyba: Nelze přidat stůl s číslem nad 99, překoročilo by to maximální počet stolů pro "
@@ -108,41 +108,37 @@ public class TableManager {
     }
 
     public void loadDataTablesFromFile(String fileTables, String delimiter) throws RestaurantException {
-        // OŠETŘENÍ prvního spuštění programu, když ještě nebude existovat soubor DB-Tables.txt
         if (!Files.exists(Paths.get(fileTables))) {createEmptyTablesFile(fileTables); return;}
-
-        int helpBadFormatIdentificator = 0;
-        String line = "";
+        String line = ""; int lineNumber = 0; int itemLocalizator = 0;
         String[] item = new String[0];
         int tableNumber; String tableLocation; String tableSector; int tableCapacity;
         try (Scanner scannerLoadData = new Scanner(new BufferedReader(new FileReader(fileTables)))) {
             while (scannerLoadData.hasNextLine()) {
-                line = scannerLoadData.nextLine();
-                // Oddělení jednotlivých dat stažených ze souboru - nastavil jsem si "; "
-                item = line.split(delimiter);
+                lineNumber++;
+                line = scannerLoadData.nextLine(); item = line.split(delimiter);
                 if (item.length != 4) {
-                    throw new RestaurantException("Chyba: Špatný počet položek na řádku: " + line);
+                    System.err.println("Chyba: Špatný počet položek na řádku č: " + lineNumber); return;
                 }
-                tableNumber = Integer.parseInt(item[0]);
-                if (tableNumber < 1) {
-                    throw new RestaurantException("Chyba: Číslo stolu je menší než 1 na řádku: " + line);
+                itemLocalizator = 1; tableNumber = Integer.parseInt(item[0]);
+                if (tableNumber < 1 || tableNumber > 99) {
+                    System.err.println("Chyba: Číslo stolu na řádku č. " + lineNumber + " je menší než 1 nebo větší "
+                            + "než 99."); return;
                 }
-                helpBadFormatIdentificator = 3;
                 tableLocation = item[1];
                 tableSector = item[2];
-                tableCapacity = Integer.parseInt(item [3]);
+                itemLocalizator = 4; tableCapacity = Integer.parseInt(item [3]);
                 if (tableCapacity < 1) {
-                    throw new RestaurantException("Chyba: Kapacita stolu je menší než 1 na řádku: " + line);
+                    System.err.println("Chyba: Kapacita stolu na řádku: " + lineNumber + " je menší než 1."); return;
                 }
                 Table table = new Table(tableNumber, tableLocation, tableSector, tableCapacity);
                 tableList.add(table);
             }
         } catch (FileNotFoundException e) {
-            throw new RestaurantException("Soubor " + fileTables + " nebyl nalezen! " + e.getLocalizedMessage());
+            System.err.println("Soubor " + fileTables + " nebyl nalezen! " + e.getLocalizedMessage());
         } catch (NumberFormatException e) {
-            throw new RestaurantException("Chyba: v souboru " + fileTables + " není číslo: "
-                    + item[helpBadFormatIdentificator] + " na řádku: " + line + " položka č. "
-                    + helpBadFormatIdentificator);
+            System.err.println("Chyba: v souboru " + fileTables + " není číslo na řádku číslo: " + lineNumber
+                    + "  Vadná položka je na řádku v pořadí " + itemLocalizator + ".." + " Řádek má tento obsah: "
+                    + line);
         }
     }
 

@@ -1,5 +1,6 @@
 import com.certifikace.projekt1.*;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class RestaurantOrders {
@@ -18,16 +19,17 @@ public class RestaurantOrders {
         // i s testovacími TXT. Nicméně pro testování jsou pro mě nutné. Nakonec ani jeden řádek kódu pod touto
         // poznámkou není nutný a vše je kvůli testování. Jestli se nemýlím, kolegům z FrontEndu by mělo stačit vše výše
         // a možná ani to nepotřebují, ale to nevím určitě.
-        loadersVoids.loadTablesData(tableManager);
+
+        //loadersVoids.loadTablesData(tableManager);
         loadersVoids.loadWaitersData(waiterManager);
-        loadersVoids.loadDishsData(dishManager);
-        loadersVoids.loadActualMenuData(amManager);
+        //loadersVoids.loadDishsData(dishManager);
+        //loadersVoids.loadActualMenuData(amManager);
 
         System.out.println(); System.out.println();
         System.out.println("Restaurant Chez Quis à Prague");
 
 
-        printLnOutputs.printFoodCategoryList(foodCategory);
+        //printLnOutputs.printFoodCategoryList(foodCategory);
 
         // Zkušební kód pro přidání nové kategorie do foodCategory a uložení do souboru (stačí ho odkomentovat)
         //foodCategory.addCategory("NEWCATEGORY", "nová kategorie"); printLnOutputs.printFoodCategoryList(foodCategory);
@@ -49,7 +51,7 @@ public class RestaurantOrders {
         // Pak je ale třeba tam vrátit ten první testovací, jinak viz. výše.
 
 
-        printLnOutputs.printTableList(tableManager);
+        //printLnOutputs.printTableList(tableManager);
 
         // Zkušební kód pro přidání stolu do tableList a jeho uložení do souboru (stačí ho odkomentovat)
         //TestVoidsForMain.createAndAddNewTable(tableManager); printLnOutputs.printTableList(tableManager);
@@ -84,7 +86,7 @@ public class RestaurantOrders {
         // Pak je ale třeba tam vrátit ten první testovací, jinak viz. výše.
 
 
-        printLnOutputs.printDishListDataFromFile(dishManager);
+        //printLnOutputs.printDishListDataFromFile(dishManager);
 
         // Zkušební kód pro přidání jídla do zásobníku a jeho uložení do souboru (stačí ho odkomentovat)
         //TestVoidsForMain.createAndAddNewDish(dishManager); printLnOutputs.printDishListDataFromFile(dishManager);
@@ -186,7 +188,7 @@ public class RestaurantOrders {
         // Program tento soubor vygeneruje, pak je ale třeba tam vrátit ten první testovací, jinak viz. výše.
 
 
-        printLnOutputs.printMenuListDataFromFile(amManager);
+        //printLnOutputs.printMenuListDataFromFile(amManager);
 
         // Zkušební kód pro přidání jídla do aktuálního menu a jeho uložení do souboru (stačí ho odkomentovat)
         //TestVoidsForMain.testAddFoodToMenu(amManager, dishManager); printLnOutputs.printMenuListDataFromFile(amManager);
