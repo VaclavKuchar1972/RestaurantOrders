@@ -48,7 +48,6 @@ public class TableManager {
         return false;
     }
     public void addTable(Table table) {
-        // Když tam bude první programem vytvořený zápis po prvním spuštěnmí, odstraním ho z Listu
         removefirstWrite();
 
         String helpSameErrMessage =  " Stůl NEBYL přidán do tableList!";
@@ -117,7 +116,7 @@ public class TableManager {
                 lineNumber++;
                 line = scannerLoadData.nextLine(); item = line.split(delimiter);
                 if (item.length != 4) {
-                    System.err.println("Chyba: Špatný počet položek na řádku č: " + lineNumber); return;
+                    System.err.println("Chyba: Špatný počet položek stolů na řádku č: " + lineNumber); return;
                 }
                 itemLocalizator = 1; tableNumber = Integer.parseInt(item[0]);
                 if (tableNumber < 1 || tableNumber > 99) {
@@ -144,11 +143,9 @@ public class TableManager {
 
     public void saveDataTablesToFile(String fileName) throws RestaurantException {
         try {
-            // Zálohování souboru před uložením nových hodnot do primárního souboru
             File originalFile = new File(fileTables());
             File backupFile = new File(fileTablesBackUp());
             Files.copy(originalFile.toPath(), backupFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-            // Uložení nových dat do primárního souboru
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
                 for (Table table : tableList) {
                     writer.write(table.getTableNumber() + delimiter() + table.getTableLocation() + delimiter()

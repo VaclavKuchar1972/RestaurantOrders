@@ -20,10 +20,10 @@ public class RestaurantOrders {
         // poznámkou není nutný a vše je kvůli testování. Jestli se nemýlím, kolegům z FrontEndu by mělo stačit vše výše
         // a možná ani to nepotřebují, ale to nevím určitě.
 
-        //loadersVoids.loadTablesData(tableManager);
+        loadersVoids.loadTablesData(tableManager);
         loadersVoids.loadWaitersData(waiterManager);
-        //loadersVoids.loadDishsData(dishManager);
-        //loadersVoids.loadActualMenuData(amManager);
+        loadersVoids.loadDishsData(dishManager);
+        loadersVoids.loadActualMenuData(amManager);
 
         System.out.println(); System.out.println();
         System.out.println("Restaurant Chez Quis à Prague");
@@ -69,7 +69,7 @@ public class RestaurantOrders {
         // to všechno snad víc času než opravdu programoval... :D
 
 
-        printLnOutputs.printWaiterList(waiterManager);
+        //printLnOutputs.printWaiterList(waiterManager);
 
         // Zkušební kód pro přidání číšníka do waiterList a uložení do souboru (stačí ho odkomentovat)
         //TestVoidsForMain.createAndAddNewWaiter(waiterManager); printLnOutputs.printWaiterList(waiterManager);
@@ -86,7 +86,7 @@ public class RestaurantOrders {
         // Pak je ale třeba tam vrátit ten první testovací, jinak viz. výše.
 
 
-        //printLnOutputs.printDishListDataFromFile(dishManager);
+        printLnOutputs.printDishListDataFromFile(dishManager);
 
         // Zkušební kód pro přidání jídla do zásobníku a jeho uložení do souboru (stačí ho odkomentovat)
         //TestVoidsForMain.createAndAddNewDish(dishManager); printLnOutputs.printDishListDataFromFile(dishManager);

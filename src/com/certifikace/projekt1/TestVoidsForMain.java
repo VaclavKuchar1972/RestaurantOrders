@@ -23,14 +23,12 @@ public class TestVoidsForMain {
         }
     }
 
-
     public static void createAndAddNewWaiter (WaiterManager waiterManager) {
             waiterManager.addWaiter(new Waiter(25,  "", "Václav",
                     "Kuchař", "",  "151237620",
                     "HPP"));
         saversVoids.saveWaitersData(waiterManager);
     }
-
     public static void removeWaiterByNumber (WaiterManager waiterManager) throws RestaurantException {
         try {
             waiterManager.removeWaiterByNumber(25);
@@ -39,6 +37,10 @@ public class TestVoidsForMain {
             System.err.println("Nepodařilo se odebrat číšníka: " + e.getLocalizedMessage());
         }
     }
+
+
+
+
 
     public static void createAndAddNewDish(DishManager dishManager) throws RestaurantException {
         try {

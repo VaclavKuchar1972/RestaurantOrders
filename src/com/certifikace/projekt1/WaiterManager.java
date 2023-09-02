@@ -35,19 +35,15 @@ public class WaiterManager {
         // Když tam bude první programem vytvořený zápis po prvním spuštěnmí, odstraním ho z Listu
         removefirstWrite();
 
-        String helpDuplicityErrMessage =  " Číšník NEBYL přidán do waiterList!";
+        String helpErrMessage =  " Číšník NEBYL přidán do waiterList!";
 
-        if (waiter.getWaiterNumber() < 1) {
-            System.err.println("Chyba: Číslo číšníka nemůže být záporné nebo nulové tedy: " + waiter.getWaiterNumber()
-                    + helpDuplicityErrMessage); return;
-        }
-        if (waiterList.size() > 998) {
-            System.err.println("Chyba: Nelze přidat číšníka. Byl dosažen maximální počet číšníků což je 999."
-                    + helpDuplicityErrMessage); return;
+        if (waiter.getWaiterNumber() < 1  || waiter.getWaiterNumber() > 999) {
+            System.err.println("Chyba: Číslo číšníka nemůže být záporné nebo nulové a ani větší než 999 tedy: "
+                    + waiter.getWaiterNumber() + helpErrMessage); return;
         }
         if (isWaiterNumberDuplicity(waiter.getWaiterNumber())) {
-            System.err.println("Chyba: Nelze přidat číšníka se stejným číslem: " + waiter.getWaiterNumber()
-                    + " Číšník s tímto číslem již existuje." + helpDuplicityErrMessage); return;
+            System.err.println("Chyba: Nelze přidat číšníka s číslem: " + waiter.getWaiterNumber()
+                    + " Číšník s tímto číslem již existuje." + helpErrMessage); return;
         }
         // Přijímání duplicitních osob nemám ošetřeno proto, že to není tak jednoduché. To by bylo na samostaný scénář
         // a bez přístupu do státních oneline regitsrů to jednoduše nejde. Např. číslo OP může být stejné jako číslo
@@ -78,19 +74,22 @@ public class WaiterManager {
     }
     public void loadDataWaitersFromFile(String fileWaiters, String delimiter) throws RestaurantException {
         if (!Files.exists(Paths.get(fileWaiters))) {createEmptyWaitersFile(fileWaiters); return;}
-        String line = "";
+        String line = ""; int lineNumber = 0;
         String[] item = new String[0];
         int waiterNumber; String waiterTitleBeforeName; String waiterFirstName; String waiterSecondName;
         String waiterTitleAfterName; String waiterIdentificationDocumentNumber;
         String waiterTypeOfEmploymentRelationship;
         try (Scanner scannerLoadData = new Scanner(new BufferedReader(new FileReader(fileWaiters)))) {
             while (scannerLoadData.hasNextLine()) {
-                line = scannerLoadData.nextLine();
-                item = line.split(delimiter);
-                if (item.length != 7) {throw new RestaurantException("Chyba: Špatný počet položek na řádku: " + line);}
+                lineNumber++;
+                line = scannerLoadData.nextLine(); item = line.split(delimiter);
+                if (item.length != 7) {
+                    System.err.println("Chyba: Špatný počet položek číšníků na řádku č: " + lineNumber); return;
+                }
                 waiterNumber = Integer.parseInt(item[0]);
-                if (waiterNumber < 1) {
-                    throw new RestaurantException("Chyba: Číslo číšníka je menší než 1 na řádku: " + line);
+                if (waiterNumber < 1 || waiterNumber > 999) {
+                    System.err.println("Chyba: Číslo číšníka na řádku č. " + lineNumber + " je menší než 1 nebo větší "
+                            + "než 999."); return;
                 }
                 waiterTitleBeforeName = item[1];
                 waiterFirstName = item[2];
@@ -103,20 +102,19 @@ public class WaiterManager {
                 waiterList.add(waiter);
             }
         } catch (FileNotFoundException e) {
-            throw new RestaurantException("Soubor " + fileWaiters + " nebyl nalezen! " + e.getLocalizedMessage());
+            System.err.println("Soubor " + fileWaiters + " nebyl nalezen! " + e.getLocalizedMessage());
         } catch (NumberFormatException e) {
-            throw new RestaurantException("Chyba: V souboru " + fileWaiters+ "není číslo: " + item[0] + " na řádku: "
-                    + line + " položka č. 0");
+            System.err.println("Chyba: v souboru " + fileWaiters + " není číslo na řádku číslo: " + lineNumber
+                    + "  Vadná položka je na řádku v pořadí 1.." + " Řádek má tento obsah: "
+                    + line);
         }
     }
 
     public void saveDataWaitersToFile(String fileName) throws RestaurantException {
         try {
-            // Zálohování souboru před uložením nových hodnot do primárního souboru
             File originalFile = new File(fileWaiters());
             File backupFile = new File(fileWaitersBackUp());
             Files.copy(originalFile.toPath(), backupFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-            // Uložení nových dat do primárního souboru
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
                 for (Waiter waiter : waiterList) {
                     writer.write(waiter.getWaiterNumber() + delimiter() + waiter.getWaiterTitleBeforeName()
