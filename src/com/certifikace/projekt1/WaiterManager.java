@@ -32,7 +32,6 @@ public class WaiterManager {
         return false;
     }
     public void addWaiter(Waiter waiter) {
-        // Když tam bude první programem vytvořený zápis po prvním spuštěnmí, odstraním ho z Listu
         removefirstWrite();
 
         String helpErrMessage =  " Číšník NEBYL přidán do waiterList!";

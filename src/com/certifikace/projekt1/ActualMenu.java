@@ -70,5 +70,5 @@ public class ActualMenu {
     public void setAmNumberOfNextPhotos(int amNumberOfNextPhotos) {this.amNumberOfNextPhotos = amNumberOfNextPhotos;}
     public List<String> getAmNextPhoto() {return amNextPhoto;}
     public void setAmNextPhoto(List<String> amNextPhoto) {this.amNextPhoto = amNextPhoto;}
-    //public void addDishNextPhoto(String photo) {amNextPhoto.add(photo);}
+
 }

@@ -78,8 +78,6 @@ public class DishManager {
             }
         }
         if (dish.getDishMainPhoto() == null || dish.getDishMainPhoto().equals("")) {dish.setDishMainPhoto("blank");}
-
-
         if (dish.getDishNumberOfNextPhotos() < 0) {
             throw new RestaurantException ("Chyba: Pokoušíte se přidat jídlo se záporným počtem dalších fotografií, to "
                     + "nejde." + helpSameErrMessage);
@@ -387,45 +385,51 @@ public class DishManager {
         }
     }
     public void loadDataDishsFromFile(String fileDishs, String delimiter) throws RestaurantException {
-        // OŠETŘENÍ prvního spuštění programu, když ještě nebude existovat soubor DB-Dishs.txt
         if (!Files.exists(Paths.get(fileDishs))) {createEmptyDishsFile(fileDishs); return;}
-
-        int i; int helpBadFormatIdentificator = 0; FoodCategory helpNextRecomendedCategory = null;
+        String helpSameErrMessage1 =  "Chyba: Špatný počet položek na řádku č. ";
+        String helpSameErrMessage2 =  " Vadná položka je na řádku v pořadí ";
+        int i; int lineNumber = 0; int itemLocalizator = 0;
+        FoodCategory helpNextRecomendedCategory = null;
         String line = ""; String[] item = new String[0];
         FoodCategory dishRecomendedMainCategory; int dishNumberOfNextRecomendedCategory; String dishTitle;
         int dishRecommendedQuantity; String dishRecommendedUnitOfQuantity; BigDecimal dishRecommendPrice;
         int dishEstimatedPreparationTime; String dishMainPhoto; int dishNumberOfNextPhotos;
         try (Scanner scannerLoadData = new Scanner(new BufferedReader(new FileReader(fileDishs)))) {
             while (scannerLoadData.hasNextLine()) {
-                line = scannerLoadData.nextLine();
-                item = line.split(delimiter);
+                lineNumber++;
+                line = scannerLoadData.nextLine(); item = line.split(delimiter);
+                if (item.length < 9) {System.err.println(helpSameErrMessage1 + lineNumber); continue;}
                 dishRecomendedMainCategory = FoodCategory.valueOf(item[0]);
-                if (dishRecomendedMainCategory == null) {System.err.println("Chyba: V souboru DB-Dish.txt je "
-                        + "základní doporučená kategorie, která má hodnotu null nebo má neplatný formát nebo neexistuje"
-                        + " v seznamu kategorií ve FoodCategory na řádku s obsahem: " + line);}
-                helpBadFormatIdentificator = 1;
-                dishNumberOfNextRecomendedCategory = Integer.parseInt(item[1]);
+                if (dishRecomendedMainCategory == null) {
+                    System.err.println("Chyba: V souboru DB-Dish.txt je základní doporučená kategorie, která má hodnotu"
+                            + " null nebo má neplatný formát nebo neexistuje v seznamu kategorií ve FoodCategory na "
+                            + "řádku číslo " + lineNumber + " s obsahem: " + line); return;
+                }
+                itemLocalizator = 2; dishNumberOfNextRecomendedCategory = Integer.parseInt(item[1]);
                 List<FoodCategory> dishNextRecomendedCategory = new ArrayList<>();
                 for (i = 0; i < dishNumberOfNextRecomendedCategory; i++) {
                     helpNextRecomendedCategory = FoodCategory.valueOf(item[i + 2]);
                     dishNextRecomendedCategory.add(helpNextRecomendedCategory);
-                    if (helpNextRecomendedCategory == null) {System.err.println("Chyba: V souboru DB-Dish.txt je další "
-                            + "doporučená kategorie, která má hodnotu null nebo má neplatný formát nebo neexistuje "
-                            + "v seznamu kategorií ve FoodCategory na řádku s obsahem: " + line);}
+                    if (helpNextRecomendedCategory == null) {
+                        System.err.println("Chyba: V souboru DB-Dish.txt je další doporučená kategorie, která má "
+                                + "hodnotu null nebo má neplatný formát nebo neexistuje v seznamu kategorií ve "
+                                + "FoodCategory na řádku s obsahem: " + line); return;
+                    }
                 }
                 dishTitle = item[2 + dishNumberOfNextRecomendedCategory];
-                helpBadFormatIdentificator = 2 + dishNumberOfNextRecomendedCategory;
+                itemLocalizator = 4 + dishNumberOfNextRecomendedCategory;
                 dishRecommendedQuantity = Integer.parseInt(item[3 + dishNumberOfNextRecomendedCategory]);
                 dishRecommendedUnitOfQuantity = item[4 + dishNumberOfNextRecomendedCategory];
-                helpBadFormatIdentificator = 4 + dishNumberOfNextRecomendedCategory;
+                itemLocalizator = 6 + dishNumberOfNextRecomendedCategory;
                 dishRecommendPrice = new BigDecimal(item[5 + dishNumberOfNextRecomendedCategory]);
-                helpBadFormatIdentificator = 5 + dishNumberOfNextRecomendedCategory;
+                itemLocalizator = 7 + dishNumberOfNextRecomendedCategory;
                 dishEstimatedPreparationTime = Integer.parseInt(item[6 + dishNumberOfNextRecomendedCategory]);
                 dishMainPhoto = item[7 + dishNumberOfNextRecomendedCategory];
-                helpBadFormatIdentificator = 7 + dishNumberOfNextRecomendedCategory;
+                itemLocalizator = 9 + dishNumberOfNextRecomendedCategory;
                 dishNumberOfNextPhotos = Integer.parseInt(item[8 + dishNumberOfNextRecomendedCategory]);
                 if (item.length != 9 + dishNumberOfNextRecomendedCategory + dishNumberOfNextPhotos) {
-                    throw new RestaurantException("Chyba: Špatný počet položek na řádku: " + line);
+                    System.err.println(helpSameErrMessage1 + lineNumber + helpSameErrMessage2 + itemLocalizator + ".");
+                    return;
                 }
                 List<String> dishNextPhoto = new ArrayList<>();
                 for (i = 0; i < dishNumberOfNextPhotos; i++) {
@@ -438,20 +442,20 @@ public class DishManager {
                 dishList.add(newDish);
             }
         } catch (FileNotFoundException e) {
-            throw new RestaurantException("Chyba: Soubor " + fileDishs + " nebyl nalezen! " + e.getLocalizedMessage());
+            System.err.println("Soubor " + fileDishs + " nebyl nalezen! " + e.getLocalizedMessage());
         } catch (NumberFormatException e) {
-            throw new RestaurantException("Chyba: V souboru DB-Dish.txt není číslo nebo má nedovolenou zápornou hodnotu"
-                    + " na řádku: " + line + " položka č." + helpBadFormatIdentificator);
+            System.err.println("Chyba: v souboru " + fileDishs + " není číslo na řádku číslo: " + lineNumber
+                    + "  Vadná položka je na řádku v pořadí " + itemLocalizator + ".." + " Řádek má tento obsah: "
+                    + line + " NEBO! Na tomto řádku je špatný počet položek díky proměnlivému počtu dalších "
+                    + "doporučených kategoríí nebo dalších doporučených fotek!");
         }
     }
 
     public void saveDataDishsToFile(String fileName) throws RestaurantException {
         try {
-            // Zálohování souboru před uložením nových hodnot do primárního souboru
             File originalFile = new File(fileDishs());
             File backupFile = new File(fileDishsBackUp());
             Files.copy(originalFile.toPath(), backupFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-            // Uložení nových dat do primárního souboru
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
                 for (Dish dish : dishList) {
                     // Musím získat název kategorie v angličtině, jinak se mi tam zapíšou český názvy a bude zle!!!
