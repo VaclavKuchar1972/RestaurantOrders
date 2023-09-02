@@ -95,6 +95,10 @@ public class ActualMenuManager {
                     + e.getMessage());
         }
     }
+
+
+
+    /*
     public void loadDataMenuFromFile(String fileActualMenu, String delimiter) throws RestaurantException {
         if (!Files.exists(Paths.get(fileActualMenu))) {createEmptyDishsFile(fileActualMenu); return;}
         int i; int helpBadFormatIdentificator = 0; FoodCategory helpCategory = null;
@@ -152,6 +156,74 @@ public class ActualMenuManager {
         }
     }
 
+     */
+
+    public void loadDataMenuFromFile(String fileActualMenu, String delimiter) throws RestaurantException {
+        if (!Files.exists(Paths.get(fileActualMenu))) { createEmptyDishsFile(fileActualMenu); return; }
+        String helpSameErrMessage1 = "Chyba: Špatný počet položek na řádku č. ";
+        String helpSameErrMessage2 = " Vadná položka je na řádku v pořadí ";
+        String helpSameErrMessage3 = " NEBO! Na tomto řádku je špatný počet položek díky proměnlivému počtu dalších "
+                + "kategoríí nebo dalších fotek!";
+        int i; int lineNumber = 0; int itemLocalizator = 0;
+        FoodCategory helpCategory = null;
+        String line = ""; String[] item = new String[0];
+        FoodCategory amMainCategory; int amNumberOfNextCategories; String amTitle; int amQuantity;
+        String amUnitOfQuantity; BigDecimal amPrice; int amPreparationTime; String amMainPhoto;
+        int amNumberOfNextPhotos;
+        try (Scanner scannerLoadData = new Scanner(new BufferedReader(new FileReader(fileActualMenu)))) {
+            while (scannerLoadData.hasNextLine()) {
+                lineNumber++;
+                line = scannerLoadData.nextLine(); item = line.split(delimiter);
+                if (item.length < 9) { System.err.println(helpSameErrMessage1 + lineNumber); continue; }
+                amMainCategory = FoodCategory.valueOf(item[0]);
+                if (amMainCategory == null) {
+                    System.err.println("Chyba: V souboru DB-ActualMenu.txt je základní kategorie, která má hodnotu"
+                            + " null nebo má neplatný formát nebo neexistuje v seznamu kategorií ve FoodCategory na "
+                            + "řádku číslo " + lineNumber + " s obsahem: " + line + helpSameErrMessage3 ); return;
+                }
+                itemLocalizator = 2; amNumberOfNextCategories = Integer.parseInt(item[1]);
+                List<FoodCategory> amNextCategory = new ArrayList<>();
+                for (i = 0; i < amNumberOfNextCategories; i++) {
+                    helpCategory = FoodCategory.valueOf(item[i + 2]);
+                    amNextCategory.add(helpCategory);
+                    if (helpCategory == null) {
+                        System.err.println("Chyba: V souboru DB-ActualMenu.txt je další kategorie, která má "
+                                + "hodnotu null nebo má neplatný formát nebo neexistuje v seznamu kategorií ve "
+                                + "FoodCategory na řádku s obsahem: " + line); return;
+                    }
+                }
+                amTitle = item[2 + amNumberOfNextCategories];
+                itemLocalizator = 4 + amNumberOfNextCategories;
+                amQuantity = Integer.parseInt(item[3 + amNumberOfNextCategories]);
+                amUnitOfQuantity = item[4 + amNumberOfNextCategories];
+                itemLocalizator = 6 + amNumberOfNextCategories;
+                amPrice = new BigDecimal(item[5 + amNumberOfNextCategories]);
+                itemLocalizator = 7 + amNumberOfNextCategories;
+                amPreparationTime = Integer.parseInt(item[6 + amNumberOfNextCategories]);
+                amMainPhoto = item[7 + amNumberOfNextCategories];
+                itemLocalizator = 9 + amNumberOfNextCategories;
+                amNumberOfNextPhotos = Integer.parseInt(item[8 + amNumberOfNextCategories]);
+                if (item.length != 9 + amNumberOfNextCategories + amNumberOfNextPhotos) {
+                    System.err.println(helpSameErrMessage1 + lineNumber + helpSameErrMessage2 + itemLocalizator + ".");
+                    return;
+                }
+                List<String> amNextPhoto = new ArrayList<>();
+                for (i = 0; i < amNumberOfNextPhotos; i++) {
+                    amNextPhoto.add(item[i + 9 + amNumberOfNextCategories]);
+                }
+                ActualMenu newActualMenu = new ActualMenu(amMainCategory, amNumberOfNextCategories, amNextCategory,
+                        amTitle, amQuantity, amUnitOfQuantity, amPrice, amPreparationTime, amMainPhoto,
+                        amNumberOfNextPhotos, amNextPhoto);
+                amList.add(newActualMenu);
+            }
+        } catch (FileNotFoundException e) {
+            System.err.println("Soubor " + fileActualMenu + " nebyl nalezen! " + e.getLocalizedMessage());
+        } catch (NumberFormatException e) {
+            System.err.println("Chyba: v souboru " + fileActualMenu + " není číslo na řádku číslo: " + lineNumber
+                    + "  Vadná položka je na řádku v pořadí " + itemLocalizator + ".." + " Řádek má tento obsah: "
+                    + line + helpSameErrMessage3);
+        }
+    }
 
     public void createBackUpMenuToFile() throws IOException {
         File originalFile = new File(fileActualMenu()); File backupFile = new File(fileBackUpMenu());

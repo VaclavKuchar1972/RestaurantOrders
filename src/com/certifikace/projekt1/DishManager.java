@@ -388,6 +388,8 @@ public class DishManager {
         if (!Files.exists(Paths.get(fileDishs))) {createEmptyDishsFile(fileDishs); return;}
         String helpSameErrMessage1 =  "Chyba: Špatný počet položek na řádku č. ";
         String helpSameErrMessage2 =  " Vadná položka je na řádku v pořadí ";
+        String helpSameErrMessage3 = " NEBO! Na tomto řádku je špatný počet položek díky proměnlivému počtu dalších "
+                + "kategoríí nebo dalších fotek!";
         int i; int lineNumber = 0; int itemLocalizator = 0;
         FoodCategory helpNextRecomendedCategory = null;
         String line = ""; String[] item = new String[0];
@@ -403,7 +405,7 @@ public class DishManager {
                 if (dishRecomendedMainCategory == null) {
                     System.err.println("Chyba: V souboru DB-Dish.txt je základní doporučená kategorie, která má hodnotu"
                             + " null nebo má neplatný formát nebo neexistuje v seznamu kategorií ve FoodCategory na "
-                            + "řádku číslo " + lineNumber + " s obsahem: " + line); return;
+                            + "řádku číslo " + lineNumber + " s obsahem: " + line + helpSameErrMessage3); return;
                 }
                 itemLocalizator = 2; dishNumberOfNextRecomendedCategory = Integer.parseInt(item[1]);
                 List<FoodCategory> dishNextRecomendedCategory = new ArrayList<>();
@@ -446,8 +448,7 @@ public class DishManager {
         } catch (NumberFormatException e) {
             System.err.println("Chyba: v souboru " + fileDishs + " není číslo na řádku číslo: " + lineNumber
                     + "  Vadná položka je na řádku v pořadí " + itemLocalizator + ".." + " Řádek má tento obsah: "
-                    + line + " NEBO! Na tomto řádku je špatný počet položek díky proměnlivému počtu dalších "
-                    + "doporučených kategoríí nebo dalších doporučených fotek!");
+                    + line + helpSameErrMessage3);
         }
     }
 

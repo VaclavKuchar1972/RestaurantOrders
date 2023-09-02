@@ -86,7 +86,7 @@ public class RestaurantOrders {
         // Pak je ale třeba tam vrátit ten první testovací, jinak viz. výše.
 
 
-        printLnOutputs.printDishListDataFromFile(dishManager);
+        //printLnOutputs.printDishListDataFromFile(dishManager);
 
         // Zkušební kód pro přidání jídla do zásobníku a jeho uložení do souboru (stačí ho odkomentovat)
         //TestVoidsForMain.createAndAddNewDish(dishManager); printLnOutputs.printDishListDataFromFile(dishManager);
