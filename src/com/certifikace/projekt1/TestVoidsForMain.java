@@ -1,5 +1,6 @@
 package com.certifikace.projekt1;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -247,7 +248,8 @@ public class TestVoidsForMain {
         }
     }
 
-    public static void testClearAndSave(ActualMenuManager amManager, RestaurantSaversVoidsForMain saversVoids) {
+    public static void testClearAndSave(ActualMenuManager amManager, RestaurantSaversVoidsForMain saversVoids)
+            throws IOException {
         amManager.clearAmList();
     }
 

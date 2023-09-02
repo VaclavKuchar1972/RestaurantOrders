@@ -82,7 +82,9 @@ public class ActualMenuManager {
         }
     }
 
-    public void clearAmList() {amList.clear(); createEmptyDishsFile(fileActualMenu());}
+    public void clearAmList() throws IOException {
+        createBackUpMenuToFile(); amList.clear(); createEmptyDishsFile(fileActualMenu());
+    }
 
     private void createEmptyDishsFile(String fileActualMenu) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileActualMenu))) {
@@ -151,12 +153,16 @@ public class ActualMenuManager {
     }
 
 
-
+    public void createBackUpMenuToFile() throws IOException {
+        File originalFile = new File(fileActualMenu()); File backupFile = new File(fileBackUpMenu());
+        Files.copy(originalFile.toPath(), backupFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+    }
     public void saveDataMenuToFile(String fileName) throws RestaurantException {
         try {
             File originalFile = new File(fileActualMenu());
-            File backupFile = new File(fileBackUpMenu());
-            Files.copy(originalFile.toPath(), backupFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            //File backupFile = new File(fileBackUpMenu());
+            //Files.copy(originalFile.toPath(), backupFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            createBackUpMenuToFile();
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
                 for (ActualMenu actualMenu : amList) {
                     writer.write(actualMenu.getAmMainCategory() + delimiter());
@@ -181,8 +187,10 @@ public class ActualMenuManager {
             } catch (IOException e) {
                 throw new RestaurantException("Chyba při ukládání dat do souboru: " + e.getMessage());
             }
+        } catch (RestaurantException exception) {
+            throw new RestaurantException("Chyba při zálohování souboru: " + exception.getMessage());
         } catch (IOException e) {
-            throw new RestaurantException("Chyba při zálohování souboru: " + e.getMessage());
+            throw new RuntimeException(e);
         }
     }
 

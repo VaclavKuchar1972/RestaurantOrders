@@ -1,7 +1,9 @@
 import com.certifikace.projekt1.*;
 
+import java.io.IOException;
+
 public class RestaurantOrders {
-    public static void main(String[] args) throws RestaurantException {
+    public static void main(String[] args) throws RestaurantException, IOException {
 
         RestaurantPrintLnOutputsForMain printLnOutputs = new RestaurantPrintLnOutputsForMain();
         RestaurantLoadersVoidsForMain loadersVoids = new RestaurantLoadersVoidsForMain();
