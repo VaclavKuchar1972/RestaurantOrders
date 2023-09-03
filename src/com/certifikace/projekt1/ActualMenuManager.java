@@ -6,7 +6,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 
@@ -18,7 +17,7 @@ public class ActualMenuManager {
 
     public ActualMenuManager() {this.amList = new ArrayList<>();}
 
-    public void addFoodToMenu(String title, int quantity, DishManager dishManager) throws RestaurantException {
+    public void addFoodToMenuByTitleAndQuantity(String title, int quantity, DishManager dishManager) throws RestaurantException {
         String helpSameErrMessage = " Jídlo NEBYLO přidáno do amList!";
 
         for (Dish dish : dishManager.getDishList()) {

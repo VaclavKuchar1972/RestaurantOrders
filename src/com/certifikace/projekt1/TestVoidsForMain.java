@@ -38,10 +38,6 @@ public class TestVoidsForMain {
         }
     }
 
-
-
-
-
     public static void createAndAddNewDish(DishManager dishManager) throws RestaurantException {
         try {
             FoodCategory mainCategory = FoodCategory.getInstance().valueOf("SPECIALITY");
@@ -61,7 +57,7 @@ public class TestVoidsForMain {
         } catch (RestaurantException e) {
             System.err.println("Nepodařilo se přidat nové jídlo do zásobníku: " + e.getLocalizedMessage());
         }
-        //saversVoids.saveDishsData(dishManager);
+        saversVoids.saveDishsData(dishManager);
     }
 
     public static void removeDishByTitleAndQuantity (DishManager dishManager) throws RestaurantException {
@@ -224,7 +220,7 @@ public class TestVoidsForMain {
         String dishTitle = "Katův šleh v moderním kulinářském hávu z vepřové panenky a čerstvé zeleniny";
         int dishRecommendedQuantity = 300;
         try {
-            amManager.addFoodToMenu(dishTitle, dishRecommendedQuantity, dishManager);
+            amManager.addFoodToMenuByTitleAndQuantity(dishTitle, dishRecommendedQuantity, dishManager);
             saversVoids.saveMenuData(amManager);
         } catch (RestaurantException e) {
             System.err.println("Nepodařilo se přidat jídlo do amList: " + e.getLocalizedMessage());
@@ -248,6 +244,24 @@ public class TestVoidsForMain {
     }
 
 
+    public static void TestAddFoodToOrderByTitleAndQuantity(OrderManager orderManager, ActualMenuManager amManager) {
+        String dishTitle = "Katův šleh v moderním kulinářském hávu z vepřové panenky a čerstvé zeleniny";
+        int dishRecommendedQuantity = 300;
+
+
+        int waiterNumber = 1;
+        int tableNumber = 5;
+        String noteForKitchen = "Bez cibule";
+        String noteForManagement = "Speciální host";
+        OrderCategory category = OrderCategory.RECEIVED;
+
+        try {
+            orderManager.addFoodToOrderByTitleAndQuantity(dishTitle, dishRecommendedQuantity, amManager, waiterNumber, tableNumber, noteForKitchen, noteForManagement, category);
+            //saversVoids.saveOrdersData(orderManager);
+        } catch (RestaurantException e) {
+            System.err.println("Nepodařilo se přidat jídlo do objednávky: " + e.getLocalizedMessage());
+        }
+    }
 
 
 

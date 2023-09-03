@@ -47,8 +47,7 @@ public class RestaurantOrders {
 
         // Zkušební kód pro ověření, že program nezkolabuje při prvním spuštění, když ještě nebude existovat
         // soubor DB-FoodCategories.txt není potřeba. Stačí z adresáře programu tento soubor smazat a spustit program.
-        // Program tento soubor vygeneruje, přidá do něj kategorii EMPTYCATEGORY a česky "prázdná kategorie"
-        // Pak je ale třeba tam vrátit ten první testovací, jinak viz. výše.
+        // Pak je ale třeba tam vrátit ten první testovací, jinak nebudou správně fungovat další testovací kódy.
 
 
         //printLnOutputs.printTableList(tableManager);
@@ -63,10 +62,7 @@ public class RestaurantOrders {
 
         // Zkušební kód pro ověření, že program nezkolabuje při prvním spuštění, když ještě nebude existovat
         // soubor DB-Tables.txt není potřeba. Stačí z adresáře programu tento soubor smazat a spustit program.
-        // Program tento soubor vygeneruje, přidá do něj stůl číslo 99, kapacitu stolu na 999999
-        // a všechny ostatní data stolu nastaví na null. Pak je ale třeba tam vrátit ten první testovací, JINAK NEBUDOU
-        // SPRÁVNĚ FUNGOVAT TESTOVACÍ KÓDY, ale kdyby se netestovalo, vše by mělo fungovat jak má, TESTOVAL jsem
-        // to všechno snad víc času než opravdu programoval... :D
+        // Pak je ale třeba tam vrátit ten první testovací, jinak nebudou správně fungovat další testovací kódy.
 
 
         //printLnOutputs.printWaiterList(waiterManager);
@@ -81,9 +77,7 @@ public class RestaurantOrders {
 
         // Zkušební kód pro ověření, že program nezkolabuje při prvním spuštění, když ještě nebude existovat
         // soubor DB-Waiters.txt není potřeba. Stačí z adresáře programu tento soubor smazat a spustit program.
-        // Program tento soubor vygeneruje, přidá do něj číšníka číslo 999, typ PPV na EMPTY
-        // a všechny ostatní data číšníka nastaví na null.
-        // Pak je ale třeba tam vrátit ten první testovací, jinak viz. výše.
+        // Pak je ale třeba tam vrátit ten první testovací, jinak nebudou správně fungovat další testovací kódy.
 
 
         //printLnOutputs.printDishListDataFromFile(dishManager);
@@ -185,7 +179,7 @@ public class RestaurantOrders {
 
         // Zkušební kód pro ověření, že program nezkolabuje při prvním spuštění, když ještě nebude existovat
         // soubor DB-Dishs.txt není potřeba. Stačí z adresáře programu tento soubor smazat a spustit program.
-        // Program tento soubor vygeneruje, pak je ale třeba tam vrátit ten první testovací, jinak viz. výše.
+        // Pak je ale třeba tam vrátit ten první testovací, jinak nebudou správně fungovat další testovací kódy.
 
 
         //printLnOutputs.printMenuListDataFromFile(amManager);
@@ -204,8 +198,7 @@ public class RestaurantOrders {
 
         // Zkušební kód pro ověření, že program nezkolabuje při prvním spuštění, když ještě nebude existovat
         // soubor DB-ActualMenu.txt není potřeba. Stačí z adresáře programu tento soubor smazat a spustit program.
-        // Program tento soubor vygeneruje, pak je ale třeba tam vrátit ten první testovací, jinak viz. výše.
-
+        // Pak je ale třeba tam vrátit ten první testovací, jinak nebudou správně fungovat další testovací kódy.
 
 
 

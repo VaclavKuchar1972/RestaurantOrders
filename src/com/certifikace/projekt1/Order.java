@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 
 public class Order {
 
+    private int orderNumber;
     // V zadání není datum objednávky, ale s objednávkou bez datumu by nás účtárna TUTOVĚ poslala MINIMÁLNĚ k šípku :D
     private LocalDate orderDate;
     private LocalDateTime orderTimeReceipt;
@@ -20,10 +21,11 @@ public class Order {
     private OrderCategory orderCategory;
 
 
-    public Order(LocalDate orderDate, LocalDateTime orderTimeReceipt, LocalDateTime orderTimeIssue,
+    public Order(int orderNumber, LocalDate orderDate, LocalDateTime orderTimeReceipt, LocalDateTime orderTimeIssue,
                  int orderWaiterNumber, int orderTableNumber, String orderTitle, int orderNumberOfUnits,
                  BigDecimal orderPriceOfUnits, String orderNoteForKitchen, String orderNoteForManagement,
                  OrderCategory orderCategory) {
+        this.orderNumber = orderNumber;
         this.orderDate = orderDate;
         this.orderTimeReceipt = orderTimeReceipt;
         this.orderTimeIssue = orderTimeIssue;
@@ -49,7 +51,8 @@ public class Order {
     }
 
 
-
+    public int getOrderNumber() {return orderNumber;}
+    public void setOrderNumber(int orderNumber) {this.orderNumber = orderNumber;}
     public LocalDate getOrderDate() {return orderDate;}
     public void setOrderDate(LocalDate orderDate) {this.orderDate = orderDate;}
     public LocalDateTime getOrderTimeReceipt() {return orderTimeReceipt;}

@@ -470,7 +470,6 @@ public class DishManager {
     }
 
     public List<Dish> getDishList() {return new ArrayList<>(dishList);}
-
 }
 
 
