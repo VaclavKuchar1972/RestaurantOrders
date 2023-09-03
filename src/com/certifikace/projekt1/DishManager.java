@@ -17,21 +17,10 @@ public class DishManager {
     private List<Dish> dishList;
     public DishManager() {this.dishList = new ArrayList<>();}
 
-    private boolean firstWriteDetector(Dish dish) {
-        return dish.getDishNumberOfNextRecomendedCategories() == 0 && dish.getDishTitle().equals("Empty Title")
-                && dish.getDishRecommendedQuantity() == 0
-                && dish.getDishRecommendPrice().compareTo(BigDecimal.ZERO) == 0
-                && dish.getDishEstimatedPreparationTime() == 999999 && dish.getDishNumberOfNextPhotos() == 0;
-    }
-    private void removefirstWrite() {
-        Iterator<Dish> iterator = dishList.iterator();
-        while (iterator.hasNext()) {Dish dish = iterator.next();if (firstWriteDetector(dish)) {iterator.remove();}}
-    }
-    public void addDish(Dish dish) throws RestaurantException {
-        // Když tam bude první programem vytvořený zápis po prvním spuštěnmí, odstraní se z Listu
-        removefirstWrite();
 
+    public void addDish(Dish dish) throws RestaurantException {
         String helpSameErrMessage =  " Jídlo NEBYLO přidáno do dishList!";
+
         if (dish.getDishRecomendedMainCategory() == null) {
             System.err.println("Chyba: Pokoušíte se přidat kategorii, která má hodnotu null nebo má neplatný formát "
                     + "nebo neexistuje v seznamu kategorií ve FoodCategory a je třeba jí před přidáním jídla přidat do "
@@ -375,17 +364,8 @@ public class DishManager {
                 + " v dishList." + helpSameErrMessage);
     }
 
-    private void createEmptyDishsFile(String fileDishs) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileDishs))) {
-            writer.write(delimiter() + 0 + delimiter() + "Empty Title" + delimiter() + 0 + delimiter() + delimiter()
-                    + "0" + delimiter() + 999999 + delimiter() + delimiter() + 0); writer.newLine();
-        } catch (IOException e) {
-            System.err.println("Chyba při vytváření souboru při neexistenci souboru se zásobníkem jídel: "
-                    + e.getMessage());
-        }
-    }
     public void loadDataDishsFromFile(String fileDishs, String delimiter) throws RestaurantException {
-        if (!Files.exists(Paths.get(fileDishs))) {createEmptyDishsFile(fileDishs); return;}
+        if (!Files.exists(Paths.get(fileDishs))) {return;}
         String helpSameErrMessage1 =  "Chyba: Špatný počet položek na řádku č. ";
         String helpSameErrMessage2 =  " Vadná položka je na řádku v pořadí ";
         String helpSameErrMessage3 = " NEBO! Na tomto řádku je špatný počet položek díky proměnlivému počtu dalších "
@@ -454,9 +434,10 @@ public class DishManager {
 
     public void saveDataDishsToFile(String fileName) throws RestaurantException {
         try {
-            File originalFile = new File(fileDishs());
-            File backupFile = new File(fileDishsBackUp());
-            Files.copy(originalFile.toPath(), backupFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            File originalFile = new File(fileDishs()); File backupFile = new File(fileDishsBackUp());
+            if (Files.exists(Paths.get(originalFile.toURI()))) {
+                Files.copy(originalFile.toPath(), backupFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            }
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
                 for (Dish dish : dishList) {
                     // Musím získat název kategorie v angličtině, jinak se mi tam zapíšou český názvy a bude zle!!!

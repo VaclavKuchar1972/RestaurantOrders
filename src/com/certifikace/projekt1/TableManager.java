@@ -19,21 +19,6 @@ public class TableManager {
     public TableManager() {this.tableList = new ArrayList<>();}
 
 
-    private boolean firstWriteDetector(Table table) {
-        return table.getTableNumber() == 99 && table.getTableCapacity() == 999999;
-    }
-    private void removefirstWrite() {
-        /*
-        Iterator může být použit pro procházení kolekcí bez ohledu na jejich typ. Nemusím tedy specifikovat, jaká
-        kolekce se používá (seznam, množina, mapa atd.), ale můžu použít stejný způsob pro iteraci jakékoliv kolekce.
-        Díky tomu by kód měl být flexibilnější a jednodušší na údržbu. Iterator jsem použil k tomu, abych prošel
-        seznamem dishList a vyhledal, jestli prvek odpovídá specifickému záznamu, který chci odstranit.
-         */
-        Iterator<Table> iterator = tableList.iterator();
-        while (iterator.hasNext()) {Table table = iterator.next(); if (firstWriteDetector(table)) {iterator.remove();}
-        }
-
-    }
     private boolean isTableNumberDuplicity(int tableNumber) {
         for (Table existingTable : tableList) {if (existingTable.getTableNumber() == tableNumber) {return true;}}
         return false;
@@ -48,8 +33,6 @@ public class TableManager {
         return false;
     }
     public void addTable(Table table) {
-        removefirstWrite();
-
         String helpSameErrMessage =  " Stůl NEBYL přidán do tableList!";
 
         if (table.getTableNumber() < 1) {
@@ -96,18 +79,8 @@ public class TableManager {
         }
     }
 
-    private void createEmptyTablesFile(String fileTables) throws RestaurantException {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileTables))) {
-            writer.write(99 + delimiter() + delimiter() + delimiter() + 999999);
-            writer.newLine();
-        } catch (IOException e) {
-            throw new RestaurantException("Chyba při vytváření souboru při neexistenci souboru se Stoly: "
-                    + e.getMessage());
-        }
-    }
-
     public void loadDataTablesFromFile(String fileTables, String delimiter) throws RestaurantException {
-        if (!Files.exists(Paths.get(fileTables))) {createEmptyTablesFile(fileTables); return;}
+        if (!Files.exists(Paths.get(fileTables))) {return;}
 
         String line = ""; int lineNumber = 0; int itemLocalizator = 0;
         String[] item = new String[0];
@@ -144,9 +117,10 @@ public class TableManager {
 
     public void saveDataTablesToFile(String fileName) throws RestaurantException {
         try {
-            File originalFile = new File(fileTables());
-            File backupFile = new File(fileTablesBackUp());
-            Files.copy(originalFile.toPath(), backupFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            File originalFile = new File(fileTables()); File backupFile = new File(fileTablesBackUp());
+            if (Files.exists(Paths.get(originalFile.toURI()))) {
+                Files.copy(originalFile.toPath(), backupFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            }
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
                 for (Table table : tableList) {
                     writer.write(table.getTableNumber() + delimiter() + table.getTableLocation() + delimiter()

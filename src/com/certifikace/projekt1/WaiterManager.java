@@ -17,22 +17,11 @@ public class WaiterManager {
     private List<Waiter> waiterList;
     public WaiterManager() {this.waiterList = new ArrayList<>();}
 
-    private boolean firstWriteDetector(Waiter waiter) {
-        // POZOR na záseky s blbostma - Stringy nemohu porovnávat stejně jako Inty, to nefunguje Stringy EQUALS!!!
-        return waiter.getWaiterNumber() == 999 && waiter.getWaiterTypeOfEmploymentRelationship().equals("EMPTY");
-    }
-    private void removefirstWrite() {
-        Iterator<Waiter> iterator = waiterList.iterator();
-        while (iterator.hasNext()) {Waiter waiter = iterator.next();
-            if (firstWriteDetector(waiter)) {iterator.remove();}
-        }
-    }
     private boolean isWaiterNumberDuplicity(int waiterNumber) {
         for (Waiter existingWaiter : waiterList) {if (existingWaiter.getWaiterNumber() == waiterNumber) {return true;}}
         return false;
     }
     public void addWaiter(Waiter waiter) {
-        removefirstWrite();
 
         String helpErrMessage =  " Číšník NEBYL přidán do waiterList!";
 
@@ -63,16 +52,8 @@ public class WaiterManager {
         }
     }
 
-    private void createEmptyWaitersFile(String fileWaiters) throws RestaurantException {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileWaiters))) {
-            writer.write(999 + delimiter() + delimiter() + delimiter() + delimiter() + delimiter() + delimiter() + "EMPTY");
-            writer.newLine();
-        } catch (IOException e) {
-            throw new RestaurantException("Chyba při vytváření souboru při neexistenci souboru s číšníky: "
-                    + e.getMessage());}
-    }
     public void loadDataWaitersFromFile(String fileWaiters, String delimiter) throws RestaurantException {
-        if (!Files.exists(Paths.get(fileWaiters))) {createEmptyWaitersFile(fileWaiters); return;}
+        if (!Files.exists(Paths.get(fileWaiters))) {return;}
         String line = ""; int lineNumber = 0;
         String[] item = new String[0];
         int waiterNumber; String waiterTitleBeforeName; String waiterFirstName; String waiterSecondName;
@@ -111,9 +92,10 @@ public class WaiterManager {
 
     public void saveDataWaitersToFile(String fileName) throws RestaurantException {
         try {
-            File originalFile = new File(fileWaiters());
-            File backupFile = new File(fileWaitersBackUp());
-            Files.copy(originalFile.toPath(), backupFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            File originalFile = new File(fileWaiters()); File backupFile = new File(fileWaitersBackUp());
+            if (Files.exists(Paths.get(originalFile.toURI()))) {
+                Files.copy(originalFile.toPath(), backupFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            }
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
                 for (Waiter waiter : waiterList) {
                     writer.write(waiter.getWaiterNumber() + delimiter() + waiter.getWaiterTitleBeforeName()
