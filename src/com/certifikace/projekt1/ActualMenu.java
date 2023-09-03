@@ -46,6 +46,8 @@ public class ActualMenu {
                 + ", " + amNumberOfNextPhotos + ", " + amNextPhoto;
     }
 
+    public String getTitleForOrder () {return amTitle + " - " + amQuantity + " " + amUnitOfQuantity;}
+
     public FoodCategory getAmMainCategory() {return amMainCategory;}
     public void setAmMainCategory(FoodCategory amMainCategory) {this.amMainCategory = amMainCategory;}
     public int getAmNumberOfNextCategories() {return amNumberOfNextCategories;}
