@@ -20,8 +20,6 @@ public class Order {
     private OrderCategory orderCategory;
 
 
-
-
     public Order(LocalDate orderDate, LocalDateTime orderTimeReceipt, LocalDateTime orderTimeIssue,
                  int orderWaiterNumber, int orderTableNumber, String orderTitle, int orderNumberOfUnits,
                  BigDecimal orderPriceOfUnits, String orderNoteForKitchen, String orderNoteForManagement,
@@ -38,6 +36,19 @@ public class Order {
         this.orderNoteForManagement = orderNoteForManagement;
         this.orderCategory = orderCategory;
     }
+
+    public String getOrderInfoForTestPrint() {
+        String helpWaiterString = "";
+        if (orderWaiterNumber < 100) {helpWaiterString = " ";}
+        if (orderWaiterNumber < 10) {helpWaiterString = "  ";}
+        String helpTableString = "";
+        if (orderTableNumber < 10) {helpTableString = " ";}
+        return orderDate + ", " + orderTimeReceipt + ", " + orderTimeIssue + ", " + helpWaiterString + orderWaiterNumber
+                + ", " + helpTableString + orderTableNumber + ", " + orderTitle + ", " + orderNumberOfUnits + ", "
+                + orderNoteForKitchen + ", " + orderNoteForManagement + ", " + orderCategory;
+    }
+
+
 
     public LocalDate getOrderDate() {return orderDate;}
     public void setOrderDate(LocalDate orderDate) {this.orderDate = orderDate;}

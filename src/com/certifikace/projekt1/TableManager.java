@@ -108,6 +108,7 @@ public class TableManager {
 
     public void loadDataTablesFromFile(String fileTables, String delimiter) throws RestaurantException {
         if (!Files.exists(Paths.get(fileTables))) {createEmptyTablesFile(fileTables); return;}
+
         String line = ""; int lineNumber = 0; int itemLocalizator = 0;
         String[] item = new String[0];
         int tableNumber; String tableLocation; String tableSector; int tableCapacity;
