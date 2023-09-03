@@ -22,8 +22,6 @@ public class Order {
 
 
 
-
-
     public Order(LocalDate orderDate, LocalDateTime orderTimeReceipt, LocalDateTime orderTimeIssue,
                  int orderWaiterNumber, int orderTableNumber, String orderTitle, int orderNumberOfUnits,
                  BigDecimal orderPriceOfUnits, String orderNoteForKitchen, String orderNoteForManagement,
