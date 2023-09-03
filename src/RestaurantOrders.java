@@ -14,6 +14,7 @@ public class RestaurantOrders {
         WaiterManager waiterManager = new WaiterManager();
         DishManager dishManager = new DishManager();
         ActualMenuManager amManager = new ActualMenuManager();
+        OrderManager orderManager = new OrderManager();
 
         // Toto tu je jen kvůli testování, později (při pozdějším reálném použití programu) se to může smazat
         // i s testovacími TXT. Nicméně pro testování jsou pro mě nutné. Nakonec ani jeden řádek kódu pod touto
@@ -201,7 +202,8 @@ public class RestaurantOrders {
         // Pak je ale třeba tam vrátit ten první testovací, jinak nebudou správně fungovat další testovací kódy.
 
 
-
+        TestVoidsForMain.TestAddFoodToOrderByTitleAndQuantity(orderManager, amManager);
+        printLnOutputs.printOrderListDataFromFile(orderManager);
 
 
 

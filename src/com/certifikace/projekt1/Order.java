@@ -23,7 +23,7 @@ public class Order {
 
     public Order(int orderNumber, LocalDate orderDate, LocalDateTime orderTimeReceipt, LocalDateTime orderTimeIssue,
                  int orderWaiterNumber, int orderTableNumber, String orderTitle, int orderNumberOfUnits,
-                 BigDecimal orderPriceOfUnits, String orderNoteForKitchen, String orderNoteForManagement,
+                 BigDecimal orderPriceOfUnits, int units, String orderNoteForKitchen, String orderNoteForManagement,
                  OrderCategory orderCategory) {
         this.orderNumber = orderNumber;
         this.orderDate = orderDate;

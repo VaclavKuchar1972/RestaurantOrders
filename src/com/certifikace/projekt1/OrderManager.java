@@ -10,18 +10,13 @@ public class OrderManager {
 
     private List<Order> orderList;
     private List<Order> orderListForAccountingOffice;
-
-    public OrderManager(List<Order> orderList, List<Order> orderListForAccountingOffice) {
-        this.orderList = orderList;
-        this.orderListForAccountingOffice = orderListForAccountingOffice;
-    }
-
+    public OrderManager() {this.orderList = new ArrayList<>(); this.orderListForAccountingOffice = new ArrayList<>();}
 
 
     // MUSÍM JEŠTĚ PŘIDAT CHYBOVÉ HLÁŠKY, neexistující stůl, číšník,
     public void addFoodToOrderByTitleAndQuantity(
             String titleSelect, int quantitySelect, ActualMenuManager amManager, int waiterNumber, int tableNumber,
-            String noteForKitchen, String noteForManagement, OrderCategory category
+            String noteForKitchen, int unitsNumber, String noteForManagement, OrderCategory category
     )
             throws RestaurantException {
         for (ActualMenu actualMenu : amManager.getAmList()) {
@@ -35,8 +30,12 @@ public class OrderManager {
                         tableNumber,
                         actualMenu.getTitleForOrder(),
                         actualMenu.getAmQuantity(),
+
                         //actualMenu.getAmPrice().multiply(new BigDecimal(quantitySelect)),
                         actualMenu.getAmPrice(),
+
+                        unitsNumber,
+
                         noteForKitchen,
                         noteForManagement,
                         category
