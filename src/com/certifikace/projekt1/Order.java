@@ -19,12 +19,13 @@ public class Order {
     private String orderNoteForKitchen;
     private String orderNoteForManagement;
     private OrderCategory orderCategory;
+    private FoodCategory foodMainCategory;
 
 
     public Order(int orderNumber, LocalDate orderDate, LocalDateTime orderTimeReceipt, LocalDateTime orderTimeIssue,
                  int orderWaiterNumber, int orderTableNumber, String orderTitle, int orderNumberOfUnits,
                  BigDecimal orderPriceOfUnits, int units, String orderNoteForKitchen, String orderNoteForManagement,
-                 OrderCategory orderCategory) {
+                 OrderCategory orderCategory, FoodCategory amMainCategory) {
         this.orderNumber = orderNumber;
         this.orderDate = orderDate;
         this.orderTimeReceipt = orderTimeReceipt;
@@ -47,7 +48,7 @@ public class Order {
         if (orderTableNumber < 10) {helpTableString = " ";}
         return orderDate + ", " + orderTimeReceipt + ", " + orderTimeIssue + ", " + helpWaiterString + orderWaiterNumber
                 + ", " + helpTableString + orderTableNumber + ", " + orderTitle + ", " + orderNumberOfUnits + ", "
-                + orderNoteForKitchen + ", " + orderNoteForManagement + ", " + orderCategory;
+                + orderNoteForKitchen + ", " + orderNoteForManagement + ", " + orderCategory + ", " + foodMainCategory;
     }
 
 
@@ -77,8 +78,6 @@ public class Order {
     }
     public OrderCategory getOrderCategory() {return orderCategory;}
     public void setOrderCategory(OrderCategory orderCategory) {this.orderCategory = orderCategory;}
-
-
-
-
+    public FoodCategory getFoodMainCategory() {return foodMainCategory;}
+    public void setFoodMainCategory(FoodCategory foodMainCategory) {this.foodMainCategory = foodMainCategory;}
 }

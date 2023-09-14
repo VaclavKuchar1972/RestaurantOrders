@@ -1,6 +1,5 @@
 package com.certifikace.projekt1;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -16,7 +15,7 @@ public class OrderManager {
     // MUSÍM JEŠTĚ PŘIDAT CHYBOVÉ HLÁŠKY, neexistující stůl, číšník,
     public void addFoodToOrderByTitleAndQuantity(
             String titleSelect, int quantitySelect, ActualMenuManager amManager, int waiterNumber, int tableNumber,
-            String noteForKitchen, int unitsNumber, String noteForManagement, OrderCategory category
+            String noteForKitchen, int unitsNumber, String noteForManagement, OrderCategory orderCategory
     )
             throws RestaurantException {
         for (ActualMenu actualMenu : amManager.getAmList()) {
@@ -38,7 +37,10 @@ public class OrderManager {
 
                         noteForKitchen,
                         noteForManagement,
-                        category
+                        orderCategory,
+
+                        // tady je NĚCO ŠPATNĚ!!! - zobrazuje se NULL a má tam být SOMETHINGTOBEER
+                        actualMenu.getAmMainCategory()
                 );
                 orderList.add(newOrder);
                 return;

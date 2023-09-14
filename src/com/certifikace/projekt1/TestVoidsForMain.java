@@ -245,20 +245,21 @@ public class TestVoidsForMain {
 
 
     public static void TestAddFoodToOrderByTitleAndQuantity(OrderManager orderManager, ActualMenuManager amManager) {
-        String dishTitle = "Plzeň 12 světlá čepovaná";
-        int dishRecommendedQuantity = 500;
+        String dishTitle = "Nakládaný hermelín";
+        int dishRecommendedQuantity = 150;
 
 
         int waiterNumber = 1;
         int tableNumber = 5;
-        int unitsNumber = 5;
+        int unitsNumber = 1;
         String noteForKitchen = "Bez cibule";
         String noteForManagement = "Speciální host";
-        OrderCategory category = OrderCategory.RECEIVED;
+        OrderCategory orderCategory = OrderCategory.RECEIVED;
+
 
         try {
             orderManager.addFoodToOrderByTitleAndQuantity(dishTitle, dishRecommendedQuantity, amManager, waiterNumber,
-                    tableNumber, noteForKitchen, unitsNumber, noteForManagement, category);
+                    tableNumber, noteForKitchen, unitsNumber, noteForManagement, orderCategory);
             //saversVoids.saveOrdersData(orderManager);
         } catch (RestaurantException e) {
             System.err.println("Nepodařilo se přidat jídlo do objednávky: " + e.getLocalizedMessage());
