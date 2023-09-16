@@ -183,7 +183,7 @@ public class RestaurantOrders {
         // Pak je ale třeba tam vrátit ten první testovací, jinak nebudou správně fungovat další testovací kódy.
 
 
-        //printLnOutputs.printMenuListDataFromFile(amManager);
+        printLnOutputs.printMenuListDataFromFile(amManager);
 
         // Zkušební kód pro přidání jídla do aktuálního menu a jeho uložení do souboru (stačí ho odkomentovat)
         //TestVoidsForMain.testAddFoodToMenu(amManager, dishManager); printLnOutputs.printMenuListDataFromFile(amManager);

@@ -13,6 +13,9 @@ public class OrderManager {
 
 
     // MUSÍM JEŠTĚ PŘIDAT CHYBOVÉ HLÁŠKY, neexistující stůl, číšník,
+
+
+
     public void addFoodToOrderByTitleAndQuantity(
             String titleSelect, int quantitySelect, ActualMenuManager amManager, int waiterNumber, int tableNumber,
             String noteForKitchen, int unitsNumber, String noteForManagement, OrderCategory orderCategory
@@ -49,10 +52,6 @@ public class OrderManager {
         throw new RestaurantException("Chyba: Jídlo s názvem " + titleSelect + " a množstvím " + quantitySelect
                 + " nebylo nalezeno v amList. Objednané jídlo NEBYLO přidáno do orderList.");
     }
-
-
-
-
 
 
 

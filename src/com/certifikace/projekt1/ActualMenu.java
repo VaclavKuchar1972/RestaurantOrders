@@ -2,6 +2,7 @@ package com.certifikace.projekt1;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Objects;
 
 public class ActualMenu {
 
@@ -73,4 +74,8 @@ public class ActualMenu {
     public List<String> getAmNextPhoto() {return amNextPhoto;}
     public void setAmNextPhoto(List<String> amNextPhoto) {this.amNextPhoto = amNextPhoto;}
 
+
 }
+
+
+

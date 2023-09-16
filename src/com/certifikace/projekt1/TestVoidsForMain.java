@@ -253,7 +253,7 @@ public class TestVoidsForMain {
         int tableNumber = 5;
         int unitsNumber = 1;
         String noteForKitchen = "Bez cibule";
-        String noteForManagement = "Speciální host";
+        String noteForManagement = "VIP host";
         OrderCategory orderCategory = OrderCategory.RECEIVED;
 
 

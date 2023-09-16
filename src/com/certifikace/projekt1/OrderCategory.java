@@ -2,7 +2,7 @@ package com.certifikace.projekt1;
 
 public enum OrderCategory {
     RECEIVED("přijatá objednávka"),
-    ISSUED("objednávka předaná na stů"),
+    ISSUED("objednávka předaná na stůl"),
     PAID("zaplacená objednávka");
 
     private final String czechName;
