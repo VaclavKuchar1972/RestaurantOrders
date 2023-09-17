@@ -21,7 +21,26 @@ public class Order {
     private OrderCategory orderCategory;
     private FoodCategory foodMainCategory;
 
+    public Order(int orderNumber, LocalDate orderDate, LocalDateTime orderTimeReceipt, LocalDateTime orderTimeIssue,
+                 int orderWaiterNumber, int orderTableNumber, String orderTitle, int orderNumberOfUnits,
+                 BigDecimal orderPriceOfUnits, int unitsNumber, String orderNoteForKitchen, String orderNoteForManagement,
+                 OrderCategory orderCategory, FoodCategory foodMainCategory) {
+        this.orderNumber = orderNumber;
+        this.orderDate = orderDate;
+        this.orderTimeReceipt = orderTimeReceipt;
+        this.orderTimeIssue = orderTimeIssue;
+        this.orderWaiterNumber = orderWaiterNumber;
+        this.orderTableNumber = orderTableNumber;
+        this.orderTitle = orderTitle;
+        this.orderNumberOfUnits = orderNumberOfUnits;
+        this.orderPriceOfUnits = orderPriceOfUnits;
+        this.orderNoteForKitchen = orderNoteForKitchen;
+        this.orderNoteForManagement = orderNoteForManagement;
+        this.orderCategory = orderCategory;
+        this.foodMainCategory = foodMainCategory;
+    }
 
+    /*
     public Order(int orderNumber, LocalDate orderDate, LocalDateTime orderTimeReceipt, LocalDateTime orderTimeIssue,
                  int orderWaiterNumber, int orderTableNumber, String orderTitle, int orderNumberOfUnits,
                  BigDecimal orderPriceOfUnits, int units, String orderNoteForKitchen, String orderNoteForManagement,
@@ -38,7 +57,7 @@ public class Order {
         this.orderNoteForKitchen = orderNoteForKitchen;
         this.orderNoteForManagement = orderNoteForManagement;
         this.orderCategory = orderCategory;
-    }
+    }*/
 
     public String getOrderInfoForTestPrint() {
         String helpWaiterString = "";

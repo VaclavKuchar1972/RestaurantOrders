@@ -12,10 +12,8 @@ public class OrderManager {
     public OrderManager() {this.orderList = new ArrayList<>(); this.orderListForAccountingOffice = new ArrayList<>();}
 
 
+
     // MUSÍM JEŠTĚ PŘIDAT CHYBOVÉ HLÁŠKY, neexistující stůl, číšník,
-
-
-
     public void addFoodToOrderByTitleAndQuantity(
             String titleSelect, int quantitySelect, ActualMenuManager amManager, int waiterNumber, int tableNumber,
             String noteForKitchen, int unitsNumber, String noteForManagement, OrderCategory orderCategory
