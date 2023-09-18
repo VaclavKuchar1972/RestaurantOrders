@@ -251,15 +251,15 @@ public class TestVoidsForMain {
 
         int waiterNumber = 1;
         int tableNumber = 5;
-        int unitsNumber = 1;
+        int unitsNumber = 3;
         String noteForKitchen = "Bez cibule";
         String noteForManagement = "VIP host";
         OrderCategory orderCategory = OrderCategory.RECEIVED;
 
 
         try {
-            orderManager.addFoodToOrderByTitleAndQuantity(dishTitle, dishRecommendedQuantity, amManager, waiterNumber,
-                    tableNumber, noteForKitchen, unitsNumber, noteForManagement, orderCategory);
+            orderManager.addFoodToUnconfirmedOrderByTitleAndQuantity(dishTitle, dishRecommendedQuantity, amManager, waiterNumber,
+                    tableNumber, unitsNumber, noteForKitchen, noteForManagement, orderCategory);
             //saversVoids.saveOrdersData(orderManager);
         } catch (RestaurantException e) {
             System.err.println("Nepodařilo se přidat jídlo do objednávky: " + e.getLocalizedMessage());

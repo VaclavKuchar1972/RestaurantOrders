@@ -14,9 +14,10 @@ public class OrderManager {
 
 
     // MUSÍM JEŠTĚ PŘIDAT CHYBOVÉ HLÁŠKY, neexistující stůl, číšník,
-    public void addFoodToOrderByTitleAndQuantity(
-            String titleSelect, int quantitySelect, ActualMenuManager amManager, int waiterNumber, int tableNumber,
-            String noteForKitchen, int unitsNumber, String noteForManagement, OrderCategory orderCategory
+    public void addFoodToUnconfirmedOrderByTitleAndQuantity(
+            String titleSelect, int quantitySelect, ActualMenuManager amManager,
+            int waiterNumber, int tableNumber, int unitsNumber, String noteForKitchen, String noteForManagement,
+            OrderCategory orderCategory
     )
             throws RestaurantException {
         for (ActualMenu actualMenu : amManager.getAmList()) {
@@ -29,18 +30,12 @@ public class OrderManager {
                         waiterNumber,
                         tableNumber,
                         actualMenu.getTitleForOrder(),
-                        actualMenu.getAmQuantity(),
-
-                        //actualMenu.getAmPrice().multiply(new BigDecimal(quantitySelect)),
-                        actualMenu.getAmPrice(),
-
                         unitsNumber,
-
+                        actualMenu.getAmPrice(),
+                        unitsNumber,
                         noteForKitchen,
                         noteForManagement,
                         orderCategory,
-
-                        // tady je NĚCO ŠPATNĚ!!! - zobrazuje se NULL a má tam být SOMETHINGTOBEER
                         actualMenu.getAmMainCategory()
                 );
                 orderList.add(newOrder);

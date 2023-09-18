@@ -19,12 +19,12 @@ public class Order {
     private String orderNoteForKitchen;
     private String orderNoteForManagement;
     private OrderCategory orderCategory;
-    private FoodCategory foodMainCategory;
+    private FoodCategory orderFoodMainCategory;
 
     public Order(int orderNumber, LocalDate orderDate, LocalDateTime orderTimeReceipt, LocalDateTime orderTimeIssue,
                  int orderWaiterNumber, int orderTableNumber, String orderTitle, int orderNumberOfUnits,
                  BigDecimal orderPriceOfUnits, int unitsNumber, String orderNoteForKitchen, String orderNoteForManagement,
-                 OrderCategory orderCategory, FoodCategory foodMainCategory) {
+                 OrderCategory orderCategory, FoodCategory orderFoodMainCategory) {
         this.orderNumber = orderNumber;
         this.orderDate = orderDate;
         this.orderTimeReceipt = orderTimeReceipt;
@@ -37,27 +37,8 @@ public class Order {
         this.orderNoteForKitchen = orderNoteForKitchen;
         this.orderNoteForManagement = orderNoteForManagement;
         this.orderCategory = orderCategory;
-        this.foodMainCategory = foodMainCategory;
+        this.orderFoodMainCategory = orderFoodMainCategory;
     }
-
-    /*
-    public Order(int orderNumber, LocalDate orderDate, LocalDateTime orderTimeReceipt, LocalDateTime orderTimeIssue,
-                 int orderWaiterNumber, int orderTableNumber, String orderTitle, int orderNumberOfUnits,
-                 BigDecimal orderPriceOfUnits, int units, String orderNoteForKitchen, String orderNoteForManagement,
-                 OrderCategory orderCategory, FoodCategory amMainCategory) {
-        this.orderNumber = orderNumber;
-        this.orderDate = orderDate;
-        this.orderTimeReceipt = orderTimeReceipt;
-        this.orderTimeIssue = orderTimeIssue;
-        this.orderWaiterNumber = orderWaiterNumber;
-        this.orderTableNumber = orderTableNumber;
-        this.orderTitle = orderTitle;
-        this.orderNumberOfUnits = orderNumberOfUnits;
-        this.orderPriceOfUnits = orderPriceOfUnits;
-        this.orderNoteForKitchen = orderNoteForKitchen;
-        this.orderNoteForManagement = orderNoteForManagement;
-        this.orderCategory = orderCategory;
-    }*/
 
     public String getOrderInfoForTestPrint() {
         String helpWaiterString = "";
@@ -65,11 +46,10 @@ public class Order {
         if (orderWaiterNumber < 10) {helpWaiterString = "  ";}
         String helpTableString = "";
         if (orderTableNumber < 10) {helpTableString = " ";}
-        return orderDate + ", " + orderTimeReceipt + ", " + orderTimeIssue + ", " + helpWaiterString + orderWaiterNumber
-                + ", " + helpTableString + orderTableNumber + ", " + orderTitle + ", " + orderNumberOfUnits + ", "
-                + orderNoteForKitchen + ", " + orderNoteForManagement + ", " + orderCategory + ", " + foodMainCategory;
+        return orderNumber + ", " + orderDate + ", " + orderTimeReceipt + ", " + orderTimeIssue + ", " + helpWaiterString + orderWaiterNumber
+                + ", " + helpTableString + orderTableNumber + ", " + orderTitle + ", " + orderNumberOfUnits + ", " + orderPriceOfUnits + ",- Kč, "
+                + orderNoteForKitchen + ", " + orderNoteForManagement + ", " + orderCategory + ", " + orderFoodMainCategory;
     }
-
 
     public int getOrderNumber() {return orderNumber;}
     public void setOrderNumber(int orderNumber) {this.orderNumber = orderNumber;}
@@ -97,6 +77,6 @@ public class Order {
     }
     public OrderCategory getOrderCategory() {return orderCategory;}
     public void setOrderCategory(OrderCategory orderCategory) {this.orderCategory = orderCategory;}
-    public FoodCategory getFoodMainCategory() {return foodMainCategory;}
-    public void setFoodMainCategory(FoodCategory foodMainCategory) {this.foodMainCategory = foodMainCategory;}
+    public FoodCategory getOrderFoodMainCategory() {return orderFoodMainCategory;}
+    public void setOrderFoodMainCategory(FoodCategory orderFoodMainCategory) {this.orderFoodMainCategory = orderFoodMainCategory;}
 }
