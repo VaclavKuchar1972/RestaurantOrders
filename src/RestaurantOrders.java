@@ -15,15 +15,15 @@ public class RestaurantOrders {
         ActualMenuManager amManager = new ActualMenuManager();
         OrderManager orderManager = new OrderManager();
 
-        // Toto tu je jen kvůli testování, později (při pozdějším reálném použití programu) se to může smazat
-        // i s testovacími TXT. Nicméně pro testování jsou pro mě nutné. Nakonec ani jeden řádek kódu pod touto
-        // poznámkou není nutný a vše je kvůli testování. Jestli se nemýlím, kolegům z FrontEndu by mělo stačit vše výše
-        // a možná ani to nepotřebují, ale to nevím určitě.
-
         loadersVoids.loadTablesData(tableManager);
         loadersVoids.loadWaitersData(waiterManager);
         loadersVoids.loadDishsData(dishManager);
         loadersVoids.loadActualMenuData(amManager);
+
+        // Toto tu je jen kvůli testování, později (při pozdějším reálném použití programu) se to může smazat
+        // i s testovacími TXT. Nicméně pro testování jsou pro mě nutné. Nakonec ani jeden řádek kódu pod touto
+        // poznámkou není nutný a vše je kvůli testování. Jestli se nemýlím, kolegům z FrontEndu by mělo stačit vše výše
+        // a možná ani to nepotřebují, ale to nevím určitě.
 
         System.out.println(); System.out.println();
         System.out.println("Restaurant Chez Quis à Prague");
@@ -201,7 +201,8 @@ public class RestaurantOrders {
         // Pak je ale třeba tam vrátit ten první testovací, jinak nebudou správně fungovat další testovací kódy.
 
 
-        TestVoidsForMain.TestAddFoodToUnconfirmedOrdersListByTitleAndQuantity(orderManager, amManager);
+        TestVoidsForMain.TestAddFoodToUnconfirmedOrdersListByTitleAndQuantity(
+                orderManager, amManager, waiterManager, tableManager);
         printLnOutputs.printOrderListDataFromFile(orderManager);
 
 

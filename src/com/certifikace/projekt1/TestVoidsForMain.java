@@ -244,7 +244,9 @@ public class TestVoidsForMain {
     }
 
 
-    public static void TestAddFoodToUnconfirmedOrdersListByTitleAndQuantity(OrderManager orderManager, ActualMenuManager amManager) {
+    public static void TestAddFoodToUnconfirmedOrdersListByTitleAndQuantity(
+            OrderManager orderManager, ActualMenuManager amManager, WaiterManager waiterManager,
+            TableManager tableManager) {
         String dishTitle = "Nakládaný hermelín";
         int dishRecommendedQuantity = 150;
 
@@ -259,7 +261,8 @@ public class TestVoidsForMain {
 
         try {
             orderManager.addFoodToUnconfirmedOrdersByTitleAndQuantity(dishTitle, dishRecommendedQuantity, amManager,
-                    waiterNumber, tableNumber, unitsNumber, noteForKitchen, noteForManagement);
+                    waiterNumber, tableNumber, unitsNumber, noteForKitchen, noteForManagement, waiterManager,
+                    tableManager);
             //saversVoids.saveOrdersData(orderManager);
         } catch (RestaurantException e) {
             System.err.println("Nepodařilo se přidat jídlo do objednávky: " + e.getLocalizedMessage());

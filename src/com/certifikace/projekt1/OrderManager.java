@@ -25,12 +25,39 @@ public class OrderManager {
         this.closedOrdersList = new ArrayList<>();
     }
 
-    // MUSÍM JEŠTĚ PŘIDAT CHYBOVÉ HLÁŠKY, neexistující stůl, číšník, záporný nebo nulový počet
     public void addFoodToUnconfirmedOrdersByTitleAndQuantity(
             String titleSelect, int quantitySelect, ActualMenuManager amManager,
-            int waiterNumber, int tableNumber, int unitsNumber, String noteForKitchen, String noteForManagement
-    )
+            int waiterNumber, int tableNumber, int unitsNumber, String noteForKitchen, String noteForManagement,
+            WaiterManager waiterManager, TableManager tableManager)
+
             throws RestaurantException {
+
+        boolean waiterExists = false;
+        for(Waiter waiter : waiterManager.getWaiterList()) {
+            if(waiter.getWaiterNumber() == waiterNumber) {waiterExists = true; break;}
+        }
+        if(!waiterExists) {
+            System.err.println("Chyba: Číšník s číslem " + waiterNumber + " neexistuje ve WaiterList. Položka NEBYLA"
+                    + " přidána do unconfirmedOrdersList.");
+            return;
+        }
+
+        boolean tableExists = false;
+        for(Table table : tableManager.getTableList()) {
+            if(table.getTableNumber() == tableNumber) {tableExists = true; break;}
+        }
+        if(!tableExists) {
+            System.err.println("Chyba: Stůl s číslem " + tableNumber + " neexistuje v TableList. Položka NEBYLA"
+                    + " přidána do unconfirmedOrdersList.");
+            return;
+        }
+
+        if (unitsNumber <= 0) {
+            System.err.println("Chyba: Pokoušíte se objednat položku, která má zápornou nebo nulovou hodnotu počtu "
+                    + "objednávaných jednotek:" + unitsNumber + " Položka NEBYLA přidána do unconfirmedOrdersList.");
+            return;
+        }
+
         for (ActualMenu actualMenu : amManager.getAmList()) {
             if (actualMenu.getAmTitle().equals(titleSelect) && actualMenu.getAmQuantity() >= quantitySelect) {
                 Order newOrder = new Order(
@@ -56,9 +83,6 @@ public class OrderManager {
         throw new RestaurantException("Chyba: Jídlo s názvem " + titleSelect + " a množstvím " + quantitySelect
                 + " nebylo nalezeno v amList. Objednané jídlo NEBYLO přidáno do orderList.");
     }
-
-
-
 
     public List<Order> getOrderList() {return new ArrayList<>(unconfirmedOrdersList);}
 
