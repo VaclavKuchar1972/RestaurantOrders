@@ -265,7 +265,7 @@ public class TestVoidsForMain {
                     tableManager);
             //saversVoids.saveOrdersData(orderManager);
         } catch (RestaurantException e) {
-            System.err.println("Nepodařilo se přidat jídlo do objednávky: " + e.getLocalizedMessage());
+            System.err.println("Nepodařilo se přidat položku do nepotvrzených objednávek: " + e.getLocalizedMessage());
         }
     }
 
