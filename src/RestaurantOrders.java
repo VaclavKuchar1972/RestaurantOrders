@@ -1,6 +1,5 @@
 import com.certifikace.projekt1.*;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class RestaurantOrders {
@@ -202,7 +201,7 @@ public class RestaurantOrders {
         // Pak je ale třeba tam vrátit ten první testovací, jinak nebudou správně fungovat další testovací kódy.
 
 
-        TestVoidsForMain.TestAddFoodToOrderByTitleAndQuantity(orderManager, amManager);
+        TestVoidsForMain.TestAddFoodToUnconfirmedOrdersListByTitleAndQuantity(orderManager, amManager);
         printLnOutputs.printOrderListDataFromFile(orderManager);
 
 

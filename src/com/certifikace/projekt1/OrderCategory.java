@@ -1,6 +1,8 @@
 package com.certifikace.projekt1;
 
 public enum OrderCategory {
+
+    UNCONFIRMED("nepotvrzená objednávka"),
     RECEIVED("přijatá objednávka"),
     ISSUED("objednávka předaná na stůl"),
     PAID("zaplacená objednávka");
