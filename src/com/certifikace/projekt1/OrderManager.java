@@ -68,7 +68,7 @@ public class OrderManager {
                 String fileItemOrOrderActualNumber = "DB-ItemActualNumber"; Integer itemNumber = 0;
                 try {itemNumber = loadItemOrOrderActualNumber(fileItemOrOrderActualNumber);}
                 catch (RestaurantException e) {System.err.println(e.getMessage() + helpSameErrMessage); return;}
-                itemNumber = itemNumber + 1;
+                itemNumber++;
                 // Předpokládám, že jedna miliarda je dostatečný počet položek pro každou restauraci na to,
                 // aby se stačili ze "zásobníku" nepotvrzených objednávek tyto odstarnit a nedošlo ke kolizi položek
                 // se stejnými čísly a zároveň nedošlo k přečerpání možností proměnné Integer, vlastně tím jenom chráním
@@ -97,6 +97,15 @@ public class OrderManager {
 
 
                 unconfirmedOrdersList.add(newItem);
+
+
+                String filePath = "DB-UnconfirmedItems.txt";
+                try {saveItemOrOrderToFile(filePath);}
+                catch (RestaurantException e) {
+                    System.err.println("Chyba při ukládání do souboru " + filePath + ": " + e.getMessage());
+                }
+
+
                 return;
 
 
@@ -105,6 +114,36 @@ public class OrderManager {
         throw new RestaurantException("Chyba: Jídlo s názvem " + titleSelect + " a množstvím " + quantitySelect
                 + " nebylo nalezeno v amList. Objednané jídlo NEBYLO přidáno do orderList.");
     }
+
+
+    public void saveItemOrOrderToFile(String filePath) throws RestaurantException {
+        File originalFile = new File(filePath);
+        File backupFile = new File(filePath + "BackUp.txt");
+        if (originalFile.exists()) {
+            try {
+                Files.copy(originalFile.toPath(), backupFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            } catch (IOException e) {
+                throw new RestaurantException("Chyba při vytváření zálohy souboru " + filePath + ": " + e.getLocalizedMessage());
+            }
+        }
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(originalFile))) {
+            for (Order order : unconfirmedOrdersList) {
+                writer.write(order.getOrderNumber() + RestaurantSettings.delimiter() +
+                        order.getOrderWaiterNumber() + RestaurantSettings.delimiter() +
+                        order.getOrderTableNumber() + RestaurantSettings.delimiter() +
+                        order.getOrderTitle() + RestaurantSettings.delimiter() +
+                        order.getOrderNumberOfUnits() + RestaurantSettings.delimiter() +
+                        order.getOrderPriceOfUnits() + RestaurantSettings.delimiter() +
+                        order.getOrderNoteForKitchen() + RestaurantSettings.delimiter() +
+                        order.getOrderFoodMainCategory());
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            throw new RestaurantException("Chyba při zápisu do souboru " + filePath + ": " + e.getLocalizedMessage());
+        }
+    }
+
+
 
 
     private int loadItemOrOrderActualNumber(String filePath) throws RestaurantException {
