@@ -201,10 +201,10 @@ public class RestaurantOrders {
         // Pak je ale třeba tam vrátit ten první testovací, jinak nebudou správně fungovat další testovací kódy.
 
 
-        TestVoidsForMain.TestAddFoodToUnconfirmedOrdersListByTitleAndQuantity(
+        TestVoidsForMain.TestAddItemToUnconfirmedOrdersListByTitleAndQuantity(
                 orderManager, amManager, waiterManager, tableManager);
 
-        TestVoidsForMain.TestAddFoodToUnconfirmedOrdersListByTitleAndQuantity(
+        TestVoidsForMain.TestAddItemToUnconfirmedOrdersListByTitleAndQuantity(
                 orderManager, amManager, waiterManager, tableManager);
 
         printLnOutputs.printOrderListDataFromFile(orderManager);

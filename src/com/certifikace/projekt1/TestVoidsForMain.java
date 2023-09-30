@@ -244,7 +244,7 @@ public class TestVoidsForMain {
     }
 
 
-    public static void TestAddFoodToUnconfirmedOrdersListByTitleAndQuantity(
+    public static void TestAddItemToUnconfirmedOrdersListByTitleAndQuantity(
             OrderManager orderManager, ActualMenuManager amManager, WaiterManager waiterManager,
             TableManager tableManager) {
         String dishTitle = "Nakládaný hermelín";
@@ -260,7 +260,7 @@ public class TestVoidsForMain {
 
 
         try {
-            orderManager.addFoodToUnconfirmedOrdersByTitleAndQuantity(dishTitle, dishRecommendedQuantity, amManager,
+            orderManager.addItemToUnconfirmedOrdersByTitleAndQuantity(dishTitle, dishRecommendedQuantity, amManager,
                     waiterNumber, tableNumber, unitsNumber, noteForKitchen, noteForManagement, waiterManager,
                     tableManager);
             //saversVoids.saveOrdersData(orderManager);

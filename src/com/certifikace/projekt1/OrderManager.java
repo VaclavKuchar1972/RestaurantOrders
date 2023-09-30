@@ -4,14 +4,9 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-
-import static com.certifikace.projekt1.RestaurantSettings.*;
-import static com.certifikace.projekt1.RestaurantSettings.delimiter;
 
 public class OrderManager {
 
@@ -33,7 +28,7 @@ public class OrderManager {
         this.closedOrdersList = new ArrayList<>();
     }
 
-    public void addFoodToUnconfirmedOrdersByTitleAndQuantity(
+    public void addItemToUnconfirmedOrdersByTitleAndQuantity(
             String titleSelect, int quantitySelect, ActualMenuManager amManager,
             int waiterNumber, int tableNumber, int unitsNumber, String noteForKitchen, String noteForManagement,
             WaiterManager waiterManager, TableManager tableManager)
@@ -73,16 +68,20 @@ public class OrderManager {
                 String fileItemOrOrderActualNumber = "DB-ItemActualNumber"; Integer itemNumber = 0;
                 try {itemNumber = loadItemOrOrderActualNumber(fileItemOrOrderActualNumber);}
                 catch (RestaurantException e) {System.err.println(e.getMessage() + helpSameErrMessage); return;}
-
-                saveItemOrOrderActualNumber(fileItemOrOrderActualNumber, itemNumber + 1);
+                itemNumber = itemNumber + 1;
+                // Předpokládám, že jedna miliarda je dostatečný počet položek pro každou restauraci na to,
+                // aby se stačili ze "zásobníku" nepotvrzených objednávek tyto odstarnit a nedošlo ke kolizi položek
+                // se stejnými čísly a zároveň nedošlo k přečerpání možností proměnné Integer, vlastně tím jenom chráním
+                // ten Integer, aby program za třeba 10 let nezkolaboval na takový blbosti.
+                if (itemNumber > 999999999) {itemNumber = 1;}
+                saveItemOrOrderActualNumber(fileItemOrOrderActualNumber, itemNumber);
 
                 Order newItem = new Order(
                         itemNumber,
-
                         null, //LocalDate.now(), - zatím nebylo objednáno
-                        null, //LocalDateTime.now(), - zatím nebylo objednáno
-                        null,  // orderTimeIssue nastavím později, až se objednané jídlo přinese do receivedOrdersList
-                               // a objednané jídlo bude doneseno na stůl hostovi
+                        null, //LocalDateTime.now(), - zatím nebylo objednáno, takže čas objednání ještě neexistuje
+                        null,  // orderTimeIssue se nastaví později, až se objednané jídlo přenese do receivedOrdersList
+                               // a bude doneseno na stůl hostovi
                         waiterNumber,
                         tableNumber,
                         actualMenu.getTitleForOrder(),
@@ -122,13 +121,14 @@ public class OrderManager {
         }
     }
 
-
     public void saveItemOrOrderActualNumber(String filePath, int itemNumber) throws RestaurantException {
         File originalFile = new File(filePath + ".txt");
         if(originalFile.exists()) {
-            try {Files.copy(Paths.get(filePath + ".txt"), Paths.get(filePath + "BackUp"));}
-            catch (IOException e) {
-                throw new RestaurantException("Chyba při vytváření zálohy souboru " + filePath + ": "
+            try {
+                Files.copy(Paths.get(filePath + ".txt"), Paths.get(
+                        filePath + "BackUp.txt"), StandardCopyOption.REPLACE_EXISTING);
+            } catch (IOException e) {
+                throw new RestaurantException("Chyba při vytváření zálohy souboru " + filePath + ".txt: "
                         + e.getLocalizedMessage());
             }
         }
@@ -139,7 +139,6 @@ public class OrderManager {
                     + e.getLocalizedMessage());
         }
     }
-
 
 
     public List<Order> getOrderList() {return new ArrayList<>(unconfirmedOrdersList);}
