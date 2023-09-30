@@ -1,15 +1,17 @@
 package com.certifikace.projekt1;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+
+import static com.certifikace.projekt1.RestaurantSettings.*;
+import static com.certifikace.projekt1.RestaurantSettings.delimiter;
 
 public class OrderManager {
 
@@ -68,9 +70,11 @@ public class OrderManager {
         for (ActualMenu actualMenu : amManager.getAmList()) {
             if (actualMenu.getAmTitle().equals(titleSelect) && actualMenu.getAmQuantity() >= quantitySelect) {
 
-                String fileItemOrOrderActualNumber = "DB-ItemActualNumber.txt"; Integer itemNumber = 0;
+                String fileItemOrOrderActualNumber = "DB-ItemActualNumber"; Integer itemNumber = 0;
                 try {itemNumber = loadItemOrOrderActualNumber(fileItemOrOrderActualNumber);}
                 catch (RestaurantException e) {System.err.println(e.getMessage() + helpSameErrMessage); return;}
+
+                saveItemOrOrderActualNumber(fileItemOrOrderActualNumber, itemNumber + 1);
 
                 Order newItem = new Order(
                         itemNumber,
@@ -92,6 +96,7 @@ public class OrderManager {
                 );
 
 
+
                 unconfirmedOrdersList.add(newItem);
                 return;
 
@@ -104,17 +109,37 @@ public class OrderManager {
 
 
     private int loadItemOrOrderActualNumber(String filePath) throws RestaurantException {
-        if (!Files.exists(Paths.get(filePath))) {return 1;}
-        try (Scanner scanner = new Scanner(new BufferedReader(new FileReader(filePath)))) {
+        if (!Files.exists(Paths.get(filePath + ".txt"))) {return 1;}
+        try (Scanner scanner = new Scanner(new BufferedReader(new FileReader(filePath + ".txt")))) {
             if (scanner.hasNextInt()) {
                 return scanner.nextInt();
             } else {
-                throw new RestaurantException("Soubor " + filePath + " neobsahuje platné celé číslo!");
+                throw new RestaurantException("Soubor " + filePath + ".txt" + " neobsahuje platné celé číslo!");
             }
-        } catch (FileNotFoundException e) {
-            throw new RestaurantException("Soubor " + filePath + " nebyl nalezen! " + e.getLocalizedMessage());
+        }
+        catch (FileNotFoundException e) {
+            throw new RestaurantException("Soubor " + filePath + ".txt" + " nebyl nalezen! " + e.getLocalizedMessage());
         }
     }
+
+
+    public void saveItemOrOrderActualNumber(String filePath, int itemNumber) throws RestaurantException {
+        File originalFile = new File(filePath + ".txt");
+        if(originalFile.exists()) {
+            try {Files.copy(Paths.get(filePath + ".txt"), Paths.get(filePath + "BackUp"));}
+            catch (IOException e) {
+                throw new RestaurantException("Chyba při vytváření zálohy souboru " + filePath + ": "
+                        + e.getLocalizedMessage());
+            }
+        }
+        try (FileWriter writer = new FileWriter(filePath + ".txt")) {
+            writer.write(Integer.toString(itemNumber));
+        } catch (IOException e) {
+            throw new RestaurantException("Chyba při zápisu do souboru " + filePath + ".txt" + ": "
+                    + e.getLocalizedMessage());
+        }
+    }
+
 
 
     public List<Order> getOrderList() {return new ArrayList<>(unconfirmedOrdersList);}

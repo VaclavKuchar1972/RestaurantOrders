@@ -203,7 +203,13 @@ public class RestaurantOrders {
 
         TestVoidsForMain.TestAddFoodToUnconfirmedOrdersListByTitleAndQuantity(
                 orderManager, amManager, waiterManager, tableManager);
+
+        TestVoidsForMain.TestAddFoodToUnconfirmedOrdersListByTitleAndQuantity(
+                orderManager, amManager, waiterManager, tableManager);
+
         printLnOutputs.printOrderListDataFromFile(orderManager);
+
+
 
 
 
