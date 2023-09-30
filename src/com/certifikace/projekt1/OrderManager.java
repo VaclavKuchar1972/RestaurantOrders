@@ -99,7 +99,7 @@ public class OrderManager {
                 unconfirmedOrdersList.add(newItem);
 
 
-                String filePath = "DB-UnconfirmedItems.txt";
+                String filePath = "DB-UnconfirmedItems";
                 try {saveItemOrOrderToFile(filePath);}
                 catch (RestaurantException e) {
                     System.err.println("Chyba při ukládání do souboru " + filePath + ": " + e.getMessage());
@@ -117,7 +117,7 @@ public class OrderManager {
 
 
     public void saveItemOrOrderToFile(String filePath) throws RestaurantException {
-        File originalFile = new File(filePath);
+        File originalFile = new File(filePath  + ".txt");
         File backupFile = new File(filePath + "BackUp.txt");
         if (originalFile.exists()) {
             try {
