@@ -20,6 +20,7 @@ public class RestaurantOrders {
         loadersVoids.loadDishsData(dishManager);
         loadersVoids.loadActualMenuData(amManager);
         loadersVoids.loadUnconfirmedItemList(orderManager);
+        loadersVoids.loadConfirmedItemList(orderManager);
 
 
         // Toto tu je jen kvůli testování, později (při pozdějším reálném použití programu) se to může smazat
@@ -226,6 +227,8 @@ public class RestaurantOrders {
         TestVoidsForMain.testRemoveAllItemsOfUnconfirmedOrdersByTable(orderManager);
         printLnOutputs.printUnconfirmedItemOrederListDataFromFile(orderManager);
         */
+
+        printLnOutputs.printConfirmedItemOrederListDataFromFile(orderManager);
 
 
 

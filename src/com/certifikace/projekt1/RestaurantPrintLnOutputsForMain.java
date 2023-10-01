@@ -45,9 +45,16 @@ public class RestaurantPrintLnOutputsForMain {
     }
 
     public void printUnconfirmedItemOrederListDataFromFile(OrderManager orderManager) {
-        List<Order> orderList = orderManager.getOrderList();
+        List<Order> orderList = orderManager.getUncofirmedItemsList();
         System.out.println();
         System.out.println("Výpis dat z unconfirmedOrdersList:");
+        for (Order order : orderList) {System.out.println(order.getOrderInfoForTestPrint());}
+    }
+
+    public void printConfirmedItemOrederListDataFromFile(OrderManager orderManager) {
+        List<Order> orderList = orderManager.getConfirmedItemsList();
+        System.out.println();
+        System.out.println("Výpis dat z receivedOrdersList:");
         for (Order order : orderList) {System.out.println(order.getOrderInfoForTestPrint());}
     }
 

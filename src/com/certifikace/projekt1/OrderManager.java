@@ -144,6 +144,35 @@ public class OrderManager {
         }
     }
 
+    public void addAllItemByTableToConfirmedOrders(int tableNumber) throws RestaurantException {
+        List<Order> toBeConfirmedOrders = new ArrayList<>();
+        for (Order order : unconfirmedOrdersList) {
+            if (order.getOrderTableNumber() == tableNumber) {toBeConfirmedOrders.add(order);}
+        }
+        if (toBeConfirmedOrders.isEmpty()) {
+            System.err.println("Chyba: Nebyly nalezeny žádné položky s číslem stolu " + tableNumber +
+                    " v unconfirmedOrdersList. Položky tedy nebyli přidány do receivedOrdersList.");
+            return;
+        }
+        for (Order order : toBeConfirmedOrders) {
+            order.setOrderCategory(OrderCategory.RECEIVED);
+            order.setOrderTimeReceipt(LocalDateTime.now());
+            receivedOrdersList.add(order);
+            unconfirmedOrdersList.remove(order);
+        }
+        try {
+            saveItemOrOrderToFile("DB-ConfirmedItems");
+        } catch (RestaurantException e) {
+            System.err.println("Chyba při ukládání do souboru DB-ConfirmedItems.txt: " + e.getMessage());
+            return;
+        }
+        try {
+            saveItemOrOrderToFile("DB-UnconfirmedItems");
+        } catch (RestaurantException e) {
+            System.err.println("Chyba při ukládání do souboru DB-UnconfirmedItems.txt: " + e.getMessage());
+        }
+    }
+
 
 
 
@@ -182,6 +211,7 @@ public class OrderManager {
                             orderNoteForManagement,orderCategory, orderFoodMainCategory);
 
                     if (filePath == "DB-UnconfirmedItems") {unconfirmedOrdersList.add(order);}
+                    if (filePath == "DB-ConfirmedItems") {receivedOrdersList.add(order);}
 
                     // tady musím přerozdělit do listů dle názvu souboru
 
@@ -265,7 +295,8 @@ public class OrderManager {
     }
 
 
-    public List<Order> getOrderList() {return new ArrayList<>(unconfirmedOrdersList);}
+    public List<Order> getUncofirmedItemsList() {return new ArrayList<>(unconfirmedOrdersList);}
+    public List<Order> getConfirmedItemsList() {return new ArrayList<>(receivedOrdersList);}
 
 
 

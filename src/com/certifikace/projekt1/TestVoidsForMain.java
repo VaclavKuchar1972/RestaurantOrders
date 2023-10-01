@@ -285,12 +285,24 @@ public class TestVoidsForMain {
         }
     }
 
-
-
+    public static void testAddAllItemByTableToConfirmedOrders(OrderManager orderManager) {
+        int tableNumber = 6;
+        try {orderManager.addAllItemByTableToConfirmedOrders(tableNumber);} catch (RestaurantException e) {
+            System.err.println("Nepodařilo se přidat položky ze stolu " + tableNumber + " do potvrzených objednávek: "
+                    + e.getLocalizedMessage());
+        }
+    }
 
 
 
 }
+
+
+
+
+
+
+
 
 
 
