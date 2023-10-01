@@ -293,13 +293,24 @@ public class TestVoidsForMain {
         }
     }
 
-    public static void testPrinterOutputOnBar(OrderManager orderManager) {
+    public static void testPrinterOutputToBar(OrderManager orderManager) {
         List<Order> filteredOrders = orderManager.printerOutputOnBar();
         if (filteredOrders.isEmpty()) {
             System.out.println("Žádné objednávky nebyly nalezeny. Není co tisknout na BAR.");
         } else {
             System.out.println();
             System.out.println("Filtrované objednávky pro výstup na tiskárnu v BARu:");
+            filteredOrders.forEach(order -> System.out.println(order)); // Předpokládám, že Order má předefinovanou metodu toString()
+        }
+    }
+
+    public static void testPrinterOutputToKitchen(OrderManager orderManager) {
+        List<Order> filteredOrders = orderManager.printerOutputOnKitchen();
+        if (filteredOrders.isEmpty()) {
+            System.out.println("Žádné objednávky nebyly nalezeny. Není co tisknout do KUCHYNĚ.");
+        } else {
+            System.out.println();
+            System.out.println("Filtrované objednávky pro výstup na tiskárnu v KUCHYNI:");
             filteredOrders.forEach(order -> System.out.println(order)); // Předpokládám, že Order má předefinovanou metodu toString()
         }
     }

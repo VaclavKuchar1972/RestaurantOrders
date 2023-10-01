@@ -235,20 +235,13 @@ public class RestaurantOrders {
         // Zkušební kód pro přidání všech položek z rozpracovaných objednávek všech číšníků, které již byly úplně
         // dohodnuty s hosty u jednotlivých stolů a finálně objednány dle čísla stolu do Listu s potvrzenými
         // objednávkami a jejich odebrání z Listu s nepotvrzenýmí objednávkami. (stačí ho odkomentovat)
-
-        //TestVoidsForMain.testAddAllItemByTableToConfirmedOrders(orderManager);
-        //printLnOutputs.printConfirmedItemOrederListDataFromFile(orderManager);
-
-
-
-
-        // Výstup na tiskárnu na Baru
-
-        TestVoidsForMain.testPrinterOutputOnBar(orderManager);
-
-
-
-
+        /*
+        TestVoidsForMain.testAddAllItemByTableToConfirmedOrders(orderManager);
+        printLnOutputs.printConfirmedItemOrederListDataFromFile(orderManager);
+        // Výstupy na tiskárnu na Baru a v Kuchyni
+        TestVoidsForMain.testPrinterOutputToBar(orderManager);
+        TestVoidsForMain.testPrinterOutputToKitchen(orderManager);
+        */
 
 
 

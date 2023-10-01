@@ -185,7 +185,12 @@ public class OrderManager {
                 .collect(Collectors.toList());
     }
 
-
+    public List<Order> printerOutputOnKitchen() {
+        List<Order> barOrders = printerOutputOnBar();
+        return receivedOrdersList.stream()
+                .filter(order -> !barOrders.contains(order))
+                .collect(Collectors.toList());
+    }
 
 
 
