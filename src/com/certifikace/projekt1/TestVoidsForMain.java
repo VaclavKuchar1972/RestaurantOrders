@@ -293,6 +293,15 @@ public class TestVoidsForMain {
         }
     }
 
+    public static void testPrinterOutputOnBar(OrderManager orderManager) {
+        List<Order> filteredOrders = orderManager.printerOutputOnBar();
+        if (filteredOrders.isEmpty()) {
+            System.out.println("Žádné objednávky nebyly nalezeny. Není co tisknout na BAR.");
+        } else {
+            System.out.println("Filtrované objednávky:");
+            filteredOrders.forEach(order -> System.out.println(order)); // Předpokládám, že Order má předefinovanou metodu toString()
+        }
+    }
 
 
 }

@@ -11,6 +11,7 @@ import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 import static com.certifikace.projekt1.RestaurantSettings.delimiter;
 
@@ -174,6 +175,19 @@ public class OrderManager {
     }
 
 
+    public List<Order> printerOutputOnBar() {
+        return receivedOrdersList.stream()
+                .filter(order -> {
+                    FoodCategory category = order.getOrderFoodMainCategory();
+                    String categoryName = category != null ? category.getName() : "";
+                    return categoryName.equals("NONALCOHOLIC") || categoryName.equals("ALCOHOLIC");
+                })
+                .collect(Collectors.toList());
+    }
+
+
+
+
 
 
     public void loadItemOrOrderFromFile(String filePath) throws RestaurantException, FileNotFoundException {
@@ -299,4 +313,9 @@ public class OrderManager {
 
 
 
+
+
 }
+
+
+

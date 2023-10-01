@@ -79,4 +79,25 @@ public class Order {
     public void setOrderCategory(OrderCategory orderCategory) {this.orderCategory = orderCategory;}
     public FoodCategory getOrderFoodMainCategory() {return orderFoodMainCategory;}
     public void setOrderFoodMainCategory(FoodCategory orderFoodMainCategory) {this.orderFoodMainCategory = orderFoodMainCategory;}
+
+    @Override
+    public String toString() {
+        return getOrderNumber() + ", " +
+                getOrderDate() + ", " +
+                getOrderTimeReceipt() + ", " +
+                getOrderTimeIssue() + ", " +
+                getOrderWaiterNumber() + ", " +
+                getOrderTableNumber() + ", " +
+                getOrderTitle() + ", " +
+                getOrderNumberOfUnits() + ", " +
+                getOrderPriceOfUnits() + ", " +
+                getOrderNoteForKitchen() + ", " +
+                getOrderNoteForManagement() + ", " +
+                getOrderCategory() + ", " +
+                getOrderFoodMainCategory();
+    }
+
+
+
 }
+

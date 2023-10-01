@@ -1,6 +1,7 @@
 import com.certifikace.projekt1.*;
 
 import java.io.IOException;
+import java.util.List;
 
 public class RestaurantOrders {
     public static void main(String[] args) throws RestaurantException, IOException {
@@ -204,7 +205,7 @@ public class RestaurantOrders {
         // Pak je ale třeba tam vrátit ten první testovací, jinak nebudou správně fungovat další testovací kódy.
 
 
-        printLnOutputs.printUnconfirmedItemOrederListDataFromFile(orderManager);
+        //printLnOutputs.printUnconfirmedItemOrederListDataFromFile(orderManager);
 
         // Zkušební kód pro přidání položky do rozpracovaných objednávek všech číšníků, které ještě nebyli úplně
         // dohodnuty s hosty u jednotlivých stolů a finálně objednány. (stačí ho odkomentovat)
@@ -228,11 +229,25 @@ public class RestaurantOrders {
         printLnOutputs.printUnconfirmedItemOrederListDataFromFile(orderManager);
         */
 
+
         printLnOutputs.printConfirmedItemOrederListDataFromFile(orderManager);
 
+        // Zkušební kód pro přidání všech položek z rozpracovaných objednávek všech číšníků, které již byly úplně
+        // dohodnuty s hosty u jednotlivých stolů a finálně objednány dle čísla stolu do Listu s potvrzenými
+        // objednávkami a jejich odebrání z Listu s nepotvrzenýmí objednávkami. (stačí ho odkomentovat)
 
-        TestVoidsForMain.testAddAllItemByTableToConfirmedOrders(orderManager);
-        printLnOutputs.printConfirmedItemOrederListDataFromFile(orderManager);
+        //TestVoidsForMain.testAddAllItemByTableToConfirmedOrders(orderManager);
+        //printLnOutputs.printConfirmedItemOrederListDataFromFile(orderManager);
+
+
+
+
+        // Výstup na tiskárnu na Baru
+
+        TestVoidsForMain.testPrinterOutputOnBar(orderManager);
+
+
+
 
 
 
