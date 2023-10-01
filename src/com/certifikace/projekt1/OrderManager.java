@@ -99,7 +99,7 @@ public class OrderManager {
                 );
                 unconfirmedOrdersList.add(newItem);
                 String filePath = "DB-UnconfirmedItems";
-                try {saveItemOrOrderToFile(filePath);}
+                try {saveItemOrOrderToFile(filePath, unconfirmedOrdersList);}
                 catch (RestaurantException e) {
                     System.err.println("Chyba při ukládání do souboru " + filePath + ": " + e.getMessage());
                 }
@@ -122,7 +122,7 @@ public class OrderManager {
         }
         unconfirmedOrdersList.removeIf(order -> order.getOrderNumber() == itemNumber);
         String filePath = "DB-UnconfirmedItems";
-        try {saveItemOrOrderToFile(filePath);}
+        try {saveItemOrOrderToFile(filePath, unconfirmedOrdersList);}
         catch (RestaurantException e) {
             System.err.println("Chyba při ukládání do souboru " + filePath + ": " + e.getMessage());
         }
@@ -137,7 +137,7 @@ public class OrderManager {
             } catch (RestaurantException e) {System.err.println(e.getMessage());}
         } else {
             String filePath = "DB-UnconfirmedItems";
-            try {saveItemOrOrderToFile(filePath);}
+            try {saveItemOrOrderToFile(filePath, unconfirmedOrdersList);}
             catch (RestaurantException e) {
                 System.err.println("Chyba při ukládání do souboru " + filePath + ": " + e.getMessage());
             }
@@ -161,13 +161,13 @@ public class OrderManager {
             unconfirmedOrdersList.remove(order);
         }
         try {
-            saveItemOrOrderToFile("DB-ConfirmedItems");
+            saveItemOrOrderToFile("DB-ConfirmedItems", receivedOrdersList);
         } catch (RestaurantException e) {
             System.err.println("Chyba při ukládání do souboru DB-ConfirmedItems.txt: " + e.getMessage());
             return;
         }
         try {
-            saveItemOrOrderToFile("DB-UnconfirmedItems");
+            saveItemOrOrderToFile("DB-UnconfirmedItems", unconfirmedOrdersList);
         } catch (RestaurantException e) {
             System.err.println("Chyba při ukládání do souboru DB-UnconfirmedItems.txt: " + e.getMessage());
         }
@@ -228,9 +228,8 @@ public class OrderManager {
     }
 
 
-
-    public void saveItemOrOrderToFile(String filePath) throws RestaurantException {
-        File originalFile = new File(filePath  + ".txt");
+    public void saveItemOrOrderToFile(String filePath, List<Order> orders) throws RestaurantException {
+        File originalFile = new File(filePath + ".txt");
         File backupFile = new File(filePath + "BackUp.txt");
         if (originalFile.exists()) {
             try {
@@ -240,7 +239,7 @@ public class OrderManager {
             }
         }
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(originalFile))) {
-            for (Order order : unconfirmedOrdersList) {
+            for (Order order : orders) {
                 writer.write(order.getOrderNumber() + delimiter() +
                         order.getOrderDate() + delimiter() +
                         order.getOrderTimeReceipt() + delimiter() +

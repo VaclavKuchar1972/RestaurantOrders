@@ -231,6 +231,10 @@ public class RestaurantOrders {
         printLnOutputs.printConfirmedItemOrederListDataFromFile(orderManager);
 
 
+        TestVoidsForMain.testAddAllItemByTableToConfirmedOrders(orderManager);
+        printLnOutputs.printConfirmedItemOrederListDataFromFile(orderManager);
+
+
 
 
     }
