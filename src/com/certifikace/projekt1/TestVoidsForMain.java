@@ -298,7 +298,8 @@ public class TestVoidsForMain {
         if (filteredOrders.isEmpty()) {
             System.out.println("Žádné objednávky nebyly nalezeny. Není co tisknout na BAR.");
         } else {
-            System.out.println("Filtrované objednávky:");
+            System.out.println();
+            System.out.println("Filtrované objednávky pro výstup na tiskárnu v BARu:");
             filteredOrders.forEach(order -> System.out.println(order)); // Předpokládám, že Order má předefinovanou metodu toString()
         }
     }
