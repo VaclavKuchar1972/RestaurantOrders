@@ -244,7 +244,7 @@ public class TestVoidsForMain {
     }
 
 
-    public static void TestAddItemToUnconfirmedOrdersListByTitleAndQuantity(
+    public static void testAddItemToUnconfirmedOrdersListByTitleAndQuantity(
             OrderManager orderManager, ActualMenuManager amManager, WaiterManager waiterManager,
             TableManager tableManager) {
         String dishTitle = "Nakládaný hermelín";
@@ -266,6 +266,22 @@ public class TestVoidsForMain {
             //saversVoids.saveOrdersData(orderManager);
         } catch (RestaurantException e) {
             System.err.println("Nepodařilo se přidat položku do nepotvrzených objednávek: " + e.getLocalizedMessage());
+        }
+    }
+
+    public static void testRemoveItemOfUnconfirmedOrdersByItemNumber(OrderManager orderManager) {
+        int itemNumber = 9;
+        try {orderManager.removeItemOfUnconfirmedOrdersByItemNumber(itemNumber);} catch (RestaurantException e) {
+            System.err.println("Nepodařilo se odebrat položku s číslem " + itemNumber + " z nepotvrzených objednávek: "
+                    + e.getLocalizedMessage());
+        }
+    }
+
+    public static void testRemoveAllItemsOfUnconfirmedOrdersByTable(OrderManager orderManager) {
+        int tableNumber = 15;
+        try {orderManager.removeAllItemsOfUnconfirmedOrdersByTable(tableNumber);} catch (RestaurantException e) {
+            System.err.println("Nepodařilo se odebrat všechny položky ze stolu " + tableNumber + " z nepotvrzených "
+                    + "objednávek: " + e.getLocalizedMessage());
         }
     }
 

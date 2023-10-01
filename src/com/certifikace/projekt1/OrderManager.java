@@ -111,6 +111,39 @@ public class OrderManager {
     }
 
 
+    public void removeItemOfUnconfirmedOrdersByItemNumber(int itemNumber) throws RestaurantException {
+        // poznámka pro mě: Pro ověření, zda objednávka existuje v unconfirmedOrdersList před jejím odstraněním,
+        // můžu použít metodu "stream()" spolu s "anyMatch()", která vrátí, zda nějaká objednávka odpovídá danému
+        // kritériu. Pokud žádná taková objednávka neexistuje, vyhodí výjimku RestaurantException.
+        boolean doesExist = unconfirmedOrdersList.stream().anyMatch(order -> order.getOrderNumber() == itemNumber);
+        if (!doesExist) {
+            throw new RestaurantException("Chyba: Položka s číslem " + itemNumber + " neexistuje"
+                    + "v unconfirmedOrdersList, nebyla tedy odebrána.");
+        }
+        unconfirmedOrdersList.removeIf(order -> order.getOrderNumber() == itemNumber);
+        String filePath = "DB-UnconfirmedItems";
+        try {saveItemOrOrderToFile(filePath);}
+        catch (RestaurantException e) {
+            System.err.println("Chyba při ukládání do souboru " + filePath + ": " + e.getMessage());
+        }
+    }
+
+    public void removeAllItemsOfUnconfirmedOrdersByTable(int tableNumber) throws RestaurantException {
+        boolean hasRemoved = unconfirmedOrdersList.removeIf(order -> order.getOrderTableNumber() == tableNumber);
+        if(!hasRemoved) {
+            try {
+                throw new RestaurantException("Žádné položky s číslem stolu " + tableNumber + " nebyly nalezeny "
+                        + "v unconfirmedOrdersList. Nebyly tedy odstraněny.");
+            } catch (RestaurantException e) {System.err.println(e.getMessage());}
+        } else {
+            String filePath = "DB-UnconfirmedItems";
+            try {saveItemOrOrderToFile(filePath);}
+            catch (RestaurantException e) {
+                System.err.println("Chyba při ukládání do souboru " + filePath + ": " + e.getMessage());
+            }
+        }
+    }
+
 
 
 

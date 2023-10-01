@@ -205,15 +205,27 @@ public class RestaurantOrders {
 
         printLnOutputs.printUnconfirmedItemOrederListDataFromFile(orderManager);
 
-        // Zkušební kód pro polo6kz do aktuálního menu a jeho uložení do rozpracovaných objednávek všech číšníků,
-        // které ještě nebyli úplně dohodnuty s hosty u jednotlivých stolů a fionálně objednány. (stačí ho odkomentovat)
+        // Zkušební kód pro přidání položky do rozpracovaných objednávek všech číšníků, které ještě nebyli úplně
+        // dohodnuty s hosty u jednotlivých stolů a finálně objednány. (stačí ho odkomentovat)
         /*
-        TestVoidsForMain.TestAddItemToUnconfirmedOrdersListByTitleAndQuantity(
+        TestVoidsForMain.testAddItemToUnconfirmedOrdersListByTitleAndQuantity(
                 orderManager, amManager, waiterManager, tableManager);
         printLnOutputs.printUnconfirmedItemOrederListDataFromFile(orderManager);
         */
 
+        // Zkušební kód pro odebrání položky z rozpracovaných objednávek všech číšníků, které ještě nebyli úplně
+        // dohodnuty s hosty u jednotlivých stolů a finálně objednány dle čísla položky. (stačí ho odkomentovat)
+        /*
+        TestVoidsForMain.testRemoveItemOfUnconfirmedOrdersByItemNumber(orderManager);
+        printLnOutputs.printUnconfirmedItemOrederListDataFromFile(orderManager);
+        */
 
+        // Zkušební kód pro odebrání všech položek z rozpracovaných objednávek všech číšníků, které ještě nebyli úplně
+        // dohodnuty s hosty u jednotlivých stolů a finálně objednány dle čísla stolu. (stačí ho odkomentovat)
+        /*
+        TestVoidsForMain.testRemoveAllItemsOfUnconfirmedOrdersByTable(orderManager);
+        printLnOutputs.printUnconfirmedItemOrederListDataFromFile(orderManager);
+        */
 
 
 
