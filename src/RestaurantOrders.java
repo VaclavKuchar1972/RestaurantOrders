@@ -19,6 +19,8 @@ public class RestaurantOrders {
         loadersVoids.loadWaitersData(waiterManager);
         loadersVoids.loadDishsData(dishManager);
         loadersVoids.loadActualMenuData(amManager);
+        loadersVoids.loadUnconfirmedItemList(orderManager);
+
 
         // Toto tu je jen kvůli testování, později (při pozdějším reálném použití programu) se to může smazat
         // i s testovacími TXT. Nicméně pro testování jsou pro mě nutné. Nakonec ani jeden řádek kódu pod touto
@@ -200,6 +202,8 @@ public class RestaurantOrders {
         // soubor DB-ActualMenu.txt není potřeba. Stačí z adresáře programu tento soubor smazat a spustit program.
         // Pak je ale třeba tam vrátit ten první testovací, jinak nebudou správně fungovat další testovací kódy.
 
+
+        printLnOutputs.printOrderListDataFromFile(orderManager);
 
         TestVoidsForMain.TestAddItemToUnconfirmedOrdersListByTitleAndQuantity(
                 orderManager, amManager, waiterManager, tableManager);

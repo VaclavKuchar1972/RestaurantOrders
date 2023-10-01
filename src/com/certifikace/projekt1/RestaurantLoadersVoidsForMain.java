@@ -1,5 +1,7 @@
 package com.certifikace.projekt1;
 
+import java.io.FileNotFoundException;
+
 import static com.certifikace.projekt1.RestaurantSettings.delimiter;
 
 public class RestaurantLoadersVoidsForMain {
@@ -31,6 +33,15 @@ public class RestaurantLoadersVoidsForMain {
         try {actualMenuManager.loadDataMenuFromFile(RestaurantSettings.fileActualMenu(), delimiter());}
         catch (RestaurantException e) {
             System.err.println(errorMessage + RestaurantSettings.fileActualMenu() + " " + e.getLocalizedMessage());
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void loadUnconfirmedItemList(OrderManager orderManager) {
+        try {
+            orderManager.loadItemOrOrderFromFile("DB-UnconfirmedItems");
+        } catch (RestaurantException | FileNotFoundException e) {
+            System.err.println(errorMessage + "DB-ItemActualNumber.txt" + " " + e.getLocalizedMessage());
             throw new RuntimeException(e);
         }
     }

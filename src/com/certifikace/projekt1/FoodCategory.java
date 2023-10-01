@@ -37,19 +37,6 @@ public class FoodCategory {
         return instance;
     }
 
-
-    /*
-    public static List<String> getAllCategoryNames() {
-        return getAllCategories()
-                .stream()
-                .map(FoodCategory::getName)
-                .collect(Collectors.toList());
-    }
-
-     */
-
-
-
     // Pomocný Boolean pro kontrolu, zda je název psán velkými písmeny a neobsahuje mezery
     public static boolean ifIsValidCategoryName(String name) {return name.matches("^[A-Z]+$");}
     public void addCategory(String name, String description) throws RestaurantException {

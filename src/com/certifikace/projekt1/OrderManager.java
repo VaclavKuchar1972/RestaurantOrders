@@ -1,12 +1,18 @@
 package com.certifikace.projekt1;
 
 import java.io.*;
+import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+
+import static com.certifikace.projekt1.RestaurantSettings.delimiter;
 
 public class OrderManager {
 
@@ -32,7 +38,6 @@ public class OrderManager {
             String titleSelect, int quantitySelect, ActualMenuManager amManager,
             int waiterNumber, int tableNumber, int unitsNumber, String noteForKitchen, String noteForManagement,
             WaiterManager waiterManager, TableManager tableManager)
-
             throws RestaurantException {
 
         String helpSameErrMessage =  " Položka NEBYLA přidána do unconfirmedOrdersList.";
@@ -87,7 +92,6 @@ public class OrderManager {
                         actualMenu.getTitleForOrder(),
                         unitsNumber,
                         actualMenu.getAmPrice(),
-                        unitsNumber,
                         noteForKitchen,
                         noteForManagement,
                         OrderCategory.UNCONFIRMED,
@@ -116,6 +120,57 @@ public class OrderManager {
     }
 
 
+
+
+
+    public void loadItemOrOrderFromFile(String filePath) throws RestaurantException, FileNotFoundException {
+        File file = new File(filePath + ".txt");
+        if (!file.exists()) {System.err.println("Soubor " + filePath + ".txt" + " neexistuje!"); return;}
+        String line; int lineNumber = 0;
+        try (Scanner scannerLoadData = new Scanner(new BufferedReader(new FileReader(file)))) {
+            while (scannerLoadData.hasNextLine()) {
+                lineNumber++;
+                line = scannerLoadData.nextLine();
+                String[] item = line.split(delimiter());
+                if (item.length != 13) {
+                    System.err.println("Chyba: Špatný počet položek na řádku č: " + lineNumber);
+                    return;
+                }
+                try {
+                    int orderNumber = Integer.parseInt(item[0]);
+                    LocalDate orderDate = item[1].equals("null") ? null : LocalDate.parse(item[1]);
+                    LocalDateTime orderTimeReceipt = item[2].equals("null") ? null : LocalDateTime.parse(item[2]);
+                    LocalDateTime orderTimeIssue = item[3].equals("null") ? null : LocalDateTime.parse(item[3]);
+                    int orderWaiterNumber = Integer.parseInt(item[4]);
+                    int orderTableNumber = Integer.parseInt(item[5]);
+                    String orderTitle = item[6];
+                    int orderNumberOfUnits = Integer.parseInt(item[7]);
+                    BigDecimal orderPriceOfUnits = new BigDecimal(item[8]);
+                    String orderNoteForKitchen = item[9];
+                    String orderNoteForManagement = item[10];
+                    OrderCategory orderCategory = OrderCategory.valueOf(item[11]);
+                    FoodCategory orderFoodMainCategory = FoodCategory.valueOf(item[12]);
+
+                    Order order = new Order(orderNumber, orderDate, orderTimeReceipt, orderTimeIssue, orderWaiterNumber,
+                            orderTableNumber, orderTitle, orderNumberOfUnits, orderPriceOfUnits, orderNoteForKitchen,
+                            orderNoteForManagement,orderCategory, orderFoodMainCategory);
+
+                    // tady musím přerozdělit do listů dle názvu souboru
+                    unconfirmedOrdersList.add(order);
+
+
+
+                } catch (NumberFormatException | DateTimeParseException e) {
+                    System.err.println("Chyba: Špatný formát čísla nebo data na řádku: " + lineNumber + " Soubor: " + filePath + ".txt");
+                } catch (IllegalArgumentException e) {
+                    System.err.println("Chyba: Neplatná hodnota v enumu na řádku: " + lineNumber + " Soubor: " + filePath + ".txt");
+                }
+            }
+        }
+    }
+
+
+
     public void saveItemOrOrderToFile(String filePath) throws RestaurantException {
         File originalFile = new File(filePath  + ".txt");
         File backupFile = new File(filePath + "BackUp.txt");
@@ -128,23 +183,25 @@ public class OrderManager {
         }
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(originalFile))) {
             for (Order order : unconfirmedOrdersList) {
-                writer.write(order.getOrderNumber() + RestaurantSettings.delimiter() +
-                        order.getOrderWaiterNumber() + RestaurantSettings.delimiter() +
-                        order.getOrderTableNumber() + RestaurantSettings.delimiter() +
-                        order.getOrderTitle() + RestaurantSettings.delimiter() +
-                        order.getOrderNumberOfUnits() + RestaurantSettings.delimiter() +
-                        order.getOrderPriceOfUnits() + RestaurantSettings.delimiter() +
-                        order.getOrderNoteForKitchen() + RestaurantSettings.delimiter() +
-                        order.getOrderFoodMainCategory());
+                writer.write(order.getOrderNumber() + delimiter() +
+                        order.getOrderDate() + delimiter() +
+                        order.getOrderTimeReceipt() + delimiter() +
+                        order.getOrderTimeIssue() + delimiter() +
+                        order.getOrderWaiterNumber() + delimiter() +
+                        order.getOrderTableNumber() + delimiter() +
+                        order.getOrderTitle() + delimiter() +
+                        order.getOrderNumberOfUnits() + delimiter() +
+                        order.getOrderPriceOfUnits() + delimiter() +
+                        order.getOrderNoteForKitchen() + delimiter() +
+                        order.getOrderNoteForManagement() + delimiter() +
+                        order.getOrderCategory().name() + delimiter() +
+                        order.getOrderFoodMainCategory().getName());
                 writer.newLine();
             }
         } catch (IOException e) {
             throw new RestaurantException("Chyba při zápisu do souboru " + filePath + ": " + e.getLocalizedMessage());
         }
     }
-
-
-
 
     private int loadItemOrOrderActualNumber(String filePath) throws RestaurantException {
         if (!Files.exists(Paths.get(filePath + ".txt"))) {return 1;}
@@ -160,7 +217,7 @@ public class OrderManager {
         }
     }
 
-    public void saveItemOrOrderActualNumber(String filePath, int itemNumber) throws RestaurantException {
+    private void saveItemOrOrderActualNumber(String filePath, int itemNumber) throws RestaurantException {
         File originalFile = new File(filePath + ".txt");
         if(originalFile.exists()) {
             try {
