@@ -1,7 +1,6 @@
 package com.certifikace.projekt1;
 
 import java.util.List;
-import java.util.Map;
 
 public class RestaurantPrintLnOutputsForMain {
 
@@ -45,7 +44,7 @@ public class RestaurantPrintLnOutputsForMain {
         for (ActualMenu actualMenu : amList) {System.out.println(actualMenu.getActualMenuInfoForTestPrint());}
     }
 
-    public void printOrderListDataFromFile(OrderManager orderManager) {
+    public void printUnconfirmedItemOrederListDataFromFile(OrderManager orderManager) {
         List<Order> orderList = orderManager.getOrderList();
         System.out.println();
         System.out.println("Výpis dat z unconfirmedOrdersList:");

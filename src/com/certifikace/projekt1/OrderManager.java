@@ -97,22 +97,13 @@ public class OrderManager {
                         OrderCategory.UNCONFIRMED,
                         actualMenu.getAmMainCategory()
                 );
-
-
-
                 unconfirmedOrdersList.add(newItem);
-
-
                 String filePath = "DB-UnconfirmedItems";
                 try {saveItemOrOrderToFile(filePath);}
                 catch (RestaurantException e) {
                     System.err.println("Chyba při ukládání do souboru " + filePath + ": " + e.getMessage());
                 }
-
-
                 return;
-
-
             }
         }
         throw new RestaurantException("Chyba: Jídlo s názvem " + titleSelect + " a množstvím " + quantitySelect
@@ -138,6 +129,9 @@ public class OrderManager {
                 }
                 try {
                     int orderNumber = Integer.parseInt(item[0]);
+                    // poznámka pro mě: Znak "?" je součástí ternárního operátoru v JAVA,
+                    // který je zkrácenou formou if-else příkazu. Struktura tohoto operátoru je následující:
+                    // výraz ? výraz_pokud_true : výraz_pokud_false;
                     LocalDate orderDate = item[1].equals("null") ? null : LocalDate.parse(item[1]);
                     LocalDateTime orderTimeReceipt = item[2].equals("null") ? null : LocalDateTime.parse(item[2]);
                     LocalDateTime orderTimeIssue = item[3].equals("null") ? null : LocalDateTime.parse(item[3]);
@@ -150,20 +144,21 @@ public class OrderManager {
                     String orderNoteForManagement = item[10];
                     OrderCategory orderCategory = OrderCategory.valueOf(item[11]);
                     FoodCategory orderFoodMainCategory = FoodCategory.valueOf(item[12]);
-
                     Order order = new Order(orderNumber, orderDate, orderTimeReceipt, orderTimeIssue, orderWaiterNumber,
                             orderTableNumber, orderTitle, orderNumberOfUnits, orderPriceOfUnits, orderNoteForKitchen,
                             orderNoteForManagement,orderCategory, orderFoodMainCategory);
 
-                    // tady musím přerozdělit do listů dle názvu souboru
-                    unconfirmedOrdersList.add(order);
+                    if (filePath == "DB-UnconfirmedItems") {unconfirmedOrdersList.add(order);}
 
+                    // tady musím přerozdělit do listů dle názvu souboru
 
 
                 } catch (NumberFormatException | DateTimeParseException e) {
-                    System.err.println("Chyba: Špatný formát čísla nebo data na řádku: " + lineNumber + " Soubor: " + filePath + ".txt");
+                    System.err.println("Chyba: Špatný formát čísla nebo data na řádku: " + lineNumber + " Soubor: "
+                            + filePath + ".txt");
                 } catch (IllegalArgumentException e) {
-                    System.err.println("Chyba: Neplatná hodnota v enumu na řádku: " + lineNumber + " Soubor: " + filePath + ".txt");
+                    System.err.println("Chyba: Neplatná hodnota v enumu na řádku: " + lineNumber + " Soubor: "
+                            + filePath + ".txt");
                 }
             }
         }

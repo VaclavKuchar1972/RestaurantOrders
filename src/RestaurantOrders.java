@@ -203,15 +203,15 @@ public class RestaurantOrders {
         // Pak je ale třeba tam vrátit ten první testovací, jinak nebudou správně fungovat další testovací kódy.
 
 
-        printLnOutputs.printOrderListDataFromFile(orderManager);
+        printLnOutputs.printUnconfirmedItemOrederListDataFromFile(orderManager);
 
+        // Zkušební kód pro polo6kz do aktuálního menu a jeho uložení do rozpracovaných objednávek všech číšníků,
+        // které ještě nebyli úplně dohodnuty s hosty u jednotlivých stolů a fionálně objednány. (stačí ho odkomentovat)
+        /*
         TestVoidsForMain.TestAddItemToUnconfirmedOrdersListByTitleAndQuantity(
                 orderManager, amManager, waiterManager, tableManager);
-
-        TestVoidsForMain.TestAddItemToUnconfirmedOrdersListByTitleAndQuantity(
-                orderManager, amManager, waiterManager, tableManager);
-
-        printLnOutputs.printOrderListDataFromFile(orderManager);
+        printLnOutputs.printUnconfirmedItemOrederListDataFromFile(orderManager);
+        */
 
 
 
