@@ -245,6 +245,19 @@ public class RestaurantOrders {
         TestVoidsForMain.testPrinterOutputToKitchen(orderManager);
         */
 
+        // Zkušební kód pro změnu stavu objednávky, které již byli potvrzeny a pracuje se na nich, v tomoto případě byli
+        // již doneseny na stůl, taklže se zaznamená čas, kdy byli hostovi předloženy, ale ještě nebyli zaplaceny.
+        // (stačí ho odkomentovat)
+        /*
+        TestVoidsForMain.testChangeItemStatusHasBeenBroughtToTableByItemNumber2to3(orderManager);
+        printLnOutputs.printConfirmedItemOrederListDataFromFile(orderManager);
+        TestVoidsForMain.testChangeItemStatusHasBeenBroughtToTableByItemNumber7to8(orderManager);
+        printLnOutputs.printConfirmedItemOrederListDataFromFile(orderManager);
+        TestVoidsForMain.testChangeItemStatusHasBeenBroughtToTableByItemNumber4to6(orderManager);
+        printLnOutputs.printConfirmedItemOrederListDataFromFile(orderManager);
+        */
+
+
 
 
 

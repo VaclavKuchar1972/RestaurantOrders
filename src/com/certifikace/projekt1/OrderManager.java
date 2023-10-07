@@ -195,7 +195,7 @@ public class OrderManager {
                 .collect(Collectors.toList());
     }
 
-    public void changeItemStatuHasBeenBroughtToTableByItemNumber(int itemNumber) throws RestaurantException {
+    public void changeItemStatusHasBeenBroughtToTableByItemNumber(int itemNumber) throws RestaurantException {
         Order foundOrder = null;
         String helpSameErrMessage =  " Stav položky NEBYL v receivedOrdersList změněn.";
         for (Order order : receivedOrdersList) {
@@ -216,6 +216,33 @@ public class OrderManager {
                 System.err.println("Chyba při ukládání do souboru DB-ConfirmedItems.txt: " + e.getMessage());
                 return;
             }
+        }
+    }
+
+    public void changeItemStatusHasBeenPaidByItemNumber(int itemNumber) throws RestaurantException {
+        boolean itemFound = false;
+        String helpSameErrMessage = " Stav položky NEBYL v receivedOrdersList změněn.";
+        for (Order order : receivedOrdersList) {
+            if (order.getOrderNumber() == itemNumber) {
+                itemFound = true;
+                if (order.getOrderCategory() == OrderCategory.PAID) {
+                    throw new RestaurantException("Chyba: Položka s číslem " + itemNumber + " již byla zaplacena."
+                            + helpSameErrMessage);
+                } else {
+                    order.setOrderCategory(OrderCategory.PAID);
+                    try {
+                        saveItemOrOrderToFile("DB-ConfirmedItems", receivedOrdersList);
+                    } catch (RestaurantException e) {
+                        System.err.println("Chyba při ukládání do souboru DB-ConfirmedItems.txt: " + e.getMessage());
+                        return;
+                    }
+                }
+                break;
+            }
+        }
+        if (!itemFound) {
+            throw new RestaurantException("Chyba: Položka s číslem " + itemNumber + " nebyla nalezena "
+                    + "v receivedOrdersList." + helpSameErrMessage);
         }
     }
 

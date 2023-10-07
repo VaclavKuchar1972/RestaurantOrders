@@ -308,7 +308,7 @@ public class TestVoidsForMain {
         } else {
             System.out.println();
             System.out.println("Filtrované objednávky pro výstup na tiskárnu v BARu:");
-            filteredOrders.forEach(order -> System.out.println(order)); // Předpokládám, že Order má předefinovanou metodu toString()
+            filteredOrders.forEach(order -> System.out.println(order));
         }
     }
 
@@ -319,10 +319,39 @@ public class TestVoidsForMain {
         } else {
             System.out.println();
             System.out.println("Filtrované objednávky pro výstup na tiskárnu v KUCHYNI:");
-            filteredOrders.forEach(order -> System.out.println(order)); // Předpokládám, že Order má předefinovanou metodu toString()
+            filteredOrders.forEach(order -> System.out.println(order));
         }
     }
 
+    public static void testChangeItemStatusHasBeenBroughtToTableByItemNumber2to3(OrderManager orderManager) {
+        for (int itemNumber = 2; itemNumber <= 3; itemNumber++) {
+            try {orderManager.changeItemStatusHasBeenBroughtToTableByItemNumber(itemNumber);}
+            catch (RestaurantException e) {
+                System.err.println("Nepodařilo se změnit stav položky č." + itemNumber + " v potvrzených objednávkách: "
+                    + e.getLocalizedMessage());
+            }
+        }
+    }
+
+    public static void testChangeItemStatusHasBeenBroughtToTableByItemNumber7to8(OrderManager orderManager) {
+        for (int itemNumber = 7; itemNumber <= 8; itemNumber++) {
+            try {orderManager.changeItemStatusHasBeenBroughtToTableByItemNumber(itemNumber);}
+            catch (RestaurantException e) {
+                System.err.println("Nepodařilo se změnit stav položky č." + itemNumber + " v potvrzených objednávkách: "
+                        + e.getLocalizedMessage());
+            }
+        }
+    }
+
+    public static void testChangeItemStatusHasBeenBroughtToTableByItemNumber4to6(OrderManager orderManager) {
+        for (int itemNumber = 4; itemNumber <= 6; itemNumber++) {
+            try {orderManager.changeItemStatusHasBeenBroughtToTableByItemNumber(itemNumber);}
+            catch (RestaurantException e) {
+                System.err.println("Nepodařilo se změnit stav položky č." + itemNumber + " v potvrzených objednávkách: "
+                        + e.getLocalizedMessage());
+            }
+        }
+    }
 
 
 
