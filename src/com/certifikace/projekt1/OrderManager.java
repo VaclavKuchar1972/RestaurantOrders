@@ -233,17 +233,12 @@ public class OrderManager {
                     order.setOrderCategory(OrderCategory.PAID);
                     try {
                         saveItemOrOrderToFile("DB-ConfirmedItems", receivedOrdersList);
-
-                        checkBroughtToTheTableAndPaidWithFollowUpAction();
-
                     } catch (RestaurantException e) {
                         System.err.println("Chyba při ukládání do souboru DB-ConfirmedItems.txt: " + e.getMessage());
                         return;
                     }
+                    checkBroughtToTheTableAndPaidWithFollowUpAction();
                 }
-
-
-
                 break;
             }
         }
@@ -262,18 +257,18 @@ public class OrderManager {
                 catch (RestaurantException e) {System.err.println(e.getMessage() + " Položka/y NEBYLA/Y přidána/y "
                         + "do closedOrdersList a odebrána/y z receivedOrdersList."); return;}
                 itemNumber++;
-                // Předpokládám, že 10Mio je dostatečný počet uzavřených objednávek pro každou restauraci na to,
-                // aby stačili na objednávky za jeden rok. Cca 27000 uzavřených objednávek denně je hezké číslo.
-                // Takže až se číslo přehoupne přes 9999999, čísla objednávek nebudou duplicitní, protože níže jsou
+                // Předpokládám, že miliarda je dostatečný počet uzavřených objednávek pro každou restauraci na to,
+                // aby stačili na objednávky za jeden rok. Cca 2,7Mio uzavřených objednávek denně je hezké číslo.
+                // Takže až se číslo přehoupne přes 999999999, čísla objednávek nebudou duplicitní, protože níže jsou
                 // ošetřeny ještě vložením kalendářního roku před dané číslo. Z hlediska účetnictví, je jedno,
                 // že objednávky každý rok nejsou od nuly. To je finančáku úplně jedno. :-) Jen by vzhledem ke správnému
                 // chodu programu neměli být duplicitní.
-                if (itemNumber > 9999999) {itemNumber = 1;}
+                if (itemNumber > 999999999) {itemNumber = 1;}
                 saveItemOrOrderActualNumber(fileItemOrOrderActualNumber, itemNumber);
                 // Předpokládám, že na FrontEndu nebo po přidání dalšího kódu na BackEnd nebude problém z Integeru
                 // combinedNumber oddělit první 4 čísla reprezentující rok objednávky od zbytku čísla, které obsahuje
                 // její pořadí do vyčerpání 10Mio limitu a na daňový doklad pro objednávku např. z roku 2023 s číslem
-                // 11 vytisknout číslo objednávky 20230000011 (ve String podobě).
+                // 11 vytisknout číslo objednávky 2023000000011 (ve String podobě).
                 int currentYear = LocalDate.now().getYear();
                 int combinedNumber = Integer.parseInt(String.valueOf(currentYear) + String.valueOf(itemNumber));
                 order.setOrderNumber(combinedNumber);
