@@ -267,8 +267,8 @@ public class OrderManager {
                 saveItemOrOrderActualNumber(fileItemOrOrderActualNumber, itemNumber);
                 // Předpokládám, že na FrontEndu nebo po přidání dalšího kódu na BackEnd nebude problém z Integeru
                 // combinedNumber oddělit první 4 čísla reprezentující rok objednávky od zbytku čísla, které obsahuje
-                // její pořadí do vyčerpání 10Mio limitu a na daňový doklad pro objednávku např. z roku 2023 s číslem
-                // 11 vytisknout číslo objednávky 2023000000011 (ve String podobě).
+                // její pořadí do vyčerpání miliardového limitu a na daňový doklad pro objednávku např. z roku 2023
+                // s číslem 11 vytisknout číslo objednávky 2023000000011 (ve String podobě).
                 int currentYear = LocalDate.now().getYear();
                 int combinedNumber = Integer.parseInt(String.valueOf(currentYear) + String.valueOf(itemNumber));
                 order.setOrderNumber(combinedNumber);
