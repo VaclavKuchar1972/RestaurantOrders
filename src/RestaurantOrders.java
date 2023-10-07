@@ -258,6 +258,12 @@ public class RestaurantOrders {
         */
 
 
+        TestVoidsForMain.testChangeItemStatusHasBeenPaidByItemNumber2to6(orderManager);
+        printLnOutputs.printConfirmedItemOrederListDataFromFile(orderManager);
+        TestVoidsForMain.testChangeItemStatusHasBeenPaidByItemNumber7(orderManager);
+        printLnOutputs.printConfirmedItemOrederListDataFromFile(orderManager);
+
+
 
 
 

@@ -216,6 +216,7 @@ public class OrderManager {
                 System.err.println("Chyba při ukládání do souboru DB-ConfirmedItems.txt: " + e.getMessage());
                 return;
             }
+            checkBroughtToTheTableAndPaidWithFollowUpAction();
         }
     }
 
@@ -232,11 +233,17 @@ public class OrderManager {
                     order.setOrderCategory(OrderCategory.PAID);
                     try {
                         saveItemOrOrderToFile("DB-ConfirmedItems", receivedOrdersList);
+
+                        checkBroughtToTheTableAndPaidWithFollowUpAction();
+
                     } catch (RestaurantException e) {
                         System.err.println("Chyba při ukládání do souboru DB-ConfirmedItems.txt: " + e.getMessage());
                         return;
                     }
                 }
+
+
+
                 break;
             }
         }
@@ -246,7 +253,47 @@ public class OrderManager {
         }
     }
 
-
+    private void checkBroughtToTheTableAndPaidWithFollowUpAction() throws RestaurantException {
+        List<Order> ordersToRemove = new ArrayList<>();
+        for (Order order : receivedOrdersList) {
+            if (order.getOrderCategory() == OrderCategory.PAID && order.getOrderTimeIssue() != null) {
+                String fileItemOrOrderActualNumber = "DB-OrderActualNumber"; Integer itemNumber = 0;
+                try {itemNumber = loadItemOrOrderActualNumber(fileItemOrOrderActualNumber);}
+                catch (RestaurantException e) {System.err.println(e.getMessage() + " Položka/y NEBYLA/Y přidána/y "
+                        + "do closedOrdersList a odebrána/y z receivedOrdersList."); return;}
+                itemNumber++;
+                // Předpokládám, že 10Mio je dostatečný počet uzavřených objednávek pro každou restauraci na to,
+                // aby stačili na objednávky za jeden rok. Cca 27000 uzavřených objednávek denně je hezké číslo.
+                // Takže až se číslo přehoupne přes 9999999, čísla objednávek nebudou duplicitní, protože níže jsou
+                // ošetřeny ještě vložením kalendářního roku před dané číslo. Z hlediska účetnictví, je jedno,
+                // že objednávky každý rok nejsou od nuly. To je finančáku úplně jedno. :-) Jen by vzhledem ke správnému
+                // chodu programu neměli být duplicitní.
+                if (itemNumber > 9999999) {itemNumber = 1;}
+                saveItemOrOrderActualNumber(fileItemOrOrderActualNumber, itemNumber);
+                // Předpokládám, že na FrontEndu nebo po přidání dalšího kódu na BackEnd nebude problém z Integeru
+                // combinedNumber oddělit první 4 čísla reprezentující rok objednávky od zbytku čísla, které obsahuje
+                // její pořadí do vyčerpání 10Mio limitu a na daňový doklad pro objednávku např. z roku 2023 s číslem
+                // 11 vytisknout číslo objednávky 20230000011 (ve String podobě).
+                int currentYear = LocalDate.now().getYear();
+                int combinedNumber = Integer.parseInt(String.valueOf(currentYear) + String.valueOf(itemNumber));
+                order.setOrderNumber(combinedNumber);
+                order.setOrderDate(LocalDate.now());
+                closedOrdersList.add(order);
+                ordersToRemove.add(order);
+            }
+        }
+        receivedOrdersList.removeAll(ordersToRemove);
+        String filePath = "DB-ClosedOrders";
+        try {saveItemOrOrderToFile(filePath, closedOrdersList);}
+        catch (RestaurantException e) {
+            System.err.println("Chyba při ukládání do souboru " + filePath + ": " + e.getMessage());
+        }
+        filePath = "DB-ConfirmedItems";
+        try {saveItemOrOrderToFile(filePath, receivedOrdersList);}
+        catch (RestaurantException e) {
+            System.err.println("Chyba při ukládání do souboru " + filePath + ": " + e.getMessage());
+        }
+    }
 
 
 
@@ -284,13 +331,9 @@ public class OrderManager {
                     Order order = new Order(orderNumber, orderDate, orderTimeReceipt, orderTimeIssue, orderWaiterNumber,
                             orderTableNumber, orderTitle, orderNumberOfUnits, orderPriceOfUnits, orderNoteForKitchen,
                             orderNoteForManagement,orderCategory, orderFoodMainCategory);
-
                     if (filePath == "DB-UnconfirmedItems") {unconfirmedOrdersList.add(order);}
                     if (filePath == "DB-ConfirmedItems") {receivedOrdersList.add(order);}
-
-                    // tady musím přerozdělit do listů dle názvu souboru
-
-
+                    if (filePath == "DB-ClosedOrders") {closedOrdersList.add(order);}
                 } catch (NumberFormatException | DateTimeParseException e) {
                     System.err.println("Chyba: Špatný formát čísla nebo data na řádku: " + lineNumber + " Soubor: "
                             + filePath + ".txt");
@@ -310,7 +353,8 @@ public class OrderManager {
             try {
                 Files.copy(originalFile.toPath(), backupFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
             } catch (IOException e) {
-                throw new RestaurantException("Chyba při vytváření zálohy souboru " + filePath + ": " + e.getLocalizedMessage());
+                throw new RestaurantException("Chyba při vytváření zálohy souboru " + filePath + ": "
+                        + e.getLocalizedMessage());
             }
         }
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(originalFile))) {

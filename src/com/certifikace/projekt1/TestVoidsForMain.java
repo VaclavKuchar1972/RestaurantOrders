@@ -353,6 +353,27 @@ public class TestVoidsForMain {
         }
     }
 
+    public static void testChangeItemStatusHasBeenPaidByItemNumber2to6(OrderManager orderManager) {
+        for (int itemNumber = 2; itemNumber <= 6; itemNumber++) {
+            try {orderManager.changeItemStatusHasBeenPaidByItemNumber(itemNumber);}
+            catch (RestaurantException e) {
+                System.err.println("Nepodařilo se změnit stav položky č." + itemNumber + " v potvrzených objednávkách: "
+                        + e.getLocalizedMessage());
+            }
+        }
+    }
+
+    public static void testChangeItemStatusHasBeenPaidByItemNumber7(OrderManager orderManager) {
+        int itemNumber = 7;
+        try {orderManager.changeItemStatusHasBeenPaidByItemNumber(itemNumber);}
+        catch (RestaurantException e) {
+            System.err.println("Nepodařilo se změnit stav položky č." + itemNumber + " v potvrzených objednávkách: "
+                    + e.getLocalizedMessage());
+
+        }
+    }
+
+
 
 
 }
