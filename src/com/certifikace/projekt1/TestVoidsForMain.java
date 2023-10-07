@@ -278,15 +278,23 @@ public class TestVoidsForMain {
     }
 
     public static void testRemoveAllItemsOfUnconfirmedOrdersByTable(OrderManager orderManager) {
-        int tableNumber = 15;
+        int tableNumber = 3;
         try {orderManager.removeAllItemsOfUnconfirmedOrdersByTable(tableNumber);} catch (RestaurantException e) {
             System.err.println("Nepodařilo se odebrat všechny položky ze stolu " + tableNumber + " z nepotvrzených "
                     + "objednávek: " + e.getLocalizedMessage());
         }
     }
 
-    public static void testAddAllItemByTableToConfirmedOrders(OrderManager orderManager) {
-        int tableNumber = 6;
+    public static void testAddAllItemByTable15ToConfirmedOrders(OrderManager orderManager) {
+        int tableNumber = 15;
+        try {orderManager.addAllItemByTableToConfirmedOrders(tableNumber);}
+        catch (RestaurantException e) {
+            System.err.println("Nepodařilo se přidat položky ze stolu " + tableNumber + " do potvrzených objednávek: "
+                    + e.getLocalizedMessage());
+        }
+    }
+    public static void testAddAllItemByTable2ToConfirmedOrders(OrderManager orderManager) {
+        int tableNumber = 2;
         try {orderManager.addAllItemByTableToConfirmedOrders(tableNumber);} catch (RestaurantException e) {
             System.err.println("Nepodařilo se přidat položky ze stolu " + tableNumber + " do potvrzených objednávek: "
                     + e.getLocalizedMessage());
@@ -314,6 +322,8 @@ public class TestVoidsForMain {
             filteredOrders.forEach(order -> System.out.println(order)); // Předpokládám, že Order má předefinovanou metodu toString()
         }
     }
+
+
 
 
 }

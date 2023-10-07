@@ -22,6 +22,7 @@ public class OrderManager {
     // jednotlivé položky mazat, přidávat nové nebo měnit počet objednaného zboží, případně smazat vše a nic neobjednat
     private List<Order> unconfirmedOrdersList;
     private List<Order> receivedOrdersList;
+    private List<Order> receivedOrdersListToPrint;
 
     // Do tohoto lisu se dostanou až skutečně zaplacené objednávky, když někdo uteče bez placení, to by tam být nemělo.
     // Umím si představit i situaci, kdy host jednoduše nemá na zaplacení všeho co si naobjednal, tak zaplatí jen část
@@ -32,6 +33,7 @@ public class OrderManager {
     public OrderManager() {
         this.unconfirmedOrdersList = new ArrayList<>();
         this.receivedOrdersList = new ArrayList<>();
+        this.receivedOrdersListToPrint = new ArrayList<>();
         this.closedOrdersList = new ArrayList<>();
     }
 
@@ -155,10 +157,12 @@ public class OrderManager {
                     " v unconfirmedOrdersList. Položky tedy nebyli přidány do receivedOrdersList.");
             return;
         }
+        receivedOrdersListToPrint.clear();
         for (Order order : toBeConfirmedOrders) {
             order.setOrderCategory(OrderCategory.RECEIVED);
             order.setOrderTimeReceipt(LocalDateTime.now());
             receivedOrdersList.add(order);
+            receivedOrdersListToPrint.add(order);
             unconfirmedOrdersList.remove(order);
         }
         try {
@@ -174,9 +178,8 @@ public class OrderManager {
         }
     }
 
-
     public List<Order> printerOutputOnBar() {
-        return receivedOrdersList.stream()
+        return receivedOrdersListToPrint.stream()
                 .filter(order -> {
                     FoodCategory category = order.getOrderFoodMainCategory();
                     String categoryName = category != null ? category.getName() : "";
@@ -187,10 +190,12 @@ public class OrderManager {
 
     public List<Order> printerOutputOnKitchen() {
         List<Order> barOrders = printerOutputOnBar();
-        return receivedOrdersList.stream()
+        return receivedOrdersListToPrint.stream()
                 .filter(order -> !barOrders.contains(order))
                 .collect(Collectors.toList());
     }
+
+
 
 
 

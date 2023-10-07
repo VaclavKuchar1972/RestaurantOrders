@@ -1,7 +1,6 @@
 import com.certifikace.projekt1.*;
 
 import java.io.IOException;
-import java.util.List;
 
 public class RestaurantOrders {
     public static void main(String[] args) throws RestaurantException, IOException {
@@ -236,12 +235,18 @@ public class RestaurantOrders {
         // dohodnuty s hosty u jednotlivých stolů a finálně objednány dle čísla stolu do Listu s potvrzenými
         // objednávkami a jejich odebrání z Listu s nepotvrzenýmí objednávkami. (stačí ho odkomentovat)
         /*
-        TestVoidsForMain.testAddAllItemByTableToConfirmedOrders(orderManager);
+        TestVoidsForMain.testAddAllItemByTable15ToConfirmedOrders(orderManager);
+        printLnOutputs.printConfirmedItemOrederListDataFromFile(orderManager);
+        // Výstupy na tiskárnu na Baru a v Kuchyni
+        TestVoidsForMain.testPrinterOutputToBar(orderManager);
+        TestVoidsForMain.testPrinterOutputToKitchen(orderManager);
+        TestVoidsForMain.testAddAllItemByTable2ToConfirmedOrders(orderManager);
         printLnOutputs.printConfirmedItemOrederListDataFromFile(orderManager);
         // Výstupy na tiskárnu na Baru a v Kuchyni
         TestVoidsForMain.testPrinterOutputToBar(orderManager);
         TestVoidsForMain.testPrinterOutputToKitchen(orderManager);
         */
+
 
 
 
