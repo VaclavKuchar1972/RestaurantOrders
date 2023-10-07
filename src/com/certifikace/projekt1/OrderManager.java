@@ -195,7 +195,29 @@ public class OrderManager {
                 .collect(Collectors.toList());
     }
 
-
+    public void changeItemStatuHasBeenBroughtToTableByItemNumber(int itemNumber) throws RestaurantException {
+        Order foundOrder = null;
+        String helpSameErrMessage =  " Stav položky NEBYL v receivedOrdersList změněn.";
+        for (Order order : receivedOrdersList) {
+            if (order.getOrderNumber() == itemNumber) {foundOrder = order; break;}
+        }
+        if (foundOrder == null) {
+            throw new RestaurantException("Chyba: Položka s číslem " + itemNumber + " nebyla nalezena."
+                    + helpSameErrMessage);
+        } else if (foundOrder.getOrderCategory() == OrderCategory.ISSUED) {
+            throw new RestaurantException("Chyba: Položka s číslem " + itemNumber + " již byla hostovi donesena."
+                    + helpSameErrMessage);
+        } else {
+            foundOrder.setOrderCategory(OrderCategory.ISSUED);
+            foundOrder.setOrderTimeIssue(LocalDateTime.now());
+            try {
+                saveItemOrOrderToFile("DB-ConfirmedItems", receivedOrdersList);
+            } catch (RestaurantException e) {
+                System.err.println("Chyba při ukládání do souboru DB-ConfirmedItems.txt: " + e.getMessage());
+                return;
+            }
+        }
+    }
 
 
 

@@ -237,12 +237,10 @@ public class RestaurantOrders {
         /*
         TestVoidsForMain.testAddAllItemByTable15ToConfirmedOrders(orderManager);
         printLnOutputs.printConfirmedItemOrederListDataFromFile(orderManager);
-        // Výstupy na tiskárnu na Baru a v Kuchyni
         TestVoidsForMain.testPrinterOutputToBar(orderManager);
         TestVoidsForMain.testPrinterOutputToKitchen(orderManager);
         TestVoidsForMain.testAddAllItemByTable2ToConfirmedOrders(orderManager);
         printLnOutputs.printConfirmedItemOrederListDataFromFile(orderManager);
-        // Výstupy na tiskárnu na Baru a v Kuchyni
         TestVoidsForMain.testPrinterOutputToBar(orderManager);
         TestVoidsForMain.testPrinterOutputToKitchen(orderManager);
         */
