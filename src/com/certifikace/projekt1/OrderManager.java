@@ -229,7 +229,7 @@ public class OrderManager {
         List<Order> itemsToMove = new ArrayList<>();
         for (int itemNumber : itemNumbers) {
             boolean itemFound = false;
-            for (Order order : unconfirmedOrdersList) {
+            for (Order order : receivedOrdersList) {
                 if (order.getOrderNumber() == itemNumber) {
                     if (order.getOrderTableNumber() == oldTableNumber) {
                         itemsToMove.add(order);
@@ -252,9 +252,9 @@ public class OrderManager {
         }
 
 
-        String filePath = "DB-UnconfirmedItems";
+        String filePath = "DB-ConfirmedItems";
         try {
-            saveItemOrOrderToFile(filePath, unconfirmedOrdersList);
+            saveItemOrOrderToFile(filePath, receivedOrdersList);
         } catch (RestaurantException e) {
             System.err.println("Chyba při ukládání do souboru " + filePath + ": " + e.getMessage());
         }
