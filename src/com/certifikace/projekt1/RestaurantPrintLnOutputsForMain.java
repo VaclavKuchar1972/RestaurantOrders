@@ -30,31 +30,38 @@ public class RestaurantPrintLnOutputsForMain {
             System.out.println(category.getName() + ", " + category.getDescription());
         }
     }
-    public void printDishListDataFromFile(DishManager dishManager) {
+    public void printDishList(DishManager dishManager) {
         List<Dish> dishList = dishManager.getDishList();
         System.out.println();
         System.out.println("Výpis dat z dihList:");
         for (Dish dish : dishList) {System.out.println(dish.getDishInfoForTestPrint());}
     }
 
-    public void printMenuListDataFromFile(ActualMenuManager amManager) {
+    public void printMenuList(ActualMenuManager amManager) {
         List<ActualMenu> amList = amManager.getAmList();
         System.out.println();
         System.out.println("Výpis dat z amList:");
         for (ActualMenu actualMenu : amList) {System.out.println(actualMenu.getActualMenuInfoForTestPrint());}
     }
 
-    public void printUnconfirmedItemOrederListDataFromFile(OrderManager orderManager) {
+    public void printUnconfirmedItemsList(OrderManager orderManager) {
         List<Order> orderList = orderManager.getUncofirmedItemsList();
         System.out.println();
         System.out.println("Výpis dat z unconfirmedOrdersList:");
         for (Order order : orderList) {System.out.println(order.getOrderInfoForTestPrint());}
     }
 
-    public void printConfirmedItemOrederListDataFromFile(OrderManager orderManager) {
+    public void printConfirmedItemsList(OrderManager orderManager) {
         List<Order> orderList = orderManager.getConfirmedItemsList();
         System.out.println();
         System.out.println("Výpis dat z receivedOrdersList:");
+        for (Order order : orderList) {System.out.println(order.getOrderInfoForTestPrint());}
+    }
+
+    public void printCosedOrdersList(OrderManager orderManager) {
+        List<Order> orderList = orderManager.getClosedOrdersList();
+        System.out.println();
+        System.out.println("Výpis dat z closedOrdersList:");
         for (Order order : orderList) {System.out.println(order.getOrderInfoForTestPrint());}
     }
 

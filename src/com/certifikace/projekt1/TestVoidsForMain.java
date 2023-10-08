@@ -238,9 +238,9 @@ public class TestVoidsForMain {
         }
     }
 
-    public static void testClearAndSave(ActualMenuManager amManager) throws IOException {
+    public static void testClearAndSave(ActualMenuManager amManager, RestaurantSaversVoidsForMain saversVoids) throws IOException {
         amManager.clearAmList();
-        saversVoids.saveMenuData(amManager);
+        TestVoidsForMain.saversVoids.saveMenuData(amManager);
     }
 
 

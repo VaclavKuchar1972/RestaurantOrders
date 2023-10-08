@@ -8,7 +8,7 @@ public class Order {
 
     private int orderNumber;
     // V zadání není datum objednávky, ale s objednávkou bez datumu by nás účtárna TUTOVĚ poslala MINIMÁLNĚ k šípku :D
-    private LocalDate orderDate;
+    private LocalDateTime orderDate;
     private LocalDateTime orderTimeReceipt;
     private LocalDateTime orderTimeIssue;
     private int orderWaiterNumber;
@@ -21,7 +21,7 @@ public class Order {
     private OrderCategory orderCategory;
     private FoodCategory orderFoodMainCategory;
 
-    public Order(int orderNumber, LocalDate orderDate, LocalDateTime orderTimeReceipt, LocalDateTime orderTimeIssue,
+    public Order(int orderNumber, LocalDateTime orderDate, LocalDateTime orderTimeReceipt, LocalDateTime orderTimeIssue,
                  int orderWaiterNumber, int orderTableNumber, String orderTitle, int orderNumberOfUnits,
                  BigDecimal orderPriceOfUnits, String orderNoteForKitchen, String orderNoteForManagement,
                  OrderCategory orderCategory, FoodCategory orderFoodMainCategory) {
@@ -53,8 +53,8 @@ public class Order {
 
     public int getOrderNumber() {return orderNumber;}
     public void setOrderNumber(int orderNumber) {this.orderNumber = orderNumber;}
-    public LocalDate getOrderDate() {return orderDate;}
-    public void setOrderDate(LocalDate orderDate) {this.orderDate = orderDate;}
+    public LocalDateTime getOrderDate() {return orderDate;}
+    public void setOrderDate(LocalDateTime orderDate) {this.orderDate = orderDate;}
     public LocalDateTime getOrderTimeReceipt() {return orderTimeReceipt;}
     public void setOrderTimeReceipt(LocalDateTime orderTimeReceipt) {this.orderTimeReceipt = orderTimeReceipt;}
     public LocalDateTime getOrderTimeIssue() {return orderTimeIssue;}

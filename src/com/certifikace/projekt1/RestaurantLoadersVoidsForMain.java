@@ -37,7 +37,7 @@ public class RestaurantLoadersVoidsForMain {
         }
     }
 
-    public void loadUnconfirmedItemList(OrderManager orderManager) {
+    public void loadUnconfirmedItemsList(OrderManager orderManager) {
         try {
             orderManager.loadItemOrOrderFromFile("DB-UnconfirmedItems");
         } catch (RestaurantException | FileNotFoundException e) {
@@ -46,11 +46,20 @@ public class RestaurantLoadersVoidsForMain {
         }
     }
 
-    public void loadConfirmedItemList(OrderManager orderManager) {
+    public void loadConfirmedItemsList(OrderManager orderManager) {
         try {
             orderManager.loadItemOrOrderFromFile("DB-ConfirmedItems");
         } catch (RestaurantException | FileNotFoundException e) {
             System.err.println(errorMessage + "DB-ConfirmedItems.txt" + " " + e.getLocalizedMessage());
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void loadClosedOrdersList(OrderManager orderManager) {
+        try {
+            orderManager.loadItemOrOrderFromFile("DB-ClosedOrders");
+        } catch (RestaurantException | FileNotFoundException e) {
+            System.err.println(errorMessage + "DB-ClosedOrders.txt" + " " + e.getLocalizedMessage());
             throw new RuntimeException(e);
         }
     }

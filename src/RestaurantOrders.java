@@ -19,8 +19,10 @@ public class RestaurantOrders {
         loadersVoids.loadWaitersData(waiterManager);
         loadersVoids.loadDishsData(dishManager);
         loadersVoids.loadActualMenuData(amManager);
-        loadersVoids.loadUnconfirmedItemList(orderManager);
-        loadersVoids.loadConfirmedItemList(orderManager);
+        loadersVoids.loadUnconfirmedItemsList(orderManager);
+        loadersVoids.loadConfirmedItemsList(orderManager);
+        loadersVoids.loadClosedOrdersList(orderManager);
+
 
 
         // Toto tu je jen kvůli testování, později (při pozdějším reálném použití programu) se to může smazat
@@ -35,7 +37,11 @@ public class RestaurantOrders {
         //printLnOutputs.printFoodCategoryList(foodCategory);
 
         // Zkušební kód pro přidání nové kategorie do foodCategory a uložení do souboru (stačí ho odkomentovat)
-        //foodCategory.addCategory("NEWCATEGORY", "nová kategorie"); printLnOutputs.printFoodCategoryList(foodCategory);
+        /*
+        foodCategory.addCategory("NEWCATEGORY", "nová kategorie");
+        printLnOutputs.printFoodCategoryList(foodCategory);
+        */
+
 
         // Zkušební kód pro odebrání kategorie z foodCategory a uložení do souboru (stačí ho odkomentovat)
         // Jako příklad jsem odebral kategorii, kterou jsem přidal v předchozím testovacím kódu NEWCATEGORY,
@@ -83,29 +89,29 @@ public class RestaurantOrders {
         // Pak je ale třeba tam vrátit ten první testovací, jinak nebudou správně fungovat další testovací kódy.
 
 
-        //printLnOutputs.printDishListDataFromFile(dishManager);
+        //printLnOutputs.printDishList(dishManager);
 
         // Zkušební kód pro přidání jídla do zásobníku a jeho uložení do souboru (stačí ho odkomentovat)
-        //TestVoidsForMain.createAndAddNewDish(dishManager); printLnOutputs.printDishListDataFromFile(dishManager);
+        //TestVoidsForMain.createAndAddNewDish(dishManager); printLnOutputs.printDishList(dishManager);
 
         // Zkušební kód pro odebrání jídla z dishList (stačí ho odkomentovat), ale lze to udělat jen v případě,
         // že před tím bylo jídlo "Katův šleh "Chez Quis à Prague" s doporučeným nožstvím 250 g přidáno aktivováním
         // předchozí zkušební metody, jinak to bude hlásit chybu a jídlo se neodebere, ale program nespadne
         /*
         TestVoidsForMain.removeDishByTitleAndQuantity(dishManager);
-        printLnOutputs.printDishListDataFromFile(dishManager);
+        printLnOutputs.printDishList(dishManager);
         */
 
         // Zkušební kód pro nahrazení hlavní doporučené kategorie jidla v dishList (stačí ho odkomentovat)
         /*
         TestVoidsForMain.replaceDishRecomendedMainCategoryByTitleAndQuantity(dishManager);
-        printLnOutputs.printDishListDataFromFile(dishManager);
+        printLnOutputs.printDishList(dishManager);
         */
 
         // Zkušební kód pro přidání další doporučené kategorie jidla v dishList (stačí ho odkomentovat)
         /*
         TestVoidsForMain.addDishNextRecomendedCategoryByTitleAndQuantity(dishManager);
-        printLnOutputs.printDishListDataFromFile(dishManager);
+        printLnOutputs.printDishList(dishManager);
         */
 
         // Zkušební kód pro odebrání další doporučené kategorie z dishList (stačí ho odkomentovat), ale lze to udělat
@@ -113,15 +119,15 @@ public class RestaurantOrders {
         // metody, jinak to bude hlásit chybu a kategorie se neodebere, ale program nespadne
         /*
         TestVoidsForMain.removeAddressedDishNextRecomendedCategoryByTitleAndQuantity(dishManager);
-        printLnOutputs.printDishListDataFromFile(dishManager);
+        printLnOutputs.printDishList(dishManager);
         */
 
         // Zkušební kód pro změnu názvu jídla v dishList (stačí ho odkomentovat), ale lze to udělat jen v případě, že
         // máte jako aktuální můj původní soubor DB-dish.txt, jinak to bude hlásit chybu a nic to neudělá, ale program
         // poběží dál
         /*
-        TestVoidsForMain.renameRecomendedDishTitleByTitleAndQuantity(dishManager);
-        printLnOutputs.printDishListDataFromFile(dishManager);
+        TestVoidsForMain.renameDishTitleByTitleAndQuantity(dishManager);
+        printLnOutputs.printDishList(dishManager);
         */
 
         // Zkušební kód pro přidání nového jídla z dishList se stejným názvem, ale s jinou hodnotou velikosti porce
@@ -129,7 +135,7 @@ public class RestaurantOrders {
         // DB-dish.txt, jinak to bude hlásit chybu a nic to neudělá, ale program poběží dál
         /*
         TestVoidsForMain.addDishSameTitleWithDifferentQuantityAndPrice(dishManager);
-        printLnOutputs.printDishListDataFromFile(dishManager);
+        printLnOutputs.printDishList(dishManager);
         */
 
         // Zkušební kód pro změnu doporučeného množství jídla v dishList (stačí ho odkomentovat), ale lze to udělat jen
@@ -137,7 +143,7 @@ public class RestaurantOrders {
         // ale program poběží dál
         /*
         TestVoidsForMain.replaceDishRecommendedQuantityByTitleAndQuantity(dishManager);
-        printLnOutputs.printDishListDataFromFile(dishManager);
+        printLnOutputs.printDishList(dishManager);
         */
 
         // Zkušební kód pro změnu doporučené ceny jídla v dishList (stačí ho odkomentovat), ale lze to udělat jen
@@ -145,7 +151,7 @@ public class RestaurantOrders {
         // ale program poběží dál
         /*
         TestVoidsForMain.replaceDishRecommendedPriceByTitleAndQuantity(dishManager);
-        printLnOutputs.printDishListDataFromFile(dishManager);
+        printLnOutputs.printDishList(dishManager);
         */
 
         // Zkušební kód pro změnu předpokládané doby přípravy jídla v dishList (stačí ho odkomentovat), ale lze
@@ -153,7 +159,7 @@ public class RestaurantOrders {
         // a nic to neudělá, ale program poběží dál
         /*
         TestVoidsForMain.replaceDishEstimatedPreparationTimeByTitleAndQuantity(dishManager);
-        printLnOutputs.printDishListDataFromFile(dishManager);
+        printLnOutputs.printDishList(dishManager);
         */
 
         // Zkušební kód pro změnu názvu souboru s hlavní fotografií v dishList (stačí ho odkomentovat), ale lze
@@ -161,7 +167,7 @@ public class RestaurantOrders {
         // a nic to neudělá, ale program poběží dál
         /*
         TestVoidsForMain.replaceDishMainPhotoByTitleAndQuantity(dishManager);
-        printLnOutputs.printDishListDataFromFile(dishManager);
+        printLnOutputs.printDishList(dishManager);
         */
 
         // Zkušební kód pro přidání dalšího názvu souboru fotografie do dalších fotografií v dishList (stačí ho
@@ -169,7 +175,7 @@ public class RestaurantOrders {
         // to bude hlásit chybu a nic to neudělá, ale program poběží dál
         /*
         TestVoidsForMain.addDishNextPhotoByTitleAndQuantity(dishManager);
-        printLnOutputs.printDishListDataFromFile(dishManager);
+        printLnOutputs.printDishList(dishManager);
         */
 
         // Zkušební kód pro odebrání dalšího názvu souboru fotografie z dalších fotografií v dishList (stačí ho
@@ -177,7 +183,7 @@ public class RestaurantOrders {
         // kód pro test přidání fotografie, jinak to bude hlásit chybu a nic to neudělá, ale program poběží dál
         /*
         TestVoidsForMain.removeAddressedDishNextPhotoByTitleAndQuantity(dishManager);
-        printLnOutputs.printDishListDataFromFile(dishManager);
+        printLnOutputs.printDishList(dishManager);
         */
 
         // Zkušební kód pro ověření, že program nezkolabuje při prvním spuštění, když ještě nebude existovat
@@ -185,86 +191,89 @@ public class RestaurantOrders {
         // Pak je ale třeba tam vrátit ten první testovací, jinak nebudou správně fungovat další testovací kódy.
 
 
-        //printLnOutputs.printMenuListDataFromFile(amManager);
+        //printLnOutputs.printMenuList(amManager);
 
         // Zkušební kód pro přidání jídla do aktuálního menu a jeho uložení do souboru (stačí ho odkomentovat)
-        //TestVoidsForMain.testAddFoodToMenu(amManager, dishManager); printLnOutputs.printMenuListDataFromFile(amManager);
+        //TestVoidsForMain.testAddFoodToMenu(amManager, dishManager); printLnOutputs.printMenuList(amManager);
 
         // Zkušební kód pro odebrání jídla z aktuálního menu (stačí ho odkomentovat), ale lze to udělat jedině
         // v případě, že jste před tím aktivovali předchozí zkušební metodu pro přidání, jinak to zahlásí chybovou
         // hlášku, nic to neudělá, ale program bude bez pádu pokračovat dál
-        //TestVoidsForMain.testRemoveFoodFromMenu(amManager); printLnOutputs.printMenuListDataFromFile(amManager);
+        //TestVoidsForMain.testRemoveFoodFromMenu(amManager); printLnOutputs.printMenuList(amManager);
 
         // Zkušební kód pro splnění zadání - totálního vymazání Menu (stačí ho odkomentovat), program ho vymaže,
         // pak je ale třeba tam vrátit ten první testovací TXT, jinak viz. výše, jako doposud.
-        //TestVoidsForMain.testClearAndSave(amManager, saversVoids); printLnOutputs.printMenuListDataFromFile(amManager);
+        //TestVoidsForMain.testClearAndSave(amManager, saversVoids); printLnOutputs.printMenuList(amManager);
 
         // Zkušební kód pro ověření, že program nezkolabuje při prvním spuštění, když ještě nebude existovat
         // soubor DB-ActualMenu.txt není potřeba. Stačí z adresáře programu tento soubor smazat a spustit program.
         // Pak je ale třeba tam vrátit ten první testovací, jinak nebudou správně fungovat další testovací kódy.
 
 
-        //printLnOutputs.printUnconfirmedItemOrederListDataFromFile(orderManager);
+        //printLnOutputs.printUnconfirmedItemsList(orderManager);
 
         // Zkušební kód pro přidání položky do rozpracovaných objednávek všech číšníků, které ještě nebyli úplně
         // dohodnuty s hosty u jednotlivých stolů a finálně objednány. (stačí ho odkomentovat)
         /*
         TestVoidsForMain.testAddItemToUnconfirmedOrdersListByTitleAndQuantity(
                 orderManager, amManager, waiterManager, tableManager);
-        printLnOutputs.printUnconfirmedItemOrederListDataFromFile(orderManager);
+        printLnOutputs.printUnconfirmedItemsList(orderManager);
         */
 
         // Zkušební kód pro odebrání položky z rozpracovaných objednávek všech číšníků, které ještě nebyli úplně
         // dohodnuty s hosty u jednotlivých stolů a finálně objednány dle čísla položky. (stačí ho odkomentovat)
         /*
         TestVoidsForMain.testRemoveItemOfUnconfirmedOrdersByItemNumber(orderManager);
-        printLnOutputs.printUnconfirmedItemOrederListDataFromFile(orderManager);
+        printLnOutputs.printUnconfirmedItemsList(orderManager);
         */
 
         // Zkušební kód pro odebrání všech položek z rozpracovaných objednávek všech číšníků, které ještě nebyli úplně
         // dohodnuty s hosty u jednotlivých stolů a finálně objednány dle čísla stolu. (stačí ho odkomentovat)
         /*
         TestVoidsForMain.testRemoveAllItemsOfUnconfirmedOrdersByTable(orderManager);
-        printLnOutputs.printUnconfirmedItemOrederListDataFromFile(orderManager);
+        printLnOutputs.printUnconfirmedItemsList(orderManager);
         */
 
 
-        printLnOutputs.printConfirmedItemOrederListDataFromFile(orderManager);
+        printLnOutputs.printConfirmedItemsList(orderManager);
 
         // Zkušební kód pro přidání všech položek z rozpracovaných objednávek všech číšníků, které již byly úplně
         // dohodnuty s hosty u jednotlivých stolů a finálně objednány dle čísla stolu do Listu s potvrzenými
         // objednávkami a jejich odebrání z Listu s nepotvrzenýmí objednávkami. (stačí ho odkomentovat)
         /*
         TestVoidsForMain.testAddAllItemByTable15ToConfirmedOrders(orderManager);
-        printLnOutputs.printConfirmedItemOrederListDataFromFile(orderManager);
+        printLnOutputs.printConfirmedItemsList(orderManager);
         TestVoidsForMain.testPrinterOutputToBar(orderManager);
         TestVoidsForMain.testPrinterOutputToKitchen(orderManager);
         TestVoidsForMain.testAddAllItemByTable2ToConfirmedOrders(orderManager);
-        printLnOutputs.printConfirmedItemOrederListDataFromFile(orderManager);
+        printLnOutputs.printConfirmedItemsList(orderManager);
         TestVoidsForMain.testPrinterOutputToBar(orderManager);
         TestVoidsForMain.testPrinterOutputToKitchen(orderManager);
         */
 
         // Zkušební kód pro změnu stavu objednávky, které již byli potvrzeny a pracuje se na nich, v tomoto případě byli
-        // již doneseny na stůl, taklže se zaznamená čas, kdy byli hostovi předloženy, ale ještě nebyli zaplaceny.
+        // již doneseny na stůl, takle se zaznamená čas, kdy byli hostovi předloženy, ale ještě nebyli zaplaceny.
         // (stačí ho odkomentovat)
         /*
         TestVoidsForMain.testChangeItemStatusHasBeenBroughtToTableByItemNumber2to3(orderManager);
-        printLnOutputs.printConfirmedItemOrederListDataFromFile(orderManager);
+        printLnOutputs.printConfirmedItemsList(orderManager);
         TestVoidsForMain.testChangeItemStatusHasBeenBroughtToTableByItemNumber7to8(orderManager);
-        printLnOutputs.printConfirmedItemOrederListDataFromFile(orderManager);
+        printLnOutputs.printConfirmedItemsList(orderManager);
         TestVoidsForMain.testChangeItemStatusHasBeenBroughtToTableByItemNumber4to6(orderManager);
-        printLnOutputs.printConfirmedItemOrederListDataFromFile(orderManager);
+        printLnOutputs.printConfirmedItemsList(orderManager);
         */
 
+        // Zkušební kód pro změnu stavu objednávky, které již byli potvrzeny a pracuje se na nich, v tomoto případě byli
+        // již zaplaceny, takže se zaznamená čas, kdy byli hostovi předloženy, ale ještě nebyli zaplaceny.
+        // (stačí ho odkomentovat)
         /*
         TestVoidsForMain.testChangeItemStatusHasBeenPaidByItemNumber2to6(orderManager);
-        printLnOutputs.printConfirmedItemOrederListDataFromFile(orderManager);
+        printLnOutputs.printConfirmedItemsList(orderManager);
         TestVoidsForMain.testChangeItemStatusHasBeenPaidByItemNumber7(orderManager);
-        printLnOutputs.printConfirmedItemOrederListDataFromFile(orderManager);
+        printLnOutputs.printConfirmedItemsList(orderManager);
         */
 
-
+        printLnOutputs.printCosedOrdersList(orderManager);
 
 
     }

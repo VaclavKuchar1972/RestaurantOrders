@@ -5,12 +5,11 @@ import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.certifikace.projekt1.RestaurantSettings.delimiter;
@@ -272,7 +271,7 @@ public class OrderManager {
                 int currentYear = LocalDate.now().getYear();
                 int combinedNumber = Integer.parseInt(String.valueOf(currentYear) + String.valueOf(itemNumber));
                 order.setOrderNumber(combinedNumber);
-                order.setOrderDate(LocalDate.now());
+                order.setOrderDate(LocalDateTime.now());
                 closedOrdersList.add(order);
                 ordersToRemove.add(order);
             }
@@ -289,9 +288,6 @@ public class OrderManager {
             System.err.println("Chyba při ukládání do souboru " + filePath + ": " + e.getMessage());
         }
     }
-
-
-
 
     public void loadItemOrOrderFromFile(String filePath) throws RestaurantException, FileNotFoundException {
         File file = new File(filePath + ".txt");
@@ -311,7 +307,7 @@ public class OrderManager {
                     // poznámka pro mě: Znak "?" je součástí ternárního operátoru v JAVA,
                     // který je zkrácenou formou if-else příkazu. Struktura tohoto operátoru je následující:
                     // výraz ? výraz_pokud_true : výraz_pokud_false;
-                    LocalDate orderDate = item[1].equals("null") ? null : LocalDate.parse(item[1]);
+                    LocalDateTime orderDate = item[1].equals("null") ? null : LocalDateTime.parse(item[1]);
                     LocalDateTime orderTimeReceipt = item[2].equals("null") ? null : LocalDateTime.parse(item[2]);
                     LocalDateTime orderTimeIssue = item[3].equals("null") ? null : LocalDateTime.parse(item[3]);
                     int orderWaiterNumber = Integer.parseInt(item[4]);
@@ -410,6 +406,7 @@ public class OrderManager {
 
     public List<Order> getUncofirmedItemsList() {return new ArrayList<>(unconfirmedOrdersList);}
     public List<Order> getConfirmedItemsList() {return new ArrayList<>(receivedOrdersList);}
+    public List<Order> getClosedOrdersList() {return new ArrayList<>(closedOrdersList);}
 
 
 
