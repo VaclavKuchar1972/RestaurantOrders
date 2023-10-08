@@ -18,7 +18,6 @@ public class TableManager {
     private List<Table> tableList;
     public TableManager() {this.tableList = new ArrayList<>();}
 
-
     private boolean isTableNumberDuplicity(int tableNumber) {
         for (Table existingTable : tableList) {if (existingTable.getTableNumber() == tableNumber) {return true;}}
         return false;

@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 
 import static com.certifikace.projekt1.RestaurantSettings.delimiter;
 
+
 public class OrderManager {
 
     // "unconfirmedOrderList" je list, kde jsou rozpracované objednávky všech číšníků, které ještě nebyli úplně
@@ -194,6 +195,76 @@ public class OrderManager {
                 .collect(Collectors.toList());
     }
 
+
+
+
+
+    public void changeTableNumberBySelectedTableAndItemsToNewTable(
+            int oldTableNumber, List<Integer> itemNumbers, int newTableNumber, TableManager tableManager)
+            throws RestaurantException {
+
+        boolean oldTableExists = false;
+        boolean newTableExists = false;
+
+
+
+        for (Table table : tableManager.getTableList()) {
+            if (table.getTableNumber() == oldTableNumber) {
+                oldTableExists = true;
+            }
+            if (table.getTableNumber() == newTableNumber) {
+                newTableExists = true;
+            }
+        }
+
+        if (!oldTableExists) {
+            throw new RestaurantException("Chyba: Stůl s číslem " + oldTableNumber + " neexistuje.");
+        }
+
+        if (!newTableExists) {
+            throw new RestaurantException("Chyba: Stůl s číslem " + newTableNumber + " neexistuje.");
+        }
+
+
+        List<Order> itemsToMove = new ArrayList<>();
+        for (int itemNumber : itemNumbers) {
+            boolean itemFound = false;
+            for (Order order : unconfirmedOrdersList) {
+                if (order.getOrderNumber() == itemNumber) {
+                    if (order.getOrderTableNumber() == oldTableNumber) {
+                        itemsToMove.add(order);
+                        itemFound = true;
+                    } else {
+                        throw new RestaurantException("Chyba: Položka s číslem " + itemNumber + " nepatří k stolu "
+                                + oldTableNumber);
+                    }
+                }
+            }
+            if (!itemFound) {
+                throw new RestaurantException("Chyba: Položka s číslem " + itemNumber + " nebyla nalezena nebo nepatří "
+                        + "k stolu " + oldTableNumber);
+            }
+        }
+
+
+        for (Order itemToMove : itemsToMove) {
+            itemToMove.setOrderTableNumber(newTableNumber);
+        }
+
+
+        String filePath = "DB-UnconfirmedItems";
+        try {
+            saveItemOrOrderToFile(filePath, unconfirmedOrdersList);
+        } catch (RestaurantException e) {
+            System.err.println("Chyba při ukládání do souboru " + filePath + ": " + e.getMessage());
+        }
+    }
+
+
+
+
+
+
     public void changeItemStatusHasBeenBroughtToTableByItemNumber(int itemNumber) throws RestaurantException {
         Order foundOrder = null;
         String helpSameErrMessage =  " Stav položky NEBYL v receivedOrdersList změněn.";
@@ -288,6 +359,10 @@ public class OrderManager {
             System.err.println("Chyba při ukládání do souboru " + filePath + ": " + e.getMessage());
         }
     }
+
+
+
+
 
     public void loadItemOrOrderFromFile(String filePath) throws RestaurantException, FileNotFoundException {
         File file = new File(filePath + ".txt");

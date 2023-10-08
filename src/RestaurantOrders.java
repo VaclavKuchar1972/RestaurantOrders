@@ -235,7 +235,7 @@ public class RestaurantOrders {
         */
 
 
-        printLnOutputs.printConfirmedItemsList(orderManager);
+        //printLnOutputs.printConfirmedItemsList(orderManager);
 
         // Zkušební kód pro přidání všech položek z rozpracovaných objednávek všech číšníků, které již byly úplně
         // dohodnuty s hosty u jednotlivých stolů a finálně objednány dle čísla stolu do Listu s potvrzenými
@@ -250,6 +250,20 @@ public class RestaurantOrders {
         TestVoidsForMain.testPrinterOutputToBar(orderManager);
         TestVoidsForMain.testPrinterOutputToKitchen(orderManager);
         */
+
+        // Plnění výzvy č.4 - Všechny nebo jen některé objednávky se převedou k jinému stolu
+        // Tady vidím trochu problém v tom, že objednávkový lístek již bude pro kuchyń nebo bar vytištěn, takže
+        // číšník bude muset informovat číšníka, který se o nový stůl stará o této změně ústně, ale při výstupech
+        // na obrazovku/y se tato změna projeví ihned, když to FrondEnd správně ošetří. Samozřejmě, když nový stůl bude
+        // mít na starosti stejný číšník jako byl u předchozího, tak si to musí jen pamatovat. Uzavřené, tedy donesené
+        // a i již zaplacené objednávky již samozřejmě nejde nikam převádět, ty již slouží jen jako podklady pro Účtárnu
+        // a Management.
+        // Část A - převádějí se jen některé
+
+
+
+
+
 
         // Zkušební kód pro změnu stavu objednávky, které již byli potvrzeny a pracuje se na nich, v tomoto případě byli
         // již doneseny na stůl, takle se zaznamená čas, kdy byli hostovi předloženy, ale ještě nebyli zaplaceny.
@@ -271,9 +285,16 @@ public class RestaurantOrders {
         printLnOutputs.printConfirmedItemsList(orderManager);
         TestVoidsForMain.testChangeItemStatusHasBeenPaidByItemNumber7(orderManager);
         printLnOutputs.printConfirmedItemsList(orderManager);
+        printLnOutputs.printCosedOrdersList(orderManager);
         */
 
-        printLnOutputs.printCosedOrdersList(orderManager);
+
+        // Výzvu č.3 plnit nebudu, je to absolutní nesmysl v zadání, když u stolu bude sedět více hostů a každý bude
+        // chtít platit zvlášť, tak by to byl velkej problém, navíc, každý z nich by měl dostat daňový doklad na to co
+        // si vypil nebo snědl a ne i za kámoše, kterej sedí na pivu vedle něj. Když bude chtít, může, můj kód by tuto
+        // situaci měl mít ošetřenu, zbytek si myslím, je k pracem na FrondEndu, ale nevím.
+
+        //printLnOutputs.printCosedOrdersList(orderManager);
 
 
     }
