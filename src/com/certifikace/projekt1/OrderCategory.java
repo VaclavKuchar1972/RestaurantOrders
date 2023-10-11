@@ -5,7 +5,8 @@ public enum OrderCategory {
     UNCONFIRMED("nepotvrzená objednávka"),
     RECEIVED("přijatá objednávka"),
     ISSUED("objednávka předaná na stůl"),
-    PAID("zaplacená objednávka");
+    PAID("zaplacená objednávka"),
+    CLOSED("uzavřená objednávka (doneseno na stůl i zaplaceno)");
 
     private final String czechName;
     OrderCategory(String czechName) {this.czechName = czechName;}

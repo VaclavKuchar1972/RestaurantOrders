@@ -5,7 +5,6 @@ import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
@@ -42,9 +41,7 @@ public class OrderManager {
             int waiterNumber, int tableNumber, int unitsNumber, String noteForKitchen, String noteForManagement,
             WaiterManager waiterManager, TableManager tableManager)
             throws RestaurantException {
-
         String helpSameErrMessage =  " Položka NEBYLA přidána do unconfirmedOrdersList.";
-
         boolean waiterExists = false;
         for(Waiter waiter : waiterManager.getWaiterList()) {
             if(waiter.getWaiterNumber() == waiterNumber) {waiterExists = true; break;}
@@ -54,7 +51,6 @@ public class OrderManager {
                     + helpSameErrMessage);
             return;
         }
-
         boolean tableExists = false;
         for(Table table : tableManager.getTableList()) {
             if(table.getTableNumber() == tableNumber) {tableExists = true; break;}
@@ -63,16 +59,13 @@ public class OrderManager {
             System.err.println("Chyba: Stůl s číslem " + tableNumber + " neexistuje v TableList." + helpSameErrMessage);
             return;
         }
-
         if (unitsNumber <= 0) {
             System.err.println("Chyba: Pokoušíte se objednat položku, která má zápornou nebo nulovou hodnotu počtu "
                     + "objednávaných jednotek:" + unitsNumber + helpSameErrMessage);
             return;
         }
-
         for (ActualMenu actualMenu : amManager.getAmList()) {
             if (actualMenu.getAmTitle().equals(titleSelect) && actualMenu.getAmQuantity() >= quantitySelect) {
-
                 String fileItemOrOrderActualNumber = "DB-ItemActualNumber"; Integer itemNumber = 0;
                 try {itemNumber = loadItemOrOrderActualNumber(fileItemOrOrderActualNumber);}
                 catch (RestaurantException e) {System.err.println(e.getMessage() + helpSameErrMessage); return;}
@@ -80,10 +73,9 @@ public class OrderManager {
                 // Předpokládám, že jedna miliarda je dostatečný počet položek pro každou restauraci na to,
                 // aby se stačili ze "zásobníku" nepotvrzených objednávek tyto odstarnit a nedošlo ke kolizi položek
                 // se stejnými čísly a zároveň nedošlo k přečerpání možností proměnné Integer, vlastně tím jenom chráním
-                // ten Integer, aby program za třeba 10 let nezkolaboval na takový blbosti.
+                // ten Integer a t ještě s rezervou, aby program za třeba 10 let nezkolaboval na takový blbosti.
                 if (itemNumber > 999999999) {itemNumber = 1;}
                 saveItemOrOrderActualNumber(fileItemOrOrderActualNumber, itemNumber);
-
                 Order newItem = new Order(
                         0,
                         null, //zatím účetně nevznikla objednávka, takže čas a datum objednávky neexistuje
@@ -91,7 +83,7 @@ public class OrderManager {
                         null, //zatím nebylo s hostem úplně dohodnuto, že objedná, takže čas objednání
                         // položky ještě neexistuje
                         null,  // orderTimeIssue se nastaví později, až se objednané jídlo přenese do receivedOrdersList
-                               // a bude doneseno na stůl hostovi
+                               // a HLAVNĚ bude doneseno na stůl hostovi
                         waiterNumber,
                         tableNumber,
                         actualMenu.getTitleForOrder(),
@@ -125,7 +117,7 @@ public class OrderManager {
             throw new RestaurantException("Chyba: Položka s číslem " + itemNumber + " neexistuje"
                     + "v unconfirmedOrdersList, nebyla tedy odebrána.");
         }
-        unconfirmedOrdersList.removeIf(order -> order.getOrderNumber() == itemNumber);
+        unconfirmedOrdersList.removeIf(order -> order.getOrderItemNumber() == itemNumber);
         String filePath = "DB-UnconfirmedItems";
         try {saveItemOrOrderToFile(filePath, unconfirmedOrdersList);}
         catch (RestaurantException e) {
@@ -268,20 +260,20 @@ public class OrderManager {
 
 
     public void changeItemStatusHasBeenBroughtToTableByItemNumber(int itemNumber) throws RestaurantException {
-        Order foundOrder = null;
+        Order foundItem = null;
         String helpSameErrMessage =  " Stav položky NEBYL v receivedOrdersList změněn.";
         for (Order order : receivedOrdersList) {
-            if (order.getOrderNumber() == itemNumber) {foundOrder = order; break;}
+            if (order.getOrderItemNumber() == itemNumber) {foundItem = order; break;}
         }
-        if (foundOrder == null) {
+        if (foundItem == null) {
             throw new RestaurantException("Chyba: Položka s číslem " + itemNumber + " nebyla nalezena."
                     + helpSameErrMessage);
-        } else if (foundOrder.getOrderCategory() == OrderCategory.ISSUED) {
+        } else if (foundItem.getOrderCategory() == OrderCategory.ISSUED) {
             throw new RestaurantException("Chyba: Položka s číslem " + itemNumber + " již byla hostovi donesena."
                     + helpSameErrMessage);
         } else {
-            foundOrder.setOrderCategory(OrderCategory.ISSUED);
-            foundOrder.setOrderTimeIssue(LocalDateTime.now());
+            foundItem.setOrderCategory(OrderCategory.ISSUED);
+            foundItem.setOrderTimeIssue(LocalDateTime.now());
             try {
                 saveItemOrOrderToFile("DB-ConfirmedItems", receivedOrdersList);
             } catch (RestaurantException e) {
@@ -296,7 +288,7 @@ public class OrderManager {
         boolean itemFound = false;
         String helpSameErrMessage = " Stav položky NEBYL v receivedOrdersList změněn.";
         for (Order order : receivedOrdersList) {
-            if (order.getOrderNumber() == itemNumber) {
+            if (order.getOrderItemNumber() == itemNumber) {
                 itemFound = true;
                 if (order.getOrderCategory() == OrderCategory.PAID) {
                     throw new RestaurantException("Chyba: Položka s číslem " + itemNumber + " již byla zaplacena."
@@ -430,7 +422,7 @@ public class OrderManager {
             for (Order order : orders) {
                 writer.write(order.getOrderNumber() + delimiter() +
                         order.getOrderDate() + delimiter() +
-                        order.getOrderItem() + delimiter() +
+                        order.getOrderItemNumber() + delimiter() +
                         order.getOrderTimeReceipt() + delimiter() +
                         order.getOrderTimeIssue() + delimiter() +
                         order.getOrderWaiterNumber() + delimiter() +

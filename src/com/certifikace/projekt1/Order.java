@@ -1,7 +1,6 @@
 package com.certifikace.projekt1;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class Order {
@@ -9,7 +8,7 @@ public class Order {
     private int orderNumber;
     // V zadání není datum objednávky, ale s objednávkou bez datumu by nás účtárna TUTOVĚ poslala MINIMÁLNĚ k šípku :D
     private LocalDateTime orderDate;
-    private int orderItem;
+    private int orderItemNumber;
     private LocalDateTime orderTimeReceipt;
     private LocalDateTime orderTimeIssue;
     private int orderWaiterNumber;
@@ -22,13 +21,13 @@ public class Order {
     private OrderCategory orderCategory;
     private FoodCategory orderFoodMainCategory;
 
-    public Order(int orderNumber, LocalDateTime orderDate, int orderItem, LocalDateTime orderTimeReceipt,
+    public Order(int orderNumber, LocalDateTime orderDate, int orderItemNumber, LocalDateTime orderTimeReceipt,
                  LocalDateTime orderTimeIssue, int orderWaiterNumber, int orderTableNumber, String orderTitle,
                  int orderNumberOfUnits, BigDecimal orderPriceOfUnits, String orderNoteForKitchen,
                  String orderNoteForManagement, OrderCategory orderCategory, FoodCategory orderFoodMainCategory) {
         this.orderNumber = orderNumber;
         this.orderDate = orderDate;
-        this.orderItem = orderItem;
+        this.orderItemNumber = orderItemNumber;
         this.orderTimeReceipt = orderTimeReceipt;
         this.orderTimeIssue = orderTimeIssue;
         this.orderWaiterNumber = orderWaiterNumber;
@@ -48,7 +47,7 @@ public class Order {
         if (orderWaiterNumber < 10) {helpWaiterString = "  ";}
         String helpTableString = "";
         if (orderTableNumber < 10) {helpTableString = " ";}
-        return orderNumber + ", " + orderDate + ", " + orderItem + ", " + orderTimeReceipt + ", " + orderTimeIssue
+        return orderNumber + ", " + orderDate + ", " + orderItemNumber + ", " + orderTimeReceipt + ", " + orderTimeIssue
                 + ", " + helpWaiterString + orderWaiterNumber + ", " + helpTableString + orderTableNumber + ", "
                 + orderTitle + ", " + orderNumberOfUnits + ", " + orderPriceOfUnits + ",- Kč, " + orderNoteForKitchen
                 + ", " + orderNoteForManagement + ", " + orderCategory + ", " + orderFoodMainCategory;
@@ -58,8 +57,8 @@ public class Order {
     public void setOrderNumber(int orderNumber) {this.orderNumber = orderNumber;}
     public LocalDateTime getOrderDate() {return orderDate;}
     public void setOrderDate(LocalDateTime orderDate) {this.orderDate = orderDate;}
-    public int getOrderItem() {return orderItem;}
-    public void setOrderItem(int orderItem) {this.orderItem = orderItem;}
+    public int getOrderItemNumber() {return orderItemNumber;}
+    public void setOrderItemNumber(int orderItemNumber) {this.orderItemNumber = orderItemNumber;}
     public LocalDateTime getOrderTimeReceipt() {return orderTimeReceipt;}
     public void setOrderTimeReceipt(LocalDateTime orderTimeReceipt) {this.orderTimeReceipt = orderTimeReceipt;}
     public LocalDateTime getOrderTimeIssue() {return orderTimeIssue;}
@@ -89,12 +88,12 @@ public class Order {
 
     @Override
     public String toString() {
-        return getOrderNumber() + ", " + getOrderDate() + ", " + getOrderItem() + ", " + getOrderTimeReceipt() + ", "
+        return getOrderNumber() + ", " + getOrderDate() + ", " + getOrderItemNumber() + ", " + getOrderTimeReceipt() + ", "
                 + getOrderTimeIssue() + ", " + getOrderWaiterNumber() + ", " + getOrderTableNumber() + ", "
                 + getOrderTitle() + ", " + getOrderNumberOfUnits() + ", " + getOrderPriceOfUnits() + ", "
                 + getOrderNoteForKitchen() + ", " + getOrderNoteForManagement() + ", " + getOrderCategory() + ", "
                 + getOrderFoodMainCategory();
     }
-    
+
 }
 
