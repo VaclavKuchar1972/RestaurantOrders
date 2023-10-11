@@ -85,9 +85,11 @@ public class OrderManager {
                 saveItemOrOrderActualNumber(fileItemOrOrderActualNumber, itemNumber);
 
                 Order newItem = new Order(
+                        0,
+                        null, //zatím účetně nevznikla objednávka, takže čas a datum objednávky neexistuje
                         itemNumber,
-                        null, //LocalDate.now(), - zatím nebylo objednáno
-                        null, //LocalDateTime.now(), - zatím nebylo objednáno, takže čas objednání ještě neexistuje
+                        null, //zatím nebylo s hostem úplně dohodnuto, že objedná, takže čas objednání
+                        // položky ještě neexistuje
                         null,  // orderTimeIssue se nastaví později, až se objednané jídlo přenese do receivedOrdersList
                                // a bude doneseno na stůl hostovi
                         waiterNumber,
@@ -373,7 +375,7 @@ public class OrderManager {
                 lineNumber++;
                 line = scannerLoadData.nextLine();
                 String[] item = line.split(delimiter());
-                if (item.length != 13) {
+                if (item.length != 14) {
                     System.err.println("Chyba: Špatný počet položek na řádku č: " + lineNumber);
                     return;
                 }
@@ -383,20 +385,21 @@ public class OrderManager {
                     // který je zkrácenou formou if-else příkazu. Struktura tohoto operátoru je následující:
                     // výraz ? výraz_pokud_true : výraz_pokud_false;
                     LocalDateTime orderDate = item[1].equals("null") ? null : LocalDateTime.parse(item[1]);
-                    LocalDateTime orderTimeReceipt = item[2].equals("null") ? null : LocalDateTime.parse(item[2]);
-                    LocalDateTime orderTimeIssue = item[3].equals("null") ? null : LocalDateTime.parse(item[3]);
-                    int orderWaiterNumber = Integer.parseInt(item[4]);
-                    int orderTableNumber = Integer.parseInt(item[5]);
-                    String orderTitle = item[6];
-                    int orderNumberOfUnits = Integer.parseInt(item[7]);
-                    BigDecimal orderPriceOfUnits = new BigDecimal(item[8]);
-                    String orderNoteForKitchen = item[9];
-                    String orderNoteForManagement = item[10];
-                    OrderCategory orderCategory = OrderCategory.valueOf(item[11]);
-                    FoodCategory orderFoodMainCategory = FoodCategory.valueOf(item[12]);
-                    Order order = new Order(orderNumber, orderDate, orderTimeReceipt, orderTimeIssue, orderWaiterNumber,
-                            orderTableNumber, orderTitle, orderNumberOfUnits, orderPriceOfUnits, orderNoteForKitchen,
-                            orderNoteForManagement,orderCategory, orderFoodMainCategory);
+                    int itemNumber = Integer.parseInt(item[2]);
+                    LocalDateTime orderTimeReceipt = item[3].equals("null") ? null : LocalDateTime.parse(item[2]);
+                    LocalDateTime orderTimeIssue = item[4].equals("null") ? null : LocalDateTime.parse(item[3]);
+                    int orderWaiterNumber = Integer.parseInt(item[5]);
+                    int orderTableNumber = Integer.parseInt(item[6]);
+                    String orderTitle = item[7];
+                    int orderNumberOfUnits = Integer.parseInt(item[8]);
+                    BigDecimal orderPriceOfUnits = new BigDecimal(item[9]);
+                    String orderNoteForKitchen = item[10];
+                    String orderNoteForManagement = item[11];
+                    OrderCategory orderCategory = OrderCategory.valueOf(item[12]);
+                    FoodCategory orderFoodMainCategory = FoodCategory.valueOf(item[13]);
+                    Order order = new Order(orderNumber, orderDate, itemNumber, orderTimeReceipt, orderTimeIssue,
+                            orderWaiterNumber, orderTableNumber, orderTitle, orderNumberOfUnits, orderPriceOfUnits,
+                            orderNoteForKitchen, orderNoteForManagement,orderCategory, orderFoodMainCategory);
                     if (filePath == "DB-UnconfirmedItems") {unconfirmedOrdersList.add(order);}
                     if (filePath == "DB-ConfirmedItems") {receivedOrdersList.add(order);}
                     if (filePath == "DB-ClosedOrders") {closedOrdersList.add(order);}
@@ -427,6 +430,7 @@ public class OrderManager {
             for (Order order : orders) {
                 writer.write(order.getOrderNumber() + delimiter() +
                         order.getOrderDate() + delimiter() +
+                        order.getOrderItem() + delimiter() +
                         order.getOrderTimeReceipt() + delimiter() +
                         order.getOrderTimeIssue() + delimiter() +
                         order.getOrderWaiterNumber() + delimiter() +
