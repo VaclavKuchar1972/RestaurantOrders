@@ -353,9 +353,13 @@ public class TestVoidsForMain {
         }
     }
 
+
     public static void testChangeItemStatusHasBeenPaidByItemNumber2to6(OrderManager orderManager) {
-        for (int itemNumber = 2; itemNumber <= 6; itemNumber++) {
-            try {orderManager.changeItemStatusHasBeenPaidByItemNumber(itemNumber);}
+        int[] itemNumbersToChange = {2, 3, 4, 5, 6};
+        int index = 0;
+        while (index < itemNumbersToChange.length) {
+            int itemNumber = itemNumbersToChange[index];
+            try {orderManager.changeItemStatusHasBeenBroughtToTableByItemNumber(itemNumber); index++;}
             catch (RestaurantException e) {
                 System.err.println("Nepodařilo se změnit stav položky č." + itemNumber + " v potvrzených objednávkách: "
                         + e.getLocalizedMessage());
@@ -364,16 +368,17 @@ public class TestVoidsForMain {
     }
 
     public static void testChangeItemStatusHasBeenPaidByItemNumber7(OrderManager orderManager) {
-        int itemNumber = 7;
-        try {orderManager.changeItemStatusHasBeenPaidByItemNumber(itemNumber);}
-        catch (RestaurantException e) {
-            System.err.println("Nepodařilo se změnit stav položky č." + itemNumber + " v potvrzených objednávkách: "
-                    + e.getLocalizedMessage());
-
+        int[] itemNumbersToChange = {7};
+        int index = 0;
+        while (index < itemNumbersToChange.length) {
+            int itemNumber = itemNumbersToChange[index];
+            try {orderManager.changeItemStatusHasBeenBroughtToTableByItemNumber(itemNumber); index++;}
+            catch (RestaurantException e) {
+                System.err.println("Nepodařilo se změnit stav položky č." + itemNumber + " v potvrzených objednávkách: "
+                        + e.getLocalizedMessage());
+            }
         }
     }
-
-
 
 
 }

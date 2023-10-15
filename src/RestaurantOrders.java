@@ -251,6 +251,8 @@ public class RestaurantOrders {
         TestVoidsForMain.testPrinterOutputToKitchen(orderManager);
         */
 
+
+
         // Plnění výzvy č.4 - Všechny nebo jen některé objednávky se převedou k jinému stolu
         // Tady vidím trochu problém v tom, že objednávkový lístek již bude pro kuchyń nebo bar vytištěn, takže
         // číšník bude muset informovat číšníka, který se o nový stůl stará o této změně ústně, ale při výstupech
@@ -266,8 +268,8 @@ public class RestaurantOrders {
 
 
         // Zkušební kód pro změnu stavu objednávky, které již byli potvrzeny a pracuje se na nich, v tomoto případě byli
-        // již doneseny na stůl, takle se zaznamená čas, kdy byli hostovi předloženy, ale ještě nebyli zaplaceny.
-        // (stačí ho odkomentovat)
+        // již doneseny na stůl, takhle se zaznamená čas, kdy byli hostovi předloženy, ale ještě nebyli zaplaceny, ale
+        // mohli být zaplaceny již např. při objednání před donesením jídla nebo pití na stůl.(stačí ho odkomentovat)
         /*
         TestVoidsForMain.testChangeItemStatusHasBeenBroughtToTableByItemNumber2to3(orderManager);
         printLnOutputs.printConfirmedItemsList(orderManager);
@@ -278,8 +280,8 @@ public class RestaurantOrders {
         */
 
         // Zkušební kód pro změnu stavu objednávky, které již byli potvrzeny a pracuje se na nich, v tomoto případě byli
-        // již zaplaceny, takže se zaznamená čas, kdy byli hostovi předloženy, ale ještě nebyli zaplaceny.
-        // (stačí ho odkomentovat)
+        // již zaplaceny, takže se změní kategorie objednávky na PAID, akce může být provedena, ještě před donesení
+        // jídla nebo pití (stačí ho odkomentovat)
         /*
         TestVoidsForMain.testChangeItemStatusHasBeenPaidByItemNumber2to6(orderManager);
         printLnOutputs.printConfirmedItemsList(orderManager);
@@ -288,13 +290,15 @@ public class RestaurantOrders {
         printLnOutputs.printCosedOrdersList(orderManager);
         */
 
+        //printLnOutputs.printCosedOrdersList(orderManager);
+
 
         // Výzvu č.3 plnit nebudu, je to absolutní nesmysl v zadání, když u stolu bude sedět více hostů a každý bude
         // chtít platit zvlášť, tak by to byl velkej problém, navíc, každý z nich by měl dostat daňový doklad na to co
         // si vypil nebo snědl a ne i za kámoše, kterej sedí na pivu vedle něj. Když bude chtít, může, můj kód by tuto
-        // situaci měl mít ošetřenu, zbytek si myslím, je k pracem na FrondEndu, ale nevím.
+        // situaci měl mít ošetřenu, aby mohl, zbytek si myslím, je k pracem na FrondEndu, ale nevím.
 
-        //printLnOutputs.printCosedOrdersList(orderManager);
+
 
 
     }

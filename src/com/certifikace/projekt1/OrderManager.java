@@ -268,11 +268,10 @@ public class OrderManager {
         if (foundItem == null) {
             throw new RestaurantException("Chyba: Položka s číslem " + itemNumber + " nebyla nalezena."
                     + helpSameErrMessage);
-        } else if (foundItem.getOrderCategory() == OrderCategory.ISSUED) {
+        } else if (foundItem.getOrderTimeIssue() != null) {
             throw new RestaurantException("Chyba: Položka s číslem " + itemNumber + " již byla hostovi donesena."
                     + helpSameErrMessage);
         } else {
-            foundItem.setOrderCategory(OrderCategory.ISSUED);
             foundItem.setOrderTimeIssue(LocalDateTime.now());
             try {
                 saveItemOrOrderToFile("DB-ConfirmedItems", receivedOrdersList);
@@ -284,59 +283,63 @@ public class OrderManager {
         }
     }
 
-    public void changeItemStatusHasBeenPaidByItemNumber(int itemNumber) throws RestaurantException {
-        boolean itemFound = false;
-        String helpSameErrMessage = " Stav položky NEBYL v receivedOrdersList změněn.";
-        for (Order order : receivedOrdersList) {
-            if (order.getOrderItemNumber() == itemNumber) {
-                itemFound = true;
-                if (order.getOrderCategory() == OrderCategory.PAID) {
-                    throw new RestaurantException("Chyba: Položka s číslem " + itemNumber + " již byla zaplacena."
-                            + helpSameErrMessage);
-                } else {
+    public void changeItemStatusHasBeenPaidByItemNumberList(List<Integer> itemNumbers) throws RestaurantException {
+        boolean found = false;
+        String fileItemOrOrderActualNumber = "DB-OrderActualNumber"; Integer orderNumber = 0;
+        try {orderNumber = loadItemOrOrderActualNumber(fileItemOrOrderActualNumber);}
+        catch (RestaurantException e) {
+            System.err.println(e.getMessage() + " Metoda changeItemStatusHasBeenPaidByItemNumberList byla přerušena, "
+                    + "nebyla provedena žádná operace. ");
+            return;
+        }
+        // Když host bude platit více položek najednou, všechny položky budou účetně v jedné objednávce, takže všechny
+        // dostanou stejné číslo objednávky, aby se pak dal udělat daňový doklad, kde bude jedno číslo objednávky
+        // a všechny položky, které do ní patří. Host může zaplatit i položku za kamaráda vedle u stolu a podobně,
+        // objednávka i daňový doklad se vztahují ke konkrétnímu plátci, nikoli ke stolu
+        int currentYear = LocalDate.now().getYear();
+        int combinedNumber = Integer.parseInt(String.valueOf(currentYear) + String.valueOf(orderNumber));
+
+        for (int itemNumber : itemNumbers) {
+            for (Order order : receivedOrdersList) {
+                if (order.getOrderItemNumber() == itemNumber) {
                     order.setOrderCategory(OrderCategory.PAID);
-                    try {
-                        saveItemOrOrderToFile("DB-ConfirmedItems", receivedOrdersList);
-                    } catch (RestaurantException e) {
-                        System.err.println("Chyba při ukládání do souboru DB-ConfirmedItems.txt: " + e.getMessage());
-                        return;
-                    }
-                    checkBroughtToTheTableAndPaidWithFollowUpAction();
+                    order.setOrderNumber(combinedNumber);
+                    found = true;
                 }
-                break;
+                else throw new RestaurantException("Položka s číslem " + itemNumber + " nebyla nalezena "
+                        + "v receivedOrdersList, její stav tedy nebyl změněn.");
             }
         }
-        if (!itemFound) {
-            throw new RestaurantException("Chyba: Položka s číslem " + itemNumber + " nebyla nalezena "
-                    + "v receivedOrdersList." + helpSameErrMessage);
+        if (!found) {
+            throw new RestaurantException("Žádná z položek zadaných na FrontEndu nebyla nalezena v receivedOrdersList,"
+                    + " nic se tedy nezměnilo v receivedOrdersList.");
         }
+        else orderNumber++;
+        // Předpokládám, že miliarda je dostatečný počet uzavřených objednávek pro každou restauraci na to,
+        // aby stačili na objednávky za jeden rok. Cca 2,7Mio uzavřených objednávek denně je hezké číslo.
+        // Takže až se číslo přehoupne přes 999999999, čísla objednávek nebudou duplicitní, protože níže jsou
+        // ošetřeny ještě vložením kalendářního roku před dané číslo. Z hlediska účetnictví, je jedno,
+        // že objednávky každý rok nejsou od nuly. To je finančáku úplně jedno. :-) Jen by vzhledem ke správnému
+        // chodu programu neměli být duplicitní.
+        if (orderNumber > 999999999) {orderNumber = 1;}
+        saveItemOrOrderActualNumber(fileItemOrOrderActualNumber, orderNumber);
+        // Předpokládám, že na FrontEndu nebo po přidání dalšího kódu na BackEnd nebude problém z Integeru
+        // combinedNumber oddělit první 4 čísla reprezentující rok objednávky od zbytku čísla, které obsahuje
+        // její pořadí do vyčerpání miliardového limitu a na daňový doklad pro objednávku např. z roku 2023
+        // s číslem 11 vytisknout číslo objednávky 2023000000011 (ve String podobě).
+        try {
+            saveItemOrOrderToFile("DB-ConfirmedItems", receivedOrdersList);
+        } catch (RestaurantException e) {
+            System.err.println("Chyba při ukládání do souboru DB-ConfirmedItems.txt: " + e.getMessage());
+            return;
+        }
+        checkBroughtToTheTableAndPaidWithFollowUpAction();
     }
 
     private void checkBroughtToTheTableAndPaidWithFollowUpAction() throws RestaurantException {
         List<Order> ordersToRemove = new ArrayList<>();
         for (Order order : receivedOrdersList) {
             if (order.getOrderCategory() == OrderCategory.PAID && order.getOrderTimeIssue() != null) {
-                String fileItemOrOrderActualNumber = "DB-OrderActualNumber"; Integer itemNumber = 0;
-                try {itemNumber = loadItemOrOrderActualNumber(fileItemOrOrderActualNumber);}
-                catch (RestaurantException e) {System.err.println(e.getMessage() + " Položka/y NEBYLA/Y přidána/y "
-                        + "do closedOrdersList a odebrána/y z receivedOrdersList."); return;}
-                itemNumber++;
-                // Předpokládám, že miliarda je dostatečný počet uzavřených objednávek pro každou restauraci na to,
-                // aby stačili na objednávky za jeden rok. Cca 2,7Mio uzavřených objednávek denně je hezké číslo.
-                // Takže až se číslo přehoupne přes 999999999, čísla objednávek nebudou duplicitní, protože níže jsou
-                // ošetřeny ještě vložením kalendářního roku před dané číslo. Z hlediska účetnictví, je jedno,
-                // že objednávky každý rok nejsou od nuly. To je finančáku úplně jedno. :-) Jen by vzhledem ke správnému
-                // chodu programu neměli být duplicitní.
-                if (itemNumber > 999999999) {itemNumber = 1;}
-                saveItemOrOrderActualNumber(fileItemOrOrderActualNumber, itemNumber);
-                // Předpokládám, že na FrontEndu nebo po přidání dalšího kódu na BackEnd nebude problém z Integeru
-                // combinedNumber oddělit první 4 čísla reprezentující rok objednávky od zbytku čísla, které obsahuje
-                // její pořadí do vyčerpání miliardového limitu a na daňový doklad pro objednávku např. z roku 2023
-                // s číslem 11 vytisknout číslo objednávky 2023000000011 (ve String podobě).
-                int currentYear = LocalDate.now().getYear();
-                int combinedNumber = Integer.parseInt(String.valueOf(currentYear) + String.valueOf(itemNumber));
-                order.setOrderNumber(combinedNumber);
-                order.setOrderDate(LocalDateTime.now());
                 closedOrdersList.add(order);
                 ordersToRemove.add(order);
             }
@@ -478,9 +481,6 @@ public class OrderManager {
     public List<Order> getUncofirmedItemsList() {return new ArrayList<>(unconfirmedOrdersList);}
     public List<Order> getConfirmedItemsList() {return new ArrayList<>(receivedOrdersList);}
     public List<Order> getClosedOrdersList() {return new ArrayList<>(closedOrdersList);}
-
-
-
 
 
 }
