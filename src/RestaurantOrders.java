@@ -2,6 +2,8 @@ import com.certifikace.projekt1.*;
 
 import java.io.IOException;
 
+import static com.certifikace.projekt1.TestVoidsForMain.testGetSortedOrdersByWaiterNumber;
+
 public class RestaurantOrders {
     public static void main(String[] args) throws RestaurantException, IOException {
 
@@ -14,6 +16,7 @@ public class RestaurantOrders {
         DishManager dishManager = new DishManager();
         ActualMenuManager amManager = new ActualMenuManager();
         OrderManager orderManager = new OrderManager();
+        RestaurantManager restaurantManager = new RestaurantManager(orderManager);
 
         loadersVoids.loadTablesData(tableManager);
         loadersVoids.loadWaitersData(waiterManager);
@@ -272,6 +275,18 @@ public class RestaurantOrders {
         TestVoidsForMain.testChangeTableNumberBySelectedTablesAllItemsToNewTable(orderManager, tableManager);
         printLnOutputs.printConfirmedItemsList(orderManager);
         */
+
+
+        // PLNĚNÍ - RestaurantManager - BOD1 (stačí odkomentovat)
+        /*
+        System.out.println("Počet potvrzených a nedokončených objednávek, to znamená, že ještě nebyly doneseny hostovi "
+                + "a nebyly hostem zaplaceny je: " + restaurantManager.getNumberOfReceivedOrders());
+        */
+
+
+
+        testGetSortedOrdersByWaiterNumber(orderManager);
+
 
         // Zkušební kód pro změnu stavu objednávky, které již byli potvrzeny a pracuje se na nich, v tomoto případě byli
         // již doneseny na stůl, takhle se zaznamená čas, kdy byli hostovi předloženy, ale ještě nebyli zaplaceny, ale
