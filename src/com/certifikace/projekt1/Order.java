@@ -7,7 +7,7 @@ public class Order {
 
     private int orderNumber;
     // V zadání není datum objednávky, ale s objednávkou bez datumu by nás účtárna TUTOVĚ poslala MINIMÁLNĚ k šípku :D
-    private LocalDateTime orderDate;
+    private LocalDateTime orderDateTimeClosing;
     private int orderItemNumber;
     private LocalDateTime orderTimeReceipt;
     private LocalDateTime orderTimeIssue;
@@ -21,12 +21,13 @@ public class Order {
     private OrderCategory orderCategory;
     private FoodCategory orderFoodMainCategory;
 
-    public Order(int orderNumber, LocalDateTime orderDate, int orderItemNumber, LocalDateTime orderTimeReceipt,
-                 LocalDateTime orderTimeIssue, int orderWaiterNumber, int orderTableNumber, String orderTitle,
-                 int orderNumberOfUnits, BigDecimal orderPriceOfUnits, String orderNoteForKitchen,
-                 String orderNoteForManagement, OrderCategory orderCategory, FoodCategory orderFoodMainCategory) {
+    public Order(int orderNumber, LocalDateTime orderDateTimeClosing, int orderItemNumber,
+                 LocalDateTime orderTimeReceipt, LocalDateTime orderTimeIssue, int orderWaiterNumber,
+                 int orderTableNumber, String orderTitle, int orderNumberOfUnits, BigDecimal orderPriceOfUnits,
+                 String orderNoteForKitchen, String orderNoteForManagement, OrderCategory orderCategory,
+                 FoodCategory orderFoodMainCategory) {
         this.orderNumber = orderNumber;
-        this.orderDate = orderDate;
+        this.orderDateTimeClosing = orderDateTimeClosing;
         this.orderItemNumber = orderItemNumber;
         this.orderTimeReceipt = orderTimeReceipt;
         this.orderTimeIssue = orderTimeIssue;
@@ -47,16 +48,19 @@ public class Order {
         if (orderWaiterNumber < 10) {helpWaiterString = "  ";}
         String helpTableString = "";
         if (orderTableNumber < 10) {helpTableString = " ";}
-        return orderNumber + ", " + orderDate + ", " + orderItemNumber + ", " + orderTimeReceipt + ", " + orderTimeIssue
-                + ", " + helpWaiterString + orderWaiterNumber + ", " + helpTableString + orderTableNumber + ", "
-                + orderTitle + ", " + orderNumberOfUnits + ", " + orderPriceOfUnits + ",- Kč, " + orderNoteForKitchen
-                + ", " + orderNoteForManagement + ", " + orderCategory + ", " + orderFoodMainCategory;
+        return orderNumber + ", " + orderDateTimeClosing + ", " + orderItemNumber + ", " + orderTimeReceipt + ", "
+                + orderTimeIssue + ", " + helpWaiterString + orderWaiterNumber + ", " + helpTableString
+                + orderTableNumber + ", " + orderTitle + ", " + orderNumberOfUnits + ", " + orderPriceOfUnits
+                + ",- Kč, " + orderNoteForKitchen + ", " + orderNoteForManagement + ", " + orderCategory + ", "
+                + orderFoodMainCategory;
     }
 
     public int getOrderNumber() {return orderNumber;}
     public void setOrderNumber(int orderNumber) {this.orderNumber = orderNumber;}
-    public LocalDateTime getOrderDate() {return orderDate;}
-    public void setOrderDate(LocalDateTime orderDate) {this.orderDate = orderDate;}
+    public LocalDateTime getOrderDateTimeClosing() {return orderDateTimeClosing;}
+    public void setOrderDateTimeClosing(LocalDateTime orderDateTimeClosing) {
+        this.orderDateTimeClosing = orderDateTimeClosing;
+    }
     public int getOrderItemNumber() {return orderItemNumber;}
     public void setOrderItemNumber(int orderItemNumber) {this.orderItemNumber = orderItemNumber;}
     public LocalDateTime getOrderTimeReceipt() {return orderTimeReceipt;}
@@ -88,11 +92,11 @@ public class Order {
 
     @Override
     public String toString() {
-        return getOrderNumber() + ", " + getOrderDate() + ", " + getOrderItemNumber() + ", " + getOrderTimeReceipt() + ", "
-                + getOrderTimeIssue() + ", " + getOrderWaiterNumber() + ", " + getOrderTableNumber() + ", "
-                + getOrderTitle() + ", " + getOrderNumberOfUnits() + ", " + getOrderPriceOfUnits() + ", "
-                + getOrderNoteForKitchen() + ", " + getOrderNoteForManagement() + ", " + getOrderCategory() + ", "
-                + getOrderFoodMainCategory();
+        return getOrderNumber() + ", " + getOrderDateTimeClosing() + ", " + getOrderItemNumber() + ", "
+                + getOrderTimeReceipt() + ", " + getOrderTimeIssue() + ", " + getOrderWaiterNumber() + ", "
+                + getOrderTableNumber() + ", " + getOrderTitle() + ", " + getOrderNumberOfUnits() + ", "
+                + getOrderPriceOfUnits() + ", " + getOrderNoteForKitchen() + ", " + getOrderNoteForManagement() + ", "
+                + getOrderCategory() + ", " + getOrderFoodMainCategory();
     }
 
 }

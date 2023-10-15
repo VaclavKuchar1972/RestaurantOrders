@@ -375,6 +375,25 @@ public class TestVoidsForMain {
         }
     }
 
+    public static void testChangeTableNumberBySelectedTableAndItemsToNewTable
+            (OrderManager orderManager, TableManager tableManager) {
+        int oldTableNumber = 15; List<Integer> itemNumbers = Arrays.asList(3, 4); int newTableNumber = 9;
+        try {
+            orderManager.changeTableNumberBySelectedTablesAndItemsToNewTable
+                    (oldTableNumber, itemNumbers, newTableNumber, tableManager);
+        } catch (RestaurantException e) {System.err.println("Nepodařilo se změnit čísla stolů: " + e.getMessage());}
+    }
+
+    public static void testChangeTableNumberBySelectedTablesAllItemsToNewTable
+            (OrderManager orderManager, TableManager tableManager) {
+        int oldTableNumber = 15; int newTableNumber = 10;
+        try {
+            orderManager.changeTableNumberBySelectedTablesAllItemsToNewTable
+                    (oldTableNumber, newTableNumber, tableManager);
+        } catch (RestaurantException e) {System.err.println("Nepodařilo se změnit čísla stolů: " + e.getMessage());}
+    }
+
+
 
 
 

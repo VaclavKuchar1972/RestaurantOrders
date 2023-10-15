@@ -190,62 +190,58 @@ public class OrderManager {
     }
 
 
-
-
-
-    public void changeTableNumberBySelectedTableAndItemsToNewTable(
+    public void changeTableNumberBySelectedTablesAndItemsToNewTable(
             int oldTableNumber, List<Integer> itemNumbers, int newTableNumber, TableManager tableManager)
             throws RestaurantException {
-
-        boolean oldTableExists = false;
-        boolean newTableExists = false;
-
-
-
+        boolean oldTableExists = false; boolean newTableExists = false;
         for (Table table : tableManager.getTableList()) {
-            if (table.getTableNumber() == oldTableNumber) {
-                oldTableExists = true;
-            }
-            if (table.getTableNumber() == newTableNumber) {
-                newTableExists = true;
-            }
+            if (table.getTableNumber() == oldTableNumber) {oldTableExists = true;}
+            if (table.getTableNumber() == newTableNumber) {newTableExists = true;}
         }
-
-        if (!oldTableExists) {
-            throw new RestaurantException("Chyba: Stůl s číslem " + oldTableNumber + " neexistuje.");
-        }
-
-        if (!newTableExists) {
-            throw new RestaurantException("Chyba: Stůl s číslem " + newTableNumber + " neexistuje.");
-        }
-
-
+        if (!oldTableExists) {throw new RestaurantException("Chyba: Stůl s číslem " + oldTableNumber + " neexistuje.");}
+        if (!newTableExists) {throw new RestaurantException("Chyba: Stůl s číslem " + newTableNumber + " neexistuje.");}
         List<Order> itemsToMove = new ArrayList<>();
         for (int itemNumber : itemNumbers) {
             boolean itemFound = false;
             for (Order order : receivedOrdersList) {
-                if (order.getOrderNumber() == itemNumber) {
+                if (order.getOrderItemNumber() == itemNumber) {
                     if (order.getOrderTableNumber() == oldTableNumber) {
                         itemsToMove.add(order);
                         itemFound = true;
                     } else {
-                        throw new RestaurantException("Chyba: Položka s číslem " + itemNumber + " nepatří k stolu "
+                        throw new RestaurantException("Chyba: Položka s číslem " + itemNumber + " nepatří ke stolu "
                                 + oldTableNumber);
                     }
                 }
             }
             if (!itemFound) {
                 throw new RestaurantException("Chyba: Položka s číslem " + itemNumber + " nebyla nalezena nebo nepatří "
-                        + "k stolu " + oldTableNumber);
+                        + "ke stolu " + oldTableNumber);
             }
         }
-
-
-        for (Order itemToMove : itemsToMove) {
-            itemToMove.setOrderTableNumber(newTableNumber);
+        for (Order itemToMove : itemsToMove) {itemToMove.setOrderTableNumber(newTableNumber);}
+        String filePath = "DB-ConfirmedItems";
+        try {saveItemOrOrderToFile(filePath, receivedOrdersList);}
+        catch (RestaurantException e) {
+            System.err.println("Chyba při ukládání do souboru " + filePath + ": " + e.getMessage());
         }
+    }
 
-
+    public void changeTableNumberBySelectedTablesAllItemsToNewTable
+            (int oldTableNumber, int newTableNumber, TableManager tableManager)
+            throws RestaurantException {
+        boolean oldTableExists = false; boolean newTableExists = false;
+        for (Table table : tableManager.getTableList()) {
+            if (table.getTableNumber() == oldTableNumber) {oldTableExists = true;}
+            if (table.getTableNumber() == newTableNumber) {newTableExists = true;}
+        }
+        if (!oldTableExists) {throw new RestaurantException("Chyba: Stůl s číslem " + oldTableNumber + " neexistuje.");}
+        if (!newTableExists) {throw new RestaurantException("Chyba: Stůl s číslem " + newTableNumber + " neexistuje.");}
+        List<Order> itemsToMove = new ArrayList<>();
+        for (Order order : receivedOrdersList) {
+            if (order.getOrderTableNumber() == oldTableNumber) {itemsToMove.add(order);}
+        }
+        for (Order itemToMove : itemsToMove) {itemToMove.setOrderTableNumber(newTableNumber);}
         String filePath = "DB-ConfirmedItems";
         try {
             saveItemOrOrderToFile(filePath, receivedOrdersList);
@@ -253,10 +249,6 @@ public class OrderManager {
             System.err.println("Chyba při ukládání do souboru " + filePath + ": " + e.getMessage());
         }
     }
-
-
-
-
 
 
     public void changeItemStatusHasBeenBroughtToTableByItemNumber(int itemNumber) throws RestaurantException {
@@ -345,7 +337,7 @@ public class OrderManager {
         List<Order> ordersToRemove = new ArrayList<>();
         for (Order order : receivedOrdersList) {
             if (order.getOrderCategory() == OrderCategory.PAID && order.getOrderTimeIssue() != null) {
-                order.setOrderDate(LocalDateTime.now());
+                order.setOrderDateTimeClosing(LocalDateTime.now());
                 order.setOrderCategory(OrderCategory.CLOSED);
                 closedOrdersList.add(order);
                 ordersToRemove.add(order);
@@ -431,7 +423,7 @@ public class OrderManager {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(originalFile))) {
             for (Order order : orders) {
                 writer.write(order.getOrderNumber() + delimiter() +
-                        order.getOrderDate() + delimiter() +
+                        order.getOrderDateTimeClosing() + delimiter() +
                         order.getOrderItemNumber() + delimiter() +
                         order.getOrderTimeReceipt() + delimiter() +
                         order.getOrderTimeIssue() + delimiter() +

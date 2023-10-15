@@ -251,21 +251,27 @@ public class RestaurantOrders {
         TestVoidsForMain.testPrinterOutputToKitchen(orderManager);
         */
 
-
-
         // Plnění výzvy č.4 - Všechny nebo jen některé objednávky se převedou k jinému stolu
         // Tady vidím trochu problém v tom, že objednávkový lístek již bude pro kuchyń nebo bar vytištěn, takže
         // číšník bude muset informovat číšníka, který se o nový stůl stará o této změně ústně, ale při výstupech
-        // na obrazovku/y se tato změna projeví ihned, když to FrondEnd správně ošetří. Samozřejmě, když nový stůl bude
-        // mít na starosti stejný číšník jako byl u předchozího, tak si to musí jen pamatovat. Uzavřené, tedy donesené
-        // a i již zaplacené objednávky již samozřejmě nejde nikam převádět, ty již slouží jen jako podklady pro Účtárnu
+        // na obrazovku/y se tato změna projeví ihned, když to FrondEnd správně ošetří. Dalo by se to ošetřit další
+        // třídou a kódem, kde se pro každou směnu budou přidělovat stoly jednotlivým číšníkům a rovnou přehodit
+        // i číšníka, ale to bych to s mým časovým rozvrhem nikdy nedodělal... :D ...ta kuchyň a bar se dá ošetřit,
+        // že jim na tiskárně vyjede ta změna stolu s příslunými položkami a novým stolem, to by se dalo již
+        // v OrderManager, ale opět, jsem ve skluzu. Samozřejmě, když nový stůl bude mít na starosti stejný číšník
+        // jako byl u předchozího, tak si to musí jen pamatovat a ani to asi ne. Uzavřené, tedy donesené a i již
+        // zaplacené objednávky již samozřejmě nejde nikam převádět, ty již slouží jen jako podklady pro Účtárnu
         // a Management.
-        // Část A - převádějí se jen některé
-
-
-
-
-
+        // Část A - převádějí se jen některé položky k novému stolu
+        /*
+        TestVoidsForMain.testChangeTableNumberBySelectedTableAndItemsToNewTable(orderManager,tableManager);
+        printLnOutputs.printConfirmedItemsList(orderManager);
+        */
+        // Část B - převádějí se všechny položky k novému stolu
+        /*
+        TestVoidsForMain.testChangeTableNumberBySelectedTablesAllItemsToNewTable(orderManager, tableManager);
+        printLnOutputs.printConfirmedItemsList(orderManager);
+        */
 
         // Zkušební kód pro změnu stavu objednávky, které již byli potvrzeny a pracuje se na nich, v tomoto případě byli
         // již doneseny na stůl, takhle se zaznamená čas, kdy byli hostovi předloženy, ale ještě nebyli zaplaceny, ale
@@ -290,11 +296,15 @@ public class RestaurantOrders {
         printLnOutputs.printCosedOrdersList(orderManager);
         */
 
-
-        // Výzvu č.3 plnit nebudu, je to absolutní nesmysl v zadání, když u stolu bude sedět více hostů a každý bude
+        // Výzvu č.3 plnit NEbudu, je to absolutní nesmysl v zadání, když u stolu bude sedět více hostů a každý bude
         // chtít platit zvlášť, tak by to byl velkej problém, navíc, každý z nich by měl dostat daňový doklad na to co
         // si vypil nebo snědl a ne i za kámoše, kterej sedí na pivu vedle něj. Když bude chtít, může, můj kód by tuto
         // situaci měl mít ošetřenu, aby mohl, zbytek si myslím, je k pracem na FrondEndu, ale nevím.
+
+
+
+
+
 
 
 
