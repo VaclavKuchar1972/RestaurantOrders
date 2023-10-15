@@ -357,9 +357,6 @@ public class OrderManager {
     }
 
 
-
-
-
     public void loadItemOrOrderFromFile(String filePath) throws RestaurantException, FileNotFoundException {
         File file = new File(filePath + ".txt");
         if (!file.exists()) {System.err.println("Soubor " + filePath + ".txt" + " neexistuje!"); return;}
