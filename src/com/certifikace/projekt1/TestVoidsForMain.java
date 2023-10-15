@@ -3,6 +3,8 @@ package com.certifikace.projekt1;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class TestVoidsForMain {
@@ -353,32 +355,27 @@ public class TestVoidsForMain {
         }
     }
 
-
     public static void testChangeItemStatusHasBeenPaidByItemNumber2to6(OrderManager orderManager) {
-        int[] itemNumbersToChange = {2, 3, 4, 5, 6};
-        int index = 0;
-        while (index < itemNumbersToChange.length) {
-            int itemNumber = itemNumbersToChange[index];
-            try {orderManager.changeItemStatusHasBeenBroughtToTableByItemNumber(itemNumber); index++;}
-            catch (RestaurantException e) {
-                System.err.println("Nepodařilo se změnit stav položky č." + itemNumber + " v potvrzených objednávkách: "
-                        + e.getLocalizedMessage());
-            }
+        List<Integer> itemNumbersToChange = Arrays.asList(2, 3, 4, 5, 6);
+        try {
+            orderManager.changeItemStatusHasBeenPaidByItemNumberList(itemNumbersToChange);
+        } catch (RestaurantException e) {
+            System.err.println("Nepodařilo se změnit stav některých položek v potvrzených objednávkách: "
+                    + e.getLocalizedMessage());
         }
     }
 
     public static void testChangeItemStatusHasBeenPaidByItemNumber7(OrderManager orderManager) {
-        int[] itemNumbersToChange = {7};
-        int index = 0;
-        while (index < itemNumbersToChange.length) {
-            int itemNumber = itemNumbersToChange[index];
-            try {orderManager.changeItemStatusHasBeenBroughtToTableByItemNumber(itemNumber); index++;}
-            catch (RestaurantException e) {
-                System.err.println("Nepodařilo se změnit stav položky č." + itemNumber + " v potvrzených objednávkách: "
-                        + e.getLocalizedMessage());
-            }
+        List<Integer> itemNumbersToChange = Arrays.asList(7);
+        try {
+            orderManager.changeItemStatusHasBeenPaidByItemNumberList(itemNumbersToChange);
+        } catch (RestaurantException e) {
+            System.err.println("Nepodařilo se změnit stav některých položek v potvrzených objednávkách: "
+                    + e.getLocalizedMessage());
         }
     }
+
+
 
 
 }

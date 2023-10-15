@@ -290,8 +290,6 @@ public class RestaurantOrders {
         printLnOutputs.printCosedOrdersList(orderManager);
         */
 
-        //printLnOutputs.printCosedOrdersList(orderManager);
-
 
         // Výzvu č.3 plnit nebudu, je to absolutní nesmysl v zadání, když u stolu bude sedět více hostů a každý bude
         // chtít platit zvlášť, tak by to byl velkej problém, navíc, každý z nich by měl dostat daňový doklad na to co

@@ -112,7 +112,7 @@ public class OrderManager {
         // poznámka pro mě: Pro ověření, zda objednávka existuje v unconfirmedOrdersList před jejím odstraněním,
         // můžu použít metodu "stream()" spolu s "anyMatch()", která vrátí, zda nějaká objednávka odpovídá danému
         // kritériu. Pokud žádná taková objednávka neexistuje, vyhodí výjimku RestaurantException.
-        boolean doesExist = unconfirmedOrdersList.stream().anyMatch(order -> order.getOrderNumber() == itemNumber);
+        boolean doesExist = unconfirmedOrdersList.stream().anyMatch(order -> order.getOrderItemNumber() == itemNumber);
         if (!doesExist) {
             throw new RestaurantException("Chyba: Položka s číslem " + itemNumber + " neexistuje"
                     + "v unconfirmedOrdersList, nebyla tedy odebrána.");
@@ -284,11 +284,11 @@ public class OrderManager {
     }
 
     public void changeItemStatusHasBeenPaidByItemNumberList(List<Integer> itemNumbers) throws RestaurantException {
-        boolean found = false;
-        String fileItemOrOrderActualNumber = "DB-OrderActualNumber"; Integer orderNumber = 0;
-        try {orderNumber = loadItemOrOrderActualNumber(fileItemOrOrderActualNumber);}
+        String filePathOrderActualNumber = "DB-OrderActualNumber"; Integer orderNumber = 0;
+        try {orderNumber = loadItemOrOrderActualNumber(filePathOrderActualNumber);}
+
         catch (RestaurantException e) {
-            System.err.println(e.getMessage() + " Metoda changeItemStatusHasBeenPaidByItemNumberList byla přerušena, "
+            System.err.println(e.getMessage() + "Metoda changeItemStatusHasBeenPaidByItemNumberList byla přerušena, "
                     + "nebyla provedena žádná operace. ");
             return;
         }
@@ -298,16 +298,25 @@ public class OrderManager {
         // objednávka i daňový doklad se vztahují ke konkrétnímu plátci, nikoli ke stolu
         int currentYear = LocalDate.now().getYear();
         int combinedNumber = Integer.parseInt(String.valueOf(currentYear) + String.valueOf(orderNumber));
-
+        // Předpokládám, že na FrontEndu nebo po přidání dalšího kódu na BackEnd nebude problém z Integeru
+        // combinedNumber oddělit první 4 čísla reprezentující rok objednávky od zbytku čísla, které obsahuje
+        // její pořadí do vyčerpání miliardového limitu a na daňový doklad pro objednávku např. z roku 2023
+        // s číslem 11 vytisknout číslo objednávky 2023000000011 (ve String podobě).
+        boolean found = false;
         for (int itemNumber : itemNumbers) {
+            boolean itemFound = false;
             for (Order order : receivedOrdersList) {
                 if (order.getOrderItemNumber() == itemNumber) {
                     order.setOrderCategory(OrderCategory.PAID);
                     order.setOrderNumber(combinedNumber);
+                    itemFound = true;
                     found = true;
                 }
-                else throw new RestaurantException("Položka s číslem " + itemNumber + " nebyla nalezena "
-                        + "v receivedOrdersList, její stav tedy nebyl změněn.");
+            }
+            if (!itemFound) {
+                throw new RestaurantException("První položka z itemNumbers s číslem " + itemNumber + " nebyla nalezena "
+                        + "v receivedOrdersList, její stav tedy nebyl změněn a ani stav ostatních položek z listu "
+                        + "itemNumbers. ");
             }
         }
         if (!found) {
@@ -322,11 +331,7 @@ public class OrderManager {
         // že objednávky každý rok nejsou od nuly. To je finančáku úplně jedno. :-) Jen by vzhledem ke správnému
         // chodu programu neměli být duplicitní.
         if (orderNumber > 999999999) {orderNumber = 1;}
-        saveItemOrOrderActualNumber(fileItemOrOrderActualNumber, orderNumber);
-        // Předpokládám, že na FrontEndu nebo po přidání dalšího kódu na BackEnd nebude problém z Integeru
-        // combinedNumber oddělit první 4 čísla reprezentující rok objednávky od zbytku čísla, které obsahuje
-        // její pořadí do vyčerpání miliardového limitu a na daňový doklad pro objednávku např. z roku 2023
-        // s číslem 11 vytisknout číslo objednávky 2023000000011 (ve String podobě).
+        saveItemOrOrderActualNumber(filePathOrderActualNumber, orderNumber);
         try {
             saveItemOrOrderToFile("DB-ConfirmedItems", receivedOrdersList);
         } catch (RestaurantException e) {
@@ -340,6 +345,8 @@ public class OrderManager {
         List<Order> ordersToRemove = new ArrayList<>();
         for (Order order : receivedOrdersList) {
             if (order.getOrderCategory() == OrderCategory.PAID && order.getOrderTimeIssue() != null) {
+                order.setOrderDate(LocalDateTime.now());
+                order.setOrderCategory(OrderCategory.CLOSED);
                 closedOrdersList.add(order);
                 ordersToRemove.add(order);
             }
@@ -381,8 +388,8 @@ public class OrderManager {
                     // výraz ? výraz_pokud_true : výraz_pokud_false;
                     LocalDateTime orderDate = item[1].equals("null") ? null : LocalDateTime.parse(item[1]);
                     int itemNumber = Integer.parseInt(item[2]);
-                    LocalDateTime orderTimeReceipt = item[3].equals("null") ? null : LocalDateTime.parse(item[2]);
-                    LocalDateTime orderTimeIssue = item[4].equals("null") ? null : LocalDateTime.parse(item[3]);
+                    LocalDateTime orderTimeReceipt = item[3].equals("null") ? null : LocalDateTime.parse(item[3]);
+                    LocalDateTime orderTimeIssue = item[4].equals("null") ? null : LocalDateTime.parse(item[4]);
                     int orderWaiterNumber = Integer.parseInt(item[5]);
                     int orderTableNumber = Integer.parseInt(item[6]);
                     String orderTitle = item[7];
