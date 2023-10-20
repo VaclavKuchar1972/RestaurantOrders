@@ -2,6 +2,7 @@ package com.certifikace.projekt1;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Order {
 
@@ -56,14 +57,18 @@ public class Order {
     }
 
     public String getAccordingToTheProjectSpecificationPrints() {
-        String helpWaiterString = "";
-        if (orderWaiterNumber < 100) {helpWaiterString = " ";}
-        if (orderWaiterNumber < 10) {helpWaiterString = "  ";}
-        String helpTableString = "";
-        if (orderTableNumber < 10) {helpTableString = " ";}
-        return orderNumber + ", " + orderDateTimeClosing + ", " + orderItemNumber + ", " + orderTimeReceipt + ", "
-                + orderTimeIssue + ", " + helpWaiterString + orderWaiterNumber + ", " + helpTableString
-                + orderTableNumber + ", " + orderTitle + ", ";
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+        String formattedOrderItemNumber = String.format("%09d", orderItemNumber);
+        String formattedOrderWaiterNumber = String.format("%3s", orderWaiterNumber);
+        String formattedOrderTableNumber = String.format("%2s", orderTableNumber);
+        BigDecimal totalOrderPrice = orderPriceOfUnits.multiply(BigDecimal.valueOf(orderNumberOfUnits));
+        String formattedOrderTimeReceipt = orderTimeReceipt.format(timeFormatter);
+        String formattedOrderTimeIssue = (orderTimeIssue != null) ? orderTimeIssue.format(timeFormatter)
+                : "objednávka ještě nebyla klientovi dodána na stůl"; // poznámka pro mě:  ? = hodnota, když výraz je
+        // true : hodnota -  když výraz je false
+        return formattedOrderItemNumber + ". " + orderTitle + " " + orderNumberOfUnits + " ("
+                + totalOrderPrice + " Kč):\t" + formattedOrderTimeReceipt + "-" + formattedOrderTimeIssue
+                + "\t\"číšník č. " + formattedOrderWaiterNumber;
     }
 
     public int getOrderNumber() {return orderNumber;}

@@ -277,13 +277,14 @@ public class RestaurantOrders {
 
         // PLNĚNÍ - RestaurantManager - BOD1 (stačí odkomentovat)
         /*
-        System.out.println("Počet potvrzených a nedokončených objednávek, to znamená, že ještě nebyly doneseny hostovi "
-                + "a nebyly hostem zaplaceny je: " + restaurantManager.getNumberOfReceivedOrders());
+        System.out.println(); System.out.println("Počet potvrzených a nedokončených objednávek, to znamená, "
+                + "že ještě nebyly doneseny hostovi a nebyly hostem zaplaceny je: "
+                + restaurantManager.getNumberOfReceivedOrders());
         */
 
 
-        System.out.println("Seřazené potvrzené objednávky podle číšníka, které ještě nebyli uzavřeny, tdy doneseny "
-                + "na stůl a zaplaceny:");
+        System.out.println(); System.out.println("Seřazené potvrzené objednávky podle číšníka, které ještě nebyly "
+                + "uzavřeny, tdy doneseny na stůl a zaplaceny:");
         restaurantManager.getSortedOrdersByWaiterNumberOfConfirmedOrders().forEach(System.out::println);
 
 

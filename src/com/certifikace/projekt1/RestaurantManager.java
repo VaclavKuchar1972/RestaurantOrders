@@ -7,9 +7,7 @@ import java.util.stream.Collectors;
 public class RestaurantManager {
     private OrderManager orderManager;
 
-    public RestaurantManager(OrderManager orderManager) {
-        this.orderManager = orderManager;
-    }
+    public RestaurantManager(OrderManager orderManager) {this.orderManager = orderManager;}
 
     public Integer getNumberOfReceivedOrders() {
         List<Order> confirmedOrders = orderManager.getConfirmedItemsList();
@@ -20,7 +18,8 @@ public class RestaurantManager {
     public List<String> getSortedOrdersByWaiterNumberOfConfirmedOrders() {
         return orderManager.getConfirmedItemsList().stream()
                 .sorted(Comparator.comparing(Order::getOrderWaiterNumber))
-                .map(Order::getAccordingToTheProjectSpecificationPrints)  // Tady převedeme každou objednávku na její krátký popis.
+                .map(Order::getAccordingToTheProjectSpecificationPrints)  // Poznámka pro mě: Tady převádím každou
+                // objednávku na její výstup na obrazovku tak jak byl v zadání
                 .collect(Collectors.toList());
     }
 
