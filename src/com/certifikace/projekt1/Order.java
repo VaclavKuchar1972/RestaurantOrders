@@ -55,6 +55,17 @@ public class Order {
                 + orderFoodMainCategory;
     }
 
+    public String getAccordingToTheProjectSpecificationPrints() {
+        String helpWaiterString = "";
+        if (orderWaiterNumber < 100) {helpWaiterString = " ";}
+        if (orderWaiterNumber < 10) {helpWaiterString = "  ";}
+        String helpTableString = "";
+        if (orderTableNumber < 10) {helpTableString = " ";}
+        return orderNumber + ", " + orderDateTimeClosing + ", " + orderItemNumber + ", " + orderTimeReceipt + ", "
+                + orderTimeIssue + ", " + helpWaiterString + orderWaiterNumber + ", " + helpTableString
+                + orderTableNumber + ", " + orderTitle + ", ";
+    }
+
     public int getOrderNumber() {return orderNumber;}
     public void setOrderNumber(int orderNumber) {this.orderNumber = orderNumber;}
     public LocalDateTime getOrderDateTimeClosing() {return orderDateTimeClosing;}

@@ -394,19 +394,6 @@ public class TestVoidsForMain {
     }
 
 
-    public static void testGetSortedOrdersByWaiterNumber(OrderManager orderManager) {
-        RestaurantManager restaurantManager = new RestaurantManager(orderManager);
-        List<Order> sortedOrders = restaurantManager.getSortedOrdersByWaiterNumber();
-        System.out.println("Seřazené objednávky podle číšníka:");
-        for (Order order : sortedOrders) {
-            System.out.println("Číslo číšníka: " + order.getOrderWaiterNumber() + ", Číslo stolu: " + order.getOrderTableNumber());
-        }
-    }
-
-
-
-
-
 }
 
 

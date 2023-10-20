@@ -2,8 +2,6 @@ import com.certifikace.projekt1.*;
 
 import java.io.IOException;
 
-import static com.certifikace.projekt1.TestVoidsForMain.testGetSortedOrdersByWaiterNumber;
-
 public class RestaurantOrders {
     public static void main(String[] args) throws RestaurantException, IOException {
 
@@ -284,8 +282,10 @@ public class RestaurantOrders {
         */
 
 
+        System.out.println("Seřazené potvrzené objednávky podle číšníka, které ještě nebyli uzavřeny, tdy doneseny "
+                + "na stůl a zaplaceny:");
+        restaurantManager.getSortedOrdersByWaiterNumberOfConfirmedOrders().forEach(System.out::println);
 
-        testGetSortedOrdersByWaiterNumber(orderManager);
 
 
         // Zkušební kód pro změnu stavu objednávky, které již byli potvrzeny a pracuje se na nich, v tomoto případě byli
