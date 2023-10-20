@@ -72,6 +72,10 @@ public class Order {
                 + "\t\"číšník č. " + formattedOrderWaiterNumber;
     }
 
+    public BigDecimal getOrderValue() {
+        return orderPriceOfUnits.multiply(BigDecimal.valueOf(orderNumberOfUnits));
+    }
+
     public int getOrderNumber() {return orderNumber;}
     public void setOrderNumber(int orderNumber) {this.orderNumber = orderNumber;}
     public LocalDateTime getOrderDateTimeClosing() {return orderDateTimeClosing;}
