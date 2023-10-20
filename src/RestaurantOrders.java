@@ -282,10 +282,21 @@ public class RestaurantOrders {
                 + restaurantManager.getNumberOfReceivedOrders());
         */
 
-
+        // PLNĚNÍ - RestaurantManager - BOD2 - část A - číslo číšníka (stačí odkomentovat)
+        /*
         System.out.println(); System.out.println("Seřazené potvrzené objednávky podle číšníka, které ještě nebyly "
-                + "uzavřeny, tdy doneseny na stůl a zaplaceny:");
+                + "uzavřeny, tedy doneseny na stůl a zaplaceny:");
         restaurantManager.getSortedOrdersByWaiterNumberOfConfirmedOrders().forEach(System.out::println);
+        */
+
+        // PLNĚNÍ - RestaurantManager - BOD2 - část B - čas zadání (stačí odkomentovat)
+        /*
+        System.out.println(); System.out.println("Seřazené potvrzené objednávky podle času potvrzení objednání položky,"
+                + " které ještě nebyly uzavřeny, tedy doneseny na stůl a zaplaceny:");
+        restaurantManager.getSortedOrdersByTimeReceiptOfConfirmedOrders().forEach(System.out::println);
+        */
+
+
 
 
 

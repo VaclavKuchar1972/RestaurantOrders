@@ -56,6 +56,7 @@ public class Order {
                 + orderFoodMainCategory;
     }
 
+    // PLNĚNÍ - RestaurantManager - BOD6 - Export seznamu objednávek ve správném formátu
     public String getAccordingToTheProjectSpecificationPrints() {
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
         String formattedOrderItemNumber = String.format("%09d", orderItemNumber);

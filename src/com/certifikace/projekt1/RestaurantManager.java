@@ -23,6 +23,13 @@ public class RestaurantManager {
                 .collect(Collectors.toList());
     }
 
+    public List<String> getSortedOrdersByTimeReceiptOfConfirmedOrders() {
+        return orderManager.getConfirmedItemsList().stream()
+                .sorted(Comparator.comparing(Order::getOrderTimeReceipt))
+                .map(Order::getAccordingToTheProjectSpecificationPrints)
+                .collect(Collectors.toList());
+    }
+
 
 
 
