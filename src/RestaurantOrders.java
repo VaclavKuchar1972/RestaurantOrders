@@ -1,9 +1,6 @@
 import com.certifikace.projekt1.*;
 
 import java.io.IOException;
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.util.List;
 
 public class RestaurantOrders {
     public static void main(String[] args) throws RestaurantException, IOException {
@@ -299,9 +296,22 @@ public class RestaurantOrders {
         restaurantManager.getSortedOrdersByTimeReceiptOfConfirmedOrders().forEach(System.out::println);
         */
 
+        // PLNĚNÍ - RestaurantManager - BOD3 - část A - celková cena a počet aktuální objednávek jednotlivých číšníků
+        // (stačí odkomentovat)
+        /*
+        System.out.println(); System.out.println("Seznam číšníků, kteří mají aktuálně rozpracované a neuzavřené "
+                + "objednávky, počet těchto objednávek každého číšníka a jejich celkový součet:");
+        restaurantManager.getSortedAllActualOrdersByWaiterAndTurnover().forEach(System.out::println);
+        */
 
-
-
+        // PLNĚNÍ - RestaurantManager - BOD3 - část B - celkový obrat a počet uzavřených objednávek jedotlivých číšníků
+        // za celou jejich kariéru v této restauraci. Do obraru se započítávají pouze uzavřené objednávky, tj. donesné
+        // na stůl a zaplacené (stačí odkomentovat)
+        /*
+        System.out.println(); System.out.println("Seznam číšníků, kteří mají aktuálně rozpracované a neuzavřené "
+                + "objednávky, počet těchto objednávek každého číšníka a jejich celkový součet:");
+        restaurantManager.getSortedAllClosedOrdersByWaiterAndTurnover().forEach(System.out::println);
+        */
 
 
         // Zkušební kód pro změnu stavu objednávky, které již byli potvrzeny a pracuje se na nich, v tomoto případě byli
@@ -326,6 +336,12 @@ public class RestaurantOrders {
         printLnOutputs.printConfirmedItemsList(orderManager);
         printLnOutputs.printCosedOrdersList(orderManager);
         */
+
+        // PLNĚNÍ - RestaurantManager - BOD4 - průměrná doba zpracovaní objednávek v zadaném časovém období,
+        // tedy od potvrzení objednávky hostem po donesení hostovi na stůl, bylo by ale dobré mít v tuto chvíli
+        // v receivedOrdersList nějaké objednávky s orderTimeIssue != null nebo jich mít vic v closedOrdersList
+        // (stačí odkomentovat)
+        //System.out.println(); TestVoidsForMain.TestGetAverageProcessingTimeInTheSpecifiedTimePeriod(restaurantManager);
 
         // Výzvu č.3 plnit NEbudu, je to absolutní nesmysl v zadání, když u stolu bude sedět více hostů a každý bude
         // chtít platit zvlášť, tak by to byl velkej problém, navíc, každý z nich by měl dostat daňový doklad na to co

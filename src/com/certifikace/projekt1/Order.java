@@ -1,8 +1,10 @@
 package com.certifikace.projekt1;
 
 import java.math.BigDecimal;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+
 
 public class Order {
 
@@ -72,8 +74,11 @@ public class Order {
                 + "\t\"číšník č. " + formattedOrderWaiterNumber;
     }
 
-    public BigDecimal getOrderValue() {
-        return orderPriceOfUnits.multiply(BigDecimal.valueOf(orderNumberOfUnits));
+    public BigDecimal getOrderValue() {return orderPriceOfUnits.multiply(BigDecimal.valueOf(orderNumberOfUnits));}
+
+    public int getOrderProcessingTimeInMinutesByItem() {
+            Duration duration = Duration.between(orderTimeReceipt, orderTimeIssue);
+            return (int) duration.toMinutes();
     }
 
     public int getOrderNumber() {return orderNumber;}
