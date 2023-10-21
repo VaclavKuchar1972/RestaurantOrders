@@ -35,7 +35,7 @@ public class RestaurantSettings {
     // zabývat nebudu. Nicméně bych takovou metodu přidal do třídy ActualMenuManager a volal jí
     // z metody loadDataMenuFromFile, takže by se to kontrolovalo a promazávalo při každém spuštění programu. Navíc
     // si myslím, že to je problém s TXT pseudodatabází a že při použití skutečné by se to mělo dát ošetřit
-    // "elegantněji", ale to jen hádám, protože jsem se ještě nedostal za lekci 7. :D Stále makám na Projek1...
+    // "elegantněji", ale to jen hádám, protože jsem se ještě nedostal za lekci 7 :D Stále makám na Projek1...
     public static String fileBackUpMenu() {
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd-HHmmss");

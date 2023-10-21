@@ -395,12 +395,16 @@ public class TestVoidsForMain {
     }
 
     public static void TestGetAverageProcessingTimeInTheSpecifiedTimePeriod(RestaurantManager restaurantManager) {
-        LocalDateTime startOfPeriod = LocalDateTime.of(2023, 1, 1, 0, 0);
-        LocalDateTime endOfPeriod = LocalDateTime.of(2024, 1, 1, 0, 0);
-        Integer averageProcessingTime = restaurantManager.getAverageProcessingTimeInTheSpecifiedTimePeriod
-                (startOfPeriod, endOfPeriod);
-        System.out.println("Průměrná doba zpracování objednávek od objednání do přinesení na stůl v zadaném časovém "
-                + "období je: " + averageProcessingTime + " minut");
+        try {
+            LocalDateTime startOfPeriod = LocalDateTime.of(2023, 1, 1, 0, 0);
+            LocalDateTime endOfPeriod = LocalDateTime.of(2024, 1, 1, 0, 0);
+            Integer averageProcessingTime = restaurantManager.getAverageProcessingTimeInTheSpecifiedTimePeriod
+                    (startOfPeriod, endOfPeriod);
+            System.out.println("Průměrná doba zpracování objednávek od objednání do přinesení na stůl v zadaném časovém "
+                    + "období je: " + averageProcessingTime + " minut");
+        } catch (RestaurantException e) {
+            System.out.println("Chyba: " + e.getMessage());
+        }
     }
 
 }

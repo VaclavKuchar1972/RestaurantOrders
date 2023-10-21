@@ -35,11 +35,11 @@ public class WaiterManager {
         }
         // Přijímání duplicitních osob nemám ošetřeno proto, že to není tak jednoduché. To by bylo na samostaný scénář
         // a bez přístupu do státních oneline regitsrů to jednoduše nejde. Např. číslo OP může být stejné jako číslo
-        // pasu, rodné číslo může být také u dvou osoab stejné (vlastní zkušenost - a nutili mě abych si ho nechal
+        // pasu, rodné číslo může být také u dvou osob stejné (vlastní zkušenost - a nutili mě abych si ho nechal
         // předělat) a v neposeldní řadě může jít o cizince, který má i české státní občanství, tudíž při přijímání
         // do práce může předložit buď OP nebo PAS a v tu chvíli tu máme hned jednoho člověka, který je zaměstnán
         // dvakrát na stejné pracovní pozici.
-        // NAVÍC!!! - GDPR!? Toto by se prostě celkově muselo vyřešit jinak...
+        // NAVÍC!!! - GDPR!? Toto by se prostě celkově muselo vyřešit jinak... ...a nemám ani páru jak.
         waiterList.add(waiter);
     }
 

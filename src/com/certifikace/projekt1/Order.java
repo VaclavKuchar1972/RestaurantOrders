@@ -9,6 +9,7 @@ import java.time.format.DateTimeFormatter;
 public class Order {
 
     private int orderNumber;
+
     // V zadání není datum objednávky, ale s objednávkou bez datumu by nás účtárna TUTOVĚ poslala MINIMÁLNĚ k šípku :D
     private LocalDateTime orderDateTimeClosing;
     private int orderItemNumber;

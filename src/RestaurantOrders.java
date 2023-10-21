@@ -43,7 +43,6 @@ public class RestaurantOrders {
         printLnOutputs.printFoodCategoryList(foodCategory);
         */
 
-
         // Zkušební kód pro odebrání kategorie z foodCategory a uložení do souboru (stačí ho odkomentovat)
         // Jako příklad jsem odebral kategorii, kterou jsem přidal v předchozím testovacím kódu NEWCATEGORY,
         // takže se musí nejdříve přidat, jinak to vyhodí chybovou hlášku nebo se musí odebrat nějaká kategorie z již
@@ -53,12 +52,23 @@ public class RestaurantOrders {
         // zadání, ale když se odebere nějaká kategorie z testovacího souboru TXT, bude to vyhazovat chybový hlášky,
         // protože je nutný pro další má testovací data, jinak by to podle mě mělo být OK i v případě, že žádné
         // testovací TXT soubory nebudou existovat, když se ten projekt spustí úplně "holej".
+
+        // Kategorie, které si uživatel přidá, již by podle mě neměli být nikdy odebrány, podle mě by celý můj koncept
+        // zkolaboval, tedy nezkolaboval, ale DIshList a všechny za ním, v tomto případě to nedává ani smysl odebírat
+        // kategorie jídel z foodCategory... ...řešil bych to jinak, třeba normálníma Stringama, ale chtěl jsem, aby
+        // FoodCategory fungovala co nejpodobněji jako kdyby byla Enum, když to bylo jako výzva...
+
         //foodCategory.removeCategory("NEWCATEGORY"); printLnOutputs.printFoodCategoryList(foodCategory);
 
         // Zkušební kód pro ověření, že program nezkolabuje při prvním spuštění, když ještě nebude existovat
         // soubor DB-FoodCategories.txt není potřeba. Stačí z adresáře programu tento soubor smazat a spustit program.
-        // Pak je ale třeba tam vrátit ten první testovací, jinak nebudou správně fungovat další testovací kódy.
-
+        // Pak je ale třeba tam vrátit ten první testovací TXT, jinak nebudou správně fungovat další testovací kódy,
+        // stejně jako v případě odebrání nějaké kategorie z DB-FoodCategories.txt, na FrontEndu je nutné zabezpečit,
+        // aby před přidáním prvního JÍDLA (po spuštění holého programu, kdy budou komplet všechny Listy prázdné)
+        // do DishList si to vyžádalo přidat alespoň jednu kategorii pro výstup na tiskárnu do kuchyně, aby bylo co dát
+        // do dishRecomendedMainCategory, která je pro každé JÍDLO povinná. Kategorie ALCOHOLIC a NONALCOHOLIC by podle
+        // mě měli být již v základu dodaného programu tedy v DB-FoodCategories.txt, protože tyto se delegují
+        // na tiskárnu na bar a lze do nich zařadit jakýkoli nápoj.
 
         //printLnOutputs.printTableList(tableManager);
 
@@ -252,6 +262,8 @@ public class RestaurantOrders {
         TestVoidsForMain.testPrinterOutputToKitchen(orderManager);
         */
 
+        TestVoidsForMain.testAddAllItemByTable15ToConfirmedOrders(orderManager);
+
         // Plnění výzvy č.4 - Všechny nebo jen některé objednávky se převedou k jinému stolu
         // Tady vidím trochu problém v tom, že objednávkový lístek již bude pro kuchyń nebo bar vytištěn, takže
         // číšník bude muset informovat číšníka, který se o nový stůl stará o této změně ústně, ale při výstupech
@@ -313,7 +325,6 @@ public class RestaurantOrders {
         restaurantManager.getSortedAllClosedOrdersByWaiterAndTurnover().forEach(System.out::println);
         */
 
-
         // Zkušební kód pro změnu stavu objednávky, které již byli potvrzeny a pracuje se na nich, v tomoto případě byli
         // již doneseny na stůl, takhle se zaznamená čas, kdy byli hostovi předloženy, ale ještě nebyli zaplaceny, ale
         // mohli být zaplaceny již např. při objednání před donesením jídla nebo pití na stůl.(stačí ho odkomentovat)
@@ -348,13 +359,12 @@ public class RestaurantOrders {
         // si vypil nebo snědl a ne i za kámoše, kterej sedí na pivu vedle něj. Když bude chtít, může, můj kód by tuto
         // situaci měl mít ošetřenu, aby mohl, zbytek si myslím, je k pracem na FrondEndu, ale nevím.
 
-
-
-
-
-
-
-
+        // PLNĚNÍ - RestaurantManager - BOD5 - Seznam jídel, které byli dnes objednány bez ohledu na to kolikrát
+        // (stačí odkomentovat)
+        /*
+        System.out.println(); System.out.println("Seznam jídel, které byli dnes objednány bez ohledu na to kolikrát: ");
+        restaurantManager.getListOfMealsOrderedTodayWithUniqeTitles().forEach(System.out::println);
+        */
 
     }
 

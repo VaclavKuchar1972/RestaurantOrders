@@ -26,7 +26,8 @@ public class OrderManager {
     // Do tohoto lisu se dostanou až skutečně zaplacené objednávky, když někdo uteče bez placení, to by tam být nemělo.
     // Umím si představit i situaci, kdy host jednoduše nemá na zaplacení všeho co si naobjednal, tak zaplatí jen část
     // a zbytek zůstane dlužit a zaplatí jindy nebo se to bude řešit jinak, ale do účtárny by to jít nemělo dokud
-    // to není obrat a toto není, je to ztráta až do uhrazení
+    // to není obrat a toto není, je to ztráta až do uhrazení, nebo ztráta jako připálené jídlo, které se hostovi prostě
+    // nepřinese
     private List<Order> closedOrdersList;
 
     public OrderManager() {
@@ -78,7 +79,8 @@ public class OrderManager {
                 saveItemOrOrderActualNumber(fileItemOrOrderActualNumber, itemNumber);
                 Order newItem = new Order(
                         0,
-                        null, //zatím účetně nevznikla objednávka, takže čas a datum objednávky neexistuje
+                        null, //zatím účetně nevznikla objednávka, takže čas a datum objednávky
+                        // neexistuje
                         itemNumber,
                         null, //zatím nebylo s hostem úplně dohodnuto, že objedná, takže čas objednání
                         // položky ještě neexistuje

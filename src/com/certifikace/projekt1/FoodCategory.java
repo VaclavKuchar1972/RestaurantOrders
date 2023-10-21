@@ -53,12 +53,10 @@ public class FoodCategory {
             categoriesMap.put(name, emptyCategory);
         } else {
             // Nahrazení prázdné kategorie skutečnými daty z FrontEndu, pokud byla zadána nová kategorie.
-            // To se stane pouze v případě, že soubor s kategoriemi nubude obsahovat jen jednu položku, pak ať si tam
-            // na FrontEndu, dělají co chtějí, resp. uživatel. :-) Spíš asi oba, FrontEnd musí zajistit, aby tady "name"
-            // kategorie přistálo bez mezer a s velkými písmeny, jinak bude zase zle... :-) ...ale jinak, můžou tam
-            // přidat to samé co jsem si vymyslel, ale nebudou tam prostě dvě stejný věci duplicitně, to nikdo nechce,
-            // nebo jedna zbytačná po prvním spuštění, to nechce taky nikdo. Takhle složitě je to proto, aby někdo
-            // později mohl přidat i tuto "blbost", kdyby chtěl, aby uživatel nebyl omezen programátorem.
+            // To se stane pouze v případě, že soubor s kategoriemi nubude obsahovat jen jednu položku ...ale jinak,
+            // můžou tam přidat to samé co jsem si vymyslel, ale nebudou tam prostě dvě stejný věci duplicitně,
+            // to nikdo nechce,nebo jedna zbytačná po prvním spuštění, to nechce taky nikdo. Takhle složitě je to proto,
+            // aby někdo později mohl přidat i tuto "blbost", kdyby chtěl, aby uživatel nebyl omezen programátorem.
             if (categoriesMap.containsKey("EMPTYCATEGORY") && categoriesMap.size() == 1) {
                 FoodCategory emptyCategory = categoriesMap.get("EMPTYCATEGORY");
                 emptyCategory.name = name;

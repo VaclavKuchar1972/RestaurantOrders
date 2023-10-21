@@ -22,7 +22,7 @@ public class Waiter {
         this.waiterTypeOfEmploymentRelationship = waiterTypeOfEmploymentRelationship;
     }
 
-    // tak jsem byl donucen použít mnou nenáviděný Switch :D
+    // tak jsem byl donucen použít mnou nenáviděný Switch :D ...je v tomto případě nejefektivnější
     public String getWaiterTypeOfEmploymentRelationshipNoAbbreviation() {
         switch (waiterTypeOfEmploymentRelationship) {
             case "HPP": return "hlavní pracovní poměr";

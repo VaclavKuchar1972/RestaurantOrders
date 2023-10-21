@@ -1,6 +1,7 @@
 package com.certifikace.projekt1;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -68,7 +69,13 @@ public class RestaurantManager {
 
 
     public Integer getAverageProcessingTimeInTheSpecifiedTimePeriod
-                (LocalDateTime startOfPeriod, LocalDateTime endOfPeriod) {
+                (LocalDateTime startOfPeriod, LocalDateTime endOfPeriod) throws RestaurantException {
+        if (startOfPeriod == null || endOfPeriod == null) {
+            throw new RestaurantException("Chyba! Parametry startOfPeriod a endOfPeriod nemí být null.");
+        }
+        if (startOfPeriod.isAfter(endOfPeriod)) {
+            throw new RestaurantException("Chyba! startOfPeriod nemůže být později než endOfPeriod.");
+        }
         List<Order> receivedOrders = orderManager.getConfirmedItemsList();
         List<Order> closedOrders = orderManager.getClosedOrdersList();
         List<Order> allItemsAndOrders = new ArrayList<>();
@@ -103,5 +110,23 @@ public class RestaurantManager {
         return averageProcessingTime;
     }
 
+    public List<String> getListOfMealsOrderedTodayWithUniqeTitles() {
+        LocalDate today = LocalDate.now();
+        List<Order> receivedOrders = orderManager.getConfirmedItemsList();
+        List<Order> closedOrders = orderManager.getClosedOrdersList();
+        //  Poznámka pro mě: Set<String> je kolekce v Javě, která uchovává unikátní prvky a neumožňuje duplikáty
+        Set<String> uniqueMealsOrderedToday = new HashSet<>();
+        for (Order order : receivedOrders) {
+            if (order.getOrderTimeReceipt().toLocalDate().equals(today)) {
+                uniqueMealsOrderedToday.add(order.getOrderTitle());
+            }
+        }
+        for (Order order : closedOrders) {
+            if (order.getOrderTimeReceipt().toLocalDate().equals(today)) {
+                uniqueMealsOrderedToday.add(order.getOrderTitle());
+            }
+        }
+        return new ArrayList<>(uniqueMealsOrderedToday);
+    }
 
 }
