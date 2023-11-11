@@ -5,7 +5,6 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 public class TestVoidsForMain {
@@ -62,6 +61,80 @@ public class TestVoidsForMain {
         }
         saversVoids.saveDishsData(dishManager);
     }
+
+
+    public static void testCreateAndAddNewDish1(DishManager dishManager) throws RestaurantException {
+        try {
+            FoodCategory mainCategory = FoodCategory.getInstance().valueOf("MINUTEMEAL");
+            int dishNumberOfNextRecomendedCategory = 1;
+            List<FoodCategory> nextRecommendedCategories = new ArrayList<>();
+            nextRecommendedCategories.add(FoodCategory.getInstance().valueOf("CHICKEN"));
+            int dishNumberOfNextPhotos = 0;
+            List<String> dishNextPhoto = new ArrayList<>();
+            Dish newDish = new Dish(mainCategory, dishNumberOfNextRecomendedCategory, nextRecommendedCategories,
+                    "Kuřecí řízek obalovaný", 150,
+                    "g", new BigDecimal("175"), 15,
+                    "MM-KureciRizekObalovany-Main", dishNumberOfNextPhotos, dishNextPhoto);
+            dishManager.addDish(newDish);
+        } catch (RestaurantException e) {
+            System.err.println("Nepodařilo se přidat nové jídlo do zásobníku: " + e.getLocalizedMessage());
+        }
+    }
+    public static void testCreateAndAddNewDish2(DishManager dishManager) throws RestaurantException {
+        try {
+            FoodCategory mainCategory = FoodCategory.getInstance().valueOf("GARNISH");
+            int dishNumberOfNextRecomendedCategory = 1;
+            List<FoodCategory> nextRecommendedCategories = new ArrayList<>();
+            nextRecommendedCategories.add(FoodCategory.getInstance().valueOf("GLUTENFREEFOOD"));
+            int dishNumberOfNextPhotos = 0;
+            List<String> dishNextPhoto = new ArrayList<>();
+            Dish newDish = new Dish(mainCategory, dishNumberOfNextRecomendedCategory, nextRecommendedCategories,
+                    "Hranolky", 150,
+                    "g", new BigDecimal("40"), 15,
+                    "GN-Hranolky-Main", dishNumberOfNextPhotos, dishNextPhoto);
+            dishManager.addDish(newDish);
+        } catch (RestaurantException e) {
+            System.err.println("Nepodařilo se přidat nové jídlo do zásobníku: " + e.getLocalizedMessage());
+        }
+    }
+    public static void testCreateAndAddNewDish3(DishManager dishManager) throws RestaurantException {
+        try {
+            FoodCategory mainCategory = FoodCategory.getInstance().valueOf("SPECIALITY");
+            int dishNumberOfNextRecomendedCategory = 3;
+            List<FoodCategory> nextRecommendedCategories = new ArrayList<>();
+            nextRecommendedCategories.add(FoodCategory.getInstance().valueOf("MINUTEMEAL"));
+            nextRecommendedCategories.add(FoodCategory.getInstance().valueOf("FISH"));
+            nextRecommendedCategories.add(FoodCategory.getInstance().valueOf("GLUTENFREEFOOD"));
+            int dishNumberOfNextPhotos = 1;
+            List<String> dishNextPhoto = new ArrayList<>();
+            dishNextPhoto.add("SP-MM-PstruhNaVine-01");
+            Dish newDish = new Dish(mainCategory, dishNumberOfNextRecomendedCategory, nextRecommendedCategories,
+                    "Pstruh na víně", 200,
+                    "g", new BigDecimal("350"), 9,
+                    "SP-MM-PstruhNaVine-Main", dishNumberOfNextPhotos, dishNextPhoto);
+            dishManager.addDish(newDish);
+        } catch (RestaurantException e) {
+            System.err.println("Nepodařilo se přidat nové jídlo do zásobníku: " + e.getLocalizedMessage());
+        }
+    }
+    public static void testCreateAndAddNewDish4(DishManager dishManager) throws RestaurantException {
+        try {
+            FoodCategory mainCategory = FoodCategory.getInstance().valueOf("NONALCOHOLIC");
+            int dishNumberOfNextRecomendedCategory = 1;
+            List<FoodCategory> nextRecommendedCategories = new ArrayList<>();
+            nextRecommendedCategories.add(FoodCategory.getInstance().valueOf("SPARKLING"));
+            int dishNumberOfNextPhotos = 0;
+            List<String> dishNextPhoto = new ArrayList<>();
+            Dish newDish = new Dish(mainCategory, dishNumberOfNextRecomendedCategory, nextRecommendedCategories,
+                    "Kofola", 500,
+                    "ml", new BigDecimal("35"), 3,
+                    "NA-SP-Kofola-Main", dishNumberOfNextPhotos, dishNextPhoto);
+            dishManager.addDish(newDish);
+        } catch (RestaurantException e) {
+            System.err.println("Nepodařilo se přidat nové jídlo do zásobníku: " + e.getLocalizedMessage());
+        }
+    }
+
 
     public static void removeDishByTitleAndQuantity (DishManager dishManager) throws RestaurantException {
         try {
@@ -219,6 +292,7 @@ public class TestVoidsForMain {
         }
     }
 
+
     public static void testAddFoodToMenu(ActualMenuManager amManager, DishManager dishManager) {
         String dishTitle = "Katův šleh v moderním kulinářském hávu z vepřové panenky a čerstvé zeleniny";
         int dishRecommendedQuantity = 300;
@@ -229,6 +303,38 @@ public class TestVoidsForMain {
             System.err.println("Nepodařilo se přidat jídlo do amList: " + e.getLocalizedMessage());
         }
     }
+
+
+    public static void testAddFoodToMenu1(ActualMenuManager amManager, DishManager dishManager) {
+        String dishTitle = "Kuřecí řízek obalovaný";
+        int dishRecommendedQuantity = 150;
+        try {
+            amManager.addFoodToMenuByTitleAndQuantity(dishTitle, dishRecommendedQuantity, dishManager);
+        } catch (RestaurantException e) {
+            System.err.println("Nepodařilo se přidat jídlo do amList: " + e.getLocalizedMessage());
+        }
+    }
+    public static void testAddFoodToMenu2(ActualMenuManager amManager, DishManager dishManager) {
+        String dishTitle = "Hranolky";
+        int dishRecommendedQuantity = 150;
+        try {
+            amManager.addFoodToMenuByTitleAndQuantity(dishTitle, dishRecommendedQuantity, dishManager);
+        } catch (RestaurantException e) {
+            System.err.println("Nepodařilo se přidat jídlo do amList: " + e.getLocalizedMessage());
+        }
+    }
+    public static void testAddFoodToMenu4(ActualMenuManager amManager, DishManager dishManager) {
+        String dishTitle = "Kofola";
+        int dishRecommendedQuantity = 500;
+        try {
+            amManager.addFoodToMenuByTitleAndQuantity(dishTitle, dishRecommendedQuantity, dishManager);
+        } catch (RestaurantException e) {
+            System.err.println("Nepodařilo se přidat jídlo do amList: " + e.getLocalizedMessage());
+        }
+    }
+
+
+
 
     public static void testRemoveFoodFromMenu(ActualMenuManager amManager) {
         String dishTitle = "Katův šleh v moderním kulinářském hávu z vepřové panenky a čerstvé zeleniny";

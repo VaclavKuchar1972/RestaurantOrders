@@ -143,7 +143,8 @@ public class ActualMenuManager {
             }
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
                 for (ActualMenu actualMenu : amList) {
-                    writer.write(actualMenu.getAmMainCategory() + delimiter());
+                    FoodCategory amMainCategory = actualMenu.getAmMainCategory(); // tak na tuto věc bacha !!!
+                    writer.write(amMainCategory.getName() + delimiter());
                     writer.write(actualMenu.getAmNumberOfNextCategories() + delimiter());
                     List<FoodCategory> nextCategories = actualMenu.getAmNextCategory();
                     for (FoodCategory category : nextCategories) {

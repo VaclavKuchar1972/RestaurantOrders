@@ -44,8 +44,8 @@ public class DishManager {
         for (Dish existingDish : dishList) {
             if (existingDish.dishDetectSameTitleAndQuantity(dish.getDishTitle(), dish.getDishRecommendedQuantity())) {
                 System.err.println("Chyba: Jídlo s názvem " + dish.getDishTitle() + " a doporučeným množstvím "
-                        + dish.getDishRecommendedQuantity() + " již existuje v seznamu kategorií ve FoodCategory a "
-                        + "nelze ho tedy přidat do seznamu kategorií." + helpSameErrMessage);
+                        + dish.getDishRecommendedQuantity() + " již existuje v dishList nelze ho tedy přidat."
+                        + helpSameErrMessage);
                 return;
             }
         }
