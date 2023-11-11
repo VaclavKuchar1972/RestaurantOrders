@@ -106,7 +106,7 @@ public class OrderManager {
             }
         }
         throw new RestaurantException("Chyba: Jídlo s názvem " + titleSelect + " a množstvím " + quantitySelect
-                + " nebylo nalezeno v amList. Objednané jídlo NEBYLO přidáno do orderList.");
+                + " nebylo nalezeno v amList. Objednané jídlo NEBYLO přidáno do unconfirmedOrdersList.");
     }
 
 

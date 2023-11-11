@@ -41,6 +41,7 @@ public class RestaurantManager {
         List<Order> closedOrders = orderManager.getClosedOrdersList();
         return calculateWaiterOrdersAndTurnover(closedOrders);
     }
+
     private List<String> calculateWaiterOrdersAndTurnover(List<Order> orders) {
         if (orders == null || orders.isEmpty()) {return new ArrayList<>();}
         Map<Integer, BigDecimal> waiterTurnoverMap = new HashMap<>();
@@ -127,6 +128,16 @@ public class RestaurantManager {
             }
         }
         return new ArrayList<>(uniqueMealsOrderedToday);
+    }
+
+    // nové zadání 11.11.2023 - DODĚLÁVKA
+    public BigDecimal getTotalValueForTableByConfirmedUncloasedOrders(int tableNumber) {
+        List<Order> receivedOrders = orderManager.getConfirmedItemsList();
+        if (receivedOrders == null) return BigDecimal.ZERO;
+        return receivedOrders.stream()
+                .filter(order -> order.getOrderTableNumber() == tableNumber)
+                .map(Order::getOrderValue)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
 }

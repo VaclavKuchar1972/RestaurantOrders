@@ -334,8 +334,6 @@ public class TestVoidsForMain {
     }
 
 
-
-
     public static void testRemoveFoodFromMenu(ActualMenuManager amManager) {
         String dishTitle = "Katův šleh v moderním kulinářském hávu z vepřové panenky a čerstvé zeleniny";
         int dishRecommendedQuantity = 300;
@@ -358,25 +356,112 @@ public class TestVoidsForMain {
             TableManager tableManager) {
         String dishTitle = "Nakládaný hermelín";
         int dishRecommendedQuantity = 150;
-
-
         int waiterNumber = 1;
         int tableNumber = 5;
         int unitsNumber = 3;
         String noteForKitchen = "Bez cibule";
         String noteForManagement = "VIP host";
-        //OrderCategory orderCategory = OrderCategory.RECEIVED;
-
-
         try {
             orderManager.addItemToUnconfirmedOrdersByTitleAndQuantity(dishTitle, dishRecommendedQuantity, amManager,
                     waiterNumber, tableNumber, unitsNumber, noteForKitchen, noteForManagement, waiterManager,
                     tableManager);
-            //saversVoids.saveOrdersData(orderManager);
         } catch (RestaurantException e) {
             System.err.println("Nepodařilo se přidat položku do nepotvrzených objednávek: " + e.getLocalizedMessage());
         }
     }
+
+
+    public static void testAddItemToUnconfirmedOrdersListByTitleAndQuantity1(
+            OrderManager orderManager, ActualMenuManager amManager, WaiterManager waiterManager,
+            TableManager tableManager) {
+        String dishTitle = "Kuřecí řízek obalovaný";
+        int dishRecommendedQuantity = 150;
+        int waiterNumber = 1;
+        int tableNumber = 15;
+        int unitsNumber = 2;
+        String noteForKitchen = "nepřipálit a nevysušit";
+        String noteForManagement = "klientovi se moc líbí výzdoba restaurace";
+        try {
+            orderManager.addItemToUnconfirmedOrdersByTitleAndQuantity(dishTitle, dishRecommendedQuantity, amManager,
+                    waiterNumber, tableNumber, unitsNumber, noteForKitchen, noteForManagement, waiterManager,
+                    tableManager);
+        } catch (RestaurantException e) {
+            System.err.println("Nepodařilo se přidat položku do nepotvrzených objednávek: " + e.getLocalizedMessage());
+        }
+    }
+    public static void testAddItemToUnconfirmedOrdersListByTitleAndQuantity2(
+            OrderManager orderManager, ActualMenuManager amManager, WaiterManager waiterManager,
+            TableManager tableManager) {
+        String dishTitle = "Hranolky";
+        int dishRecommendedQuantity = 150;
+        int waiterNumber = 1;
+        int tableNumber = 15;
+        int unitsNumber = 2;
+        String noteForKitchen = "křupavý a do zlatova";
+        String noteForManagement = "klientovi se moc líbí výzdoba restaurace";
+        try {
+            orderManager.addItemToUnconfirmedOrdersByTitleAndQuantity(dishTitle, dishRecommendedQuantity, amManager,
+                    waiterNumber, tableNumber, unitsNumber, noteForKitchen, noteForManagement, waiterManager,
+                    tableManager);
+        } catch (RestaurantException e) {
+            System.err.println("Nepodařilo se přidat položku do nepotvrzených objednávek: " + e.getLocalizedMessage());
+        }
+    }
+    public static void testAddItemToUnconfirmedOrdersListByTitleAndQuantity3(
+            OrderManager orderManager, ActualMenuManager amManager, WaiterManager waiterManager,
+            TableManager tableManager) {
+        String dishTitle = "Kofola";
+        int dishRecommendedQuantity = 500;
+        int waiterNumber = 1;
+        int tableNumber = 15;
+        int unitsNumber = 2;
+        String noteForKitchen = "";
+        String noteForManagement = "klientovi se moc líbí výzdoba restaurace";
+        try {
+            orderManager.addItemToUnconfirmedOrdersByTitleAndQuantity(dishTitle, dishRecommendedQuantity, amManager,
+                    waiterNumber, tableNumber, unitsNumber, noteForKitchen, noteForManagement, waiterManager,
+                    tableManager);
+        } catch (RestaurantException e) {
+            System.err.println("Nepodařilo se přidat položku do nepotvrzených objednávek: " + e.getLocalizedMessage());
+        }
+    }
+    public static void testAddItemToUnconfirmedOrdersListByTitleAndQuantity4(
+            OrderManager orderManager, ActualMenuManager amManager, WaiterManager waiterManager,
+            TableManager tableManager) {
+        String dishTitle = "Kofola";
+        int dishRecommendedQuantity = 500;
+        int waiterNumber = 3;
+        int tableNumber = 2;
+        int unitsNumber = 3;
+        String noteForKitchen = "";
+        String noteForManagement = "";
+        try {
+            orderManager.addItemToUnconfirmedOrdersByTitleAndQuantity(dishTitle, dishRecommendedQuantity, amManager,
+                    waiterNumber, tableNumber, unitsNumber, noteForKitchen, noteForManagement, waiterManager,
+                    tableManager);
+        } catch (RestaurantException e) {
+            System.err.println("Nepodařilo se přidat položku do nepotvrzených objednávek: " + e.getLocalizedMessage());
+        }
+    }
+    public static void testAddItemToUnconfirmedOrdersListByTitleAndQuantityFoodNotExistInActualMenu(
+            OrderManager orderManager, ActualMenuManager amManager, WaiterManager waiterManager,
+            TableManager tableManager) {
+        String dishTitle = "Pečení nadívaní holubi, kteří sami létají do úst :D";
+        int dishRecommendedQuantity = 150;
+        int waiterNumber = 1;
+        int tableNumber = 15;
+        int unitsNumber = 2;
+        String noteForKitchen = "křupavý a do zlatova";
+        String noteForManagement = "klientovi se moc líbí výzdoba restaurace";
+        try {
+            orderManager.addItemToUnconfirmedOrdersByTitleAndQuantity(dishTitle, dishRecommendedQuantity, amManager,
+                    waiterNumber, tableNumber, unitsNumber, noteForKitchen, noteForManagement, waiterManager,
+                    tableManager);
+        } catch (RestaurantException e) {
+            System.err.println("Nepodařilo se přidat položku do nepotvrzených objednávek: " + e.getLocalizedMessage());
+        }
+    }
+
 
     public static void testRemoveItemOfUnconfirmedOrdersByItemNumber(OrderManager orderManager) {
         int itemNumber = 9;
@@ -394,7 +479,8 @@ public class TestVoidsForMain {
         }
     }
 
-    public static void testAddAllItemByTable15ToConfirmedOrders(OrderManager orderManager) {
+
+    public static void testAddAllItemsByTable15ToConfirmedOrders(OrderManager orderManager) {
         int tableNumber = 15;
         try {orderManager.addAllItemByTableToConfirmedOrders(tableNumber);}
         catch (RestaurantException e) {
@@ -402,7 +488,7 @@ public class TestVoidsForMain {
                     + e.getLocalizedMessage());
         }
     }
-    public static void testAddAllItemByTable2ToConfirmedOrders(OrderManager orderManager) {
+    public static void testAddAllItemsByTable2ToConfirmedOrders(OrderManager orderManager) {
         int tableNumber = 2;
         try {orderManager.addAllItemByTableToConfirmedOrders(tableNumber);} catch (RestaurantException e) {
             System.err.println("Nepodařilo se přidat položky ze stolu " + tableNumber + " do potvrzených objednávek: "
@@ -431,6 +517,31 @@ public class TestVoidsForMain {
             filteredOrders.forEach(order -> System.out.println(order));
         }
     }
+
+    /*
+    public static void testChangeItemStatusHasBeenBroughtToTableByItemNumber3(OrderManager orderManager) {
+        for (int itemNumber = 3; itemNumber <= 3; itemNumber++) {
+            try {orderManager.changeItemStatusHasBeenBroughtToTableByItemNumber(itemNumber);}
+            catch (RestaurantException e) {
+                System.err.println("Nepodařilo se změnit stav položky č." + itemNumber + " v potvrzených objednávkách: "
+                        + e.getLocalizedMessage());
+            }
+        }
+    }
+
+     */
+
+    public static void testChangeItemStatusHasBeenBroughtToTableByItemNumber3(OrderManager orderManager) {
+        int itemNumber = 4;
+        try {
+            orderManager.changeItemStatusHasBeenBroughtToTableByItemNumber(itemNumber);
+            System.out.println("Stav položky č." + itemNumber + " byl úspěšně změněn.");
+        } catch (RestaurantException e) {
+            System.err.println("Nepodařilo se změnit stav položky č." + itemNumber + " v potvrzených objednávkách: "
+                    + e.getLocalizedMessage());
+        }
+    }
+
 
     public static void testChangeItemStatusHasBeenBroughtToTableByItemNumber2to3(OrderManager orderManager) {
         for (int itemNumber = 2; itemNumber <= 3; itemNumber++) {
@@ -500,17 +611,24 @@ public class TestVoidsForMain {
         } catch (RestaurantException e) {System.err.println("Nepodařilo se změnit čísla stolů: " + e.getMessage());}
     }
 
-    public static void TestGetAverageProcessingTimeInTheSpecifiedTimePeriod(RestaurantManager restaurantManager) {
+    public static void testGetAverageProcessingTimeInTheSpecifiedTimePeriod(RestaurantManager restaurantManager) {
         try {
             LocalDateTime startOfPeriod = LocalDateTime.of(2023, 1, 1, 0, 0);
             LocalDateTime endOfPeriod = LocalDateTime.of(2024, 1, 1, 0, 0);
             Integer averageProcessingTime = restaurantManager.getAverageProcessingTimeInTheSpecifiedTimePeriod
                     (startOfPeriod, endOfPeriod);
-            System.out.println("Průměrná doba zpracování objednávek od objednání do přinesení na stůl v zadaném časovém "
-                    + "období je: " + averageProcessingTime + " minut");
+            System.out.println("Průměrná doba zpracování objednávek od objednání do přinesení na stůl v zadaném "
+                    + "časovém období je: " + averageProcessingTime + " minut");
         } catch (RestaurantException e) {
             System.out.println("Chyba: " + e.getMessage());
         }
+    }
+
+    public static void testGetTotalValueForTable15ByConfirmedUnclosedOrders(RestaurantManager restaurantManager) {
+        int tableNumber = 15;
+        BigDecimal totalValue = restaurantManager.getTotalValueForTableByConfirmedUncloasedOrders(tableNumber);
+        System.out.println("Celková hodnota potvrzených a neuzavřených objednávek pro stůl č. " + tableNumber
+                + " je: " + totalValue + " Kč");
     }
 
 }
