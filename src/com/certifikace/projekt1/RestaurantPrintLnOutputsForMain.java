@@ -58,6 +58,13 @@ public class RestaurantPrintLnOutputsForMain {
         for (Order order : orderList) {System.out.println(order.getOrderInfoForTestPrint());}
     }
 
+    public void printConfirmedItemsListExportFormattedAsSpecified(OrderManager orderManager) {
+        List<Order> orderList = orderManager.getConfirmedItemsList();
+        System.out.println();
+        System.out.println("Výpis dat z receivedOrdersList dle specifikací zadání:");
+        for (Order order : orderList) {System.out.println(order.getAccordingToTheProjectSpecificationPrints());}
+    }
+
     public void printCosedOrdersList(OrderManager orderManager) {
         List<Order> orderList = orderManager.getClosedOrdersList();
         System.out.println();

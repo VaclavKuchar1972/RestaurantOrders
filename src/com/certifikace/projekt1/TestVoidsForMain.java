@@ -518,19 +518,6 @@ public class TestVoidsForMain {
         }
     }
 
-    /*
-    public static void testChangeItemStatusHasBeenBroughtToTableByItemNumber3(OrderManager orderManager) {
-        for (int itemNumber = 3; itemNumber <= 3; itemNumber++) {
-            try {orderManager.changeItemStatusHasBeenBroughtToTableByItemNumber(itemNumber);}
-            catch (RestaurantException e) {
-                System.err.println("Nepodařilo se změnit stav položky č." + itemNumber + " v potvrzených objednávkách: "
-                        + e.getLocalizedMessage());
-            }
-        }
-    }
-
-     */
-
     public static void testChangeItemStatusHasBeenBroughtToTableByItemNumber3(OrderManager orderManager) {
         int itemNumber = 4;
         try {

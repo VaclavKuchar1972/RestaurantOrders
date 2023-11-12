@@ -117,6 +117,9 @@ public class RestaurantOrders {
         System.out.println(); System.out.println("Seznam jídel, které byli dnes objednány bez ohledu na to kolikrát: ");
         restaurantManager.getListOfMealsOrderedTodayWithUniqeTitles().forEach(System.out::println);
 
+        // PLNĚNÍ - Formát výstupu dle zadání
+        printLnOutputs.printConfirmedItemsListExportFormattedAsSpecified(orderManager);
+
 
     }
 
