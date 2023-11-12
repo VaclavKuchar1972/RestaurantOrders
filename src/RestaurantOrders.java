@@ -99,8 +99,8 @@ public class RestaurantOrders {
         // PLNĚNÍ - RestaurantManager - BOD3 - část B - celkový obrat a počet uzavřených objednávek jedotlivých číšníků
         // za celou jejich kariéru v této restauraci. Do obraru se započítávají pouze uzavřené objednávky, tj. donesné
         // na stůl a zaplacené
-        System.out.println(); System.out.println("Seznam číšníků, kteří mají aktuálně rozpracované a neuzavřené "
-                + "objednávky, počet těchto objednávek každého číšníka a jejich celkový součet:");
+        System.out.println(); System.out.println("Seznam číšníků a jejich celkové obraty uzavřených objednávek za " +
+                "celou jejich kariéru v naší restauraci:");
         restaurantManager.getSortedAllClosedOrdersByWaiterAndTurnover().forEach(System.out::println);
 
         // PLNĚNÍ - RestaurantManager - BOD4 - průměrná doba zpracovaní objednávek v zadaném časovém období,
