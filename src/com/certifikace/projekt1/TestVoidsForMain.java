@@ -618,6 +618,111 @@ public class TestVoidsForMain {
                 + " je: " + totalValue + " Kč");
     }
 
+    public static void testFillingTheFileWithTables(TableManager tableManager) {
+        List<String> tableData = Arrays.asList(
+                "1; HLAVNÍ SÁL; A1; 4",
+                "2; HLAVNÍ SÁL; A2; 4",
+                "3; HLAVNÍ SÁL; A3; 4",
+                "4; HLAVNÍ SÁL; A4; 4",
+                "5; HLAVNÍ SÁL; A5; 4",
+                "6; HLAVNÍ SÁL; B1; 6",
+                "7; HLAVNÍ SÁL; B2; 6",
+                "8; HLAVNÍ SÁL; B3; 6",
+                "9; HLAVNÍ SÁL; C1; 2",
+                "10; HLAVNÍ SÁL; C2; 2",
+                "11; HLAVNÍ SÁL; C3; 2",
+                "12; HLAVNÍ SÁL; C4; 2",
+                "13; HLAVNÍ SÁL; C5; 2",
+                "14; HLAVNÍ SÁL; C6; 2",
+                "15; TERASA; A1; 4",
+                "16; TERASA; A2; 4",
+                "17; TERASA; B1; 4",
+                "18; TERASA; B2; 4",
+                "19; SALONEK; A1; 20"
+        );
+        for (String tableInfo : tableData) {
+            String[] item = tableInfo.split("; ");
+            int tableNumber = Integer.parseInt(item[0]);
+            String tableLocation = item[1];
+            String tableSector = item[2];
+            int tableCapacity = Integer.parseInt(item[3]);
+            Table table = new Table(tableNumber, tableLocation, tableSector, tableCapacity);
+            tableManager.addTable(table); // tady se to přidává do TbleListu, úplně stejně jako by se to dělalo,
+            // kdyby uživatel přidával jeden stůl po druhém, jen jsem to urychlil testovacím kódem výše,
+            // abych se neupsal, výsledek je stejný, jako kdyby se použil rovnou ten TXT soubor, který tam původně
+            // byl přiložen...
+        }
+        saversVoids.saveTablesData(tableManager);
+    }
+
+    public static void testFillingTheFileWithWaiters(WaiterManager waiterManager) {
+        List<String> waiterData = Arrays.asList(
+                "1; Ing.; Josef; Králík; ; 251954480; HPP",
+                "2; ; Dalibor; Vrána; ; 901950481; HPP",
+                "3; ; Zdeněk; Svěrák; ; 106990851; HPP",
+                "4; MUDr.; Karel; Nešpor; ,CSc.; 999999999; HPP",
+                "5; MUDr.; Miroslav; Plzák; ,CSc.; 999999998; HPP",
+                "6; MUDr.; Radim; Uzel; ,CSc.; 999999998; HPP",
+                "7; JUDr.; Ivo; Jahelka; ; 999999997; HPP",
+                "8; ; Volodymyr; Zelenskyj; ; AH5856ST; BRIGADA",
+                "9; ; Joe; Biden; ; AH5856ST1; BRIGADA",
+                "10; ; Vladimir; Putin; ; AH5856ST1O; BRIGADA",
+                "11; ; Emmanuel; Macron; ; AH5856ST1; BRIGADA",
+                "12; prof.PhDr.; Petr; Fiala; ,Ph.D.,LL.M.; 996669998; HPP",
+                "13; ; Jiřina; Jirásková; ; 105690851; VPP",
+                "14; ; Hana; Zagorová; ; 985690851; VPP",
+                "15; ; Lenka; Filipová; ; 943560851; VPP",
+                "16; ; Helena; Vyvondráčkovaná; ; 111111111; VPP",
+                "17; ; Helena; Růžičková; ; 111111112; DPP",
+                "18; ; Marie; Rotrová; ; 111596112; DPP",
+                "19; ; Nina; Ricci; ; AH5123ST1; DPP",
+                "20; ; Coco; Channel; ; A12323ST1; HPP",
+                "21; ; Iva; Janžurová; ; 111771112; HPP",
+                "22; ; Dana; Medřická; ; 111771252; HPP",
+                "23; ; Lída; Baarová; ; 111774562; HPP",
+                "24; ; Ivana; Chýlková; ; 156274562; HPP"
+        );
+        for (String waiterInfo : waiterData) {
+            String[] item = waiterInfo.split("; ");
+            int waiterNumber = Integer.parseInt(item[0].trim());
+            String titleBefore = item[1].trim();
+            String firstName = item[2].trim();
+            String secondName = item[3].trim();
+            String titleAfter = item[4].trim();
+            String idDocumentNumber = item[5].trim();
+            String employmentRelationship = item[6].trim();
+            Waiter waiter = new Waiter(
+                    waiterNumber, titleBefore, firstName, secondName, titleAfter, idDocumentNumber,
+                    employmentRelationship
+            );
+            waiterManager.addWaiter(waiter); // to samé jako u stolů výše
+        }
+        saversVoids.saveWaitersData(waiterManager);
+    }
+
+    public static void testFillingTheFileWithCategories(FoodCategory foodCategory) throws RestaurantException {
+        List<String> categoryData = Arrays.asList(
+                "NONALCOHOLIC; nealkoholický nápoj", "ALCOHOLIC; alkoholický nápoj", "BEER; pivo", "WINE; víno",
+                "CHAMPAIGN; šampaňské", "DESTILATE; destilát", "OTHER; další nabídka", "SOMETHINGTOBEER; něco k pivu",
+                "PRECAUTION; předkrm", "SOUP; polévka", "PREPAREDFOOD; hotové jídlo", "CHILDFOOD; dětské jídlo",
+                "MINUTEMEAL; minutka", "GRILLED; na grilu", "SPECIALITY; specialita", "SALAD; salát",
+                "GARNISH; příloha", "DIP; omáčka", "ICECREAM; zmrzlinový pohár", "BUBBLEFREE; neperlivý",
+                "LIGHTLYSPARKLING; jemně perlivý", "SPARKLING; perlivý/šumivé", "LEMONADE; limonáda", "JUICE; džus",
+                "BRIGHT; světlé", "DARK; tmavé", "MIXED; řezané", "WHITE; bílé", "RED; červené",
+                "ROSE; růžové", "APERITIVE; aperitiv", "LIQUOR; likér", "WHISKY; whisky/burbon", "BEEF; hovězí",
+                "PORK; vepřové", "HATTED; skopové", "CHICKEN; kuřecí", "KITCHEN; kachní", "FISH; ryba",
+                "SEAFOOD; mořské plody", "GREEN; zeleninový", "LITTLE; malý", "GLUTENFREEFOOD; bezlepkový"
+        );
+
+        for (String categoryInfo : categoryData) {
+            String[] item = categoryInfo.split("; ");
+            String name = item[0].trim();
+            String description = item[1].trim();
+            foodCategory.addCategory(name, description); // to samé jako u stolů a číšníků výše
+        }
+    }
+
+
 }
 
 

@@ -28,6 +28,9 @@ public class RestaurantOrders {
         System.out.println(); System.out.println();
         System.out.println("Restaurant Chez Quis à Prague");
 
+        TestVoidsForMain.testFillingTheFileWithTables(tableManager);
+        TestVoidsForMain.testFillingTheFileWithWaiters(waiterManager);
+        TestVoidsForMain.testFillingTheFileWithCategories(foodCategory);
 
         // Testovací scénář - Bod 1.
         printLnOutputs.printDishList(dishManager);
