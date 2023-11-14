@@ -25,8 +25,9 @@ public class WaiterManager {
 
         String helpErrMessage =  " Číšník NEBYL přidán do waiterList!";
 
-        if (waiter.getWaiterNumber() < 1  || waiter.getWaiterNumber() > 999) {
-            System.err.println("Chyba: Číslo číšníka nemůže být záporné nebo nulové a ani větší než 999 tedy: "
+        if (waiter.getWaiterNumber() < 1  || waiter.getWaiterNumber() > 2147483647) {
+            System.err.println("Chyba: Číslo číšníka nemůže být záporné nebo nulové a ani větší než je kapacita "
+                    + "Integeru tedy: "
                     + waiter.getWaiterNumber() + helpErrMessage); return;
         }
         if (isWaiterNumberDuplicity(waiter.getWaiterNumber())) {

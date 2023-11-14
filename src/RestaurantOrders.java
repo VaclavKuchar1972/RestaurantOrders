@@ -24,13 +24,18 @@ public class RestaurantOrders {
         loadersVoids.loadConfirmedItemsList(orderManager);
         loadersVoids.loadClosedOrdersList(orderManager);
 
-
         System.out.println(); System.out.println();
         System.out.println("Restaurant Chez Quis à Prague");
 
+        // Zde plním soubory a data nezbytná pro správný běh testovacího kódu, v podstatě jsem jen stejnými metodami,
+        // které by se volali z FrontEndu a uživatel by si ty věci zadával sám od píky, naplnil ty tři TXT,
+        // které nebyli součástí zadání natvdro, a doúkoloval jsem se s nimi sám, těmi samými daty, která byli v těch
+        // třech nezbytných souborech TXT, které jsem přiložil ke kódu rovnou, jak je vidět, program při loadování výše
+        // nespadl, zahlásil nějaké chybky, pokračoival dál a zde již se to plní... :-) ...a vše jede jak bylo
+        // zamýšleno, když jsem si to před čtvrt rokem koncipoval. :-)
+        TestVoidsForMain.testFillingTheFileWithCategories(foodCategory);
         TestVoidsForMain.testFillingTheFileWithTables(tableManager);
         TestVoidsForMain.testFillingTheFileWithWaiters(waiterManager);
-        TestVoidsForMain.testFillingTheFileWithCategories(foodCategory);
 
         // Testovací scénář - Bod 1.
         printLnOutputs.printDishList(dishManager);
@@ -69,14 +74,12 @@ public class RestaurantOrders {
         TestVoidsForMain.testAddItemToUnconfirmedOrdersListByTitleAndQuantityFoodNotExistInActualMenu
                 (orderManager, amManager, waiterManager, tableManager);
 
-        // Testovací scénář - Bod 4. NOVÝ!!! - starý zněl PROVEĎ UZAVŘENÍ OBJENÁVKY
+        // Testovací scénář - Bod 4. NOVÝ! - starý zněl PROVEĎ UZAVŘENÍ OBJENÁVKY
         // A? Jako za celou dobu existance stolu? Nebo jak? Pro jaké hosty nebo objednávky? :DD zadání mimo realitu...
         // Budu brát aktuální potvrzené, rozpracované a ještě nezaplacené objednávky, nevím jak jinak... :-)
         // Konzumace je co? Kolik toho vypili a snědli nebo k čemu je tato rutina? Management vyhodnocuje věci zpětně,
         // ne za chodu, to nemá význam...
         TestVoidsForMain.testGetTotalValueForTable15ByConfirmedUnclosedOrders(restaurantManager);
-
-
 
         // Testovací scénář - Bod 5.
         System.out.println(); System.out.println("Počet potvrzených a nedokončených objednávek, to znamená, "
