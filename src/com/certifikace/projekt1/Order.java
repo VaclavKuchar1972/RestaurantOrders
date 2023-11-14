@@ -47,23 +47,19 @@ public class Order {
     }
 
     public String getOrderInfoForTestPrint() {
-        String helpWaiterString = "";
-        if (orderWaiterNumber < 100) {helpWaiterString = " ";}
-        if (orderWaiterNumber < 10) {helpWaiterString = "  ";}
-        String helpTableString = "";
-        if (orderTableNumber < 10) {helpTableString = " ";}
+        String formatedNuberWaiterString = String.format("%10d", orderWaiterNumber);
         return orderNumber + ", " + orderDateTimeClosing + ", " + orderItemNumber + ", " + orderTimeReceipt + ", "
-                + orderTimeIssue + ", " + helpWaiterString + orderWaiterNumber + ", " + helpTableString
-                + orderTableNumber + ", " + orderTitle + ", " + orderNumberOfUnits + ", " + orderPriceOfUnits
-                + ",- Kč, " + orderNoteForKitchen + ", " + orderNoteForManagement + ", " + orderCategory + ", "
-                + orderFoodMainCategory;
+                + orderTimeIssue + ", " + formatedNuberWaiterString + orderWaiterNumber + ", "
+                + formatedNuberWaiterString + orderTableNumber + ", " + orderTitle + ", " + orderNumberOfUnits + ", "
+                + orderPriceOfUnits + ",- Kč, " + orderNoteForKitchen + ", " + orderNoteForManagement + ", "
+                + orderCategory + ", " + orderFoodMainCategory;
     }
 
     // PLNĚNÍ - RestaurantManager - BOD6 - Export seznamu objednávek ve správném formátu
     public String getAccordingToTheProjectSpecificationPrints() {
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
         String formattedOrderItemNumber = String.format("%09d", orderItemNumber);
-        String formattedOrderWaiterNumber = String.format("%3s", orderWaiterNumber);
+        String formattedOrderWaiterNumber = String.format("%10s", orderWaiterNumber);
         String formattedOrderTableNumber = String.format("%2s", orderTableNumber);
         BigDecimal totalOrderPrice = orderPriceOfUnits.multiply(BigDecimal.valueOf(orderNumberOfUnits));
         String formattedOrderTimeReceipt = orderTimeReceipt.format(timeFormatter);

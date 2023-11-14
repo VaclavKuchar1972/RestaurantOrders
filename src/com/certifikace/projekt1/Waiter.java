@@ -32,12 +32,11 @@ public class Waiter {
             default: return "neznámý typ pracovního poměru";
         }
     }
+
     public String getWaiterInfoForTestPrint() {
-        String helpString = "";
-        if (waiterNumber < 100) {helpString = " ";}
-        if (waiterNumber < 10) {helpString = "  ";}
+        String formatedNuberWaiterString = String.format("%10d", waiterNumber);
         String employmentRelationship = getWaiterTypeOfEmploymentRelationshipNoAbbreviation();
-        return "Číslo číšníka: " + helpString + waiterNumber + "   Jméno a příjmení/tituly: " + waiterTitleBeforeName
+        return "Číslo číšníka: " + formatedNuberWaiterString + "   Jméno a příjmení/tituly: " + waiterTitleBeforeName
                 + waiterFirstName + " " + waiterSecondName + waiterTitleAfterName
                 + "   Čislo OP/pasu/náhradního dokladu: " + waiterIdentificationDocumentNumber
                 + "   Typ pracovně právního vztahu: " + waiterTypeOfEmploymentRelationship + " ("
