@@ -126,7 +126,6 @@ public class RestaurantOrders {
         // PLNĚNÍ - Formát výstupu dle zadání
         printLnOutputs.printConfirmedItemsListExportFormattedAsSpecified(orderManager);
 
-
     }
 
 }
